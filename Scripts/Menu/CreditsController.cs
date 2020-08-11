@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class CreditsController : MonoBehaviour
 {
-
-    private string[] credits = { "CODE BY @YELLOWLIME", "ART BY MANEZ", "FONT: TOYS R' US BY @CASTPIXEL", "MUSIC FROM FREE MUSIC ARCHIVE" };
+    [TextArea(2, 4)]
+    public string[] credits;
     private int index = 0;
     public TMP_Text text;
 

@@ -42,12 +42,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4702130180109878248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eb20d3f68f27fc479cbbf8d02c841c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f1eca3ccd88ed9419d1ca55d9ea6dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   menuText: {fileID: 0}
-  menuOptionsCase: 3
-  audioMultiSource: {fileID: 4702130180109878249}
+  menuOptionsCase: 0
+  audioMultiSource: {fileID: 0}
   initialState: 0
   versionText: {fileID: 0}
   titleText: {fileID: 0}
