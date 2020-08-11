@@ -13,7 +13,19 @@ public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
     }
 
     public void PlaySound(TEnum sound){
-        audioSource.clip = soundDict[sound];
-        audioSource.Play();
+        if (soundDict.Keys.Contains(sound))
+        {
+            audioSource.clip = soundDict[sound];
+            audioSource.Play();
+        } else {
+            Debug.Log($"Cannot play sound '{sound}', which is not in the soundDict.");
+        }
+    }
+
+    public void SetPitch(float pitch) { audioSource.pitch = pitch; }
+
+    public void PlaySoundWithPitch(TEnum sound, float pitch){
+        SetPitch(pitch);
+        PlaySound(sound);
     }
 }

@@ -62,8 +62,8 @@ namespace ExtensionMethods
             {
                 float offset = Mathf.Sin((Time.time + i * letterOffset) * speed) * intensity;
                 if(Math.Abs(offset) < 0.001f) { offset = 0; }
-                return $"<voffset={offset}em>{c}";
-            }).Aggregate((a, b) => a + b);
+                return $"<voffset={offset:0.000}em>{c}";
+            }).Aggregate("", (a, b) => a + b);
             return letters + "</voffset>";
         }
 

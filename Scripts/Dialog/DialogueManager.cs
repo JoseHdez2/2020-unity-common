@@ -5,26 +5,29 @@ using UnityEngine.UI;
 using TMPro;
 using System.Text.RegularExpressions;
 using ExtensionMethods;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
+    public DialogConfig config;
+
     public Image dialogPanel;
     public TMP_Text dialogText;
     public TMP_Text dialogNpcNameText;
     public Image dialogPromptImg;
-    public string highlightColor = "red";
 
-    public AudioSource charSound;
-    [Tooltip("Set to 'true' to avoid moving words mid-sentence.")]
-    public bool invisibleCharacters = true;
-    public KeyCode nextSentenceKey;
-    public float nextSentenceSecs = 2f;
+    public AudioSourceDialog audioSource;
 
     void Start(){
         ShowPanelAndText(false);
     }
 
     static Coroutine dialogueCoroutine;
+
+    public void Update()
+    {
+        DrawText();
+    }
 
     public void WriteDialogue(string str){
         WriteDialogue(new Dialogue(new string[] { str }));
@@ -52,69 +55,91 @@ public class DialogueManager : MonoBehaviour
         ShowPanelAndText(false);
     }
 
+    private Dialogue dialogue;
+    private int iSent, iChar;
+
     public void WriteSentence(Dialogue dialogue, int iSent)
     {
+        this.dialogue = dialogue;
+        this.iSent = iSent;
+
+        if (drawTextCoroutine != null) { StopCoroutine(drawTextCoroutine); drawTextCoroutine = null; }
         if (dialogue.sentences.Count == 0 || iSent >= dialogue.sentences.Count) { Stop(); return; }
-        if (charSound) { charSound.pitch = dialogue.pitch; }
+        if (audioSource) { audioSource.SetPitch(dialogue.pitch); }
         if (dialogNpcNameText) { dialogNpcNameText.text = dialogue.name; }
         if (dialogPromptImg) { dialogPromptImg.enabled = false; }
         
         dialogueCoroutine = StartCoroutine(UpdateText(dialogue, iSent, 0));
     }
 
-    public string Highlight(string str) => str.Color(highlightColor);
+    public string Highlight(string str) => str.Color(config.highlightColor);
 
-    private float wavySpeed = 1f;
-    private float wavyIntensity = 0.2f;
-    private float wavyLetterOffset = 0.1f;
+    public string Wavy(string str) => 
+        str.Wavy(config.wavySpeed, config.wavyIntensity, config.wavyLetterOffset);
 
-    public string Wavy(string str) => str.Wavy(wavySpeed, wavyIntensity, wavyLetterOffset);
+    private Coroutine drawTextCoroutine;
 
     IEnumerator UpdateText(Dialogue dialogue, int iSent, int iChar)
     {
+        this.iChar = iChar;
         if (DialogueHasFinished(dialogue, iSent, iChar))
         {
-            if (nextSentenceKey != KeyCode.None) {
+            if (config.nextSentenceKey != KeyCode.None)
+            {
                 StartCoroutine(WaitForPlayerOk(dialogue, iSent));
-            } else {
+            }
+            else
+            {
                 StartCoroutine(WaitForNextSeconds(dialogue, iSent));
             }
             yield break;
         }
-        string text = dialogue.sentences[iSent].Substring(0, iChar);
-        text = Regex.Replace(text, "\\*(.+?)\\*", Highlight("$1"));
-        text = Regex.Replace(text, "~(.+?)~", Wavy("$1"));
-        dialogText.text = Regex.Replace(text, "\\*(.+?)?$", Highlight("$1"));
-        if (invisibleCharacters){
-            dialogText.text += $"<color=#00000000>{dialogue.sentences[iSent].Substring(iChar)}</color>";
-        }
+        DrawText();
         yield return new WaitForSeconds(dialogue.timePerCharacter);
-        if (charSound) { PlayCharSound(dialogue); }
+        PlayCharSound(dialogue);
         StartCoroutine(UpdateText(dialogue, iSent, iChar += 1));
     }
 
+    private void DrawText()
+    {
+        string text = "<line-height=100%>" + dialogue.sentences[iSent].Substring(0, iChar);
+        text = Regex.Replace(text, "\\*(.+?)\\*", m => Highlight(m.Groups[1].ToString()));
+        text = Regex.Replace(text, "~(.+?)~", m => Wavy(m.Groups[1].ToString()));
+        text = Regex.Replace(text, "\\*(.+?)?$", Highlight("$1"));
+        text = Regex.Replace(text, "~(.+?)?$", m => Wavy(m.Groups[1].ToString()));
+        dialogText.text = text;
+        if (config.invisibleCharacters)
+        {
+            string invisibleText = $"<color=#00000000>{dialogue.sentences[iSent].Substring(iChar)}</color>";
+            invisibleText = invisibleText.Replace("*", "").Replace("~", "");
+            dialogText.text += invisibleText;
+        }
+    }
+
     private static bool DialogueHasFinished(Dialogue dialogue, int iSent, int iChar) 
-        => (iChar >= dialogue.sentences[iSent].Length+1);
+        => (iChar >= dialogue.sentences[iSent].Length);
 
     void PlayCharSound(Dialogue dialogue)
     {
         if (dialogue.pitchVariance != 0){
-            charSound.pitch = dialogue.pitch + Random.Range(-dialogue.pitchVariance, dialogue.pitchVariance);
+            float pitch = dialogue.pitch + UnityEngine.Random.Range(-dialogue.pitchVariance, dialogue.pitchVariance);
+            audioSource.PlaySoundWithPitch(EDialogSound.Char, pitch);
+        } else {
+            audioSource.PlaySound(EDialogSound.Char);
         }
-        charSound.Play();
     }
 
     IEnumerator WaitForPlayerOk(Dialogue dialogue, int iSent)
     {
         if (dialogPromptImg) { dialogPromptImg.enabled = true; }
-        yield return new WaitUntil(() => Input.GetKeyDown(nextSentenceKey)); // TODO GetButton
+        yield return new WaitUntil(() => Input.GetKeyDown(config.nextSentenceKey)); // TODO GetButton
         WriteSentence(dialogue, ++iSent);
     }
 
     IEnumerator WaitForNextSeconds(Dialogue dialogue, int iSent)
     {
         if (dialogPromptImg) { dialogPromptImg.enabled = true; }
-        yield return new WaitForSeconds(nextSentenceSecs);
+        yield return new WaitForSeconds(config.nextSentenceSecs);
         WriteSentence(dialogue, ++iSent);
     }
 }
