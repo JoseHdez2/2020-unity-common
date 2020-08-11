@@ -56,6 +56,17 @@ namespace ExtensionMethods
 
         public static string Color(this string str, string color) => $"<color=\"{color}\">{str}</color>";
 
+        public static string Wavy(this string str, float speed, float intensity, float letterOffset) {
+            float[] offsets = new float[str.Length];
+            string letters = str.ToList().Select((c,i) =>
+            {
+                float offset = Mathf.Sin((Time.time + i * letterOffset) * speed) * intensity;
+                if(Math.Abs(offset) < 0.001f) { offset = 0; }
+                return $"<voffset={offset}em>{c}";
+            }).Aggregate((a, b) => a + b);
+            return letters + "</voffset>";
+        }
+
         public static void DeleteAllChildren(this Transform transform)
         {
             foreach (Transform child in transform)

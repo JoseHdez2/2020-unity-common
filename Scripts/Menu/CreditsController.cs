@@ -29,6 +29,7 @@ public class CreditsController : MonoBehaviour
 
     void SetCreditsIndex(int index)
     {
+        if (!isActiveAndEnabled) return;
         this.index = index;
         if (index >= credits.Length)
         {

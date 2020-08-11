@@ -789,6 +789,11 @@ PrefabInstance:
       propertyPath: titleText
       value: 
       objectReference: {fileID: 8232504545816437815}
+    - target: {fileID: 4702130180109878251, guid: 97b0375d01a40c54585df4aba369c606,
+        type: 3}
+      propertyPath: audioMultiSource
+      value: 
+      objectReference: {fileID: 6370929717048557354}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97b0375d01a40c54585df4aba369c606, type: 3}
 --- !u!4 &6370929717048557351 stripped
@@ -797,3 +802,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1813618792563965123}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6370929717048557354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4702130180109878249, guid: 97b0375d01a40c54585df4aba369c606,
+    type: 3}
+  m_PrefabInstance: {fileID: 1813618792563965123}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea00ff66c5fd3624a95555e1a9494244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

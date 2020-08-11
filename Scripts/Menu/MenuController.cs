@@ -58,6 +58,7 @@ public abstract class MenuController<TEnum> : MonoBehaviour
 
     public void ConfirmChoice()
     {
+        if (!isActiveAndEnabled) return;
         HandleOption(menuOptions[menuCursor]);
         audioMultiSource.PlayYesSound();
     }
@@ -69,6 +70,7 @@ public abstract class MenuController<TEnum> : MonoBehaviour
 
     public void MoveCursor(int cursorMoveOffset)
     {
+        if (!isActiveAndEnabled) return;
         Debug.Log("MoveCursor");
         menuCursor += cursorMoveOffset;
         audioMultiSource.PlayMoveSound();
@@ -77,6 +79,7 @@ public abstract class MenuController<TEnum> : MonoBehaviour
 
     public void MoveCursor(InputAction.CallbackContext ctx, int cursorMoveOffset)
     {
+        if (!isActiveAndEnabled) return;
         Debug.Log("MoveCursor");
         Debug.Log(ctx.phase);
         menuCursor += cursorMoveOffset;

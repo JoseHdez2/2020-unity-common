@@ -64,6 +64,12 @@ public class DialogueManager : MonoBehaviour
 
     public string Highlight(string str) => str.Color(highlightColor);
 
+    private float wavySpeed = 1f;
+    private float wavyIntensity = 0.2f;
+    private float wavyLetterOffset = 0.1f;
+
+    public string Wavy(string str) => str.Wavy(wavySpeed, wavyIntensity, wavyLetterOffset);
+
     IEnumerator UpdateText(Dialogue dialogue, int iSent, int iChar)
     {
         if (DialogueHasFinished(dialogue, iSent, iChar))
@@ -77,6 +83,7 @@ public class DialogueManager : MonoBehaviour
         }
         string text = dialogue.sentences[iSent].Substring(0, iChar);
         text = Regex.Replace(text, "\\*(.+?)\\*", Highlight("$1"));
+        text = Regex.Replace(text, "~(.+?)~", Wavy("$1"));
         dialogText.text = Regex.Replace(text, "\\*(.+?)?$", Highlight("$1"));
         if (invisibleCharacters){
             dialogText.text += $"<color=#00000000>{dialogue.sentences[iSent].Substring(iChar)}</color>";
