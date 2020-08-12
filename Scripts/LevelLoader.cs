@@ -8,13 +8,13 @@ public class LevelLoader : MonoBehaviour
     public Animator transition;
     public float transitionTime = 1f;
 
-    private ScreenWipe screenWipe;
+    private ImageWipe screenWipe;
     public List<GameObject> disableDuringLoad;
     InputMaster controls;
 
     private void Awake()
     {
-        screenWipe = FindObjectOfType<ScreenWipe>();
+        screenWipe = FindObjectOfType<ImageWipe>();
         controls = InputMasterSingleton.Get();
     }
 

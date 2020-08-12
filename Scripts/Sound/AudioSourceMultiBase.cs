@@ -6,6 +6,8 @@ using RotaryHeart.Lib.SerializableDictionary;
 public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
 {
     public SerializableDictionaryBase<TEnum, AudioClip> soundDict;
+    [Tooltip("If a sound is already playing, don't play over it.")]
+    public bool respectSoundSeniority = false;
     private AudioSource audioSource;
 
     public void Start(){
@@ -13,6 +15,10 @@ public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
     }
 
     public void PlaySound(TEnum sound){
+        if(respectSoundSeniority && audioSource.isPlaying) {
+            Debug.Log("Already playing a sound!");
+            return;
+        }
         if (soundDict.Keys.Contains(sound))
         {
             audioSource.clip = soundDict[sound];

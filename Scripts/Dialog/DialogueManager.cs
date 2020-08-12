@@ -9,9 +9,11 @@ using System;
 
 public class DialogueManager : MonoBehaviour
 {
-    public DialogConfig config;
+    public DialogConfig defaultConfig;
+    private DialogConfig dialogBubbleConfig;
 
-    public Image dialogPanel;
+    // public Image dialogPanel;
+    public ImageWipe dialogPanelWipe;
     public TMP_Text dialogText;
     public TMP_Text dialogNpcNameText;
     public Image dialogPromptImg;
@@ -19,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     public AudioSourceDialog audioSource;
 
     void Start(){
+        dialogBubbleConfig = new DialogConfig();
         ShowPanelAndText(false);
     }
 
@@ -26,12 +29,14 @@ public class DialogueManager : MonoBehaviour
 
     public void Update()
     {
-        DrawText();
+        if (dialogPanelWipe.wipeMode != ImageWipe.WipeMode.Empty){
+            DrawText();
+        }
     }
 
-    public void WriteDialogue(string str){
-        WriteDialogue(new Dialogue(new string[] { str }));
-    }
+    //public void WriteDialogue(string str){
+    //    WriteDialogue(new Dialogue(new string[] { str }));
+    //}
 
     public void WriteDialogue(Dialogue dialogue) {
         if (dialogText == null) { Debug.Log("Cannot display dialog: No reference to a Text!"); return; }
@@ -40,11 +45,15 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void ShowPanelAndText(bool show){
-        if (!show) { dialogText.text = ""; }
-        if (dialogPanel) { dialogPanel.enabled = show; } else
+        if(show)
         {
-            Debug.Log("Pizza");
+            audioSource.PlaySound(EDialogSound.WindowShow);
+        } else {
+            audioSource.PlaySound(EDialogSound.WindowHide);
+            dialogText.text = "";
         }
+        // if (dialogPanel) { dialogPanel.enabled = show; }
+        if (dialogPanelWipe) { dialogPanelWipe.ToggleWipe(show); }
     }
 
     public void Stop(){
@@ -63,83 +72,110 @@ public class DialogueManager : MonoBehaviour
         this.dialogue = dialogue;
         this.iSent = iSent;
 
+        if (DialogHasEnded(dialogue, iSent)) { Stop(); return; }
+
+        UpdateDialogBubbleConfig(dialogue, iSent);
+
         if (drawTextCoroutine != null) { StopCoroutine(drawTextCoroutine); drawTextCoroutine = null; }
-        if (dialogue.sentences.Count == 0 || iSent >= dialogue.sentences.Count) { Stop(); return; }
-        if (audioSource) { audioSource.SetPitch(dialogue.pitch); }
-        if (dialogNpcNameText) { dialogNpcNameText.text = dialogue.name; }
+        if (audioSource) { audioSource.SetPitch(dialogBubbleConfig.pitch); }
+        if (dialogNpcNameText) { dialogNpcNameText.text = dialogue.dialogBubbles[iSent].name; }
         if (dialogPromptImg) { dialogPromptImg.enabled = false; }
-        
+
         dialogueCoroutine = StartCoroutine(UpdateText(dialogue, iSent, 0));
     }
 
-    public string Highlight(string str) => str.Color(config.highlightColor);
+    private static bool DialogHasEnded(Dialogue dialogue, int iSent)
+        => (dialogue.dialogBubbles.Count == 0 || iSent >= dialogue.dialogBubbles.Count);
+
+    private static bool DialogBubbleHasFinished(Dialogue dialogue, int iSent, int iChar)
+        => (iChar >= dialogue.dialogBubbles[iSent].text.Length);
+
+    private void UpdateDialogBubbleConfig(Dialogue dialog, int iSent)
+    {
+        DialogConfig bubbleConfig = dialog.dialogBubbles[iSent].config;
+        dialogBubbleConfig.pitch = (bubbleConfig != null) ? bubbleConfig.pitch : defaultConfig.pitch;
+        dialogBubbleConfig.pitchVariance = (bubbleConfig != null) ? bubbleConfig.pitchVariance : defaultConfig.pitchVariance;
+        dialogBubbleConfig.timePerCharacter = (bubbleConfig != null) ? bubbleConfig.timePerCharacter : defaultConfig.timePerCharacter;
+        dialogBubbleConfig.textColor = (bubbleConfig != null) ? bubbleConfig.textColor : defaultConfig.textColor;
+        dialogBubbleConfig.highlightColor = (bubbleConfig != null) ? bubbleConfig.highlightColor : defaultConfig.highlightColor;
+    }
+
+    public string Highlight(string str) => str.Color(dialogBubbleConfig.highlightColor);
 
     public string Wavy(string str) => 
-        str.Wavy(config.wavySpeed, config.wavyIntensity, config.wavyLetterOffset);
+        str.Wavy(defaultConfig.wavySpeed, defaultConfig.wavyIntensity, defaultConfig.wavyLetterOffset);
 
     private Coroutine drawTextCoroutine;
 
     IEnumerator UpdateText(Dialogue dialogue, int iSent, int iChar)
     {
         this.iChar = iChar;
-        if (DialogueHasFinished(dialogue, iSent, iChar))
+        if (DialogBubbleHasFinished(dialogue, iSent, iChar))
         {
-            if (config.nextSentenceKey != KeyCode.None)
-            {
-                StartCoroutine(WaitForPlayerOk(dialogue, iSent));
-            }
-            else
-            {
-                StartCoroutine(WaitForNextSeconds(dialogue, iSent));
-            }
+            HandleDialogBubbleFinished(dialogue, iSent);
             yield break;
         }
         DrawText();
-        yield return new WaitForSeconds(dialogue.timePerCharacter);
-        PlayCharSound(dialogue);
+        yield return new WaitForSeconds(dialogBubbleConfig.timePerCharacter);
+        PlayCharSound(dialogue, iSent);
         StartCoroutine(UpdateText(dialogue, iSent, iChar += 1));
+    }
+
+    private void HandleDialogBubbleFinished(Dialogue dialogue, int iSent)
+    {
+        audioSource.PlaySound(EDialogSound.FullStop);
+        if (defaultConfig.nextSentenceKey != KeyCode.None)
+        {
+            StartCoroutine(WaitForPlayerOk(dialogue, iSent));
+        }
+        else
+        {
+            StartCoroutine(WaitForNextSeconds(dialogue, iSent));
+        }
     }
 
     private void DrawText()
     {
-        string text = "<line-height=100%>" + dialogue.sentences[iSent].Substring(0, iChar);
+        string text = $"<line-height=100%><color={dialogBubbleConfig.textColor.ToRGBA()}>";
+        text += dialogue.dialogBubbles[iSent].text.Substring(0, iChar);
         text = Regex.Replace(text, "\\*(.+?)\\*", m => Highlight(m.Groups[1].ToString()));
         text = Regex.Replace(text, "~(.+?)~", m => Wavy(m.Groups[1].ToString()));
         text = Regex.Replace(text, "\\*(.+?)?$", Highlight("$1"));
         text = Regex.Replace(text, "~(.+?)?$", m => Wavy(m.Groups[1].ToString()));
         dialogText.text = text;
-        if (config.invisibleCharacters)
+        if (defaultConfig.invisibleCharacters)
         {
-            string invisibleText = $"<color=#00000000>{dialogue.sentences[iSent].Substring(iChar)}</color>";
+            string invisibleText = $"<color=#00000000>{dialogue.dialogBubbles[iSent].text.Substring(iChar)}</color>";
             invisibleText = invisibleText.Replace("*", "").Replace("~", "");
             dialogText.text += invisibleText;
         }
     }
 
-    private static bool DialogueHasFinished(Dialogue dialogue, int iSent, int iChar) 
-        => (iChar >= dialogue.sentences[iSent].Length);
-
-    void PlayCharSound(Dialogue dialogue)
+    void PlayCharSound(Dialogue dialogue, int iSent)
     {
-        if (dialogue.pitchVariance != 0){
-            float pitch = dialogue.pitch + UnityEngine.Random.Range(-dialogue.pitchVariance, dialogue.pitchVariance);
-            audioSource.PlaySoundWithPitch(EDialogSound.Char, pitch);
+        float pitch = dialogBubbleConfig.pitch;
+        float pitchVariance = dialogBubbleConfig.pitchVariance;
+        if (pitchVariance != 0){
+            float pitchWithVariance = pitch + UnityEngine.Random.Range(-pitchVariance, pitchVariance);
+            audioSource.PlaySoundWithPitch(EDialogSound.Char, pitchWithVariance);
         } else {
-            audioSource.PlaySound(EDialogSound.Char);
+            audioSource.PlaySoundWithPitch(EDialogSound.Char, pitch);
         }
     }
 
     IEnumerator WaitForPlayerOk(Dialogue dialogue, int iSent)
     {
         if (dialogPromptImg) { dialogPromptImg.enabled = true; }
-        yield return new WaitUntil(() => Input.GetKeyDown(config.nextSentenceKey)); // TODO GetButton
+        yield return new WaitUntil(() => Input.GetKeyDown(defaultConfig.nextSentenceKey)); // TODO GetButton
+        audioSource.PlaySound(EDialogSound.Next);
         WriteSentence(dialogue, ++iSent);
     }
 
     IEnumerator WaitForNextSeconds(Dialogue dialogue, int iSent)
     {
         if (dialogPromptImg) { dialogPromptImg.enabled = true; }
-        yield return new WaitForSeconds(config.nextSentenceSecs);
+        yield return new WaitForSeconds(defaultConfig.nextSentenceSecs);
+        audioSource.PlaySound(EDialogSound.Next);
         WriteSentence(dialogue, ++iSent);
     }
 }

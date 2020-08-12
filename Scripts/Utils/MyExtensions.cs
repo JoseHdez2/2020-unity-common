@@ -54,7 +54,7 @@ namespace ExtensionMethods
         // https://stackoverflow.com/a/18867218/3399416
         public static bool IsEmpty<T>(this IEnumerable<T> list) => !list.Any();
 
-        public static string Color(this string str, string color) => $"<color=\"{color}\">{str}</color>";
+        public static string Color(this string str, Color color) => $"<color={color.ToRGBA()}>{str}</color>";
 
         public static string Wavy(this string str, float speed, float intensity, float letterOffset) {
             float[] offsets = new float[str.Length];
@@ -88,5 +88,7 @@ namespace ExtensionMethods
         {
             return IsTouchingALot(collider.GetComponent<Collider>(), otherCollider.GetComponent<Collider>());
         }
+
+        public static string ToRGBA(this Color color) => "#" + ColorUtility.ToHtmlStringRGBA(color);
     }
 }

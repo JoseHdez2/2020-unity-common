@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ScreenWipe : MonoBehaviour
+public class ImageWipe : MonoBehaviour
 {
     [SerializeField]
     [Range(0.1f, 3f)]
@@ -9,9 +10,10 @@ public class ScreenWipe : MonoBehaviour
 
     private Image image;
 
-    private enum WipeMode { Empty, WipingToEmpty, Filled, WipingToFilled }
+    [Serializable]
+    public enum WipeMode { Empty, WipingToEmpty, Filled, WipingToFilled }
 
-    private WipeMode wipeMode = WipeMode.Empty;
+    public WipeMode wipeMode = WipeMode.Empty;
 
     private float wipeProgress;
 
@@ -20,6 +22,8 @@ public class ScreenWipe : MonoBehaviour
     private void Awake()
     {
         image = GetComponentInChildren<Image>();
+        if(wipeMode == WipeMode.Empty) { image.fillAmount = 0; }
+        else if (wipeMode == WipeMode.Filled) { image.fillAmount = 1; }
     }
 
     public void ToggleWipe(bool fillScreen)
@@ -34,7 +38,7 @@ public class ScreenWipe : MonoBehaviour
         switch (wipeMode)
         {
             case WipeMode.WipingToFilled:
-                WipeToBlocked();
+                WipeToFilled();
                 break;
             case WipeMode.WipingToEmpty:
                 WipeToEmpty();
@@ -42,7 +46,7 @@ public class ScreenWipe : MonoBehaviour
         }
     }
 
-    private void WipeToBlocked()
+    private void WipeToFilled()
     {
         wipeProgress += Time.deltaTime * (1f / wipeSpeed);
         image.fillAmount = wipeProgress;

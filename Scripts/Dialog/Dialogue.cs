@@ -1,18 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Dialogue {
-    public Dialogue() { }
-    public Dialogue(string[] sentences) { this.sentences = sentences.ToList(); }
-
+[Serializable]
+public class DialogBubble {
     public string name;
-    public float timePerCharacter = 0.1f;
-    public float pitch = 1f;
-    public float pitchVariance = 0f;
-
+    public DialogConfig config;
     [TextArea(3, 10)]
-    public List<string> sentences;
+    public string text;
+}
+
+[Serializable]
+[CreateAssetMenu(fileName = "Dialog", menuName = "ScriptableObjects/Dialog")]
+public class Dialogue : ScriptableObject {
+    [SerializeField]
+    public List<DialogBubble> dialogBubbles;
 }
