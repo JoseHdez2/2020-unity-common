@@ -39,11 +39,15 @@ MonoBehaviour:
     _keys: 00000000
     _values:
     - {fileID: 8300000, guid: 0ee869f1d8532184184dbbca0165e32b, type: 3}
+  overrideColors: 0
   textColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   invisibleCharacters: 1
   nextSentenceKey: 13
   nextSentenceSecs: 2
-  wavySpeed: 5
+  timePerCharacter: 0.05
+  pitch: 1
+  pitchVariance: 0
+  wavySpeed: 1
   wavyIntensity: 0.2
   wavyLetterOffset: 0.1

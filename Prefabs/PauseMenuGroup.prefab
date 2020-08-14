@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8a94567b08647d246b1df0e1f6ca002e, type: 2}
-  m_sharedMaterial: {fileID: 7839193601346317048, guid: 8a94567b08647d246b1df0e1f6ca002e, type: 2}
+  m_fontAsset: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -180,8 +180,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4148469158151117966}
-  - component: {fileID: 4148469158151117964}
   - component: {fileID: 4148469158151117965}
+  - component: {fileID: 5263905968689118175}
   m_Layer: 0
   m_Name: PauseMenuToggle
   m_TagString: Untagged
@@ -203,22 +203,6 @@ Transform:
   m_Father: {fileID: 4148469157352717124}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4148469158151117964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4148469158151117967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a74e4f906753add4197503d5f065f05b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objsToToggle:
-  - {fileID: 4148469158513084548}
-  keyToToggle: 60
-  toggleSound: {fileID: 4148469158151117965}
 --- !u!82 &4148469158151117965
 AudioSource:
   m_ObjectHideFlags: 0
@@ -229,7 +213,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b239897e55aebb3488bde6f628d60d02, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6243482a1019b334aa959a04f51648d7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -315,6 +299,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5263905968689118175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148469158151117967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a7053c70c0b054c9417e2f9d4e8bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objsToToggle:
+  - {fileID: 4148469158513084548}
+  keyToToggle: 60
+  tagToToggle: Player
+  toggleSound: {fileID: 4148469158151117965}
 --- !u!1 &4148469158257811727
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,10 +400,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4148469158513084547}
-  - component: {fileID: 4148469158513084544}
   - component: {fileID: 4148469158513084545}
   - component: {fileID: 4148469158513084546}
   - component: {fileID: 3453170541299083776}
+  - component: {fileID: 4554364123724555738}
   m_Layer: 5
   m_Name: PauseMenuInner
   m_TagString: Untagged
@@ -432,24 +433,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4148469158513084544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4148469158513084548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90baf5ce379900e4783630cbe4e24141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuText: {fileID: 1468252033839484426}
-  menuOptionsCase: 0
-  audioMultiSource: {fileID: 4148469158513084545}
-  initialState: 0
-  gameplayMusic: {fileID: 0}
-  pauseToggle: {fileID: 4148469158151117964}
 --- !u!114 &4148469158513084545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,9 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea00ff66c5fd3624a95555e1a9494244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundYes: {fileID: 8300000, guid: a559d22d2601dc6468bb76128f867a5e, type: 3}
-  soundNo: {fileID: 8300000, guid: 8b1a386b52af1a04992d6011af19c3dc, type: 3}
-  soundMove: {fileID: 8300000, guid: 36f4318d1d3603d4698c98b5f3ac5e4f, type: 3}
+  soundYes: {fileID: 8300000, guid: 5f9e33b85ff66584d9f3a3484980b8c0, type: 3}
+  soundNo: {fileID: 8300000, guid: c31da12aa89229349bcd15f27f9e77e2, type: 3}
+  soundMove: {fileID: 8300000, guid: c7c7c752b4f3be042ad52750c0e02f1a, type: 3}
 --- !u!82 &4148469158513084546
 AudioSource:
   m_ObjectHideFlags: 0
@@ -569,6 +552,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4148469158513084548}
   m_CullTransparentMesh: 0
+--- !u!114 &4554364123724555738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148469158513084548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b05100aa5093d418372ebba9245a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuText: {fileID: 1468252033839484426}
+  menuOptionsCase: 0
+  audioMultiSource: {fileID: 0}
+  initialState: 0
+  gameplayMusic: {fileID: 0}
+  pauseToggle: {fileID: 0}
 --- !u!1 &4148469158758257418
 GameObject:
   m_ObjectHideFlags: 0

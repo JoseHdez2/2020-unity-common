@@ -7,6 +7,9 @@ public class ImageWipe : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 3f)]
     private float wipeSpeed = 1f;
+    [SerializeField]
+    [Range(0.1f, 3f)]
+    private float wipeSpeedFast = 0.1f;
 
     private Image image;
 
@@ -18,6 +21,7 @@ public class ImageWipe : MonoBehaviour
     private float wipeProgress;
 
     public bool isDone { get; private set; }
+    public bool isWipingFast { get; private set; }
 
     private void Awake()
     {
@@ -29,6 +33,14 @@ public class ImageWipe : MonoBehaviour
     public void ToggleWipe(bool fillScreen)
     {
         isDone = false;
+        isWipingFast = false;
+        wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
+    }
+
+    public void ToggleWipeFast(bool fillScreen)
+    {
+        isDone = false;
+        isWipingFast = true;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
 
@@ -38,15 +50,15 @@ public class ImageWipe : MonoBehaviour
         switch (wipeMode)
         {
             case WipeMode.WipingToFilled:
-                WipeToFilled();
+                WipeToFilled(isWipingFast ? wipeSpeedFast : wipeSpeed);
                 break;
             case WipeMode.WipingToEmpty:
-                WipeToEmpty();
+                WipeToEmpty(isWipingFast ? wipeSpeedFast : wipeSpeed);
                 break;
         }
     }
 
-    private void WipeToFilled()
+    private void WipeToFilled(float wipeSpeed)
     {
         wipeProgress += Time.deltaTime * (1f / wipeSpeed);
         image.fillAmount = wipeProgress;
@@ -57,7 +69,7 @@ public class ImageWipe : MonoBehaviour
         }
     }
 
-    private void WipeToEmpty()
+    private void WipeToEmpty(float wipeSpeed)
     {
         wipeProgress -= Time.deltaTime * (1f / wipeSpeed);
         image.fillAmount = wipeProgress;

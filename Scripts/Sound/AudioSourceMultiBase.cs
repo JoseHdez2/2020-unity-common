@@ -10,11 +10,12 @@ public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
     public bool respectSoundSeniority = false;
     private AudioSource audioSource;
 
-    public void Start(){
+    public void Awake(){
         audioSource = GetComponent<AudioSource>();
     }
 
     public void PlaySound(TEnum sound){
+        if (!audioSource) { Debug.Log("No AudioSource attached(?)."); return; }
         if(respectSoundSeniority && audioSource.isPlaying) {
             Debug.Log("Already playing a sound!");
             return;
