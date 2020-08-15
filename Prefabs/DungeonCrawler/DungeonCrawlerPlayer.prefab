@@ -244,6 +244,7 @@ MonoBehaviour:
   strafes: 1
   moveTargetPrefab: {fileID: 6709302128117824487, guid: e501bb8928f35044a80b00c65a479c82, type: 3}
   rotateTargetPrefab: {fileID: 6709302128117824487, guid: 655bfe277b7a01243b6a1a2ac783c229, type: 3}
+  textPlayerHP: {fileID: 0}
 --- !u!114 &2283366286340629870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +271,6 @@ GameObject:
   - component: {fileID: 2283366287548451333}
   - component: {fileID: 2283366287548451330}
   - component: {fileID: 2283366287548451331}
-  - component: {fileID: 5713365418402023140}
   m_Layer: 0
   m_Name: playerCam
   m_TagString: MainCamera
@@ -343,24 +343,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2283366287548451328}
   m_Enabled: 1
---- !u!114 &5713365418402023140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2283366287548451328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd9535a6c3aa5e74fae85547f587b26a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  captureWidth: 1920
-  captureHeight: 1080
-  hideGameObject: {fileID: 0}
-  optimizeForManyScreenshots: 1
-  format: 2
-  folder: 
 --- !u!1 &6680108737620174005
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,3 +586,4 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 9c24b8afdb4733c41ab363e7b3320c9b, type: 3}
     - {fileID: 8300000, guid: fc467b889fd878447b58b6790b929621, type: 3}
     - {fileID: 8300000, guid: 8a72279b80d59934bbd85c6732870bb7, type: 3}
+  respectSoundSeniority: 0
