@@ -14,11 +14,15 @@ class PauseMenuController : MenuController<EPauseMenuOpt>
 {
     public AudioSource gameplayMusic;
     public ToggleWithKey pauseToggle;
+    public GameObject optionsController;
     
     // Start is called before the first frame update
     void Start() {
         Time.timeScale = 1; // TODO for now.
         menuOptions = (EPauseMenuOpt[])Enum.GetValues(typeof(EPauseMenuOpt));
+        if (optionsController == null) {
+            menuOptions = menuOptions.Where(opt => opt != EPauseMenuOpt.OPTIONS).ToArray();
+        }
     }
 
     private void OnEnable() { PauseGame(true); }

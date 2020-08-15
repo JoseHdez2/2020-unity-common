@@ -24,7 +24,7 @@ public class ReDungLevelInterpreter : MonoBehaviour
         curLevelPlayerMaxHp = levels[curLevelIndex].playerMaxHealth;
         transform.DeleteAllChildren();
         string[] rows = curLevel.Split('\n');
-        Vector3 levelOffset3d = new Vector3(levelOffset.y, 0, levelOffset.x);
+        Vector3 levelOffset3d = LevelOffset3d();
         for (int i = 0; i < rows.Length; i++) {
             for (int j = 0; j < rows[i].Length; j++) {
                 DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
@@ -35,6 +35,8 @@ public class ReDungLevelInterpreter : MonoBehaviour
         }
         minimapCamera.transform.position += levelOffset3d + new Vector3(rows[0].Length, 0, rows.Length) / 2;
     }
+
+    private Vector3 LevelOffset3d() => new Vector3(levelOffset.y, 0, levelOffset.x);
 
     private void OnGUI()
     {
@@ -47,14 +49,14 @@ public class ReDungLevelInterpreter : MonoBehaviour
     private void Update()
     { }
 
-    public Vector3Int? GetPosition(DungeonCrawlerTile tile)
+    public Vector3? GetPosition(DungeonCrawlerTile tile)
     {
         string[] rows = curLevel.Split('\n');
         for (int i = 0; i < rows.Length; i++) {
             for (int j = 0; j < rows[i].Length; j++) {
                 DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
                 if (tileType == tile) {
-                    return new Vector3Int(j, 0, i);
+                    return new Vector3(j, 0, rows.Length - i) + LevelOffset3d();
                 }
             }
         }

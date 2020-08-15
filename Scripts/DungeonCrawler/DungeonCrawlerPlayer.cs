@@ -1,5 +1,4 @@
 ﻿using ExtensionMethods;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,24 +40,20 @@ public class DungeonCrawlerPlayer : Movable
         controls.DungeonCrawlerPlayer.Enable();
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         controls.DungeonCrawlerPlayer.Enable();
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         controls.DungeonCrawlerPlayer.Disable();
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    private void Start() {
         InitPlayer();
     }
 
-    private void InitPlayer()
-    {
+    private void InitPlayer() {
         playerInventory = GetComponentInChildren<ReDungInventory>();
 
         movementTarget = Instantiate(moveTargetPrefab, transform.position, Quaternion.identity).transform;
@@ -76,27 +71,23 @@ public class DungeonCrawlerPlayer : Movable
         return doorColliders;
     }
 
-    private List<Collider> GetWallColliders()
-    {
+    private List<Collider> GetWallColliders() {
         if (wallColliders != null) { return wallColliders; }
         wallColliders = FindObjectsOfType<Collider>().Where(c => c.gameObject.CompareTag("Wall")).ToList();
         return wallColliders;
     }
 
-
-    private IEnumerator MoveTowards(Vector3 direction)
-    {
+    private IEnumerator MoveTowards(Vector3 direction) {
         if (isMoving) { yield break; }
         if (strafes) { rotateTowardsTarget.enabled = false; }
         Vector3 newPos = transform.position + direction;
         Collider door = GetDoor(newPos);
-        if (IsInsideAWall(newPos)){
+        if (IsInsideAWall(newPos)) {
             Debug.Log("BONK");
             audioSource.PlaySound(EReDungPlayerSound.BONK);
             yield break;
         } else if (door != null) {
-            if (!playerInventory.HasAny(EReDungItem.KEY))
-            {
+            if (!playerInventory.HasAny(EReDungItem.KEY)) {
                 Debug.Log("BONK (DOOR)");
                 audioSource.PlaySound(EReDungPlayerSound.LOCKED);
                 yield break;
@@ -120,33 +111,33 @@ public class DungeonCrawlerPlayer : Movable
         SetPlayerHp(playerHP - 1);
     }
 
-    private void SetPlayerHp(int qty)
-    {
+    private void SetPlayerHp(int qty) {
         playerHP = qty;
         if (textPlayerHP) { FindObjectOfType<ReDungHealthText>().UpdateText(playerHP); };
         if (playerHP <= 0) { Die(); }
     }
 
-    private bool IsInsideAWall(Vector3 position) => GetWallColliders().Any(coll => coll.bounds.Contains(position));
+    private bool IsInsideAWall(Vector3 position) {
+        return GetWallColliders().Any(coll => coll.bounds.Contains(position));
+    }
 
-    private Collider GetDoor(Vector3 position) => GetDoorColliders().Find(coll => coll.bounds.Contains(position));
+    private Collider GetDoor(Vector3 position) {
+        return GetDoorColliders().Find(coll => coll.bounds.Contains(position));
+    }
 
-    private IEnumerator Turn(int angle)
-    {
+    private IEnumerator Turn(int angle) {
         if (isMoving) { yield break; }
         isMoving = true;
         rotationTarget.RotateAround(transform.position, Vector3.up, angle);
         yield return new WaitForSeconds(0.5f);
         isMoving = false;
     }
-    
-    public void Die()
-    {
+
+    public void Die() {
         StartCoroutine(DieCoroutine());
     }
 
-    private IEnumerator DieCoroutine()
-    {
+    private IEnumerator DieCoroutine() {
         GetComponentInChildren<Collider>().enabled = false;
         DeathAnimation();
         controls.Disable();
@@ -164,21 +155,18 @@ public class DungeonCrawlerPlayer : Movable
         controls.Enable();
     }
 
-
-    private void DeathAnimation()
-    {
+    private void DeathAnimation() {
         audioSource.PlaySound(EReDungPlayerSound.DIE);
         movementTarget.position = transform.position - Vector3.up * 0.5f;
         rotationTarget.position = transform.position + Vector3.up;
     }
 
-    private void InitPlayerPos()
-    {
+    private void InitPlayerPos() {
         doorColliders = null;
         wallColliders = null;
         SetPlayerHp(levelInterpreter.curLevelPlayerMaxHp);
         Vector3? playerPos = FindObjectOfType<ReDungLevelInterpreter>().GetPosition(DungeonCrawlerTile.PLAYER);
-        if(!playerPos.HasValue) { return; }
+        if (!playerPos.HasValue) { return; }
         movementTarget.position = playerPos.Value;
         transform.position = playerPos.Value;
         transform.rotation = Quaternion.Euler(0, 0, 0);
