@@ -19,7 +19,6 @@ class PauseMenuController : MenuController<EPauseMenuOpt>
     // Start is called before the first frame update
     void Start() {
         Time.timeScale = 1; // TODO for now.
-        menuOptions = (EPauseMenuOpt[])Enum.GetValues(typeof(EPauseMenuOpt));
         if (optionsController == null) {
             menuOptions = menuOptions.Where(opt => opt != EPauseMenuOpt.OPTIONS).ToArray();
         }

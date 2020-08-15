@@ -15,6 +15,7 @@ public class InputMasterSingleton
         {
             controls = new InputMaster();
         }
+        Debug.Log(controls);
         return controls;
     }
 }
