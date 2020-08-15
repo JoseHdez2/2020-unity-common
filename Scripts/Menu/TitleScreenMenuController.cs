@@ -37,7 +37,6 @@ public class TitleScreenMenuController : MenuController<EMainMenuOpt>
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         Time.timeScale = 1; // TODO for now.
-        menuOptions = (EMainMenuOpt[])Enum.GetValues(typeof(EMainMenuOpt));
         if (!RuntimePlatformsQuittable.Contains(Application.platform)) {
             menuOptions = menuOptions.Where(opt => opt != EMainMenuOpt.QUIT).ToArray();
         }

@@ -30,6 +30,7 @@ public abstract class MenuController<TEnum> : MonoBehaviour
         controls.Menu.moveDown.performed += _ => MoveCursor(1); 
         controls.Menu.Confirm.performed += _ => ConfirmChoice();
         controls.Menu.Enable();
+        menuOptions = (TEnum[])Enum.GetValues(typeof(TEnum));
     }
 
     private void OnEnable()
@@ -71,10 +72,16 @@ public abstract class MenuController<TEnum> : MonoBehaviour
     public void MoveCursor(int cursorMoveOffset)
     {
         if (!isActiveAndEnabled) return;
-        Debug.Log("MoveCursor");
         menuCursor += cursorMoveOffset;
         audioMultiSource.PlayMoveSound();
-        menuCursor = MathUtils.InverseClamp(menuCursor, 0, menuOptions.Length - 1);
+        try
+        {
+            menuCursor = MathUtils.InverseClamp(menuCursor, 0, menuOptions.Length - 1);
+        } catch (Exception e)
+        {
+            Debug.Log(menuOptions);
+            throw e;
+        }
     }
 
     public void MoveCursor(InputAction.CallbackContext ctx, int cursorMoveOffset)
