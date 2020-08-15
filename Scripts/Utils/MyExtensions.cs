@@ -51,7 +51,7 @@ namespace ExtensionMethods
             return val;
         }
 
-        // https://stackoverflow.com/a/18867218/3399416
+        // https://stackoverflow.com/a/18867218/
         public static bool IsEmpty<T>(this IEnumerable<T> list) => !list.Any();
 
         public static string Color(this string str, Color color) => $"<color={color.ToRGBA()}>{str}</color>";
@@ -90,5 +90,8 @@ namespace ExtensionMethods
         }
 
         public static string ToRGBA(this Color color) => "#" + ColorUtility.ToHtmlStringRGBA(color);
+
+        // https://stackoverflow.com/a/3453301/
+        public static List<T> TakeLast<T>(this List<T> list, int n) => list.Skip(Math.Max(0, list.Count() - n)).ToList();
     }
 }

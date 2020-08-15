@@ -1,8 +1,4 @@
 ﻿using ExtensionMethods;
-using RotaryHeart.Lib.SerializableDictionary;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class ReDungLevelInterpreter : MonoBehaviour
@@ -17,7 +13,7 @@ public class ReDungLevelInterpreter : MonoBehaviour
 
     // Start is called before the first frame update
     [ExecuteInEditMode]
-    void Start()
+    private void Start()
     {
         InitLevel();
     }
@@ -29,22 +25,18 @@ public class ReDungLevelInterpreter : MonoBehaviour
         transform.DeleteAllChildren();
         string[] rows = curLevel.Split('\n');
         Vector3 levelOffset3d = new Vector3(levelOffset.y, 0, levelOffset.x);
-        for (int i = 0; i < rows.Length; i++)
-        {
-            for (int j = 0; j < rows[i].Length; j++)
-            {
+        for (int i = 0; i < rows.Length; i++) {
+            for (int j = 0; j < rows[i].Length; j++) {
                 DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
-                if (tileType != DungeonCrawlerTile.NONE)
-                {
+                if (tileType != DungeonCrawlerTile.NONE) {
                     Instantiate(db.tileToPrefab[tileType], new Vector3(j, 0, rows.Length - i) + levelOffset3d, Quaternion.identity, transform);
                 }
             }
         }
         minimapCamera.transform.position += levelOffset3d + new Vector3(rows[0].Length, 0, rows.Length) / 2;
-
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
         GUIStyle style = new GUIStyle();
         style.fontSize = 30;
@@ -52,9 +44,11 @@ public class ReDungLevelInterpreter : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update(){}
+    private void Update()
+    { }
 
-    public Vector3Int? GetPosition(DungeonCrawlerTile tile) {
+    public Vector3Int? GetPosition(DungeonCrawlerTile tile)
+    {
         string[] rows = curLevel.Split('\n');
         for (int i = 0; i < rows.Length; i++) {
             for (int j = 0; j < rows[i].Length; j++) {
