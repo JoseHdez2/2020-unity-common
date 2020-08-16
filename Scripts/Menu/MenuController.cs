@@ -23,8 +23,7 @@ public abstract class MenuController<TEnum> : MonoBehaviour
 
     private InputMaster controls;
 
-    private void Awake()
-    {
+    private void Awake() {
         controls = InputMasterSingleton.Get();
         controls.Menu.moveUp.performed += _ => MoveCursor(-1);
         controls.Menu.moveDown.performed += _ => MoveCursor(1); 
@@ -33,74 +32,53 @@ public abstract class MenuController<TEnum> : MonoBehaviour
         menuOptions = (TEnum[])Enum.GetValues(typeof(TEnum));
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         controls.Menu.Enable();
     }
 
-    private void OnDisable()
-    {
-        controls.Menu.Disable();
+    private void OnDisable() {
+        // controls.Menu.Disable();
     }
 
-    //private static T Func<T> OnStarted(InputAction.CallbackContext ctx, Func<T> func){
-    //    return func;
-    //}
-
-    // TODO
-    // GetAxis instead of GetKeyDown
-    // holding the axis down will start cycling options.
-
     // Update is called once per frame
-    private void Update()
-    {
+    private void Update() {
         DrawMenu();
     }
 
-    public void ConfirmChoice()
-    {
+    public void ConfirmChoice() {
         if (!isActiveAndEnabled) return;
         HandleOption(menuOptions[menuCursor]);
         audioMultiSource.PlayYesSound();
     }
 
-    public virtual void GoBack()
-    {
+    public virtual void GoBack() {
         audioMultiSource.PlayNoSound();
     }
 
-    public void MoveCursor(int cursorMoveOffset)
-    {
+    public void MoveCursor(int cursorMoveOffset) {
         if (!isActiveAndEnabled) return;
         menuCursor += cursorMoveOffset;
         audioMultiSource.PlayMoveSound();
-        try
-        {
+        try {
             menuCursor = MathUtils.InverseClamp(menuCursor, 0, menuOptions.Length - 1);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Debug.Log(menuOptions);
             throw e;
         }
     }
 
-    public void MoveCursor(InputAction.CallbackContext ctx, int cursorMoveOffset)
-    {
+    public void MoveCursor(InputAction.CallbackContext ctx, int cursorMoveOffset) {
         if (!isActiveAndEnabled) return;
-        Debug.Log("MoveCursor");
-        Debug.Log(ctx.phase);
         menuCursor += cursorMoveOffset;
         audioMultiSource.PlayMoveSound();
         menuCursor = MathUtils.InverseClamp(menuCursor, 0, menuOptions.Length - 1);
     }
 
-    protected void DrawMenu()
-    {
+    protected void DrawMenu() {
         menuText.text = string.Join("\n", menuOptions.Select((opt, ind) => DrawOption(opt, ind == menuCursor)));
     }
 
-    protected string DrawOption(TEnum option, bool isSelected)
-    {
+    protected string DrawOption(TEnum option, bool isSelected) {
         char cursor = isSelected ? '>' : ' ';
         string optionStr = option.ToString().Replace('_', ' ').FormatCase(menuOptionsCase);
         return cursor + optionStr;
