@@ -52,6 +52,8 @@ public class DialogBubbleUI : MonoBehaviour
         }
         if (imageWipe) { imageWipe.ToggleWipe(show); }
     }
+
+    public bool IsWipeDone() => imageWipe.isDone;
     
     private void Update() {
         if (config && imageWipe.wipeMode == ImageWipe.WipeMode.Filled){

@@ -1,6 +1,7 @@
 ﻿using ExtensionMethods;
 using System;
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class DialogueManager : MonoBehaviour
 
     public DialogBubbleUI dialogBubble;
     public DialogBubbleUI nameBubble;
+
+    [SerializeField] private GameObject[] disableDuringDialog;
 
     private Dialogue dialogue;
 
@@ -29,6 +32,7 @@ public class DialogueManager : MonoBehaviour
     public void WriteDialogue(Dialogue dialogue) {
         this.dialogue = dialogue;
         bubbleIndex = 0;
+        disableDuringDialog.ToList().ForEach(obj => obj.SetActive(false));
         WriteSentence();
     }
 
@@ -37,16 +41,18 @@ public class DialogueManager : MonoBehaviour
         nameBubble.ShowPanelAndText(show);
     }
 
-    public void Stop() {
-        if (dialogueCoroutine != null) {
-            StopAllCoroutines();
-            dialogueCoroutine = null;
-        }
+    public IEnumerator Stop() {
         ShowPanelAndText(false);
+        yield return new WaitUntil(() => dialogBubble.IsWipeDone());
+        disableDuringDialog.ToList().ForEach(obj => obj.SetActive(true));
+        if (dialogueCoroutine != null) {
+            dialogueCoroutine = null;
+            StopAllCoroutines();
+        }
     }
 
     public void WriteSentence() {
-        if (DialogHasEnded(dialogue, bubbleIndex)) { Stop(); return; }
+        if (DialogHasEnded(dialogue, bubbleIndex)) { StartCoroutine(Stop()); return; }
         DialogBubble dialogBubbleData = dialogue.dialogBubbles[bubbleIndex];
         DialogConfig config = (dialogBubbleData.config) ? 
             new DialogConfig(defaultConfig, dialogBubbleData.config) : defaultConfig;

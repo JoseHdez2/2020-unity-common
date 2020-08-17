@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ace50593f361a47a4113f5c1b603f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wipeSpeed: 1
+  wipeSpeed: 0.5
   wipeSpeedFast: 0.1
   wipeMode: 0
 --- !u!1 &7039668663170429292
