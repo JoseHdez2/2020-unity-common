@@ -44,16 +44,6 @@ namespace ExtensionMethods
         public static Vector3 lowerLeft(this Vector3 pos) { return pos + Vector3.down + Vector3.left; }
         public static Vector3 lowerRight(this Vector3 pos) { return pos + Vector3.down + Vector3.right; }
 
-        public static T Pop<T>(this List<T> list)
-        {
-            T val = list[list.Count - 1];
-            list.RemoveAt(list.Count - 1);
-            return val;
-        }
-
-        // https://stackoverflow.com/a/18867218/
-        public static bool IsEmpty<T>(this IEnumerable<T> list) => !list.Any();
-
         public static string Color(this string str, Color color) => $"<color={color.ToRGBA()}>{str}</color>";
 
         public static string Wavy(this string str, float speed, float intensity, float letterOffset) {
@@ -90,8 +80,6 @@ namespace ExtensionMethods
         }
 
         public static string ToRGBA(this Color color) => "#" + ColorUtility.ToHtmlStringRGBA(color);
-
-        // https://stackoverflow.com/a/3453301/
-        public static List<T> TakeLast<T>(this List<T> list, int n) => list.Skip(Math.Max(0, list.Count() - n)).ToList();
+        
     }
 }

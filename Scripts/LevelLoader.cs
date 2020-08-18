@@ -33,6 +33,7 @@ public class LevelLoader : MonoBehaviour
 
     public void RestartLevel() => LoadLevel(CurLevel());
     public void LoadNextLevel() => LoadLevel(NextLevel());
+    public void LoadPrevLevel() => LoadLevel(PrevLevel());
     public void LoadNextLevelOrTitle() => LoadLevel(NextLevelOrTitle());
 
     public void LoadLevel(int buildIndex){
@@ -41,6 +42,7 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator LoadLevelInner(int levelIndex)
     {
+        Debug.Log($"Loading level: {levelIndex}.");
         controls.Disable();
         disableDuringLoad.ForEach(obj => obj.SetActive(false));
         if (transition) {
@@ -49,13 +51,14 @@ public class LevelLoader : MonoBehaviour
             // yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).IsName("Start"));
         } else if (screenWipe) {
             screenWipe.ToggleWipe(true);
-            yield return new WaitUntil(() => screenWipe.isDone);
+            // yield return new WaitUntil(() => screenWipe.isDone);
         }
         SceneManager.LoadScene(levelIndex);
     }
 
     private int CurLevel() => SceneManager.GetActiveScene().buildIndex;
     private int NextLevel() => CurLevel() + 1;
+    private int PrevLevel() => CurLevel() - 1;
     private int NextLevelOrTitle() => LevelExists(NextLevel()) ? NextLevel() : 0;
 
     private bool LevelExists(int buildIndex) => buildIndex < SceneManager.sceneCountInBuildSettings;

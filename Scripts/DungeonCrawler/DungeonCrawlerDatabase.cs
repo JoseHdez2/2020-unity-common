@@ -6,9 +6,8 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public enum DungeonCrawlerTile
-{
-    NONE, WALL, ENEMY, DOOR, KEY, PLAYER
+public enum DungeonCrawlerTile {
+    NONE, WALL, ENEMY, DOOR, KEY, PLAYER, STAIRS_DOWN, STAIRS_UP
 }
 
 [System.Serializable]

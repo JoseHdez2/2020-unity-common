@@ -14,7 +14,7 @@ public class DungeonCrawlerPlayer : Movable
     public InputMaster controls;
     public TMP_Text textPlayerHP;
 
-    private int playerHP;
+    private static int playerHP = 100;
     private Transform rotationTarget; // TODO delete this
     private ReDungLevelInterpreter levelInterpreter;
     private bool isMoving = false;
@@ -51,6 +51,7 @@ public class DungeonCrawlerPlayer : Movable
     // Start is called before the first frame update
     private void Start() {
         InitPlayer();
+        SetPlayerHp(playerHP);
     }
 
     private void InitPlayer() {
@@ -164,11 +165,7 @@ public class DungeonCrawlerPlayer : Movable
     private void InitPlayerPos() {
         doorColliders = null;
         wallColliders = null;
-        SetPlayerHp(levelInterpreter.curLevelPlayerMaxHp);
-        Vector3? playerPos = FindObjectOfType<ReDungLevelInterpreter>().GetPosition(DungeonCrawlerTile.PLAYER);
-        if (!playerPos.HasValue) { return; }
-        movementTarget.position = playerPos.Value;
-        transform.position = playerPos.Value;
+        movementTarget.position = transform.position;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         rotationTarget.position = transform.position + transform.forward;
     }

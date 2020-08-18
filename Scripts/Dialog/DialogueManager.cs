@@ -32,6 +32,7 @@ public class DialogueManager : MonoBehaviour
     public void WriteDialogue(Dialogue dialogue) {
         this.dialogue = dialogue;
         bubbleIndex = 0;
+        curName = null;
         disableDuringDialog.ToList().ForEach(obj => obj.SetActive(false));
         WriteSentence();
     }
