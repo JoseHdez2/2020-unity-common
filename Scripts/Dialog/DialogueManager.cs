@@ -16,9 +16,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject[] disableDuringDialog;
 
     private Dialogue dialogue;
-
     private int bubbleIndex = 0;
-
     private string curName;
 
     private void Start() {

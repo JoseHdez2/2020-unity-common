@@ -86,15 +86,25 @@ public class DialogBubbleUI : MonoBehaviour
         yield return new WaitUntil(() => imageWipe.isDone);
         charIndex = iChar;
         if (IsDone()) {
-            audioSource.PlaySound(EDialogSound.FullStop);
-            if (canAskForMoreText) {
-                HandleFinished();
-            }
             yield break;
         }
         yield return new WaitForSeconds(config.timePerCharacter);
         PlayCharSound();
         StartCoroutine(UpdateText(iChar += 1));
+    }
+
+    public void OnMouseDown()
+    {
+        Debug.Log("Mouse down!");
+    }
+
+    private void HandleFinished0()
+    {
+        audioSource.PlaySound(EDialogSound.FullStop);
+        charIndex = text.Length;
+        if (canAskForMoreText) {
+            HandleFinished();
+        }
     }
 
     private void HandleFinished() {

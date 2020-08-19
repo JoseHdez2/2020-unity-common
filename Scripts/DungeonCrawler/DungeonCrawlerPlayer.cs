@@ -14,8 +14,9 @@ public class DungeonCrawlerPlayer : Movable
     public InputMaster controls;
     public TMP_Text textPlayerHP;
 
-    private static int playerHP = 100;
-    private Transform rotationTarget; // TODO delete this
+    public static int playerHP = 100; // TODO set to private.
+    public static int playerMaxHP = 100;
+    private Transform rotationTarget; // TODO delete this, maybe.
     private ReDungLevelInterpreter levelInterpreter;
     private bool isMoving = false;
     private RotateTowardsTarget rotateTowardsTarget;
@@ -135,6 +136,7 @@ public class DungeonCrawlerPlayer : Movable
     }
 
     public void Die() {
+        PlayerInventory.playerInventory.Clear(); // lose all items on death.
         StartCoroutine(DieCoroutine());
     }
 

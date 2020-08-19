@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace ExtensionMethods
@@ -30,29 +28,46 @@ namespace ExtensionMethods
             t.rotation = Quaternion.Slerp(t.rotation, q, Time.deltaTime * turnSpeed);
         }
 
-
         public static void SnapToGrid(this Transform transform)
         {
             transform.position = new Vector3(
-            Mathf.Round(transform.position.x),
-            Mathf.Round(transform.position.y),
-            Mathf.Round(transform.position.z)
+                Mathf.Round(transform.position.x),
+                Mathf.Round(transform.position.y),
+                Mathf.Round(transform.position.z)
             );
         }
 
-        public static Vector3 upperLeft(this Vector3 pos) { return pos + Vector3.up + Vector3.left; }
-        public static Vector3 upperRight(this Vector3 pos) { return pos + Vector3.up + Vector3.right; }
-        public static Vector3 lowerLeft(this Vector3 pos) { return pos + Vector3.down + Vector3.left; }
-        public static Vector3 lowerRight(this Vector3 pos) { return pos + Vector3.down + Vector3.right; }
+        public static Vector3 upperLeft(this Vector3 pos)
+        {
+            return pos + Vector3.up + Vector3.left;
+        }
 
-        public static string Color(this string str, Color color) => $"<color={color.ToRGBA()}>{str}</color>";
+        public static Vector3 upperRight(this Vector3 pos)
+        {
+            return pos + Vector3.up + Vector3.right;
+        }
 
-        public static string Wavy(this string str, float speed, float intensity, float letterOffset) {
+        public static Vector3 lowerLeft(this Vector3 pos)
+        {
+            return pos + Vector3.down + Vector3.left;
+        }
+
+        public static Vector3 lowerRight(this Vector3 pos)
+        {
+            return pos + Vector3.down + Vector3.right;
+        }
+
+        public static string Color(this string str, Color color)
+        {
+            return $"<color={color.ToRGBA()}>{str}</color>";
+        }
+
+        public static string Wavy(this string str, float speed, float intensity, float letterOffset)
+        {
             float[] offsets = new float[str.Length];
-            string letters = str.ToList().Select((c,i) =>
-            {
+            string letters = str.ToList().Select((c, i) => {
                 float offset = Mathf.Sin((Time.time + i * letterOffset) * speed) * intensity;
-                if(Math.Abs(offset) < 0.001f) { offset = 0; }
+                if (Math.Abs(offset) < 0.001f) { offset = 0; }
                 return $"<voffset={offset:0.000}em>{c}";
             }).Aggregate("", (a, b) => a + b);
             return letters + "</voffset>";
@@ -60,8 +75,7 @@ namespace ExtensionMethods
 
         public static void DeleteAllChildren(this Transform transform)
         {
-            foreach (Transform child in transform)
-            {
+            foreach (Transform child in transform) {
                 UnityEngine.Object.Destroy(child.gameObject);
             }
         }
@@ -80,7 +94,10 @@ namespace ExtensionMethods
             return IsTouchingALot(collider.GetComponent<Collider>(), otherCollider.GetComponent<Collider>());
         }
 
-        public static string ToRGBA(this Color color) => "#" + ColorUtility.ToHtmlStringRGBA(color);
+        public static string ToRGBA(this Color color)
+        {
+            return "#" + ColorUtility.ToHtmlStringRGBA(color);
+        }
 
         public static UnityEvent NewEvent(UnityAction call)
         {

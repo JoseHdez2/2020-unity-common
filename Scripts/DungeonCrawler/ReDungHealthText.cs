@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ExtensionMethods;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -18,9 +19,9 @@ public class ReDungHealthText : MonoBehaviour
 
     public void UpdateText(int playerHealth)
     {
-        int maxHp = FindObjectOfType<ReDungLevelInterpreter>().curLevelPlayerMaxHp;
-        string maxHpStr = maxHp > 3 ? maxHp.ToString() : $"<color=\"red\">{maxHp}</color>";
-        string str = $"<size={textSizePercent}%><smallcaps>Hp:</smallcaps> {playerHealth}<sub> / {maxHp}</sub>";
+        int maxHp = DungeonCrawlerPlayer.playerMaxHP; // FindObjectOfType<ReDungLevelInterpreter>().curLevelPlayerMaxHp;
+        string playerHealthStr = playerHealth > 3 ? playerHealth.ToString() : playerHealth.ToString().Color(Color.red);
+        string str = $"<size={textSizePercent}%><smallcaps>Hp:</smallcaps>{playerHealth}<sub> / {maxHp}</sub>";
         GetComponent<TMP_Text>().text = str;
     }
 }
