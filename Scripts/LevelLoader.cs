@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
+/*
+ * Loads different scenes, but first disables stuff 
+ * and waits for a screen wipe animation to finish.
+ */
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition;

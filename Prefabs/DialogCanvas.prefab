@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4414b946d172964d988e80b9ee4ce9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultConfig: {fileID: 11400000, guid: 1c132ee79237a7d4bb936452d6c5df4e, type: 2}
+  defaultConfig: {fileID: 11400000, guid: 424e8f0d93a7cdf4697ee8e910a7c070, type: 2}
   dialogBubble: {fileID: 2862087521299620551}
   nameBubble: {fileID: 8251335690478870490}
   disableDuringDialog: []

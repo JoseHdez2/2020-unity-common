@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// For use in toggling pause menus.
+// For use in toggling stuff with a button (e.g. pause menus).
+// Uses new InputSystem.
 public class ToggleWithKey : MonoBehaviour
 {
     public GameObject[] objsToToggle;

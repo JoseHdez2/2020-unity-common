@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Events;
 
 namespace ExtensionMethods
 {
@@ -80,6 +81,12 @@ namespace ExtensionMethods
         }
 
         public static string ToRGBA(this Color color) => "#" + ColorUtility.ToHtmlStringRGBA(color);
-        
+
+        public static UnityEvent NewEvent(UnityAction call)
+        {
+            UnityEvent e = new UnityEvent();
+            e.AddListener(call);
+            return e;
+        }
     }
 }
