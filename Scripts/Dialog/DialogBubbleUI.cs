@@ -5,9 +5,17 @@ using System.Text.RegularExpressions;
 using ExtensionMethods;
 using System;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class DialogBubbleUI : MonoBehaviour
 {
+    enum State { EMPTY, WRITING, WAITING }
+    private State state = State.EMPTY;
+
+    // enum NextSentConfig { ONLY_INPUT, ONLY_TIMER, BOTH }
+    // public NextSentConfig nextSentConfig
+    // TODO: do this in the DialogConfig.
+
     [SerializeField] private TMP_Text tmpText;
     [SerializeField] private ImageWipe imageWipe;
 
@@ -24,9 +32,11 @@ public class DialogBubbleUI : MonoBehaviour
     public bool canAskForMoreText = false;
 
     private int charIndex;
+    private float secsBeforeNextSentence = float.MaxValue;
 
     public IEnumerator WriteSentence(string text, DialogConfig config = null) {
         this.text = text;
+        state = State.WRITING;
         if (config) { this.config = config; }
         // ShowPanelAndText(true);
         charIndex = 0;
@@ -54,12 +64,34 @@ public class DialogBubbleUI : MonoBehaviour
     }
 
     public bool IsWipeDone() => imageWipe.isDone;
-    
+
     private void Update() {
-        if (config && imageWipe.wipeMode == ImageWipe.WipeMode.Filled){
+        if (config && imageWipe.wipeMode == ImageWipe.WipeMode.Filled) {
             DrawText();
         }
+        switch (state) {
+            case State.WRITING:
+                if (UserInputThisFrame()) {
+                    if (canAskForMoreText) {
+                        ChangeStateToWaiting();
+                    } else {
+                        state = State.EMPTY;
+                    }
+                }
+                break;
+            case State.WAITING:
+                secsBeforeNextSentence -= Time.deltaTime;
+                if (UserInputThisFrame() || secsBeforeNextSentence < 0) {
+                    WriteNextSentence();
+                }
+                break;
+            case State.EMPTY:
+                break;
+        }
     }
+
+    private bool UserInputThisFrame() => Mouse.current.leftButton.wasPressedThisFrame
+            || Keyboard.current.enterKey.wasPressedThisFrame;
 
     private void DrawText(){
         string str = $"<line-height=100%><color={config.textColor.ToRGBA()}>";
@@ -93,25 +125,14 @@ public class DialogBubbleUI : MonoBehaviour
         StartCoroutine(UpdateText(iChar += 1));
     }
 
-    public void OnMouseDown()
-    {
-        Debug.Log("Mouse down!");
-    }
-
-    private void HandleFinished0()
-    {
+    private void ChangeStateToWaiting() {
+        StopAllCoroutines();
+        state = State.WAITING;
         audioSource.PlaySound(EDialogSound.FullStop);
         charIndex = text.Length;
-        if (canAskForMoreText) {
-            HandleFinished();
-        }
-    }
-
-    private void HandleFinished() {
-        if (config.nextSentenceKey != KeyCode.None) {
-            StartCoroutine(WaitForPlayerOk());
-        } else {
-            StartCoroutine(WaitForNextSeconds());
+        secsBeforeNextSentence = float.MaxValue;
+        if (config.nextSentenceKey == KeyCode.None) {
+            secsBeforeNextSentence = config.nextSentenceSecs;
         }
     }
 
@@ -126,16 +147,8 @@ public class DialogBubbleUI : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitForPlayerOk() {
-        if (promptImage) { promptImage.enabled = true; }
-        yield return new WaitUntil(() => Input.GetKeyDown(config.nextSentenceKey)); // TODO GetButton
-        audioSource.PlaySound(EDialogSound.Next);
-        dialogManager.WriteNextSentence();
-    }
-
-    private IEnumerator WaitForNextSeconds() {
-        if (promptImage) { promptImage.enabled = true; }
-        yield return new WaitForSeconds(config.nextSentenceSecs);
+    private void WriteNextSentence(){
+        state = State.WRITING;
         audioSource.PlaySound(EDialogSound.Next);
         dialogManager.WriteNextSentence();
     }
