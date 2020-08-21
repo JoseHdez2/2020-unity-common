@@ -9,8 +9,8 @@ using UnityEngine.InputSystem;
 
 public class DialogBubbleUI : MonoBehaviour
 {
-    enum State { EMPTY, WRITING, WAITING }
-    private State state = State.EMPTY;
+    enum State { NONE, WRITING, WAITING }
+    private State state = State.NONE;
 
     // enum NextSentConfig { ONLY_INPUT, ONLY_TIMER, BOTH }
     // public NextSentConfig nextSentConfig
@@ -75,17 +75,17 @@ public class DialogBubbleUI : MonoBehaviour
                     if (canAskForMoreText) {
                         ChangeStateToWaiting();
                     } else {
-                        state = State.EMPTY;
+                        state = State.NONE;
                     }
                 }
                 break;
             case State.WAITING:
                 secsBeforeNextSentence -= Time.deltaTime;
                 if (UserInputThisFrame() || secsBeforeNextSentence < 0) {
-                    WriteNextSentence();
+                    AskForNextSentence();
                 }
                 break;
-            case State.EMPTY:
+            case State.NONE:
                 break;
         }
     }
@@ -118,6 +118,7 @@ public class DialogBubbleUI : MonoBehaviour
         yield return new WaitUntil(() => imageWipe.isDone);
         charIndex = iChar;
         if (IsDone()) {
+            ChangeStateToWaiting();
             yield break;
         }
         yield return new WaitForSeconds(config.timePerCharacter);
@@ -147,10 +148,10 @@ public class DialogBubbleUI : MonoBehaviour
         }
     }
 
-    private void WriteNextSentence(){
-        state = State.WRITING;
+    private void AskForNextSentence(){
+        state = State.NONE;
         audioSource.PlaySound(EDialogSound.Next);
-        dialogManager.WriteNextSentence();
+        if (dialogManager) { dialogManager.WriteNextSentence(); }
     }
 
     private string Highlight(string str) => str.Color(config.highlightColor);

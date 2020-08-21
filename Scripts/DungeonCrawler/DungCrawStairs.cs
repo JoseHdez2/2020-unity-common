@@ -6,16 +6,17 @@ using UnityEngine.Events;
 public class DungCrawStairs : MonoBehaviour
 {
     enum StairsType { LoadNextLevel, LoadPrevLevel }
-    private ReDungLevelInterpreter levelInterpreter;
+    private DunCraLevelInterpreter levelInterpreter;
     [SerializeField] private StairsType type = StairsType.LoadNextLevel;
 
     private void Start(){
-        levelInterpreter = FindObjectOfType<ReDungLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<DunCraLevelInterpreter>();
     }
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player") {
+            other.gameObject.SetActive(false);
             LoadLevel();
         }
     }
@@ -23,6 +24,7 @@ public class DungCrawStairs : MonoBehaviour
     public virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player")) {
+            other.gameObject.SetActive(false);
             LoadLevel();
         }
     }

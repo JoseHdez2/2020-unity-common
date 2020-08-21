@@ -3,7 +3,7 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 
-public class ReDungLevelInterpreter : MonoBehaviour
+public class DunCraLevelInterpreter : MonoBehaviour
 {
     public DungeonCrawlerDatabase db;
     public DungCrawLevel[] levels;
@@ -39,13 +39,17 @@ public class ReDungLevelInterpreter : MonoBehaviour
             for (int j = 0; j < rows[i].Length; j++) {
                 DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
                 if (tileType != DungeonCrawlerTile.NONE) {
-                    Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
+                    Spawn(i, j, tileType);
                 }
             }
         }
         minimapCamera.transform.position = MatrixPosToWorldPos(new Vector2Int(curLevel.Width() / 2, curLevel.Height() / 2));
         minimapCamera.transform.position += Vector3.up * minimapCamHeight;
         SpawnPlayer();
+    }
+
+    protected void Spawn(int i, int j, DungeonCrawlerTile tileType){
+        Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
     }
 
     private DungeonCrawlerTile[][] ParseCurLevelStr(string curLevelStr) =>
@@ -66,12 +70,6 @@ public class ReDungLevelInterpreter : MonoBehaviour
         => new Vector3(matPos.x, 0, matPos.y) + LevelOffset3d();
 
     private Vector3 LevelOffset3d() => new Vector3(levelOffset.x, 0, levelOffset.y);
-
-    private void OnGUI(){
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 30;
-        GUI.skin.textArea = style;
-    }
 
     public void LoadNextLevel(){
         curLevelIndex++;

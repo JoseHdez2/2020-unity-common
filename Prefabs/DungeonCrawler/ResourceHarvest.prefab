@@ -93,12 +93,11 @@ GameObject:
   - component: {fileID: 6709302128117824486}
   - component: {fileID: 3242981975313579577}
   - component: {fileID: 5410536959590803106}
-  - component: {fileID: 2238400252715899558}
   - component: {fileID: 7070636527093822667}
   - component: {fileID: 2005052404376886745}
-  - component: {fileID: 1082826962754875812}
+  - component: {fileID: 7516024592491410438}
   m_Layer: 0
-  m_Name: ItemKey
+  m_Name: ResourceHarvest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +158,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7587378240987022657, guid: 3c5675bdd72f71a4885362d11e32366b, type: 3}
+  m_Sprite: {fileID: -7639802977627861694, guid: 49a7c49f49f47cf40806b14a73edbfbe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -183,22 +182,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2238400252715899558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6709302128117824487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eba00bd298456546913e096a8904902, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabEffectExpire: {fileID: 0}
-  soundExpire: {fileID: 2005052404376886745}
-  itemType: 1
-  qty: 1
 --- !u!54 &7070636527093822667
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -311,7 +294,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1082826962754875812
+--- !u!114 &7516024592491410438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

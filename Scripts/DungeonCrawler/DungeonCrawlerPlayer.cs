@@ -14,10 +14,10 @@ public class DungeonCrawlerPlayer : Movable
     public InputMaster controls;
     public TMP_Text textPlayerHP;
 
-    public static int playerHP = 100; // TODO set to private.
-    public static int playerMaxHP = 100;
+    private static int playerHP = 10;
+    public static int playerMaxHP = 10;
     private Transform rotationTarget; // TODO delete this, maybe.
-    private ReDungLevelInterpreter levelInterpreter;
+    private DunCraLevelInterpreter levelInterpreter;
     private bool isMoving = false;
     private RotateTowardsTarget rotateTowardsTarget;
 
@@ -41,6 +41,10 @@ public class DungeonCrawlerPlayer : Movable
         controls.DungeonCrawlerPlayer.Enable();
     }
 
+    public static void RestoreHealth(){
+        playerHP = playerMaxHP;
+    }
+
     private void OnEnable() {
         controls.DungeonCrawlerPlayer.Enable();
     }
@@ -48,11 +52,10 @@ public class DungeonCrawlerPlayer : Movable
     private void OnDisable() {
         controls.DungeonCrawlerPlayer.Disable();
     }
-
-    // Start is called before the first frame update
+    
     private void Start() {
+        SetPlayerHp(playerHP); // draw player hp on-screen.
         InitPlayer();
-        SetPlayerHp(playerHP);
     }
 
     private void InitPlayer() {
@@ -60,7 +63,7 @@ public class DungeonCrawlerPlayer : Movable
 
         movementTarget = Instantiate(moveTargetPrefab, transform.position, Quaternion.identity).transform;
         rotationTarget = Instantiate(rotateTargetPrefab, transform.position + transform.forward, Quaternion.identity).transform;
-        levelInterpreter = FindObjectOfType<ReDungLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<DunCraLevelInterpreter>();
 
         rotateTowardsTarget = GetComponent<RotateTowardsTarget>();
         rotateTowardsTarget.target = rotationTarget;
@@ -84,33 +87,34 @@ public class DungeonCrawlerPlayer : Movable
         if (strafes) { rotateTowardsTarget.enabled = false; }
         Vector3 newPos = transform.position + direction;
         Collider door = GetDoor(newPos);
+        isMoving = true;
         if (IsInsideAWall(newPos)) {
             Debug.Log("BONK");
             audioSource.PlaySound(EReDungPlayerSound.BONK);
-            yield break;
+            isMoving = false;
         } else if (door != null) {
             if (!playerInventory.HasAny(EReDungItem.KEY)) {
                 Debug.Log("BONK (DOOR)");
                 audioSource.PlaySound(EReDungPlayerSound.LOCKED);
-                yield break;
+                isMoving = false;
             } else {
                 Destroy(door.gameObject);
                 playerInventory.AddItem(EReDungItem.KEY, -1);
                 audioSource.PlaySound(EReDungPlayerSound.UNLOCK);
                 doorColliders = null;
             }
-        } else {
-            audioSource.PlaySound(EReDungPlayerSound.STEP);
         }
-        isMoving = true;
-        movementTarget.position = newPos;
-        yield return new WaitUntil(HasArrived);
-        movementTarget.SnapToGrid(); // TODO messy, instead find root of problem.
-        transform.SnapToGrid();
-        rotationTarget.position = transform.position + transform.forward;
+        if (isMoving) {
+            movementTarget.position = newPos;
+            yield return new WaitUntil(HasArrived);
+            movementTarget.SnapToGrid(); // TODO messy, instead find root of problem.
+            transform.SnapToGrid();
+            rotationTarget.position = transform.position + transform.forward;
+            audioSource.PlaySound(EReDungPlayerSound.STEP);
+            SetPlayerHp(playerHP - 1);
+        }
         if (strafes) { rotateTowardsTarget.enabled = true; }
         isMoving = false;
-        SetPlayerHp(playerHP - 1);
     }
 
     private void SetPlayerHp(int qty) {
@@ -150,7 +154,10 @@ public class DungeonCrawlerPlayer : Movable
         screenWipe.ToggleWipe(true);
         yield return new WaitUntil(() => screenWipe.isDone);
 
-        InitPlayerPos();
+        RestoreHealth();
+        levelInterpreter.curLevelIndex = 0;
+        levelInterpreter.InitLevel();
+
         audioSource.PlaySound(EReDungPlayerSound.TIMEWARP2);
         FindObjectOfType<ImageWipe>().ToggleWipe(false);
         yield return new WaitUntil(() => screenWipe.isDone);
