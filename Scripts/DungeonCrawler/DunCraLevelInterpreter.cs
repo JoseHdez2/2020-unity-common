@@ -39,7 +39,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
             for (int j = 0; j < rows[i].Length; j++) {
                 DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
                 if (tileType != DungeonCrawlerTile.NONE) {
-                    Spawn(i, j, tileType);
+                    SpawnTile(i, j, tileType);
                 }
             }
         }
@@ -48,7 +48,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
         SpawnPlayer();
     }
 
-    protected void Spawn(int i, int j, DungeonCrawlerTile tileType){
+    protected void SpawnTile(int i, int j, DungeonCrawlerTile tileType){
         Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
     }
 
