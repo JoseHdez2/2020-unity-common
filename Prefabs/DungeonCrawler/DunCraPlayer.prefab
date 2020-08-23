@@ -152,7 +152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 3601951421420301860}
   - component: {fileID: -2786773830015066767}
   m_Layer: 0
-  m_Name: DungeonCrawlerPlayer
+  m_Name: DunCraPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c31da12aa89229349bcd15f27f9e77e2, type: 3}
     - {fileID: 8300000, guid: 5823a468acc9dd24b9d142006d49d486, type: 3}
     - {fileID: 8300000, guid: 0b57b1fa98b293f4caac012ebc928f1a, type: 3}
-    - {fileID: 8300000, guid: 2a424c086974be54595269805f5e12e6, type: 3}
+    - {fileID: 8300000, guid: c7c7c752b4f3be042ad52750c0e02f1a, type: 3}
   respectSoundSeniority: 0
 --- !u!1 &2283366287548451328
 GameObject:
@@ -413,6 +413,7 @@ GameObject:
   - component: {fileID: 2283366287548451333}
   - component: {fileID: 2283366287548451330}
   - component: {fileID: 2283366287548451331}
+  - component: {fileID: 1218679528219808950}
   m_Layer: 0
   m_Name: playerCam
   m_TagString: MainCamera
@@ -485,6 +486,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2283366287548451328}
   m_Enabled: 1
+--- !u!114 &1218679528219808950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2283366287548451328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &6552744521335416576
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +608,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 164852410758073825}
-  - component: {fileID: 6156804966793599888}
   m_Layer: 0
   m_Name: playerInventory
   m_TagString: Untagged
@@ -598,44 +629,6 @@ Transform:
   m_Father: {fileID: 2283366286340629868}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6156804966793599888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6680108737620174005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c1926d1321005e408b2b12f35090fbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 0
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 0
-    _keyValues: 
-    _keys: 
-    _values: 
 --- !u!1 &6810416470238507920
 GameObject:
   m_ObjectHideFlags: 0
