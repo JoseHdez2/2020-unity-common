@@ -29,5 +29,8 @@ namespace ExtensionMethods
             b.CopyTo(z, a.Length);
             return z;
         }
+        
+        public static T RandomItem<T>(this List<T> list) 
+            => list[UnityEngine.Random.Range(0, list.Count - 1)];
     }
 }

@@ -66,7 +66,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
         Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), Quaternion.identity, transform);
     }
 
-    private Vector3 MatrixPosToWorldPos(Vector2Int matPos) 
+    protected Vector3 MatrixPosToWorldPos(Vector2Int matPos) 
         => new Vector3(matPos.x, 0, matPos.y) + LevelOffset3d();
 
     private Vector3 LevelOffset3d() => new Vector3(levelOffset.x, 0, levelOffset.y);
