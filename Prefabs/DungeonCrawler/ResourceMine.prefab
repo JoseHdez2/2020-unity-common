@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 7070636527093822667}
   - component: {fileID: 2005052404376886745}
   - component: {fileID: 7516024592491410438}
-  - component: {fileID: -8777143875003965406}
+  - component: {fileID: 5346489118924072202}
   m_Layer: 0
-  m_Name: ResourceChop
+  m_Name: ResourceMine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -4985535223079396336, guid: fb0dfd67396f763459e61a83d61d6d2b, type: 3}
+  m_Sprite: {fileID: 7409458809132395208, guid: cfa920fa8ba08954b998319a79ecd6f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6f026906fde904dace34fac8caa326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8777143875003965406
+--- !u!114 &5346489118924072202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,5 +321,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabEffectExpire: {fileID: 0}
   soundExpire: {fileID: 2005052404376886745}
-  resourceType: 8
+  resourceType: 10
   itemDatabase: {fileID: 11400000, guid: e3bfd1119b734474ea113aa48a07a6cf, type: 2}
