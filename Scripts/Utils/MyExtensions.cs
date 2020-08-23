@@ -105,5 +105,23 @@ namespace ExtensionMethods
             e.AddListener(call);
             return e;
         }
+
+        // https://forum.unity.com/threads/pick-random-point-inside-box-collider.541585/ // post #8
+        public static Vector3 GetRandomPoint(this Collider collider)
+        {
+            var point = new Vector3(
+                UnityEngine.Random.Range(collider.bounds.min.x, collider.bounds.max.x),
+                UnityEngine.Random.Range(collider.bounds.min.y, collider.bounds.max.y),
+                UnityEngine.Random.Range(collider.bounds.min.z, collider.bounds.max.z)
+            );
+
+            if (point != collider.ClosestPoint(point)) {
+                Debug.Log("Out of the collider! Looking for other point...");
+                point = collider.GetRandomPoint();
+            }
+
+            return point;
+        }
+
     }
 }
