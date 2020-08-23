@@ -200,7 +200,6 @@ GameObject:
   - component: {fileID: 2283366286340629871}
   - component: {fileID: 2283366286340629870}
   - component: {fileID: 3601951421420301860}
-  - component: {fileID: -2786773830015066767}
   m_Layer: 0
   m_Name: DunCraPlayer
   m_TagString: Player
@@ -244,9 +243,9 @@ MonoBehaviour:
   movementTarget: {fileID: 0}
   speed: 2
   debugTargetPos: 0
-  strafes: 1
   moveTargetPrefab: {fileID: 6709302128117824487, guid: e501bb8928f35044a80b00c65a479c82, type: 3}
   rotateTargetPrefab: {fileID: 6709302128117824487, guid: 655bfe277b7a01243b6a1a2ac783c229, type: 3}
+  strafes: 1
   textPlayerHP: {fileID: 0}
 --- !u!114 &2283366286340629870
 MonoBehaviour:
@@ -274,7 +273,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -359,49 +358,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-2786773830015066767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2283366286340629869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bda255f7bd8f9be439aa9801f0a306cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundDict:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 1
-    _keyValues: 01000000000000000400000005000000
-    _keys: 01000000000000000400000005000000
-    _values:
-    - {fileID: 8300000, guid: c31da12aa89229349bcd15f27f9e77e2, type: 3}
-    - {fileID: 8300000, guid: 5823a468acc9dd24b9d142006d49d486, type: 3}
-    - {fileID: 8300000, guid: 0b57b1fa98b293f4caac012ebc928f1a, type: 3}
-    - {fileID: 8300000, guid: c7c7c752b4f3be042ad52750c0e02f1a, type: 3}
-  respectSoundSeniority: 0
 --- !u!1 &2283366287548451328
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,12 +751,12 @@ MonoBehaviour:
     _keyValues: 0000000001000000020000000300000004000000050000000600000007000000
     _keys: 0000000001000000020000000300000004000000050000000600000007000000
     _values:
-    - {fileID: 8300000, guid: ce8b2fd9549f31d489ffcdb43d1a29e0, type: 3}
-    - {fileID: 8300000, guid: 8b1a386b52af1a04992d6011af19c3dc, type: 3}
-    - {fileID: 8300000, guid: 1da41695393df614daef63a5aead79b4, type: 3}
-    - {fileID: 8300000, guid: 5bdccdce84a71af439d69824da955d96, type: 3}
-    - {fileID: 8300000, guid: 9c24b8afdb4733c41ab363e7b3320c9b, type: 3}
-    - {fileID: 8300000, guid: 9c24b8afdb4733c41ab363e7b3320c9b, type: 3}
+    - {fileID: 8300000, guid: 5823a468acc9dd24b9d142006d49d486, type: 3}
+    - {fileID: 8300000, guid: c31da12aa89229349bcd15f27f9e77e2, type: 3}
+    - {fileID: 8300000, guid: c31da12aa89229349bcd15f27f9e77e2, type: 3}
+    - {fileID: 8300000, guid: 0ee869f1d8532184184dbbca0165e32b, type: 3}
+    - {fileID: 8300000, guid: f37d1141403f8aa4c9c0b21930b5a03f, type: 3}
+    - {fileID: 8300000, guid: e5dc7d13a136980489d060cb2a8fa29c, type: 3}
     - {fileID: 8300000, guid: fc467b889fd878447b58b6790b929621, type: 3}
     - {fileID: 8300000, guid: 8a72279b80d59934bbd85c6732870bb7, type: 3}
   respectSoundSeniority: 0

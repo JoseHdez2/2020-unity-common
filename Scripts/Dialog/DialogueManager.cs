@@ -1,6 +1,7 @@
 ﻿using ExtensionMethods;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -27,6 +28,12 @@ public class DialogueManager : MonoBehaviour
 
     private static Coroutine dialogueCoroutine;
 
+    public void WriteOneShot(string text){
+        Dialogue dialog = new Dialogue();
+        dialog.dialogBubbles = new List<DialogBubble>() { new DialogBubble() {text = text} };
+        WriteDialogue(dialog);
+    }
+
     public void WriteDialogue(Dialogue dialogue) {
         this.dialogue = dialogue;
         bubbleIndex = 0;
@@ -37,7 +44,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowPanelAndText(bool show) {
         dialogBubble.ShowPanelAndText(show);
-        nameBubble.ShowPanelAndText(show);
+        if (nameBubble) { nameBubble.ShowPanelAndText(show); }
     }
 
     public IEnumerator Stop() {
