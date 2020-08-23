@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 // Any thing that makes a sound/explosion and gets removed from the playing field.
 // Items, bullets, monsters...
@@ -9,11 +10,12 @@ public class Expirable : MonoBehaviour
 {
     public GameObject prefabEffectExpire;
     public AudioSource soundExpire;
-    private SpriteRenderer spriteRenderer;
+    private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderers.Add(GetComponent<SpriteRenderer>());
+        spriteRenderers.AddRange(GetComponentsInChildren<SpriteRenderer>().ToList());
         soundExpire = GetComponent<AudioSource>();
     }
 
@@ -22,7 +24,7 @@ public class Expirable : MonoBehaviour
         if (soundExpire != null) { soundExpire.Play(); }
         if (prefabEffectExpire) { Instantiate(prefabEffectExpire, gameObject.transform.position, gameObject.transform.rotation); }
         GetComponents<BoxCollider2D>().ToList().ForEach(it => it.enabled = false);
-        this.spriteRenderer.enabled = false;
+        spriteRenderers.Where(sr => sr != null).ToList().ForEach(sr => sr.enabled = false );
         StartCoroutine(DestroyCoroutine());
     }
 

@@ -476,7 +476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.4862745}
+  m_Color: {r: 0.012341244, g: 0.13077527, b: 0.49056602, a: 0.7529412}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -735,6 +735,10 @@ PrefabInstance:
     - target: {fileID: 7039668662371874193, guid: a4411049e959c4746b32c48b06d3c0df, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039668662625014648, guid: a4411049e959c4746b32c48b06d3c0df, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7529412
       objectReference: {fileID: 0}
     - target: {fileID: 8711774155553425789, guid: a4411049e959c4746b32c48b06d3c0df, type: 3}
       propertyPath: soundDict._values.Array.data[3]
