@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -123,5 +124,12 @@ namespace ExtensionMethods
             return point;
         }
 
+        public static List<T> EnumValues<T>(){
+            var list = new List<T>();
+            foreach (var itemType in Enum.GetValues(typeof(T))) {
+                list.Add((T)itemType);
+            }
+            return list;
+        }
     }
 }

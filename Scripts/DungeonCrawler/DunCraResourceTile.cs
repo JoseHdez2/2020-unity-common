@@ -32,7 +32,8 @@ public class DunCraResourceTile : Expirable
 
     private ItemType GenerateItem(DungeonCrawlerTile resourceType, int levelDepth)
         => itemDatabase.list.ToList()
-            // .Where(p => p.Value.floorsItAppearsIn.Contains(levelDepth))
+            .Where(p => p.Value.floorsItAppearsIn
+            .Contains(levelDepth))
             .ToList().RandomItem().Key;
 
     public virtual void OnTriggerEnter2D(Collider2D other)
