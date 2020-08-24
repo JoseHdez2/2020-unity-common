@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7070636527093822667}
   - component: {fileID: 2005052404376886745}
   - component: {fileID: 1082826962754875812}
-  - component: {fileID: -2839537484770512224}
+  - component: {fileID: -5602650105600515361}
   m_Layer: 0
   m_Name: MaxHp
   m_TagString: Untagged
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6f026906fde904dace34fac8caa326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2839537484770512224
+--- !u!114 &-5602650105600515361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,13 +265,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6709302128117824487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20a9c4635d19354409f4cc4abf7e901a, type: 3}
+  m_Script: {fileID: 11500000, guid: 949de453c9bff0e44b9aeea21e51abb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabEffectExpire: {fileID: 0}
-  soundExpire: {fileID: 2005052404376886745}
-  resourceType: 11
-  itemDatabase: {fileID: 11400000, guid: e3bfd1119b734474ea113aa48a07a6cf, type: 2}
+  soundExpire: {fileID: 0}
+  maxHpIncreaseOnPickup: 30
 --- !u!1 &7563899419034634394
 GameObject:
   m_ObjectHideFlags: 0

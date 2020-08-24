@@ -16,15 +16,17 @@ public class DunCraLevelInterpreter : MonoBehaviour
     public Camera minimapCamera;
     public float minimapCamHeight;
 
+    public ItemDatabase itemDatabase;
     public GameObject playerPrefab;
     private DungeonCrawlerTile stairsToSpawnIn;
 
     private LevelLoader levelLoader;
 
     // Start is called before the first frame update
-    [ExecuteInEditMode]
+    // [ExecuteInEditMode]
     private void Start(){
         levelLoader = FindObjectOfType<LevelLoader>();
+        itemDatabase.Initialize();
         InitLevel();
     }
 

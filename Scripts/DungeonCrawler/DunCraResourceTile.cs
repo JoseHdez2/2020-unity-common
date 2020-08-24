@@ -19,14 +19,9 @@ public class DunCraResourceTile : Expirable
     }
 
     public void PickUpByPlayer() {
-        if(resourceType == DungeonCrawlerTile.GOLDEN_APPLE) {
-            levelInterpreter.MarkGoldenAppleAsSpent(transform.position);
-            DungeonCrawlerPlayer.playerMaxHP += 1;
-        } else {
-            levelInterpreter.MarkResourceAsSpent(transform.position);
-            ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
-            PlayerInventory.playerInventory.Add(itemType);
-        }
+        levelInterpreter.MarkResourceAsSpent(transform.position);
+        ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
+        PlayerInventory.playerInventory.Add(itemType);
         Expire();
     }
 
