@@ -19,27 +19,34 @@ public class ImageWipe : MonoBehaviour
     public WipeMode wipeMode = WipeMode.Empty;
 
     private float wipeProgress;
-
-    public bool isDone { get; private set; }
+    
     public bool isWipingFast { get; private set; }
+
+    public bool isDone() => wipeMode == WipeMode.Empty || wipeMode == WipeMode.Filled;
 
     private void Awake()
     {
         image = GetComponentInChildren<Image>();
-        if(wipeMode == WipeMode.Empty) { image.fillAmount = 0; }
-        else if (wipeMode == WipeMode.Filled) { image.fillAmount = 1; }
+        if(wipeMode == WipeMode.Empty) {
+            image.fillAmount = 0;
+            ToggleWipe(false);
+        }
+        else if (wipeMode == WipeMode.Filled) {
+            image.fillAmount = 1;
+            ToggleWipe(true);
+        }
     }
 
     public void ToggleWipe(bool fillScreen)
     {
-        isDone = false;
+        image.raycastTarget = true;
         isWipingFast = false;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
 
     public void ToggleWipeFast(bool fillScreen)
     {
-        isDone = false;
+        image.raycastTarget = true;
         isWipingFast = true;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
@@ -64,8 +71,8 @@ public class ImageWipe : MonoBehaviour
         image.fillAmount = wipeProgress;
         if (wipeProgress >= 1f)
         {
-            isDone = true;
             wipeMode = WipeMode.Filled;
+            image.raycastTarget = true;
         }
     }
 
@@ -75,8 +82,8 @@ public class ImageWipe : MonoBehaviour
         image.fillAmount = wipeProgress;
         if (wipeProgress <= 0)
         {
-            isDone = true;
             wipeMode = WipeMode.Empty;
+            image.raycastTarget = false;
         }
     }
 

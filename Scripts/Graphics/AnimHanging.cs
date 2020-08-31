@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class AnimHanging : MonoBehaviour
 {
-    [Range(0,359)]
-    public float initialDegrees = 0;
+    [Header("Speed and offset")]
+    public float offset = 0f;
+    [Range(0, 10)]
+    public float speed = 1f;
+   
     [Range(0,360)]
     public float rangeOfDegrees = 90;
+
+    private float initialDegrees;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        initialDegrees = transform.rotation.z;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, initialDegrees + Mathf.Sin(Time.time) * rangeOfDegrees));
+        float time = (offset + Time.time) * speed;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, initialDegrees + Mathf.Sin(time) * rangeOfDegrees));
     }
 }
