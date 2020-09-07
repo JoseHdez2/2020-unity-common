@@ -13,7 +13,7 @@ public class MyTransformAnimation {
     [SerializeField] public Attribute attr;
     [SerializeField] public AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 0, 1);
     [SerializeField] public float speed = 1f;
-    [SerializeField] public float valueRange = 0f;
+    [SerializeField] public float valueRange = 1f;
 }
 
 public class AnimateTransform : MonoBehaviour {
