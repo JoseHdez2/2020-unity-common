@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7311560985428449690}
   - {fileID: 7311560984799796913}
   m_Father: {fileID: 7311560984816605518}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8251335690478870490
 MonoBehaviour:
@@ -356,8 +356,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7311560985901951457}
-  - {fileID: 7311560985770895622}
   - {fileID: 8085029998912493364}
+  - {fileID: 7311560985770895622}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -540,6 +540,8 @@ MonoBehaviour:
   defaultConfig: {fileID: 11400000, guid: 424e8f0d93a7cdf4697ee8e910a7c070, type: 2}
   dialogBubble: {fileID: 2862087521299620551}
   nameBubble: {fileID: 8251335690478870490}
+  images: []
+  imagePositions: []
   disableDuringDialog: []
 --- !u!82 &7311560985901951463
 AudioSource:
@@ -682,7 +684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7039668662371874193, guid: a4411049e959c4746b32c48b06d3c0df, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7039668662371874193, guid: a4411049e959c4746b32c48b06d3c0df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -6,6 +6,7 @@ using ExtensionMethods;
 using System;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class DialogBubbleUI : MonoBehaviour
 {
