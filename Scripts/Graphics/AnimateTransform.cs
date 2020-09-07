@@ -12,6 +12,7 @@ public enum Attribute { POS_X, POS_Y, SCALE, ROT_Z }
 public class MyTransformAnimation {
     [SerializeField] public Attribute attr;
     [SerializeField] public AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 0, 1);
+    [SerializeField] public float speed = 1f;
     [SerializeField] public float valueRange = 0f;
 }
 
@@ -39,7 +40,7 @@ public class AnimateTransform : MonoBehaviour {
 
     private void UpdateAnim(MyTransformAnimation anim)
     {
-        float value = anim.curve.Evaluate(Time.time % 1);
+        float value = anim.curve.Evaluate((Time.time * anim.speed) % 1) * anim.valueRange;
         switch (anim.attr) {
             case Attribute.POS_X: transform.position += new Vector3(value, 0, 0); break;
             case Attribute.POS_Y: transform.position += new Vector3(0, value, 0); break;

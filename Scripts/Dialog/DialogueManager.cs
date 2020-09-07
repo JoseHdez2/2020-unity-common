@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class DialogueManager : MonoBehaviour
 
     public DialogBubbleUI dialogBubble;
     public DialogBubbleUI nameBubble;
+    public List<Image> images;
+    public List<Transform> imagePositions;
 
     [SerializeField] private GameObject[] disableDuringDialog;
 
@@ -62,6 +65,10 @@ public class DialogueManager : MonoBehaviour
         DialogBubble dialogBubbleData = dialogue.dialogBubbles[bubbleIndex];
         DialogConfig config = (dialogBubbleData.config) ? 
             new DialogConfig(defaultConfig, dialogBubbleData.config) : defaultConfig;
+
+        if(dialogBubbleData.spriteIndex > -1) {
+            images[(int)dialogBubbleData.pos].sprite = dialogue.sprites[dialogBubbleData.spriteIndex];
+        }
 
         StartCoroutine(dialogBubble.WriteSentence(dialogBubbleData.text, config));
 
