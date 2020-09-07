@@ -5,10 +5,10 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
-[SerializeField]
+[Serializable]
 public enum Attribute { POS_X, POS_Y, SCALE, ROT_Z }
 
-[SerializeField]
+[Serializable]
 public class MyTransformAnimation {
     [SerializeField] public Attribute attr;
     [SerializeField] public AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 0, 1);
@@ -17,7 +17,6 @@ public class MyTransformAnimation {
 
 public class AnimateTransform : MonoBehaviour {
     [SerializeField] public List<MyTransformAnimation> anims;
-    public MyTransformAnimation anim;
     private Vector3 initialPos, initialScale;
     private Quaternion initialRot;
 
@@ -40,7 +39,7 @@ public class AnimateTransform : MonoBehaviour {
 
     private void UpdateAnim(MyTransformAnimation anim)
     {
-        float value = anim.curve.Evaluate(Time.time);
+        float value = anim.curve.Evaluate(Time.time % 1);
         switch (anim.attr) {
             case Attribute.POS_X: transform.position += new Vector3(value, 0, 0); break;
             case Attribute.POS_Y: transform.position += new Vector3(0, value, 0); break;

@@ -59,7 +59,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
     }
 
     public void Die() {
-        PlayerInventory.playerInventory.Clear(); // lose all items on death.
+        // PlayerInventory.playerInventory.Clear(); // lose all items on death.
         StartCoroutine(DieCoroutine());
     }
 

@@ -10,18 +10,18 @@ public class DunCraResourceTile : Expirable
     public DungeonCrawlerTile resourceType;
     public ItemDatabase itemDatabase;
 
-    private TownForagerLevelInterpreter levelInterpreter;
+    // private TownForagerLevelInterpreter levelInterpreter;
     private DialogueManager dialogManager;
 
     public void Start() {
-        levelInterpreter = FindObjectOfType<TownForagerLevelInterpreter>();
+        // levelInterpreter = FindObjectOfType<TownForagerLevelInterpreter>();
         dialogManager = FindObjectOfType<DialogueManager>();
     }
 
     public void PickUpByPlayer() {
-        levelInterpreter.MarkResourceAsSpent(transform.position);
-        ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
-        PlayerInventory.playerInventory.Add(itemType);
+        // levelInterpreter.MarkResourceAsSpent(transform.position);
+        // ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
+        // PlayerInventory.playerInventory.Add(itemType);
         Expire();
     }
 
