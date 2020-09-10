@@ -122,6 +122,22 @@ public class DialogBubbleUI : MonoBehaviour
             ChangeStateToWaiting();
             yield break;
         }
+        if(iChar > 0) {
+            switch (text[iChar - 1]) {
+                case '.':
+                case '!':
+                case '?':
+                    yield return new WaitForSeconds(config.timePerCharacter * 30);
+                    break;
+                case ',':
+                    yield return new WaitForSeconds(config.timePerCharacter * 10);
+                    break;
+                default:
+                    yield return new WaitForSeconds(config.timePerCharacter);
+                    break;
+            }
+        }
+        if(text[iChar] == '.')
         yield return new WaitForSeconds(config.timePerCharacter);
         PlayCharSound();
         StartCoroutine(UpdateText(iChar += 1));
