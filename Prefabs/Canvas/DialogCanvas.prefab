@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 1
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -368,6 +368,8 @@ MonoBehaviour:
   defaultConfig: {fileID: 11400000, guid: ba84f3964af346f47a1028a1353c2b4c, type: 2}
   dialogBubble: {fileID: 359088134699976213}
   nameBubble: {fileID: 5891046659680582408}
+  images: []
+  imagePositions: []
   disableDuringDialog:
   - {fileID: 0}
 --- !u!82 &5058791788441472309
