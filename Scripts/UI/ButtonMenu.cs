@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using ExtensionMethods;
 
 [Serializable]
@@ -22,12 +23,28 @@ public class ButtonMenu : MonoBehaviour
     public List<ButtonData> buttonsData;
     public Button buttonPrefab;
 
+    private EventSystem eventSystem;
     private VerticalLayoutGroup group;
     
     void Awake(){
         group = GetComponentInChildren<VerticalLayoutGroup>(includeInactive: true);
         if (group == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
         buttonsData.ToList().ForEach(b => AddButton(b));
+        eventSystem = FindObjectOfType<EventSystem>();
+        if (isActiveAndEnabled) {
+            SetCursorToFirstButton();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SetCursorToFirstButton();
+    }
+
+    private void SetCursorToFirstButton()
+    {
+        Button firstBtn = GetComponentsInChildren<Button>().First();
+        eventSystem.SetSelectedGameObject(firstBtn.gameObject);
     }
 
     public void AddButton(ButtonData buttonData){
