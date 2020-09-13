@@ -58,6 +58,7 @@ public abstract class DunCraMovement : Movable {
 
     protected IEnumerator MoveTowards(Vector3 direction)
     {
+        if(this == null) { yield return null; }
         if (isMoving) { yield break; }
         if (strafes) { rotateTowardsTarget.enabled = false; }
         Vector3 newPos = transform.position + direction;

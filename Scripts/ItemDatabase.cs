@@ -1,7 +1,6 @@
 ﻿using ExtensionMethods;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -34,20 +33,17 @@ public class ItemDatabase : ScriptableObject
 {
     public SerializableDictionaryBase<ItemType, ItemEntry> list;
 
-    public void Initialize(){
-        list.ToList()
-            .Where(p => !string.IsNullOrEmpty(p.Value.floorsItAppearsInStr)).ToList()
-            .ForEach(p => p.Value.floorsItAppearsIn = p.Value.floorsItAppearsInStr
-                                                                .Split(',').Select(s => int.Parse(s))
-                                                                .ToList());
+    public void Initialize()
+    {
+        list.ToList().ForEach(p => p.Value.floorsItAppearsIn = StringUtils.ParseIntList(p.Value.floorsItAppearsInStr));
         list.ToList().Where(p => !string.IsNullOrEmpty(p.Value.floorsItAppearsInStr)).ToList()
-            .ForEach(p => p.Value.toolRequired = p.Value.toolRequiredStr
-                                                        .Split(',').Select(s => ParseTool(s))
-                                                        .ToList());
-    
+            .ForEach(p => p.Value.toolRequired = parseToolList(p.Value.toolRequiredStr));
     }
 
-    private ItemType ParseTool(string s)
+    private static List<ItemType> parseToolList(string str)
+        => StringUtils.ParseList(str, ParseTool);
+
+    private static ItemType ParseTool(string s)
     {
         var list = new List<ItemType>();
         foreach (ItemType itemType in Enum.GetValues(typeof(ItemType))) {

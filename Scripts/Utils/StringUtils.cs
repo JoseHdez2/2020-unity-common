@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public enum ECase
 {
@@ -8,7 +11,7 @@ public enum ECase
 
 namespace ExtensionMethods
 {
-    public static class CaseExtensions
+    public static class StringUtils
     {
         // https://stackoverflow.com/a/18867218/3399416
         public static string FormatCase(this string str, ECase c){
@@ -19,5 +22,20 @@ namespace ExtensionMethods
                 default: return str;
             }
         }
+
+        public static List<T> ParseList<T>(string str, Func<string, T> parsingMethod)
+        {
+            if (string.IsNullOrEmpty(str)) {
+                return new List<T>();
+            } else {
+                return str
+                    .Split(',')
+                    .Select(s => parsingMethod(s))
+                    .ToList();
+            }
+        }
+
+        public static List<int> ParseIntList(string str)
+            => ParseList(str, int.Parse);
     }
 }

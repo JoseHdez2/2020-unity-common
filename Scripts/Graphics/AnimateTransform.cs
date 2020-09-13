@@ -26,7 +26,7 @@ public class AnimateTransform : MonoBehaviour {
     void Start()
     {
         anims.ForEach(anim => prevValues[anim.attr] = 0f);
-        anims.ForEach(anim => prevTimes[anim.attr] = 0f);
+        anims.ForEach(anim => prevTimes[anim.attr] = Time.time);
     }
 
     // Update is called once per frame
