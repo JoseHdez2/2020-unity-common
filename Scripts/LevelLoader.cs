@@ -18,7 +18,7 @@ public class LevelLoader : MonoBehaviour
 
     private void Awake()
     {
-        screenWipe = FindObjectOfType<ImageWipe>();
+        screenWipe = GetComponentInChildren<ImageWipe>();
         controls = InputMasterSingleton.Get();
     }
 
