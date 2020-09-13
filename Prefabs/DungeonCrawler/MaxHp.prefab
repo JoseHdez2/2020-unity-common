@@ -281,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3221775885728543736}
   - component: {fileID: 316716096030517394}
-  - component: {fileID: 5116049635938793975}
+  - component: {fileID: 10253219078476476}
   m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
@@ -354,7 +354,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5116049635938793975
+--- !u!114 &10253219078476476
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,9 +363,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 7563899419034634394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620ff5dfe23ae35408fc117a6b3f55df, type: 3}
+  m_Script: {fileID: 11500000, guid: 387dfdce825445148b1e0fc15cfd55cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  functionType: 0
-  speed: 1
-  positionOffset: {x: 0, y: 0.25, z: 0}
+  anims:
+  - attr: 1
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: -0.000002015382
+        inSlope: -3.7896411
+        outSlope: -3.7896411
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.2639658
+        value: -1.0003376
+        inSlope: 0.15559661
+        outSlope: 0.15559661
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.75155646
+        value: 0.9991911
+        inSlope: 0.0005264282
+        outSlope: 0.0005264282
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.9958496
+        value: -0.002357483
+        inSlope: -4.0997815
+        outSlope: -4.0997815
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    speed: 1
+    valueRange: 1

@@ -18,34 +18,40 @@ public class MyTransformAnimation {
 
 public class AnimateTransform : MonoBehaviour {
     [SerializeField] public List<MyTransformAnimation> anims;
-    private Vector3 initialPos, initialScale;
-    private Quaternion initialRot;
+
+    private Dictionary<Attribute, float> prevValues = new Dictionary<Attribute, float>();
+    private Dictionary<Attribute, float> prevTimes = new Dictionary<Attribute, float>();
 
     // Use this for initialization
     void Start()
     {
-        initialPos = transform.position;
-        initialRot = transform.rotation;
-        initialScale = transform.localScale;
+        anims.ForEach(anim => prevValues[anim.attr] = 0f);
+        anims.ForEach(anim => prevTimes[anim.attr] = 0f);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position = initialPos;
-        transform.rotation = initialRot;
-        transform.localScale = initialScale;
         anims.ForEach(anim => UpdateAnim(anim));
     }
 
     private void UpdateAnim(MyTransformAnimation anim)
     {
-        float value = anim.curve.Evaluate((Time.time * anim.speed) % 1) * anim.valueRange;
+        float time = Time.time;
+        float value = anim.curve.Evaluate((Time.time * anim.speed) % 1);
+
+        float timeDelta = time - prevTimes[anim.attr];
+        float valueDelta = (value - prevValues[anim.attr]);
+
+        prevValues[anim.attr] = value;
+        prevTimes[anim.attr] = time;
+
+        float delta = valueDelta * timeDelta * anim.valueRange;
         switch (anim.attr) {
-            case Attribute.POS_X: transform.position += new Vector3(value, 0, 0); break;
-            case Attribute.POS_Y: transform.position += new Vector3(0, value, 0); break;
-            case Attribute.SCALE: transform.localScale += new Vector3(0, value, 0); break;
-            case Attribute.ROT_Z: transform.rotation = Quaternion.Euler(new Vector3(0, 0, value)); break;
+            case Attribute.POS_X: transform.position += new Vector3(delta, 0, 0); break;
+            case Attribute.POS_Y: transform.position += new Vector3(0, delta, 0); break;
+            case Attribute.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
+            case Attribute.ROT_Z: transform.RotateAround(transform.position, Vector3.forward, delta); break;
         }
     }
 }
