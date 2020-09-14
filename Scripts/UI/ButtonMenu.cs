@@ -38,15 +38,25 @@ public class ButtonMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        SetCursorToFirstButton();
+        StartCoroutine(SetCursorToFirstButton());
     }
 
-    private void SetCursorToFirstButton()
+    private void OnDisable()
     {
-        Button firstBtn = GetComponentsInChildren<Button>().First();
-        eventSystem.SetSelectedGameObject(firstBtn.gameObject);
+        StopAllCoroutines();
     }
 
+    private IEnumerator SetCursorToFirstButton(){
+        yield return new WaitForSeconds(0.5f);
+        if (isActiveAndEnabled) {
+            if(GetComponentsInChildren<ButtonUI>().All(b => b.selected == false)) {
+                GameObject firstBtn = GetComponentsInChildren<ButtonUI>().First().gameObject;
+                eventSystem.SetSelectedGameObject(firstBtn);
+            }
+        }
+        StartCoroutine(SetCursorToFirstButton());
+    }
+    
     public void AddButton(ButtonData buttonData){
         Button b = Instantiate(buttonPrefab, group.transform);
         b.onClick.AddListener(buttonData.action.Invoke);
