@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 508571009596245702}
   - component: {fileID: 4052702133510947000}
   m_Layer: 0
-  m_Name: DungCrawStairsPrev
+  m_Name: DunCraStairsPrev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5721152374355388319, guid: b61f62432989cdf44961983b1b635fcd, type: 3}
   m_Color: {r: 0.16710147, g: 0.9150943, b: 0.12661673, a: 1}
   m_FlipX: 0

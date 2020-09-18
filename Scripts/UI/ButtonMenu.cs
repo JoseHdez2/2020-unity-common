@@ -25,36 +25,40 @@ public class ButtonMenu : MonoBehaviour
 
     private EventSystem eventSystem;
     private VerticalLayoutGroup group;
+
+    private bool checkIfMenuIsFocused = true;
     
     void Awake(){
         group = GetComponentInChildren<VerticalLayoutGroup>(includeInactive: true);
         if (group == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
         buttonsData.ToList().ForEach(b => AddButton(b));
         eventSystem = FindObjectOfType<EventSystem>();
-        if (isActiveAndEnabled) {
-            SetCursorToFirstButton();
-        }
     }
 
     private void OnEnable()
     {
-        StartCoroutine(SetCursorToFirstButton());
+        checkIfMenuIsFocused = true;
     }
 
-    private void OnDisable()
+    public void UpdateFixed()
     {
-        StopAllCoroutines();
-    }
-
-    private IEnumerator SetCursorToFirstButton(){
-        yield return new WaitForSeconds(0.5f);
-        if (isActiveAndEnabled) {
-            if(GetComponentsInChildren<ButtonUI>().All(b => b.selected == false)) {
-                GameObject firstBtn = GetComponentsInChildren<ButtonUI>().First().gameObject;
-                eventSystem.SetSelectedGameObject(firstBtn);
+        if (checkIfMenuIsFocused) {
+            SetCursorToFirstButton();
+            if (IsThisMenuFocused()) {
+                checkIfMenuIsFocused = false;
             }
         }
-        StartCoroutine(SetCursorToFirstButton());
+    }
+
+    private bool IsThisMenuFocused() {
+        return GetComponentsInChildren<ButtonUI>().Any(b => b.selected == true);
+    }
+
+    private void SetCursorToFirstButton(){
+        if(!IsThisMenuFocused()) {
+            GameObject firstBtn = GetComponentsInChildren<ButtonUI>().First().gameObject;
+            eventSystem.SetSelectedGameObject(firstBtn);
+        }
     }
     
     public void AddButton(ButtonData buttonData){

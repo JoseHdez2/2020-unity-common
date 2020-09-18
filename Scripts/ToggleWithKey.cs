@@ -12,20 +12,26 @@ public class ToggleWithKey : MonoBehaviour
     public Key keyToToggle;
     public string tagToToggle;
     public AudioSource toggleSound;
+    public bool canPress = true;
 
     void Update()
     {
-        if (Keyboard.current[keyToToggle].wasPressedThisFrame) {
+        if (canPress && Keyboard.current[keyToToggle].wasPressedThisFrame) {
             ToggleObject();
+            canPress = false;
+        }
+        if (Keyboard.current[keyToToggle].wasReleasedThisFrame) {
+            canPress = true;
         }
     }
 
     public void ToggleObject() {
-        toggleSound.Play();
+        if (toggleSound) { toggleSound.Play(); }
         objsToToggle.ToList().ForEach(o => o.SetActive(!o.activeSelf));
-        if (!string.IsNullOrEmpty(tagToToggle))
-        {
-            GameObject.FindGameObjectsWithTag(tagToToggle).ToList().ForEach(o => o.SetActive(!o.activeSelf));
+        if (!string.IsNullOrEmpty(tagToToggle)){
+            FindObjectsOfType<GameObject>(includeInactive: true)
+                .Where(o => o.CompareTag(tagToToggle)).ToList()
+                .ForEach(o => o.SetActive(!o.activeSelf));
         }
     }
 }

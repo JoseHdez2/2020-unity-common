@@ -20,7 +20,8 @@ public class DunCraResourceTile : Expirable
 
     public void PickUpByPlayer() {
         // levelInterpreter.MarkResourceAsSpent(transform.position);
-        Debug.Log(itemDatabase.list.ToList());
+
+
         ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
         PlayerInventory.playerInventory.Add(itemType);
         if (dialogManager) { dialogManager.WriteOneShot($"Got {itemType}."); }
