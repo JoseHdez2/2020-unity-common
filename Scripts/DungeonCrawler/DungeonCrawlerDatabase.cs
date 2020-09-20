@@ -7,7 +7,7 @@ using UnityEngine;
 
 [System.Serializable]
 public enum DungeonCrawlerTile {
-    NONE, WALL, ENEMY, DOOR, KEY, PLAYER,
+    NONE, WALL, ENEMY, DOOR, KEY,
     STAIRS_DOWN, STAIRS_UP,
     CHOP, HARVEST, MINE,
     GOLDEN_APPLE

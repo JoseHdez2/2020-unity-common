@@ -14,7 +14,7 @@ public abstract class DunCraMovement : Movable {
     private bool isMoving = false;
 
     protected Transform rotationTarget; // TODO delete this, maybe.
-    protected DunCraLevelInterpreter levelInterpreter;
+    protected AbsDunCraLevelInterpreter levelInterpreter;
 
     protected AudioSourceReDungPlayer audioSource;
     protected ReDungInventory playerInventory;
@@ -22,6 +22,9 @@ public abstract class DunCraMovement : Movable {
     private List<Collider> wallColliders;
     private List<Collider> doorColliders;
     private RotateTowardsTarget rotateTowardsTarget;
+
+    public bool saveRotationAcrossLevels = true;
+    private static Quaternion playerRotation = Quaternion.Euler(0, 0, 0);
 
     protected void Awake()
     {
@@ -40,7 +43,7 @@ public abstract class DunCraMovement : Movable {
 
         movementTarget = Instantiate(moveTargetPrefab, transform.position, Quaternion.identity).transform;
         rotationTarget = Instantiate(rotateTargetPrefab, transform.position + transform.forward, Quaternion.identity).transform;
-        levelInterpreter = FindObjectOfType<DunCraLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<AbsDunCraLevelInterpreter>();
 
         rotateTowardsTarget = GetComponent<RotateTowardsTarget>();
         rotateTowardsTarget.target = rotationTarget;
@@ -52,7 +55,7 @@ public abstract class DunCraMovement : Movable {
         doorColliders = null;
         wallColliders = null;
         movementTarget.position = transform.position;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.rotation = saveRotationAcrossLevels ? playerRotation : Quaternion.Euler(0, 0, 0);
         rotationTarget.position = transform.position + transform.forward;
     }
 
@@ -106,7 +109,7 @@ public abstract class DunCraMovement : Movable {
         rotationTarget.RotateAround(transform.position, Vector3.up, angle);
         yield return new WaitForSeconds(0.5f);
         if (CompareTag("Player")) {
-            levelInterpreter.SavePlayerRotation(transform.rotation);
+            playerRotation = transform.rotation;
         }
         isMoving = false;
     }

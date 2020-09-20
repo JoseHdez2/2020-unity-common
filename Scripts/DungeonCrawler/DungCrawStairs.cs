@@ -6,11 +6,11 @@ using UnityEngine.Events;
 public class DungCrawStairs : MonoBehaviour
 {
     enum StairsType { LoadNextLevel, LoadPrevLevel }
-    private DunCraLevelInterpreter levelInterpreter;
+    private AbsDunCraLevelInterpreter levelInterpreter;
     [SerializeField] private StairsType type = StairsType.LoadNextLevel;
 
     private void Start(){
-        levelInterpreter = FindObjectOfType<DunCraLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<AbsDunCraLevelInterpreter>();
     }
 
     public virtual void OnTriggerEnter2D(Collider2D other)

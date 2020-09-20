@@ -3,7 +3,7 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 
-public class DunCraLevelInterpreter : MonoBehaviour
+public abstract class AbsDunCraLevelInterpreter : MonoBehaviour
 {
     public DungeonCrawlerDatabase db;
     public DungCrawLevel[] levels;
@@ -18,8 +18,6 @@ public class DunCraLevelInterpreter : MonoBehaviour
     public ItemDatabase itemDatabase;
     public GameObject playerPrefab;
     private DungeonCrawlerTile stairsToSpawnIn;
-    
-    protected Quaternion playerRotation = Quaternion.identity;
 
     private LevelLoader levelLoader;
 
@@ -30,11 +28,6 @@ public class DunCraLevelInterpreter : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         itemDatabase.Initialize();
         InitLevel();
-    }
-
-    public void SavePlayerRotation(Quaternion playerRotation)
-    {
-        this.playerRotation = playerRotation;
     }
 
     public void InitLevel(){
@@ -57,9 +50,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
         SpawnPlayer();
     }
 
-    protected void SpawnTile(int i, int j, DungeonCrawlerTile tileType){
-        Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
-    }
+    protected abstract void SpawnTile(int i, int j, DungeonCrawlerTile tileType);
 
     private DungeonCrawlerTile[][] ParseCurLevelStr(string curLevelStr) =>
         curLevelStr.Split('\n').ToList()
@@ -72,7 +63,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
         if (!stairsPos.HasValue) Debug.LogWarning("Did not find stairs for Player to spawn adjacent to!");
         Vector2Int freePos = curLevel.AdjacentPositions(stairsPos.Value)
             .Where(p => curLevel.Get(p) == DungeonCrawlerTile.NONE).First();
-        Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), playerRotation, transform);
+        GameObject player = Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), Quaternion.identity, transform);
     }
 
     protected Vector3 MatrixPosToWorldPos(Vector2Int matPos) 
@@ -94,5 +85,13 @@ public class DunCraLevelInterpreter : MonoBehaviour
         } else {
             InitLevel();
         }
+    }
+}
+
+public class DunCraLevelInterpreter : AbsDunCraLevelInterpreter {
+
+    protected override void SpawnTile(int i, int j, DungeonCrawlerTile tileType)
+    {
+        Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
     }
 }

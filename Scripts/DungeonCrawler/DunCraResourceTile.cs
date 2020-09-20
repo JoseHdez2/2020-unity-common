@@ -1,7 +1,4 @@
 ﻿using ExtensionMethods;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -10,17 +7,16 @@ public class DunCraResourceTile : Expirable
     public DungeonCrawlerTile resourceType;
     public ItemDatabase itemDatabase;
 
-    private DunCraLevelInterpreter levelInterpreter;
+    private AbsDunCraLevelInterpreter levelInterpreter;
     private DialogueManager dialogManager;
 
     public void Start() {
-        levelInterpreter = FindObjectOfType<DunCraLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<AbsDunCraLevelInterpreter>();
         dialogManager = FindObjectOfType<DialogueManager>();
     }
 
     public void PickUpByPlayer() {
         // levelInterpreter.MarkResourceAsSpent(transform.position);
-
 
         ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
         PlayerInventory.playerInventory.Add(itemType);

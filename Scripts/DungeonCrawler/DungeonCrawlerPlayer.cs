@@ -11,8 +11,8 @@ public class DungeonCrawlerPlayer : DunCraMovement
     public InputMaster controls;
     public TMP_Text textPlayerHP;
 
-    private static int playerHP = 20;
-    public static int playerMaxHP = 20;
+    private static int playerHP = 50;
+    public static int playerMaxHP = 50;
 
     [SerializeField] private ImageWipe screenWipe;
     private DialogueManager dialogManager;

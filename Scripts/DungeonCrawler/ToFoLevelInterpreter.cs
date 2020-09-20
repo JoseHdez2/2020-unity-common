@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 
-public class ToFoLevelInterpreter : DunCraLevelInterpreter
+public class ToFoLevelInterpreter : AbsDunCraLevelInterpreter
 {
     private List<Vector3Int> spentResources = new List<Vector3Int>();
     private static List<Vector3Int> spentGoldenApples = new List<Vector3Int>();
@@ -19,12 +19,12 @@ public class ToFoLevelInterpreter : DunCraLevelInterpreter
     protected void Update(){
     }
     
-    new protected void SpawnTile(int i, int j, DungeonCrawlerTile tileType){
+    protected override void SpawnTile(int i, int j, DungeonCrawlerTile tileType){
         switch (tileType) {
             case DungeonCrawlerTile.CHOP:
             case DungeonCrawlerTile.HARVEST:
             case DungeonCrawlerTile.MINE:
-                if (spentResources.Any(p => p.x == j && p.y == i && p.z == curLevelIndex)) {
+                if (!spentResources.Any(p => p.x == j && p.y == i && p.z == curLevelIndex)) {
                     Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
                 }
                 break;
@@ -32,9 +32,6 @@ public class ToFoLevelInterpreter : DunCraLevelInterpreter
                 if (!IsGoldenAppleSpent(i, j)) {
                     Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
                 }
-                break;
-            case DungeonCrawlerTile.PLAYER:
-                GameObject player = Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), playerRotation, transform);
                 break;
             default:
                 Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
