@@ -24,14 +24,6 @@ public class DungeonCrawlerPlayer : DunCraMovement
         dialogManager = FindObjectOfType<DialogueManager>();
         screenWipe = GameObject.FindGameObjectWithTag("ScreenWipe").GetComponent<ImageWipe>();
         screenWipe.ToggleWipe(false);
-        controls = InputMasterSingleton.Get();
-        controls.DungeonCrawlerPlayer.moveBackward.performed += ctx => StartCoroutine(MoveTowards(-transform.forward));
-        controls.DungeonCrawlerPlayer.moveForward.performed += ctx => StartCoroutine(MoveTowards(transform.forward));
-        controls.DungeonCrawlerPlayer.strafeLeft.performed += ctx => StartCoroutine(MoveTowards(-transform.right));
-        controls.DungeonCrawlerPlayer.strafeRight.performed += ctx => StartCoroutine(MoveTowards(transform.right));
-        controls.DungeonCrawlerPlayer.turnLeft.performed += ctx => StartCoroutine(Turn(-90));
-        controls.DungeonCrawlerPlayer.turnRight.performed += ctx => StartCoroutine(Turn(90));
-        controls.DungeonCrawlerPlayer.Enable();
     }
 
     public static void RestoreHealth(){
@@ -45,9 +37,24 @@ public class DungeonCrawlerPlayer : DunCraMovement
     private void OnDisable() {
         controls.DungeonCrawlerPlayer.Disable();
     }
-    
+
+    // TODO
+    //private void OnDestroy(){
+    //    controls.DungeonCrawlerPlayer.Disable();
+    //}
+
     private void Start() {
         base.Start();
+
+        controls = InputMasterSingleton.Get();
+        controls.DungeonCrawlerPlayer.moveBackward.performed += ctx => StartCoroutine(MoveTowards(-transform.forward));
+        controls.DungeonCrawlerPlayer.moveForward.performed += ctx => StartCoroutine(MoveTowards(transform.forward));
+        controls.DungeonCrawlerPlayer.strafeLeft.performed += ctx => StartCoroutine(MoveTowards(-transform.right));
+        controls.DungeonCrawlerPlayer.strafeRight.performed += ctx => StartCoroutine(MoveTowards(transform.right));
+        controls.DungeonCrawlerPlayer.turnLeft.performed += ctx => StartCoroutine(Turn(-90));
+        controls.DungeonCrawlerPlayer.turnRight.performed += ctx => StartCoroutine(Turn(90));
+        controls.DungeonCrawlerPlayer.Enable();
+
         SetPlayerHp(playerHP); // draw player hp on-screen.
         // InitPlayer();
     }

@@ -24,6 +24,7 @@ public class DunCraResourceTile : Expirable
 
         ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
         PlayerInventory.playerInventory.Add(itemType);
+        // levelInterpreter.
         if (dialogManager) { dialogManager.WriteOneShot($"Got {itemType}."); }
         Expire();
     }

@@ -10,8 +10,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
     public int curLevelIndex = 0;
     private string curLevelStr;
     private DungeonCrawlerTile[][] curLevel;
-
-    public int curLevelPlayerMaxHp = 100;
+    
     private Vector2 levelOffset; // unused, but cool
     public Camera minimapCamera;
     public float minimapCamHeight;
@@ -19,15 +18,23 @@ public class DunCraLevelInterpreter : MonoBehaviour
     public ItemDatabase itemDatabase;
     public GameObject playerPrefab;
     private DungeonCrawlerTile stairsToSpawnIn;
+    
+    protected Quaternion playerRotation = Quaternion.identity;
 
     private LevelLoader levelLoader;
 
+
     // Start is called before the first frame update
     // [ExecuteInEditMode]
-    private void Start(){
+    protected void Start(){
         levelLoader = FindObjectOfType<LevelLoader>();
         itemDatabase.Initialize();
         InitLevel();
+    }
+
+    public void SavePlayerRotation(Quaternion playerRotation)
+    {
+        this.playerRotation = playerRotation;
     }
 
     public void InitLevel(){
@@ -65,7 +72,7 @@ public class DunCraLevelInterpreter : MonoBehaviour
         if (!stairsPos.HasValue) Debug.LogWarning("Did not find stairs for Player to spawn adjacent to!");
         Vector2Int freePos = curLevel.AdjacentPositions(stairsPos.Value)
             .Where(p => curLevel.Get(p) == DungeonCrawlerTile.NONE).First();
-        Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), Quaternion.identity, transform);
+        Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), playerRotation, transform);
     }
 
     protected Vector3 MatrixPosToWorldPos(Vector2Int matPos) 

@@ -105,6 +105,9 @@ public abstract class DunCraMovement : Movable {
         isMoving = true;
         rotationTarget.RotateAround(transform.position, Vector3.up, angle);
         yield return new WaitForSeconds(0.5f);
+        if (CompareTag("Player")) {
+            levelInterpreter.SavePlayerRotation(transform.rotation);
+        }
         isMoving = false;
     }
 
