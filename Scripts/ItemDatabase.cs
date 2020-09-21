@@ -51,4 +51,9 @@ public class ItemDatabase : ScriptableObject
         }
         return list.Find(it => it.ToString() == s);
     }
+
+    public ItemType GenerateItem(DungeonCrawlerTile resourceType, int levelDepth)
+        => list.ToList()
+            .Where(p => p.Value.type == resourceType && p.Value.floorsItAppearsIn.Contains(levelDepth))
+            .ToList().RandomItem().Key;
 }

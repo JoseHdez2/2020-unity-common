@@ -7,28 +7,22 @@ public class DunCraResourceTile : Expirable
     public DungeonCrawlerTile resourceType;
     public ItemDatabase itemDatabase;
 
-    private AbsDunCraLevelInterpreter levelInterpreter;
+    private ToFoLevelInterpreter levelInterpreter;
     private DialogueManager dialogManager;
 
     public void Start() {
-        levelInterpreter = FindObjectOfType<AbsDunCraLevelInterpreter>();
+        levelInterpreter = FindObjectOfType<ToFoLevelInterpreter>();
         dialogManager = FindObjectOfType<DialogueManager>();
     }
 
     public void PickUpByPlayer() {
-        // levelInterpreter.MarkResourceAsSpent(transform.position);
 
-        ItemType itemType = GenerateItem(resourceType, levelInterpreter.curLevelIndex);
+        ItemType itemType = itemDatabase.GenerateItem(resourceType, levelInterpreter.curLevelIndex);
         PlayerInventory.playerInventory.Add(itemType);
-        // levelInterpreter.
+        levelInterpreter.MarkResourceAsSpent(transform.position);
         if (dialogManager) { dialogManager.WriteOneShot($"Got {itemType}."); }
         Expire();
     }
-
-    private ItemType GenerateItem(DungeonCrawlerTile resourceType, int levelDepth)
-        => itemDatabase.list.ToList()
-            .Where(p => p.Value.floorsItAppearsIn.Contains(levelDepth))
-            .ToList().RandomItem().Key;
 
     public virtual void OnTriggerEnter2D(Collider2D other)
     {

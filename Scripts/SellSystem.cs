@@ -91,8 +91,8 @@ public class SellSystem : MonoBehaviour
         var notSelected = PlayerInventory.playerInventory.Where((it, i) => !selectedItems.Contains(i)).ToList();
         Debug.Log($"selected: {string.Join(", ", selected)}");
         Debug.Log($"notSelected: {string.Join(", ", notSelected)}");
-        buttonMenu.ClearButtons();
-        buttonMenuIngredients.ClearButtons();
+        buttonMenu.DestroyButtons();
+        buttonMenuIngredients.DestroyButtons();
         selected.ForEach(i => buttonMenuIngredients.AddButton(new ButtonData{ name = i.ToString(), interactable = true,
             action = MyExtensions.NewEvent(() => this.ToggleItemIndex(PlayerInventory.playerInventory.IndexOf(i)))}));   
         notSelected.ForEach(i => buttonMenu.AddButton(new ButtonData{ name = i.ToString(), interactable = true,

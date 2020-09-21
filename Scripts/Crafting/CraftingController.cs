@@ -74,8 +74,8 @@ public class CraftingController : MonoBehaviour
         string nme = interactbl && (result.output != null) ? $"Craft {result.output}" : "Craft";        
         var selected = PlayerInventory.playerInventory.Where((it, i) => selectedItems.Contains(i) ).ToList();
         var notSelected = PlayerInventory.playerInventory.Where((it, i) => !selectedItems.Contains(i) ).ToList();
-        buttonMenu.ClearButtons();
-        buttonMenuIngredients.ClearButtons();
+        buttonMenu.DestroyButtons();
+        buttonMenuIngredients.DestroyButtons();
         //selected.ForEach(i => buttonMenuIngredients.AddButton(new ButtonData{ name = i.ToString(), interactable = true,
         //    action = MyExtensions.NewEvent(() => this.ToggleItemIndex(PlayerInventory.playerInventory.IndexOf(i)))}));
         // TODO Do this without hardcoding it
