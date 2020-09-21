@@ -27,7 +27,7 @@ public class InventoryMenu : MonoBehaviour
         var pInv = PlayerInventory.playerInventory;
         for (int i = 0; i < pInv.Count; i++) {
             int j = i; // TODO SelectItem(i) doesn't work, but SelectItem(j) works perfectly. black magic.
-            buttonMenu.AddButtonData(new ButtonData() { index = i, name = pInv[i].ToString(), action = MyExtensions.NewEvent(() => SelectItem(j)) });
+            buttonMenu.AddButtonData(new ButtonData() { index = i, name = PlayerInventory.GetItemName(i), action = MyExtensions.NewEvent(() => SelectItem(j)) });
         }
         buttonMenu.enabled = true; // FIXME hacky code to avoid data races.
     }

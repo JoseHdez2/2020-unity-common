@@ -32,4 +32,6 @@ public class PlayerInventory : MonoBehaviour
     public static void DiscardItem(int index){
         playerInventory.RemoveAt(index);
     }
+
+    public static string GetItemName(int index) => playerInventory[index].ToString().Replace("_", " ");
 }
