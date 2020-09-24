@@ -242,11 +242,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDistance: 0.3
   movementTarget: {fileID: 0}
-  speed: 2
+  speed: 5
   debugTargetPos: 0
   moveTargetPrefab: {fileID: 6709302128117824487, guid: e501bb8928f35044a80b00c65a479c82, type: 3}
   rotateTargetPrefab: {fileID: 6709302128117824487, guid: 655bfe277b7a01243b6a1a2ac783c229, type: 3}
   strafes: 1
+  saveRotationAcrossLevels: 1
   textPlayerHP: {fileID: 0}
   screenWipe: {fileID: 0}
 --- !u!114 &2283366286340629870
@@ -263,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: 
   target: {fileID: 0}
-  turnSpeed: 5
+  turnSpeed: 8
 --- !u!82 &3601951421420301860
 AudioSource:
   m_ObjectHideFlags: 0

@@ -35,22 +35,20 @@ public abstract class AbsDunCraLevelInterpreter : MonoBehaviour
         curLevel = ParseCurLevelStr(curLevelStr);
         // curLevelPlayerMaxHp = levels[curLevelIndex].playerMaxHealth;
         transform.DeleteAllChildren();
-        string[] rows = curLevelStr.Split('\n');
-        Vector3 levelOffset3d = LevelOffset3d();
-        for (int i = 0; i < rows.Length; i++) {
-            for (int j = 0; j < rows[i].Length; j++) {
-                DungeonCrawlerTile tileType = db.charToTile[rows[i][j]];
+        for (int y = 0; y < curLevel.Length; y++) {
+            for (int x = 0; x < curLevel[y].Length; x++) {
+                DungeonCrawlerTile tileType = curLevel[y][x];
                 if (tileType != DungeonCrawlerTile.NONE) {
-                    SpawnTile(i, j, tileType);
+                    SpawnTile(new Vector2Int(x, y), tileType);
                 }
             }
         }
-        minimapCamera.transform.position = MatrixPosToWorldPos(new Vector2Int(curLevel.Width() / 2, curLevel.Height() / 2));
+        minimapCamera.transform.position = GridPosToWorldPos(new Vector2Int(curLevel.Width() / 2, curLevel.Height() / 2));
         minimapCamera.transform.position += Vector3.up * minimapCamHeight;
         SpawnPlayer();
     }
 
-    protected abstract void SpawnTile(int i, int j, DungeonCrawlerTile tileType);
+    protected abstract void SpawnTile(Vector2Int gridPos, DungeonCrawlerTile tileType);
 
     private DungeonCrawlerTile[][] ParseCurLevelStr(string curLevelStr) =>
         curLevelStr.Split('\n').ToList()
@@ -63,13 +61,19 @@ public abstract class AbsDunCraLevelInterpreter : MonoBehaviour
         if (!stairsPos.HasValue) Debug.LogWarning("Did not find stairs for Player to spawn adjacent to!");
         Vector2Int freePos = curLevel.AdjacentPositions(stairsPos.Value)
             .Where(p => curLevel.Get(p) == DungeonCrawlerTile.NONE).First();
-        GameObject player = Instantiate(playerPrefab, MatrixPosToWorldPos(freePos), Quaternion.identity, transform);
+        GameObject player = Instantiate(playerPrefab, GridPosToWorldPos(freePos), Quaternion.identity, transform);
     }
 
-    protected Vector3 MatrixPosToWorldPos(Vector2Int matPos) 
-        => new Vector3(matPos.x, 0, matPos.y) + LevelOffset3d();
+    // we invert gridPos.y because the array is top-to-bottom while Unity coordinates are bottom-to-top.
+    protected Vector3 GridPosToWorldPos(Vector2Int gridPos)
+        => new Vector3(gridPos.x, 0, -gridPos.y) + new Vector3(levelOffset.x, 0, levelOffset.y);
 
-    private Vector3 LevelOffset3d() => new Vector3(levelOffset.x, 0, levelOffset.y);
+
+    protected Vector3 GridPosToWorldPos(Vector3Int gridPos) 
+            => new Vector3(gridPos.x, 0, -gridPos.y) + new Vector3(levelOffset.x, 0, levelOffset.y);
+
+    protected Vector3Int WorldPosToGridPos(Vector3 worldPos)
+            => new Vector3Int((int)(worldPos.x - levelOffset.x), 0, (int)(-worldPos.y - levelOffset.y));
 
     public void LoadNextLevel(){
         curLevelIndex++;
@@ -90,8 +94,8 @@ public abstract class AbsDunCraLevelInterpreter : MonoBehaviour
 
 public class DunCraLevelInterpreter : AbsDunCraLevelInterpreter {
 
-    protected override void SpawnTile(int i, int j, DungeonCrawlerTile tileType)
+    protected override void SpawnTile(Vector2Int gridPos, DungeonCrawlerTile tileType)
     {
-        Instantiate(db.tileToPrefab[tileType], MatrixPosToWorldPos(new Vector2Int(j, i)), Quaternion.identity, transform);
+        Instantiate(db.tileToPrefab[tileType], GridPosToWorldPos(gridPos), Quaternion.identity, transform);
     }
 }

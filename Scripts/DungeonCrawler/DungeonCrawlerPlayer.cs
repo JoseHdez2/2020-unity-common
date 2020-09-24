@@ -80,7 +80,6 @@ public class DungeonCrawlerPlayer : DunCraMovement
         yield return new WaitUntil(() => screenWipe.isDone());
 
         // dialogManager.WriteOneShot("You fainted!");
-        screenWipe = GameObject.FindGameObjectWithTag("ScreenWipe").GetComponent<ImageWipe>();
         RestoreHealth();
         levelInterpreter.curLevelIndex = 0;
         levelInterpreter.InitLevel();
