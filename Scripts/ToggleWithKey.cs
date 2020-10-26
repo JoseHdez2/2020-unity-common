@@ -14,13 +14,22 @@ public class ToggleWithKey : MonoBehaviour
     public AudioSource toggleSound;
     public bool canPress = true;
 
+    private Keyboard keyboard;
+    void Start(){
+        keyboard = Keyboard.current;
+        if(keyboard == null){
+            Debug.LogError("No 'current' Keyboard found!");
+        }
+    }
+
     void Update()
     {
-        if (canPress && Keyboard.current[keyToToggle].wasPressedThisFrame) {
+        // TODO this 'canPress' check seems suboptimal.
+        if (canPress && keyboard != null && keyboard[keyToToggle].wasPressedThisFrame) {
             ToggleObject();
             canPress = false;
         }
-        if (Keyboard.current[keyToToggle].wasReleasedThisFrame) {
+        if (keyboard != null && keyboard[keyToToggle].wasReleasedThisFrame) {
             canPress = true;
         }
     }
