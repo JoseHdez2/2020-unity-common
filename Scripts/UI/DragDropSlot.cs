@@ -32,10 +32,8 @@ public class DragDropSlot : MonoBehaviour, IDropHandler, IPointerDownHandler
         itemInSlot = objectInSlot.GetComponent<DragDropItem>();
         itemInSlot.EndDrag();
 
-        Debug.Log("SetObjectInSlot");
         DragDropWorkbench workbench = GetComponentInParent<DragDropWorkbench>();
         if(workbench != null){
-            Debug.Log("workbench StartProduction");
             workbench.StartProduction();
         }
     }

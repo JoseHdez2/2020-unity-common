@@ -1,0 +1,14 @@
+{
+    "items": [
+        {"uuid": "coin", "name": "Coin", "description": "bling", "price": 1},
+        {"uuid": "water", "name": "Water", "description": "splash", "price": 5},
+        {"uuid": "flour", "name": "Flour", "description": "crackle", "price": 5},
+        {"uuid": "bread", "name": "Bread", "description": "crunch", "price": 10},
+        {"uuid": "end", "name": "???", "description": "...", "price": 0}
+    ],
+    "recipes": [
+        {"uuid": "buy-water", "name": "Buy water (5g)", "inputs": {"coin": 5}, "outputs": {"water": 1}, "productionTime": 1},
+        {"uuid": "bread", "name": "Bread", "inputs": {"water": 1, "flour": 1}, "outputs": {"bread": 1}, "productionTime": 10},
+        {"uuid": "end", "name": "End", "inputs": {"water": 1, "flour": 1}, "outputs": {"bread": 1}, "productionTime": 10}
+    ]
+}
