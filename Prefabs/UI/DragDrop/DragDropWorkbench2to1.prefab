@@ -55,11 +55,11 @@ MonoBehaviour:
   outputSlots:
   - {fileID: 4568416616768042660}
   loadingBar: {fileID: 4033268608809510824}
+  panelTitle: {fileID: 2882273365905379644}
+  database: {fileID: 0}
   itemDraggablePrefab: {fileID: 5825779129892046465, guid: e722703b2968c754da29f050868bd79f, type: 3}
-  productionTime: 1
+  recipeId: 
   outputSprite: {fileID: 1228790316493008834, guid: 3c5675bdd72f71a4885362d11e32366b, type: 3}
-  inputItems: []
-  outputItems: []
 --- !u!1 &2882273364665088826
 GameObject:
   m_ObjectHideFlags: 0

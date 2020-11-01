@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using TMPro;
 
 public class DragDropWorkbench : MonoBehaviour
 {
@@ -12,22 +13,30 @@ public class DragDropWorkbench : MonoBehaviour
     [SerializeField] DragDropSlot[] outputSlots;
 
     [SerializeField] Image loadingBar;
+    [SerializeField] TMP_Text panelTitle;
+    private DatabaseGameCrafting database;
 
     [Header("Prefab Refs")]
     [SerializeField] GameObject itemDraggablePrefab;
 
     [Header("Crafting Recipe Details")]
-    public float productionTime = 1;
+
+    public string recipeId;
+    private RecipeCraftingGame recipe;
     [SerializeField] Sprite outputSprite;
-    [SerializeField] ItemStackable[] inputItems;
-    [SerializeField] ItemStackable[] outputItems;
     
     private bool workshopIsProducing = false;
     private bool itemInProduction = false;
     private float productionTimeLeft;
 
     public void Start(){
+        database = FindObjectOfType<DatabaseGameCrafting>();
         StopProduction();
+        Debug.Log(recipeId);
+        recipe = database.recipes.recipes.FirstOrDefault(recipe => recipe.id == recipeId);
+        Debug.Log(recipe);
+        panelTitle.text = recipe.name;
+        outputSprite = database.itemSprites[recipe.outputs[0].typeId];
     }
 
     public void StartProduction(){
@@ -39,7 +48,7 @@ public class DragDropWorkbench : MonoBehaviour
         
         if(!itemInProduction){
             if(GetQueuedProducts() > 0){
-                productionTimeLeft += productionTime;
+                productionTimeLeft += recipe.productionTime;
                 itemInProduction = true;
                 DecrementInputSlots();
             } else {
@@ -47,7 +56,7 @@ public class DragDropWorkbench : MonoBehaviour
             }
         } else {
             productionTimeLeft -= Time.deltaTime;
-            loadingBar.fillAmount = 1 - (productionTimeLeft / productionTime);
+            loadingBar.fillAmount = 1 - (productionTimeLeft / recipe.productionTime);
 
             if(productionTimeLeft <= 0){
                 IncrementOutputSlots();
@@ -63,7 +72,7 @@ public class DragDropWorkbench : MonoBehaviour
     }
 
     int GetQueuedProducts(){
-        return inputItems.Select(input => GetQueuedProduct(input)).Max();
+        return recipe.inputs.Select(input => GetQueuedProduct(input)).Max();
     }
 
     int GetQueuedProduct(ItemStackable input){
@@ -72,7 +81,7 @@ public class DragDropWorkbench : MonoBehaviour
     }
 
     void DecrementInputSlots(){
-        foreach(ItemStackable inputItem in inputItems){
+        foreach(ItemStackable inputItem in recipe.inputs){
             DragDropSlot inputSlot = inputSlots.FirstOrDefault(slot => slot.HasItemOfType(inputItem.typeId));
             if(inputSlot && inputSlot.itemInSlot){
                 inputSlot.itemInSlot.Substract(inputItem.amount);
@@ -83,7 +92,7 @@ public class DragDropWorkbench : MonoBehaviour
     }
 
     void IncrementOutputSlots(){
-        foreach(ItemStackable outputItem in outputItems){
+        foreach(ItemStackable outputItem in recipe.outputs){
             DragDropSlot outputSlot = outputSlots.FirstOrDefault(slot => slot.HasItemOfType(outputItem.typeId));
             if(outputSlot && outputSlot.itemInSlot){
                 outputSlot.itemInSlot.Add(outputItem.amount);

@@ -38,16 +38,16 @@ public class DragDropSlot : MonoBehaviour, IDropHandler, IPointerDownHandler
         }
     }
 
-    public bool HasItemOfType(int typeId){
+    public bool HasItemOfType(string typeId){
         return itemInSlot != null && itemInSlot.item.typeId == typeId;
     }
     public void OnPointerDown(PointerEventData eventData){
-        Debug.Log(eventData.button);
         if(eventData.button == PointerEventData.InputButton.Right){
             DragDropItem myItem = itemInSlot;
-            myItem.DetachFromSlot();
-            FindObjectOfType<InventoryPanel>().AddItem(myItem);
-            return;
+            if(myItem){
+                myItem.DetachFromSlot();
+                FindObjectOfType<InventoryPanel>().AddItem(myItem);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ public class InventoryStackable{
     public InventoryStackable(){
         itemList = new List<ItemStackable>();
 
-        AddItem(new ItemStackable {typeId = 1, amount = 1} );
+        AddItem(new ItemStackable {amount = 1} );
     }
 
     public void AddItem(ItemStackable item){

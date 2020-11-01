@@ -1,14 +1,15 @@
 {
     "items": [
-        {"uuid": "coin", "name": "Coin", "description": "bling", "price": 1},
-        {"uuid": "water", "name": "Water", "description": "splash", "price": 5},
-        {"uuid": "flour", "name": "Flour", "description": "crackle", "price": 5},
-        {"uuid": "bread", "name": "Bread", "description": "crunch", "price": 10},
-        {"uuid": "end", "name": "???", "description": "...", "price": 0}
+        {"typeId": "coin", "name": "Coin", "description": "bling", "price": 1},
+        {"typeId": "water", "name": "Water", "description": "splash", "price": 5},
+        {"typeId": "flour", "name": "Flour", "description": "crackle", "price": 5},
+        {"typeId": "bread", "name": "Bread", "description": "crunch", "price": 10},
+        {"typeId": "end", "name": "???", "description": "...", "price": 0}
     ],
     "recipes": [
-        {"uuid": "buy-water", "name": "Buy water (5g)", "inputs": {"coin": 5}, "outputs": {"water": 1}, "productionTime": 1},
-        {"uuid": "bread", "name": "Bread", "inputs": {"water": 1, "flour": 1}, "outputs": {"bread": 1}, "productionTime": 10},
-        {"uuid": "end", "name": "End", "inputs": {"water": 1, "flour": 1}, "outputs": {"bread": 1}, "productionTime": 10}
+        {"id": "buy-water", "name": "Buy water (5g)", "inputs": [{"typeId": "coin", "amount": 5}], "outputs": [{"typeId": "water", "amount": 1}], "productionTime": 1},
+        {"id": "buy-flour", "name": "Buy flour (10g)", "inputs": [{"typeId": "coin", "amount": 10}], "outputs": [{"typeId": "flour", "amount": 1}], "productionTime": 1},
+        {"id": "bread", "name": "Make Bread", "inputs": [{"typeId": "water", "amount": 1}, {"typeId": "flour", "amount": 1}], "outputs": [{"typeId": "bread", "amount": 1}], "productionTime": 10},
+        {"id": "end", "name": "End", "inputs": [{"typeId": "water", "amount": 1}, {"typeId": "flour", "amount": 1}], "outputs": [{"typeId": "water", "amount": 1}], "productionTime": 10}
     ]
 }

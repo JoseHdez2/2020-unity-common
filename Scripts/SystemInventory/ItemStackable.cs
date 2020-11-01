@@ -4,15 +4,13 @@ using UnityEngine;
 
 [System.Serializable]
 public class ItemTypeBase {
-    public int id;
-    public string uuid;
+    public string typeId;
     public string name;
     public string description;
 }
 
 [System.Serializable]
 public class ItemStackable {
-    public int typeId;
-    public string typeUuid;
+    public string typeId; // string id is inefficient, but flexible. works for me.
     public int amount = 1;
 }
