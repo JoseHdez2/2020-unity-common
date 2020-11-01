@@ -72,7 +72,7 @@ public class DragDropWorkbench : MonoBehaviour
     }
 
     int GetQueuedProducts(){
-        return recipe.inputs.Select(input => GetQueuedProduct(input)).Max();
+        return recipe.inputs.Select(input => GetQueuedProduct(input)).Min();
     }
 
     int GetQueuedProduct(ItemStackable input){
