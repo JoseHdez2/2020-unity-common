@@ -18,13 +18,13 @@ public class DragDropItem : DragDrop {
 
     public int GetAmount(){ return item.amount; }
 
-    public void Increment(){
-        item.amount++;
+    public void Add(int amount){
+        item.amount += amount;
         textAmount.text = $"x{item.amount}";
     }
 
-    public void Decrement(){
-        item.amount--;
+    public void Substract(int amount){
+        item.amount -= amount;
         textAmount.text = $"x{item.amount}";
         if(item.amount <= 0){
             Destroy(this.gameObject);

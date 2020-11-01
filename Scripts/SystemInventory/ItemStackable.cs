@@ -8,6 +8,7 @@ public class ItemType2 {
     string description;
 }
 
+[System.Serializable]
 public class ItemStackable {
     public int typeId;
     public int amount = 1;

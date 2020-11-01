@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2882273364086967781}
-  - component: {fileID: 2882273364086967778}
   - component: {fileID: 4839624495929806138}
   m_Layer: 5
   m_Name: DragDropWorkbench
@@ -38,23 +37,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2882273364086967778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2882273364086967780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da84a6c9941243f48ae08ba9db7274f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelTitle: Workbench
-  panelTitleText: {fileID: 2882273365905379644}
-  slotPrefab: {fileID: 4026742032574326183, guid: 4f9c08ac878ead548a9a4a1302b9ad4a, type: 3}
-  slotsContainer: {fileID: 2882273364665088826}
-  numberOfSlots: 0
 --- !u!114 &4839624495929806138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,12 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ceb69c1066c4a4408ee64751a1088e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSlot: {fileID: 255809090590623127}
-  outputSlot: {fileID: 4568416616768042660}
-  productionTime: 0
+  inputSlots:
+  - {fileID: 255809090590623127}
+  outputSlots:
+  - {fileID: 4568416616768042660}
   loadingBar: {fileID: 4033268608809510824}
   itemDraggablePrefab: {fileID: 5825779129892046465, guid: e722703b2968c754da29f050868bd79f, type: 3}
+  productionTime: 1
   outputSprite: {fileID: 1228790316493008834, guid: 3c5675bdd72f71a4885362d11e32366b, type: 3}
+  inputItems: []
+  outputItems: []
 --- !u!1 &2882273364665088826
 GameObject:
   m_ObjectHideFlags: 0
