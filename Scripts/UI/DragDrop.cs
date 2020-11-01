@@ -12,9 +12,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private void Awake(){
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+        if(canvas == null){ 
+            canvas = FindObjectOfType<Canvas>();
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData){
+        DragDropSlot slot = GetComponentInParent<DragDropSlot>();
+        if(slot) { slot.itemInSlot = null; }
+        this.gameObject.transform.SetParent(canvas.gameObject.transform);
         canvasGroup.alpha = .6f;
         canvasGroup.blocksRaycasts = false;
     }
