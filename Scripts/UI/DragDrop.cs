@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] private Canvas canvas;
     private RectTransform rectTransform;
@@ -18,11 +18,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void OnBeginDrag(PointerEventData eventData){
-        DragDropSlot slot = GetComponentInParent<DragDropSlot>();
-        if(slot) { slot.itemInSlot = null; }
-        this.gameObject.transform.SetParent(canvas.gameObject.transform);
-        canvasGroup.alpha = .6f;
-        canvasGroup.blocksRaycasts = false;
+        DetachFromSlot();
     }
 
     public void OnDrag(PointerEventData eventData){
@@ -30,10 +26,19 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     }
 
     public void OnEndDrag(PointerEventData eventData){
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
+        EndDrag();
     }
 
-    public void OnPointerDown(PointerEventData eventData){
+    public void DetachFromSlot(){
+        DragDropSlot slot = GetComponentInParent<DragDropSlot>();
+        if(slot) { slot.itemInSlot = null; }
+        this.gameObject.transform.SetParent(canvas.gameObject.transform);
+        canvasGroup.alpha = .6f;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    public void EndDrag(){
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
     }
 }

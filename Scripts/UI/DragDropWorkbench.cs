@@ -22,49 +22,44 @@ public class DragDropWorkbench : MonoBehaviour
     [SerializeField] ItemStackable[] inputItems;
     [SerializeField] ItemStackable[] outputItems;
     
-    private bool producing = false;
+    private bool workshopIsProducing = false;
+    private bool itemInProduction = false;
     private float productionTimeLeft;
 
-    public void StartProduction(){
-        StartCoroutine(FinishProduction());
+    public void Start(){
+        StopProduction();
     }
 
-    public void Start(){
-        productionTimeLeft = productionTime;
+    public void StartProduction(){
+        workshopIsProducing = true;
     }
 
     public void Update(){
-        if(!producing && GetQueuedProducts() <= 0) { 
-            // NOTE we should technically do "productionTimeLeft = productionTime" here but it would be too expensive. better leave it be.
-            return; 
-        }
-        if(!producing){
-            DecrementInputSlots();
-            producing = true;
-        }
+        if(!workshopIsProducing) { return; } // Not producing.
         
-        productionTimeLeft -= Time.deltaTime;
-        loadingBar.fillAmount = 1 - (productionTimeLeft / productionTime);
-
-        if(productionTimeLeft <= 0){
-            IncrementOutputSlots();
-            producing = false;
+        if(!itemInProduction){
             if(GetQueuedProducts() > 0){
                 productionTimeLeft += productionTime;
+                itemInProduction = true;
+                DecrementInputSlots();
             } else {
-                CleanState();
+                StopProduction();
+            }
+        } else {
+            productionTimeLeft -= Time.deltaTime;
+            loadingBar.fillAmount = 1 - (productionTimeLeft / productionTime);
+
+            if(productionTimeLeft <= 0){
+                IncrementOutputSlots();
+                itemInProduction = false;
             }
         }
     }
 
-    public void CleanState(){
-        // SetQueuedProducts(0);
+    public void StopProduction(){
         loadingBar.fillAmount = 0;
-        productionTimeLeft = productionTime;
-    }
-    
-    public IEnumerator FinishProduction(){
-        yield return new WaitForSeconds(productionTime);
+        productionTimeLeft = 0;
+        workshopIsProducing = false;
     }
 
     int GetQueuedProducts(){
@@ -93,7 +88,7 @@ public class DragDropWorkbench : MonoBehaviour
             if(outputSlot && outputSlot.itemInSlot){
                 outputSlot.itemInSlot.Add(outputItem.amount);
             } else {
-                DragDropSlot firstEmptySlot = outputSlots.Where(slot => slot.itemInSlot == null).First();
+                DragDropSlot firstEmptySlot = outputSlots.FirstOrDefault(slot => slot.itemInSlot == null);
                 GameObject output = Instantiate(itemDraggablePrefab, new Vector3(), Quaternion.identity, firstEmptySlot.transform);
                 DragDropItem newOutputItem = output.GetComponent<DragDropItem>();
                 newOutputItem.image.sprite = outputSprite;

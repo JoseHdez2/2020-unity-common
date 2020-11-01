@@ -30,4 +30,13 @@ public class DragDropItem : DragDrop {
             Destroy(this.gameObject);
         }
     }
+
+    public void OnPointerDown(PointerEventData eventData){
+        Debug.Log(eventData.button);
+        if(eventData.button == PointerEventData.InputButton.Right){
+            DetachFromSlot();
+            FindObjectOfType<InventoryPanel>().AddItem(this);
+            return;
+        }
+    }
 }
