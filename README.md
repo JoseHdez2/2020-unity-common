@@ -14,7 +14,8 @@ Common code and assets for Unity games.
   git checkout --track origin/setup
 ```
 - Open Unity, and click on `Tools > Setup Unity Common` and wait for it to finish.
-- Go to `Project Settings > Player > Other Settings > Active Input Handling` and set to `Both`. Editor will restart.
+- Go to `Edit > Project Settings > Player > Other Settings > Active Input Handling`.
+  - Set it to `Both`. Editor will restart.
 - Go back to the master branch:
 ```
   git checkout master
