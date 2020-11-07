@@ -13,8 +13,10 @@ Common code and assets for Unity games.
   cd 2020-unity-common
   git checkout --track origin/setup
 ```
-- Open Unity, and click on `Tools > Setup Unity Common`.
-- Once the process finishes, go back to the master branch:
+- Open Unity, and click on `Tools > Setup Unity Common` and wait for it to finish.
+- Go to `Edit > Project Settings > Player > Other Settings > Active Input Handling`.
+  - Set it to `Both`. Editor will restart.
+- Go back to the master branch:
 ```
   git checkout master
 ```
