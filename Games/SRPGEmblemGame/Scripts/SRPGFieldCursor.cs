@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SRPGCursor : MonoBehaviour
+public class SRPGFieldCursor : MonoBehaviour
 {
     // GameObject references
     private SRPGAudioSource audioSource;
     private SRPGUnitCard unitCard;
+    private SRPGUnitMenu unitMenu;
     // "Pointers"
     private Vector3? destinationPos;
     private SRPGUnit selectedUnit;
@@ -20,6 +21,7 @@ public class SRPGCursor : MonoBehaviour
     {
         audioSource = FindObjectOfType<SRPGAudioSource>();
         unitCard = FindObjectOfType<SRPGUnitCard>();
+        unitMenu = FindObjectOfType<SRPGUnitMenu>();
     }
 
     // Update is called once per frame
@@ -41,19 +43,27 @@ public class SRPGCursor : MonoBehaviour
             MoveCursor(transform.position + Vector3.up);
         } else if (Input.GetAxis("Vertical") < -deadzone){
             MoveCursor(transform.position + Vector3.down);
+        } else if (Input.GetButtonDown("Jump") && selectedUnit){
+            unitMenu.Open();
         }
     }
 
     private void MoveCursor(Vector3 pos){
         selectedUnit = null;
-        audioSource.PlaySound(ESRPGSound.MOVE);
+        audioSource.PlaySound(ESRPGSound.Move);
         destinationPos = pos;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         selectedUnit = other.gameObject.GetComponent<SRPGUnit>();
         if(selectedUnit){
+            unitCard.Open();
             unitCard.SetUnit(selectedUnit);
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        selectedUnit = null;
+        unitCard.Close();
     }
 }

@@ -37,6 +37,7 @@ public class ImageWipe : MonoBehaviour
         }
     }
 
+    // TODO rename this method. "toggle" shouldn't take a bool, and "wipe" is ambiguous.
     public void ToggleWipe(bool fillScreen)
     {
         image.raycastTarget = true;
