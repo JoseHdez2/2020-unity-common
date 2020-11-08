@@ -13,20 +13,32 @@ using ExtensionMethods;
 // Without any "virtual buttons" nonsense.
 public class ButtonMenuBase : MonoBehaviour
 {
-    private EventSystem eventSystem;
-    private LayoutGroup group;
+    protected EventSystem eventSystem;
+    private LayoutGroup layoutGroup;
 
     private bool checkIfMenuIsFocused = true;
     
     void Awake(){
-        group = GetComponentInChildren<LayoutGroup>(includeInactive: true);
-        if (group == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
+        layoutGroup = GetComponentInChildren<LayoutGroup>(includeInactive: true);
+        if (layoutGroup == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
         eventSystem = FindObjectOfType<EventSystem>();
     }
 
-    private void OnEnable()
+    protected void OnEnable()
     {
+        foreach (var button in GetButtonsAll())
+        {
+            button.gameObject.SetActive(true);
+        }
         checkIfMenuIsFocused = true;
+    }
+
+    protected void OnDisable()
+    {
+        foreach (var button in GetButtons())
+        {
+            button.gameObject.SetActive(false);
+        }
     }
 
     public void ResetCursor(){
@@ -47,7 +59,7 @@ public class ButtonMenuBase : MonoBehaviour
         return GetComponentsInChildren<ButtonUI>().Any(b => b.selected == true);
     }
 
-    private void SetCursorToFirstButton(){
+    protected void SetCursorToFirstButton(){
         Button firstBtn = GetButtons().FirstOrDefault();
         if(firstBtn){
             eventSystem.SetSelectedGameObject(firstBtn.gameObject);
@@ -56,6 +68,7 @@ public class ButtonMenuBase : MonoBehaviour
         }
     }
 
-    public ButtonUI[] GetButtonsUI() => group.GetComponentsInChildren<ButtonUI>();
-    public Button[] GetButtons() => group.GetComponentsInChildren<Button>();
+    public ButtonUI[] GetButtonsUI() => layoutGroup.GetComponentsInChildren<ButtonUI>();
+    public Button[] GetButtons() => layoutGroup.GetComponentsInChildren<Button>();
+    public Button[] GetButtonsAll() => layoutGroup.GetComponentsInChildren<Button>(includeInactive: true);
 }

@@ -22,6 +22,9 @@ public class SRPGUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public bool InAttackRange(){
+        return false;
     }
 }
