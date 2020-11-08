@@ -27,6 +27,7 @@ public class SRPGUnitMenu : ButtonMenuBase
                 fightButton.gameObject.SetActive(false);
             }
         }
+        selectedButton = null;
     }
 
     public void Open(){
@@ -44,12 +45,17 @@ public class SRPGUnitMenu : ButtonMenuBase
         gameObject.SetActive(false);
     }    
 
+    // Must be null when the menu is inactive. Only used for making a sound when the selected button changes.
+    private GameObject selectedButton;
+
     // Update is called once per frame
     void Update()
     {         
-        // if (eventSystem.currentSelectedGameObject != currentSelectedGameObject_Recent) {
-        //     lastSelectedGameObject = currentSelectedGameObject_Recent;
-        //     currentSelectedGameObject_Recent = eventSystem.currentSelectedGameObject;
-        // }
+        if (eventSystem.currentSelectedGameObject != selectedButton) {
+            if(selectedButton != null){
+                audioSource.PlaySound(ESRPGSound.Move);
+            }
+            selectedButton = eventSystem.currentSelectedGameObject;
+        }
     }
 }
