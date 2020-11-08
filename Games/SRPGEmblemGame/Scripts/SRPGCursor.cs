@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class SRPGCursor : MonoBehaviour
 {
+    // GameObject references
     private SRPGAudioSource audioSource;
+    private SRPGUnitCard unitCard;
+    // "Pointers"
     private Vector3? destinationPos;
+    private SRPGUnit selectedUnit;
+    [Header("Settings")]
     [Range(0,1)]
     public float cursorSpeed = 0.05f;
     [Range(0,0.5f)]
@@ -14,6 +19,7 @@ public class SRPGCursor : MonoBehaviour
     void Start()
     {
         audioSource = FindObjectOfType<SRPGAudioSource>();
+        unitCard = FindObjectOfType<SRPGUnitCard>();
     }
 
     // Update is called once per frame
@@ -38,8 +44,16 @@ public class SRPGCursor : MonoBehaviour
         }
     }
 
-    void MoveCursor(Vector3 pos){
+    private void MoveCursor(Vector3 pos){
+        selectedUnit = null;
         audioSource.PlaySound(ESRPGSound.MOVE);
         destinationPos = pos;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        selectedUnit = other.gameObject.GetComponent<SRPGUnit>();
+        if(selectedUnit){
+            unitCard.SetUnit(selectedUnit);
+        }
     }
 }

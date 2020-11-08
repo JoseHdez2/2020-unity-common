@@ -1,0 +1,5 @@
+{
+    "item_types": [{"id": "potion", "name": "Potion"}],
+    "skills": [{"id": "fireball", "name": "Fireball"}],
+    "unit_types": [{"id": "soldier", "name": "Soldier"}]
+}
