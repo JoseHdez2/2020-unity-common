@@ -10,9 +10,9 @@ public class SRPGFieldCursor : LerpMovement
     private SRPGUnitMenu unitMenu;
     [SerializeField] private GameObject pfTile; 
     // "Pointers"
-    private SRPGUnit selectedUnit;
-    private SRPGUnit hoveringUnit;
-    private SRPGTile hoveringTile;
+    [SerializeField] private SRPGUnit selectedUnit;
+    [SerializeField] private SRPGUnit hoveringUnit;
+    [SerializeField] private SRPGTile hoveringTile;
     [Header("Settings")]
     [Range(0,0.5f)]
     public float deadzone = 0.05f;
@@ -30,6 +30,9 @@ public class SRPGFieldCursor : LerpMovement
     {
         if(destinationPos.HasValue){
             base.Update();
+            return;
+        }
+        if(selectedUnit && selectedUnit.state == SRPGUnit.State.Moving){
             return;
         }
         if(Input.GetAxis("Horizontal") < -deadzone){
@@ -61,7 +64,6 @@ public class SRPGFieldCursor : LerpMovement
     {
         if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile){
             selectedUnit.Move(transform.position);
-        // } else if {
         } else if (!selectedUnit && hoveringUnit) {
             SelectUnit();
         } else {

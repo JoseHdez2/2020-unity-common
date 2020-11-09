@@ -1586,7 +1586,6 @@ MonoBehaviour:
   attack: 1
   defense: 1
   moveRange: 3
-  tilemapCollider2D: {fileID: 0}
   idlePos: {x: 0, y: 0}
   state: 0
 --- !u!61 &767693346
@@ -2204,6 +2203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.05
   pfTile: {fileID: 1286690954498784044, guid: e592d9aa31c83c447a46142493bffc2f, type: 3}
+  selectedUnit: {fileID: 0}
+  hoveringUnit: {fileID: 0}
+  hoveringTile: {fileID: 0}
   deadzone: 0.041
 --- !u!61 &1224961160
 BoxCollider2D:
@@ -3517,7 +3519,6 @@ MonoBehaviour:
   attack: 1
   defense: 1
   moveRange: 3
-  tilemapCollider2D: {fileID: 273617420}
   idlePos: {x: 0, y: 0}
   state: 0
 --- !u!212 &1741206235
@@ -3837,14 +3838,16 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 0000000005000000030000000600000004000000
-    _keys: 0000000005000000030000000600000004000000
+    _keyValues: 00000000050000000300000006000000040000000700000008000000
+    _keys: 00000000050000000300000006000000040000000700000008000000
     _values:
     - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
     - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
     - {fileID: 8300000, guid: e076d505835caaa4c93e58ee9e85d117, type: 3}
     - {fileID: 8300000, guid: 9f60503c89c19294595d09a6019feba1, type: 3}
     - {fileID: 8300000, guid: 9beccd68ab028064fbf8b734195b30d7, type: 3}
+    - {fileID: 8300000, guid: 128dae8260715c349955950eac098e1f, type: 3}
+    - {fileID: 8300000, guid: 989b5df9f44d22c4b90215ebd1e102ae, type: 3}
   respectSoundSeniority: 0
 --- !u!82 &1976563420
 AudioSource:

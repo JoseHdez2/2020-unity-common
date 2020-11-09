@@ -40,7 +40,7 @@ public class SRPGUnit : LerpMovement
                 if (!(i == 0 && j == 0) && (Math.Abs(i) + Math.Abs(j) <= moveRange)){
                     var pos = transform.position + new Vector3(i, j, 0);
                     if(!tilemapCollider2D.OverlapPoint(pos)){
-                        var tileObj = Instantiate(pfTile, pos, Quaternion.identity, transform);
+                        var tileObj = Instantiate(pfTile, pos, Quaternion.identity);
                         var tile = tileObj.GetComponent<SRPGTile>();
                     }
                 }
@@ -56,6 +56,9 @@ public class SRPGUnit : LerpMovement
 
     private void Update() {
         base.Update();
+        if(idlePos == null && state == State.Idle){
+            idlePos = transform.position;
+        }
         if(state == State.Moving && destinationPos == null){
             FinishMoving();
         }
@@ -63,9 +66,12 @@ public class SRPGUnit : LerpMovement
 
     public void Move(Vector2 pos){
         destinationPos = pos;
+        FindObjectOfType<SRPGAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
+        state = State.Moving;
     }
 
     public void FinishMoving(){
+        FindObjectOfType<SRPGAudioSource>().PlaySound(ESRPGSound.UnitPrompt);
         state = State.Moved;
     }
 
@@ -74,6 +80,6 @@ public class SRPGUnit : LerpMovement
     }
 
     public void DestroyTiles(){
-        GetComponentsInChildren<SRPGTile>().ToList().ForEach(i => Destroy(i.gameObject, 1));
+        FindObjectsOfType<SRPGTile>().ToList().ForEach(i => Destroy(i.gameObject, 1));
     }
 }

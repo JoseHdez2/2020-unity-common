@@ -10,7 +10,8 @@ public enum ESRPGSound {
     Buzzer,
     SelectUnit,
     MenuCursor,
-    UnitPrompt
+    UnitPrompt,
+    UnitFootsteps
 }
 
 [RequireComponent(typeof(AudioSource))]
