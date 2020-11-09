@@ -43,7 +43,7 @@ public class SRPGFieldCursor : LerpMovement
             MoveCursor(transform.position + Vector3.up);
         } else if (Input.GetAxis("Vertical") < -deadzone){
             MoveCursor(transform.position + Vector3.down);
-        } else if (Input.GetButtonDown("Jump")) {
+        } else if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Submit")) {
             HandleConfirm();
         }
         else if (Input.GetButtonDown("Cancel")){

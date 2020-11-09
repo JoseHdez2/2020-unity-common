@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class SRPGUnit : LerpMovement
 {
     public string id;
@@ -16,12 +17,12 @@ public class SRPGUnit : LerpMovement
     [Header("Movement range of unit, in tiles.")]
     public int moveRange = 3;
 
+    // GameObject refs
     private TilemapCollider2D tilemapCollider2D;
-
-    public Vector2? idlePos = null;
-
+    private SpriteRenderer spriteRenderer;
     private List<SRPGTile> tiles = null;
 
+    public Vector2? idlePos = null;
     public State state = State.Idle;
 
     public enum State {
@@ -34,6 +35,7 @@ public class SRPGUnit : LerpMovement
 
     private void Start() {
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         idlePos = transform.position;
     }
 
@@ -51,7 +53,6 @@ public class SRPGUnit : LerpMovement
                 }
             }
         }
-        Debug.Log(tiles.Count);
         state = State.SelectingMove;
     }
 
@@ -59,6 +60,7 @@ public class SRPGUnit : LerpMovement
         DestroyTiles();
         FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
         state = State.Idle;
+        spriteRenderer.color = Color.white;
         destinationPos = idlePos;
     }
 
@@ -85,6 +87,7 @@ public class SRPGUnit : LerpMovement
         DestroyTiles();
         FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;
+        spriteRenderer.color = Color.gray;
         state = State.Spent;
     }
 
