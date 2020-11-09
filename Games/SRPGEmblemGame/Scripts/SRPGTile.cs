@@ -24,7 +24,7 @@ public class SRPGTile : MonoBehaviour
     }
 
     private void OnEnable() {
-        spriteRenderer.size = Vector3.zero;
+        // spriteRenderer.size = Vector3.zero;
     }
 
     private void SelfDestroy() {

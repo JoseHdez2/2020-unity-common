@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class SRPGUnitMenu : ButtonMenuBase
 {
     [SerializeField] private ImageWipe buttonContainer;
-    [SerializeField] private Button fightButton;
+    [SerializeField] private Button attackButton;
+    [SerializeField] private Button moveButton;
+    [SerializeField] private Button itemButton;
+    [SerializeField] private Button statusButton;
+    [SerializeField] private Button waitButton;
+    [SerializeField] private Button cancelButton;
 
     private SRPGAudioSource audioSource;
     private SRPGFieldCursor fieldCursor;
+    private SRPGUnit selectedUnit;
 
-    private SRPGUnit unit;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,20 +27,66 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     public void OnEnable(){
         base.OnEnable();
-        if(unit){
-            if(!unit.InAttackRange()){
-                fightButton.gameObject.SetActive(false);
-            }
-        }
+
         selectedButton = null;
     }
 
-    public void Open(){
+    public void Open(SRPGUnit unit){
         buttonContainer.ToggleWipe(true);
         fieldCursor.gameObject.SetActive(false);
+        HideIrrelevantButtons(unit);
         gameObject.SetActive(true);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         ResetCursor();
+        selectedUnit = unit;
+    }
+
+    // All buttons reactivate by default. Deactivate the relevant ones.
+    private void HideIrrelevantButtons(SRPGUnit unit){
+        if(!unit.InAttackRange()){
+            attackButton.gameObject.SetActive(false);
+        }
+        if(!unit.HasItem()){
+            itemButton.gameObject.SetActive(false);
+        }
+        if(unit.state != SRPGUnit.State.Idle){
+            moveButton.gameObject.SetActive(false);
+        }
+        if(unit.state == SRPGUnit.State.Spent){
+            waitButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void HandleAttack(){
+        audioSource.PlaySound(ESRPGSound.Buzzer);
+    }
+
+    public void HandleMove(){
+        audioSource.PlaySound(ESRPGSound.Buzzer);
+    }
+
+    public void HandleItem(){
+        audioSource.PlaySound(ESRPGSound.Buzzer);
+    }
+
+    public void HandleStatus(){
+        audioSource.PlaySound(ESRPGSound.Buzzer);
+    }
+
+    public void HandleWait(){
+        audioSource.PlaySound(ESRPGSound.Buzzer);
+    }
+
+    public void HandleCancel(){
+        if(selectedUnit.state == SRPGUnit.State.Moved){
+            selectedUnit.ToIdle();
+            Close();
+        } else if(selectedUnit.state == SRPGUnit.State.SelectingMove) {
+            selectedUnit.ToIdle();
+            Close();
+        } else {
+            audioSource.PlaySound(ESRPGSound.Buzzer);
+        }
     }
 
     public void Close(){

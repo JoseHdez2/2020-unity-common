@@ -18,7 +18,7 @@ public class SRPGUnit : LerpMovement
 
     private TilemapCollider2D tilemapCollider2D;
 
-    public Vector2 idlePos;
+    public Vector2? idlePos = null;
 
     public State state = State.Idle;
 
@@ -27,11 +27,12 @@ public class SRPGUnit : LerpMovement
         SelectingMove,
         Moving,
         Moved,
-        Unselectable
+        Spent
     }
 
     private void Start() {
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
+        idlePos = transform.position;
     }
 
     public void SpawnMoveTiles(GameObject pfTile){
@@ -51,14 +52,13 @@ public class SRPGUnit : LerpMovement
 
     public void ToIdle(){
         DestroyTiles();
+        FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
         state = State.Idle;
+        destinationPos = idlePos;
     }
 
     private void Update() {
         base.Update();
-        if(idlePos == null && state == State.Idle){
-            idlePos = transform.position;
-        }
         if(state == State.Moving && destinationPos == null){
             FinishMoving();
         }
@@ -73,9 +73,19 @@ public class SRPGUnit : LerpMovement
     public void FinishMoving(){
         FindObjectOfType<SRPGAudioSource>().PlaySound(ESRPGSound.UnitPrompt);
         state = State.Moved;
+        FindObjectOfType<SRPGFieldCursor>().OpenUnitMenu();
+    }
+
+    public void ToSpent(){
+        idlePos = transform.position;
+        state = State.Spent;
     }
 
     public bool InAttackRange(){
+        return false;
+    }
+
+    public bool HasItem(){
         return false;
     }
 

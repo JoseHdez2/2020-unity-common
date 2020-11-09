@@ -10,7 +10,7 @@ public class SRPGFieldCursor : LerpMovement
     private SRPGUnitMenu unitMenu;
     [SerializeField] private GameObject pfTile; 
     // "Pointers"
-    [SerializeField] private SRPGUnit selectedUnit;
+    public SRPGUnit selectedUnit;
     [SerializeField] private SRPGUnit hoveringUnit;
     [SerializeField] private SRPGTile hoveringTile;
     [Header("Settings")]
@@ -69,6 +69,10 @@ public class SRPGFieldCursor : LerpMovement
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
         }
+    }
+
+    public void OpenUnitMenu(){
+        unitMenu.Open(selectedUnit);
     }
 
     private void SelectUnit(){
