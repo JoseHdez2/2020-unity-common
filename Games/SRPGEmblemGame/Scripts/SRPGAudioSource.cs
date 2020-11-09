@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ESRPGSound {
-    Move,
+    FieldCursor,
     Toggle,
     Accept,
     Cancel,
     Buzzer,
-    SelectUnit
+    SelectUnit,
+    MenuCursor,
+    UnitPrompt
 }
 
 [RequireComponent(typeof(AudioSource))]

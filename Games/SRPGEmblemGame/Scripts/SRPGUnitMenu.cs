@@ -45,15 +45,15 @@ public class SRPGUnitMenu : ButtonMenuBase
         gameObject.SetActive(false);
     }    
 
-    // Must be null when the menu is inactive. Only used for making a sound when the selected button changes.
+    // Must reset to null each time the menu becomes inactive. Only used for making a sound when the selected button changes.
     private GameObject selectedButton;
 
     // Update is called once per frame
     void Update()
     {         
         if (eventSystem.currentSelectedGameObject != selectedButton) {
-            if(selectedButton != null){
-                audioSource.PlaySound(ESRPGSound.Move);
+            if(selectedButton != null){ // Avoid playing when the first button becomes selected automatically. but play thereafter.
+                audioSource.PlaySound(ESRPGSound.MenuCursor);
             }
             selectedButton = eventSystem.currentSelectedGameObject;
         }

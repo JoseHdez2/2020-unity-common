@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SRPGFieldCursor : MonoBehaviour
+public class SRPGFieldCursor : LerpMovement
 {
     // GameObject references
     private SRPGAudioSource audioSource;
     private SRPGUnitCard unitCard;
     private SRPGUnitMenu unitMenu;
+    [SerializeField] private GameObject pfTile; 
     // "Pointers"
-    private Vector3? destinationPos;
     private SRPGUnit selectedUnit;
+    private SRPGUnit hoveringUnit;
+    private SRPGTile hoveringTile;
     [Header("Settings")]
-    [Range(0,1)]
-    public float cursorSpeed = 0.05f;
     [Range(0,0.5f)]
     public float deadzone = 0.05f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +29,7 @@ public class SRPGFieldCursor : MonoBehaviour
     void Update()
     {
         if(destinationPos.HasValue){
-            transform.position = Vector3.Lerp(transform.position, destinationPos.Value, cursorSpeed);
-            if(Vector3.Distance(transform.position, destinationPos.Value) < 0.05){
-                transform.position = destinationPos.Value;
-                destinationPos = null;
-            }
+            base.Update();
             return;
         }
         if(Input.GetAxis("Horizontal") < -deadzone){
@@ -43,27 +40,56 @@ public class SRPGFieldCursor : MonoBehaviour
             MoveCursor(transform.position + Vector3.up);
         } else if (Input.GetAxis("Vertical") < -deadzone){
             MoveCursor(transform.position + Vector3.down);
-        } else if (Input.GetButtonDown("Jump") && selectedUnit){
-            unitMenu.Open();
+        } else if (Input.GetButtonDown("Jump")) {
+            HandleConfirm();
+        }
+        else if (Input.GetButtonDown("Cancel")){
+            if(selectedUnit){
+                if(selectedUnit.state == SRPGUnit.State.SelectingMove){
+                    selectedUnit.ToIdle();
+                    selectedUnit = null;
+                } else {
+                    
+                }
+            } else {
+                audioSource.PlaySound(ESRPGSound.Buzzer);
+            }
+        }
+    }
+
+    private void HandleConfirm()
+    {
+        if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile){
+            selectedUnit.Move(transform.position);
+        // } else if {
+        } else if (!selectedUnit && hoveringUnit) {
+            SelectUnit();
+        } else {
+            audioSource.PlaySound(ESRPGSound.Buzzer);
+        }
+    }
+
+    private void SelectUnit(){
+        audioSource.PlaySound(ESRPGSound.SelectUnit);
+        selectedUnit = hoveringUnit;
+        if(selectedUnit.state == SRPGUnit.State.Idle){
+            selectedUnit.SpawnMoveTiles(pfTile);
         }
     }
 
     private void MoveCursor(Vector3 pos){
-        selectedUnit = null;
-        audioSource.PlaySound(ESRPGSound.Move);
+        hoveringUnit = null;
+        unitCard.Close();
+        audioSource.PlaySound(ESRPGSound.FieldCursor);
         destinationPos = pos;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        selectedUnit = other.gameObject.GetComponent<SRPGUnit>();
-        if(selectedUnit){
+        hoveringUnit = other.gameObject.GetComponent<SRPGUnit>();
+        hoveringTile = other.gameObject.GetComponent<SRPGTile>();
+        if(hoveringUnit){
             unitCard.Open();
-            unitCard.SetUnit(selectedUnit);
+            unitCard.SetUnit(hoveringUnit);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D other) {
-        selectedUnit = null;
-        unitCard.Close();
     }
 }
