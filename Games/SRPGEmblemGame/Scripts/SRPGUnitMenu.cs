@@ -43,6 +43,7 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     // All buttons reactivate by default. Deactivate the relevant ones.
     private void HideIrrelevantButtons(SRPGUnit unit){
+        Debug.Log("HideIrrelevantButtons");
         if(!unit.InAttackRange()){
             attackButton.gameObject.SetActive(false);
         }
@@ -74,7 +75,8 @@ public class SRPGUnitMenu : ButtonMenuBase
     }
 
     public void HandleWait(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
+        selectedUnit.ToSpent();
+        Close();
     }
 
     public void HandleCancel(){

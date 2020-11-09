@@ -20,6 +20,8 @@ public class SRPGUnit : LerpMovement
 
     public Vector2? idlePos = null;
 
+    private List<SRPGTile> tiles = null;
+
     public State state = State.Idle;
 
     public enum State {
@@ -36,17 +38,20 @@ public class SRPGUnit : LerpMovement
     }
 
     public void SpawnMoveTiles(GameObject pfTile){
+        tiles = new List<SRPGTile>();
         for (int i = -moveRange; i < moveRange; i++) {
             for (int j = -moveRange; j < moveRange; j++) {
                 if (!(i == 0 && j == 0) && (Math.Abs(i) + Math.Abs(j) <= moveRange)){
-                    var pos = transform.position + new Vector3(i, j, 0);
+                    Vector3 pos = transform.position + new Vector3(i, j, 0);
                     if(!tilemapCollider2D.OverlapPoint(pos)){
-                        var tileObj = Instantiate(pfTile, pos, Quaternion.identity);
-                        var tile = tileObj.GetComponent<SRPGTile>();
+                        GameObject tileObj = Instantiate(pfTile, pos, Quaternion.identity);
+                        SRPGTile tile = tileObj.GetComponent<SRPGTile>();
+                        tiles.Add(tile);
                     }
                 }
             }
         }
+        Debug.Log(tiles.Count);
         state = State.SelectingMove;
     }
 
@@ -77,6 +82,8 @@ public class SRPGUnit : LerpMovement
     }
 
     public void ToSpent(){
+        DestroyTiles();
+        FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;
         state = State.Spent;
     }
@@ -90,6 +97,7 @@ public class SRPGUnit : LerpMovement
     }
 
     public void DestroyTiles(){
-        FindObjectsOfType<SRPGTile>().ToList().ForEach(i => Destroy(i.gameObject, 1));
+        tiles.ForEach(tile => tile.SelfDestroy());
+        tiles = null;
     }
 }

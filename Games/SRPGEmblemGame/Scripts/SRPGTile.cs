@@ -10,24 +10,23 @@ public class SRPGTile : MonoBehaviour
     [Range(0,1)]
     public float animationSpeed = 0.1f;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if(spriteRenderer.size.x != animationSizeDestination.x){
             spriteRenderer.size = Vector3.Lerp(spriteRenderer.size, animationSizeDestination, animationSpeed);
         }
     }
 
     private void OnEnable() {
-        // spriteRenderer.size = Vector3.zero;
+        spriteRenderer.size = Vector3.zero;
     }
 
-    private void SelfDestroy() {
+    public void SelfDestroy() {
+        Debug.Log("SelfDestroy");
         Destroy(this.gameObject, 1);
         animationSizeDestination = Vector3.zero;
     }
