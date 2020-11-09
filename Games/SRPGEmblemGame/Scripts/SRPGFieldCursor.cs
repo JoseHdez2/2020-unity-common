@@ -64,7 +64,7 @@ public class SRPGFieldCursor : LerpMovement
     {
         if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile){
             selectedUnit.Move(transform.position);
-        } else if (!selectedUnit && hoveringUnit) {
+        } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SRPGUnit.State.Spent) {
             SelectUnit();
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
