@@ -41,8 +41,8 @@ public class SRPGUnit : LerpMovement
 
     public void SpawnMoveTiles(GameObject pfTile){
         tiles = new List<SRPGTile>();
-        for (int i = -moveRange; i < moveRange; i++) {
-            for (int j = -moveRange; j < moveRange; j++) {
+        for (int i = -moveRange; i <= moveRange; i++) {
+            for (int j = -moveRange; j <= moveRange; j++) {
                 if (!(i == 0 && j == 0) && (Math.Abs(i) + Math.Abs(j) <= moveRange)){
                     Vector3 pos = transform.position + new Vector3(i, j, 0);
                     if(!tilemapCollider2D.OverlapPoint(pos)){
