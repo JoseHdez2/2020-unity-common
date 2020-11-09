@@ -34,8 +34,8 @@ public class SRPGUnitMenu : ButtonMenuBase
     public void Open(SRPGUnit unit){
         buttonContainer.ToggleWipe(true);
         fieldCursor.gameObject.SetActive(false);
-        HideIrrelevantButtons(unit);
         gameObject.SetActive(true);
+        HideIrrelevantButtons(unit);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         ResetCursor();
         selectedUnit = unit;
@@ -43,7 +43,6 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     // All buttons reactivate by default. Deactivate the relevant ones.
     private void HideIrrelevantButtons(SRPGUnit unit){
-        Debug.Log("HideIrrelevantButtons");
         if(!unit.InAttackRange()){
             attackButton.gameObject.SetActive(false);
         }

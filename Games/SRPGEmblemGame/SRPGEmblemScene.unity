@@ -2506,10 +2506,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.03
   pfTile: {fileID: 1286690954498784044, guid: e592d9aa31c83c447a46142493bffc2f, type: 3}
+  levelBoundsColl: {fileID: 0}
   selectedUnit: {fileID: 0}
   hoveringUnit: {fileID: 0}
   hoveringTile: {fileID: 0}
   deadzone: 0.041
+  cursorCooldown: 0.01
 --- !u!61 &1224961160
 BoxCollider2D:
   m_ObjectHideFlags: 0
