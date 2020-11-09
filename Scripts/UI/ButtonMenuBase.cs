@@ -17,15 +17,14 @@ public class ButtonMenuBase : MonoBehaviour
     private LayoutGroup layoutGroup;
 
     private bool checkIfMenuIsFocused = true;
-    
+
     void Awake(){
         layoutGroup = GetComponentInChildren<LayoutGroup>(includeInactive: true);
         if (layoutGroup == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
         eventSystem = FindObjectOfType<EventSystem>();
     }
 
-    protected void OnEnable()
-    {
+    protected void OnEnable(){
         foreach (var button in GetButtonsAll())
         {
             button.gameObject.SetActive(true);
@@ -33,23 +32,22 @@ public class ButtonMenuBase : MonoBehaviour
         checkIfMenuIsFocused = true;
     }
 
-    protected void OnDisable()
-    {
+    protected void OnDisable() {
         foreach (var button in GetButtons())
         {
             button.gameObject.SetActive(false);
         }
     }
 
-    public void ResetCursor(){
+    public void ResetCursor() {
+        Debug.Log("ResetCursor");
         SetCursorToFirstButton();
         if (IsThisMenuFocused()) {
             checkIfMenuIsFocused = false;
         }
     }
 
-    public void UpdateFixed()
-    {
+    public void UpdateFixed() {
         if (checkIfMenuIsFocused) {
             ResetCursor();
         }
@@ -61,6 +59,7 @@ public class ButtonMenuBase : MonoBehaviour
 
     protected void SetCursorToFirstButton(){
         Button firstBtn = GetButtons().FirstOrDefault();
+        Debug.Log($"SetCursorToFirstButton: {firstBtn}");
         if(firstBtn){
             eventSystem.SetSelectedGameObject(firstBtn.gameObject);
         } else {

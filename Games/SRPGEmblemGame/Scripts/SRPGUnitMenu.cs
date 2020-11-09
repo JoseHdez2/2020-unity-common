@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SRPGUnitMenu : ButtonMenuBase
+public class SRPGUnitMenu : ButtonMenuShowHide
 {
-    [SerializeField] private ImageWipe buttonContainer;
     [SerializeField] private Button attackButton;
     [SerializeField] private Button moveButton;
     [SerializeField] private Button itemButton;
@@ -20,25 +19,28 @@ public class SRPGUnitMenu : ButtonMenuBase
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         audioSource = FindObjectOfType<SRPGAudioSource>();
         fieldCursor = FindObjectOfType<SRPGFieldCursor>();
-        buttonContainer.ToggleWipe(false);
     }
 
-    public void OnEnable(){
-        base.OnEnable();
-
-        selectedButton = null;
-    }
-
-    public void Open(SRPGUnit unit){
-        buttonContainer.ToggleWipe(true);
+    public void Show(SRPGUnit unit){
+        base.Show();
         fieldCursor.gameObject.SetActive(false);
-        HideIrrelevantButtons(unit);
-        gameObject.SetActive(true);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
-        ResetCursor();
+        HideIrrelevantButtons(unit);
         selectedUnit = unit;
+    }
+
+    public void Hide(){
+        base.Hide();
+        fieldCursor.gameObject.SetActive(true);
+        audioSource.PlaySound(ESRPGSound.Cancel);
+        gameObject.SetActive(false);
+    }
+
+    public void OnChangeSelection(){
+        audioSource.PlaySound(ESRPGSound.MenuCursor);
     }
 
     // All buttons reactivate by default. Deactivate the relevant ones.
@@ -76,39 +78,19 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     public void HandleWait(){
         selectedUnit.ToSpent();
-        Close();
+        Hide();
     }
 
     public void HandleCancel(){
         if(selectedUnit.state == SRPGUnit.State.Moved){
             selectedUnit.ToIdle();
-            Close();
+            Hide();
         } else if(selectedUnit.state == SRPGUnit.State.SelectingMove) {
             selectedUnit.ToIdle();
-            Close();
+            Hide();
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
         }
     }
 
-    public void Close(){
-        buttonContainer.ToggleWipe(false);
-        fieldCursor.gameObject.SetActive(true);
-        audioSource.PlaySound(ESRPGSound.Cancel);
-        gameObject.SetActive(false);
-    }    
-
-    // Must reset to null each time the menu becomes inactive. Only used for making a sound when the selected button changes.
-    private GameObject selectedButton;
-
-    // Update is called once per frame
-    void Update()
-    {         
-        if (eventSystem.currentSelectedGameObject != selectedButton) {
-            if(selectedButton != null){ // Avoid playing when the first button becomes selected automatically. but play thereafter.
-                audioSource.PlaySound(ESRPGSound.MenuCursor);
-            }
-            selectedButton = eventSystem.currentSelectedGameObject;
-        }
-    }
 }
