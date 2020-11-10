@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
+using ExtensionMethods;
 
 public class SRPGFieldCursor : LerpMovement
 {
@@ -9,6 +12,7 @@ public class SRPGFieldCursor : LerpMovement
     private SRPGUnitCard unitCard;
     private SRPGUnitMenu unitMenu;
     [SerializeField] private GameObject pfTile; 
+    [SerializeField] private TMP_Text teamText;
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
     public SRPGUnit selectedUnit;
@@ -21,6 +25,10 @@ public class SRPGFieldCursor : LerpMovement
     [Tooltip("Seconds before the cursor will listen to an input again.")]
     public float cursorCooldown = 0.5f;
     private float curCursorCooldown = 0.01f;
+    // Teams and turns
+    private ILookup<string, SRPGUnit> unitsByTeam;
+    private List<string> teamIds;
+    private string curTeam = "good guys";
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +36,33 @@ public class SRPGFieldCursor : LerpMovement
         audioSource = FindObjectOfType<SRPGAudioSource>();
         unitCard = FindObjectOfType<SRPGUnitCard>();
         unitMenu = FindObjectOfType<SRPGUnitMenu>();
+        InitializeTeams();
+    }
+
+    void InitializeTeams(){
+        SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
+        unitsByTeam = units.ToLookup(unit => unit.teamId);
+        teamIds = unitsByTeam.Select(g => g.Key).ToList();
+        units.ToList().ForEach(unit => InitializeUnit(unit));
+        teamText.text = curTeam;
+    }
+
+    private void InitializeUnit(SRPGUnit unit){
+        if(unit.teamId == curTeam){
+            unit.ToIdle();
+        } else {
+            unit.state = SRPGUnit.State.Spent; // Using "unit.ToSpent()" here results in unexpected early call to CheckForTurnChange.
+        }
+    }
+
+    public void CheckForTurnChange(){
+        int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SRPGUnit.State.Spent);
+        if(unitsNotSpent > 0){
+            Debug.Log($"{unitsNotSpent} unit(s) remain.");
+            return;
+        }
+        curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
+        InitializeTeams();
     }
 
     // Update is called once per frame

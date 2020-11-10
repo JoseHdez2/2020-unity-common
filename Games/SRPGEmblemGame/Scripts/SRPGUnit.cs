@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Tilemaps;
+using ExtensionMethods;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class SRPGUnit : LerpMovement
@@ -11,6 +12,7 @@ public class SRPGUnit : LerpMovement
     public string id;
     public string name;
     public string typeId;
+    public string teamId;
     public int hp = 10;
     public int attack = 1;
     public int defense = 1;
@@ -33,19 +35,21 @@ public class SRPGUnit : LerpMovement
         Spent
     }
 
-    private void Start() {
+    private void Awake() {
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         idlePos = transform.position;
     }
 
     public void SpawnMoveTiles(GameObject pfTile){
+        List<BoxCollider2D> unitColls = FindObjectsOfType<SRPGUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
+        Debug.Log(unitColls.Count());
         tiles = new List<SRPGTile>();
         for (int i = -moveRange; i <= moveRange; i++) {
             for (int j = -moveRange; j <= moveRange; j++) {
                 if (!(i == 0 && j == 0) && (Math.Abs(i) + Math.Abs(j) <= moveRange)){
                     Vector3 pos = transform.position + new Vector3(i, j, 0);
-                    if(!tilemapCollider2D.OverlapPoint(pos)){
+                    if(IsEmptyTile(pos, unitColls)){
                         GameObject tileObj = Instantiate(pfTile, pos, Quaternion.identity);
                         SRPGTile tile = tileObj.GetComponent<SRPGTile>();
                         tiles.Add(tile);
@@ -54,6 +58,10 @@ public class SRPGUnit : LerpMovement
             }
         }
         state = State.SelectingMove;
+    }
+
+    private bool IsEmptyTile(Vector3 pos, List<BoxCollider2D> unitColls){
+        return !tilemapCollider2D.OverlapPoint(pos) && unitColls.None(coll => coll.bounds.Contains(pos));
     }
 
     public void ToIdle(){
@@ -85,10 +93,12 @@ public class SRPGUnit : LerpMovement
 
     public void ToSpent(){
         DestroyTiles();
-        FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
+        var cursor = FindObjectOfType<SRPGFieldCursor>(includeInactive: true);
+        cursor.selectedUnit = null;
         idlePos = transform.position;
         spriteRenderer.color = Color.gray;
         state = State.Spent;
+        cursor.CheckForTurnChange();
     }
 
     public bool InAttackRange(){
@@ -100,7 +110,11 @@ public class SRPGUnit : LerpMovement
     }
 
     public void DestroyTiles(){
-        tiles.ForEach(tile => tile.SelfDestroy());
-        tiles = null;
+        if(tiles != null){
+            tiles.ForEach(tile => tile.SelfDestroy());
+            tiles = null;
+        } else {
+            Debug.LogWarning("Tried to destroy non-existent tiles.");
+        }
     }
 }
