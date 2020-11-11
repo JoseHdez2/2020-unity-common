@@ -33,6 +33,10 @@ public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
         audioSource.Pause();
     }
 
+    public bool IsPlaying(){
+        return audioSource.isPlaying;
+    }
+
     public void SetPitch(float pitch) { audioSource.pitch = pitch; }
 
     public void PlaySoundWithPitch(TEnum sound, float pitch){

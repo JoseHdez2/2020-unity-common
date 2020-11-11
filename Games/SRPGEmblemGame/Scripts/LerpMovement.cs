@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public abstract class LerpMovement : MonoBehaviour {
+public class LerpMovement : MonoBehaviour {
     
-    protected Vector3? destinationPos;
+    public Vector3? destinationPos;
 
     [Range(0,1)]
     public float speed = 0.05f;

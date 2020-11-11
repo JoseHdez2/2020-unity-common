@@ -7,7 +7,7 @@ using System.Linq;
 public class SrpgController : MonoBehaviour {
     
     protected SrpgAudioSource audioSource;
-    [SerializeField] private TMP_Text teamText;
+    [SerializeField] protected TMP_Text teamText;
     // Teams and turns
     protected ILookup<string, SRPGUnit> unitsByTeam;
     protected List<string> teamIds;
@@ -28,7 +28,7 @@ public class SrpgController : MonoBehaviour {
         unitsByTeam = units.ToLookup(unit => unit.teamId);
         teamIds = unitsByTeam.Select(g => g.Key).ToList();
         units.ToList().ForEach(unit => InitializeUnit(unit));
-        teamText.text = curTeam;
+        teamText.text = $"{curTeam}'s Turn";
     }
 
     private void InitializeUnit(SRPGUnit unit){
@@ -53,6 +53,6 @@ public class SrpgController : MonoBehaviour {
         Debug.Log("parent ChangeTurn!");
         curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
         InitializeTeams();
-        Debug.Log($"It's the turn of the {curTeam}.");
+        Debug.Log($"{curTeam}'s Turn.");
     }
 }
