@@ -43,7 +43,6 @@ public class SRPGUnit : LerpMovement
 
     public void SpawnMoveTiles(GameObject pfTile){
         List<BoxCollider2D> unitColls = FindObjectsOfType<SRPGUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
-        Debug.Log(unitColls.Count());
         tiles = new List<SRPGTile>();
         for (int i = -moveRange; i <= moveRange; i++) {
             for (int j = -moveRange; j <= moveRange; j++) {
@@ -66,7 +65,7 @@ public class SRPGUnit : LerpMovement
 
     public void ToIdle(){
         DestroyTiles();
-        FindObjectOfType<SRPGFieldCursor>(includeInactive: true).selectedUnit = null;
+        FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         state = State.Idle;
         spriteRenderer.color = Color.white;
         destinationPos = idlePos;
@@ -81,24 +80,23 @@ public class SRPGUnit : LerpMovement
 
     public void Move(Vector2 pos){
         destinationPos = pos;
-        FindObjectOfType<SRPGAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
+        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
         state = State.Moving;
     }
 
     public void FinishMoving(){
-        FindObjectOfType<SRPGAudioSource>().PlaySound(ESRPGSound.UnitPrompt);
+        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitPrompt);
         state = State.Moved;
-        FindObjectOfType<SRPGFieldCursor>().OpenUnitMenu();
+        FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
     }
 
     public void ToSpent(){
         DestroyTiles();
-        var cursor = FindObjectOfType<SRPGFieldCursor>(includeInactive: true);
-        cursor.selectedUnit = null;
+        FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;
         spriteRenderer.color = Color.gray;
         state = State.Spent;
-        cursor.CheckForTurnChange();
+        FindObjectOfType<SrpgController>().CheckForTurnChange();
     }
 
     public bool InAttackRange(){

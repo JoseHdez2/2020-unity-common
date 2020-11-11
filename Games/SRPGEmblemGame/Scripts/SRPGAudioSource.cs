@@ -11,9 +11,10 @@ public enum ESRPGSound {
     SelectUnit,
     MenuCursor,
     UnitPrompt,
-    UnitFootsteps
+    UnitFootsteps,
+    TurnChange
 }
 
 [RequireComponent(typeof(AudioSource))]
-public class SRPGAudioSource : AudioSourceMultiBase<ESRPGSound>
+public class SrpgAudioSource : AudioSourceMultiBase<ESRPGSound>
 {}

@@ -13,15 +13,15 @@ public class SRPGUnitMenu : ButtonMenuBase
     [SerializeField] private Button waitButton;
     [SerializeField] private Button cancelButton;
 
-    private SRPGAudioSource audioSource;
-    private SRPGFieldCursor fieldCursor;
+    private SrpgAudioSource audioSource;
+    private SrpgFieldCursor fieldCursor;
     private SRPGUnit selectedUnit;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = FindObjectOfType<SRPGAudioSource>();
-        fieldCursor = FindObjectOfType<SRPGFieldCursor>();
+        audioSource = FindObjectOfType<SrpgAudioSource>();
+        fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         buttonContainer.ToggleWipe(false);
     }
 
