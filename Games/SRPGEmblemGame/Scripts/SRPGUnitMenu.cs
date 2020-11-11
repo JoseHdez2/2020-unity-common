@@ -14,14 +14,14 @@ public class SRPGUnitMenu : ButtonMenuBase
     [SerializeField] private Button cancelButton;
 
     private SrpgAudioSource audioSource;
-    private SrpgFieldCursor fieldCursor;
+    private SrpgController srpgController;
     private SRPGUnit selectedUnit;
 
     // Start is called before the first frame update
     void Start()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
-        fieldCursor = FindObjectOfType<SrpgFieldCursor>();
+        srpgController = FindObjectOfType<SrpgController>();
         buttonContainer.ToggleWipe(false);
     }
 
@@ -33,7 +33,7 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     public void Open(SRPGUnit unit){
         buttonContainer.ToggleWipe(true);
-        fieldCursor.gameObject.SetActive(false);
+        srpgController.ToggleFieldCursor(false);
         gameObject.SetActive(true);
         HideIrrelevantButtons(unit);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
@@ -92,7 +92,7 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     public void Close(){
         buttonContainer.ToggleWipe(false);
-        fieldCursor.gameObject.SetActive(true);
+        srpgController.ToggleFieldCursor(true);
         audioSource.PlaySound(ESRPGSound.Cancel);
         gameObject.SetActive(false);
     }    

@@ -13,6 +13,7 @@ public class SrpgController : MonoBehaviour {
     protected List<string> teamIds;
     protected string curTeam = "good guys";
 
+    public ActiveSemaphor semaphor = new ActiveSemaphor();
     protected SrpgFieldCursor fieldCursor;
     protected SRPGUnitMenu unitMenu;
 
@@ -21,6 +22,9 @@ public class SrpgController : MonoBehaviour {
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         unitMenu = FindObjectOfType<SRPGUnitMenu>();
         InitializeTeams();
+        // semaphor = new ActiveSemaphor();
+        // semaphor.objects.Add(fieldCursor.gameObject);
+        // semaphor.objects.Add(unitMenu.gameObject);
     }
 
     private void InitializeTeams(){
@@ -50,9 +54,13 @@ public class SrpgController : MonoBehaviour {
     }
 
     public virtual void ChangeTurn(){
-        Debug.Log("parent ChangeTurn!");
         curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
         InitializeTeams();
         Debug.Log($"{curTeam}'s Turn.");
+    }
+
+    public void ToggleFieldCursor(bool activate){
+        Debug.Log($"ToggleFieldCursor:{activate}");
+        fieldCursor.gameObject.SetActive(activate);
     }
 }

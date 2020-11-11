@@ -16,16 +16,16 @@ public class SrpgEmblemController : SrpgController
     }
 
     public override void ChangeTurn(){
-        Debug.Log("child ChangeTurn!");
         base.ChangeTurn();
+        ToggleFieldCursor(false);
         StartCoroutine(CrChangeTurn());
     }
 
     private IEnumerator CrChangeTurn(){
         Debug.Log("Change Turn!");
-        fieldCursor.gameObject.SetActive(false);
         ninjaVision.GetReady();
         yield return new WaitForSeconds(0.3f);
+        ToggleFieldCursor(false);
         audioSource.PlaySound(ESRPGSound.TurnChange);
         ninjaVision.Activate();
         yield return new WaitForSeconds(1);
@@ -34,7 +34,7 @@ public class SrpgEmblemController : SrpgController
         yield return new WaitUntil(() => !audioSource.IsPlaying());
         ninjaVision.Deactivate();
         musicSource.PlaySound(GetTurnMusic());
-        fieldCursor.gameObject.SetActive(true);
+        ToggleFieldCursor(true);
     }
 
     private ESrpgEmblemMusic GetTurnMusic(){
