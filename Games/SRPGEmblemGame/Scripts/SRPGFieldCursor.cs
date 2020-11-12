@@ -10,12 +10,13 @@ public class SrpgFieldCursor : LerpMovement
     private SrpgAudioSource audioSource;
     private SRPGUnitCard unitCard;
     private SRPGUnitMenu unitMenu;
-    [SerializeField] private GameObject pfTile; 
+    [SerializeField] private GameObject pfTileMove; 
+    [SerializeField] private GameObject pfTileAttack; 
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
     public SRPGUnit selectedUnit;
     [SerializeField] private SRPGUnit hoveringUnit;
-    [SerializeField] private SRPGTile hoveringTile;
+    [SerializeField] private SrpgTile hoveringTile;
     [Header("Settings")]
     [Range(0,0.5f)]
     public float deadzone = 0.05f;
@@ -75,7 +76,7 @@ public class SrpgFieldCursor : LerpMovement
 
     private void HandleConfirm()
     {
-        if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile){
+        if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile && hoveringTile.highlightType == SrpgTile.Highlight.Move){
             selectedUnit.Move(transform.position);
         } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SRPGUnit.State.Spent) {
             SelectUnit();
@@ -92,7 +93,7 @@ public class SrpgFieldCursor : LerpMovement
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         selectedUnit = hoveringUnit;
         if(selectedUnit.state == SRPGUnit.State.Idle){
-            selectedUnit.SpawnMoveTiles(pfTile);
+            selectedUnit.SpawnMoveTiles(pfTileMove, pfTileAttack);
         }
     }
 
@@ -111,7 +112,7 @@ public class SrpgFieldCursor : LerpMovement
 
     private void OnTriggerEnter2D(Collider2D other) {
         hoveringUnit = other.gameObject.GetComponent<SRPGUnit>();
-        hoveringTile = other.gameObject.GetComponent<SRPGTile>();
+        hoveringTile = other.gameObject.GetComponent<SrpgTile>();
         if(hoveringUnit){
             unitCard.Open();
             unitCard.SetUnit(hoveringUnit);

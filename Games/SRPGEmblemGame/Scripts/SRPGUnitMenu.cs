@@ -46,7 +46,7 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     // All buttons reactivate by default. Deactivate the relevant ones.
     private void HideIrrelevantButtons(SRPGUnit unit){
-        if(!unit.InAttackRange()){
+        if(!unit.CanAttack()){
             attackButton.gameObject.SetActive(false);
         }
         if(!unit.HasItem()){

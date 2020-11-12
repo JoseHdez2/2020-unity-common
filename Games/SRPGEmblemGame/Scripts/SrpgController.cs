@@ -9,11 +9,14 @@ public class SrpgController : MonoBehaviour {
     protected SrpgAudioSource audioSource;
     [SerializeField] protected TMP_Text teamText;
     // Teams and turns
-    protected ILookup<string, SRPGUnit> unitsByTeam;
     protected List<string> teamIds;
     protected string curTeam = "good guys";
 
-    public ActiveSemaphor semaphor = new ActiveSemaphor();
+    protected ILookup<string, SRPGUnit> unitsByTeam;
+    protected ILookup<Vector3, SRPGUnit> unitsByPosition; // TODO
+    private List<BoxCollider2D> unitColls;
+
+    public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
     protected SrpgFieldCursor fieldCursor;
     protected SRPGUnitMenu unitMenu;
 
@@ -21,6 +24,7 @@ public class SrpgController : MonoBehaviour {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         unitMenu = FindObjectOfType<SRPGUnitMenu>();
+        UpdateUnitColliders();
         InitializeTeams();
         // semaphor = new ActiveSemaphor();
         // semaphor.objects.Add(fieldCursor.gameObject);
@@ -30,6 +34,7 @@ public class SrpgController : MonoBehaviour {
     private void InitializeTeams(){
         SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
         unitsByTeam = units.ToLookup(unit => unit.teamId);
+        unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         teamIds = unitsByTeam.Select(g => g.Key).ToList();
         units.ToList().ForEach(unit => InitializeUnit(unit));
         teamText.text = $"{curTeam}'s Turn";
@@ -38,6 +43,7 @@ public class SrpgController : MonoBehaviour {
     private void InitializeUnit(SRPGUnit unit){
         if(unit.teamId == curTeam){
             unit.ToIdle();
+            unit.hasAttackedThisTurn = false;
         } else {
             unit.state = SRPGUnit.State.Spent; // Using "unit.ToSpent()" here results in unexpected early call to CheckForTurnChange.
         }
@@ -50,6 +56,8 @@ public class SrpgController : MonoBehaviour {
             return;
         } else {
             ChangeTurn();
+            SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
+            unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         }
     }
 
@@ -62,4 +70,10 @@ public class SrpgController : MonoBehaviour {
     public void ToggleFieldCursor(bool activate){
         fieldCursor.gameObject.SetActive(activate);
     }
+
+    private void UpdateUnitColliders(){
+        unitColls = FindObjectsOfType<SRPGUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
+    }
+
+    public List<BoxCollider2D> GetUnitColliders() { return unitColls; }
 }

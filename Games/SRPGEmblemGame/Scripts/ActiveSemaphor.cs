@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 // Keep a list of GameObjects where only one of them may be active at the same time.
-public class ActiveSemaphor : MonoBehaviour {
+public class ActiveSemaphor {
     
     public List<GameObject> objects;
 

@@ -1846,8 +1846,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 1456961050158473222, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
-  m_Color: {r: 0.5330188, g: 0.5649797, b: 1, a: 1}
+  m_Sprite: {fileID: 9025172281511556270, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -1872,13 +1872,14 @@ MonoBehaviour:
   speed: 0.05
   id: john
   name: John
-  typeId: Carpenter
+  typeId: Skellyman
   teamId: bad guys
   hp: 10
   attack: 1
   defense: 1
   moveRange: 3
   state: 0
+  hasAttackedThisTurn: 0
 --- !u!61 &767693346
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2730,7 +2731,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.03
-  pfTile: {fileID: 1286690954498784044, guid: e592d9aa31c83c447a46142493bffc2f, type: 3}
+  pfTileMove: {fileID: 1286690954498784044, guid: e592d9aa31c83c447a46142493bffc2f, type: 3}
+  pfTileAttack: {fileID: 1286690954498784044, guid: f0a6ab2e3e228d64690450673a101454, type: 3}
   levelBoundsColl: {fileID: 1061599912}
   selectedUnit: {fileID: 0}
   hoveringUnit: {fileID: 0}
@@ -4207,6 +4209,7 @@ MonoBehaviour:
   defense: 1
   moveRange: 3
   state: 0
+  hasAttackedThisTurn: 0
 --- !u!212 &1741206235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4328,6 +4331,8 @@ MonoBehaviour:
   statusButton: {fileID: 411846678}
   waitButton: {fileID: 1242496255}
   cancelButton: {fileID: 1894991908}
+  showStatusButton: 0
+  showCancelButton: 0
 --- !u!1 &1890333862
 GameObject:
   m_ObjectHideFlags: 0
@@ -4395,6 +4400,7 @@ MonoBehaviour:
   defense: 1
   moveRange: 3
   state: 0
+  hasAttackedThisTurn: 0
 --- !u!212 &1890333865
 SpriteRenderer:
   m_ObjectHideFlags: 0
