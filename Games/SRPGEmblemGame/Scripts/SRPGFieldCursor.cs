@@ -63,8 +63,9 @@ public class SrpgFieldCursor : LerpMovement
                 if(selectedUnit.state == SRPGUnit.State.SelectingMove){
                     selectedUnit.ToIdle();
                     selectedUnit = null;
+                    audioSource.PlaySound(ESRPGSound.Cancel);
                 } else {
-                    
+                    audioSource.PlaySound(ESRPGSound.Buzzer);
                 }
             } else {
                 audioSource.PlaySound(ESRPGSound.Buzzer);

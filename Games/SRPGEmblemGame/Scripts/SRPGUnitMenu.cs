@@ -17,6 +17,9 @@ public class SRPGUnitMenu : ButtonMenuBase
     private SrpgController srpgController;
     private SRPGUnit selectedUnit;
 
+    public bool showStatusButton;
+    public bool showCancelButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +58,12 @@ public class SRPGUnitMenu : ButtonMenuBase
         if(unit.state == SRPGUnit.State.Spent){
             waitButton.gameObject.SetActive(false);
         }
+        if(!showStatusButton){
+            statusButton.gameObject.SetActive(false);
+        }
+        if(!showCancelButton){
+            cancelButton.gameObject.SetActive(false);
+        }
     }
 
     public void HandleAttack(){
@@ -79,6 +88,11 @@ public class SRPGUnitMenu : ButtonMenuBase
     }
 
     public void HandleCancel(){
+        Debug.Log("HandleCancel");
+        if(!selectedUnit){
+            Debug.LogWarning("UnitMenu has no selectedUnit! (Maybe the menu should have been disabled.)");
+            return;
+        }
         if(selectedUnit.state == SRPGUnit.State.Moved){
             selectedUnit.ToIdle();
             Close();
@@ -108,6 +122,9 @@ public class SRPGUnitMenu : ButtonMenuBase
                 audioSource.PlaySound(ESRPGSound.MenuCursor);
             }
             selectedButton = eventSystem.currentSelectedGameObject;
+        }
+        if(Input.GetButtonDown("Cancel")){
+            HandleCancel();
         }
     }
 }
