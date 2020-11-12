@@ -24,15 +24,24 @@ public class SrpgFieldCursor : LerpMovement
     [Tooltip("Seconds before the cursor will listen to an input again.")]
     public float cursorCooldown = 0.5f;
     private float curCursorCooldown = 0.01f;
+    // Settings
+    public bool showUnitCard = true;
 
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         unitCard = FindObjectOfType<SRPGUnitCard>();
         unitMenu = FindObjectOfType<SRPGUnitMenu>();
     }
+
+    private void OnEnable() {
+        UpdateUnitCard(show: showUnitCard, hoveringUnit);
+    }
+
+    private void OnDisable() {
+        UpdateUnitCard(show: false, null);
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -102,20 +111,40 @@ public class SrpgFieldCursor : LerpMovement
         //     audioSource.PlaySound(ESRPGSound.Buzzer);
         //     return;
         // }
-        hoveringUnit = null;
-        hoveringTile = null;
-        unitCard.Close();
+        ClearHover();
         audioSource.PlaySound(ESRPGSound.FieldCursor);
         destinationPos = pos;
         curCursorCooldown = cursorCooldown;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        hoveringUnit = other.gameObject.GetComponent<SRPGUnit>();
-        hoveringTile = other.gameObject.GetComponent<SrpgTile>();
-        if(hoveringUnit){
+        SetHover(other);
+    }
+
+    private void SetHover(Collider2D other){
+        var newHoveringTile = other?.gameObject.GetComponent<SrpgTile>();
+        var newHoveringUnit = other?.gameObject.GetComponent<SRPGUnit>();
+        if(newHoveringTile){
+            hoveringTile = newHoveringTile;
+        } else if (newHoveringUnit){
+            hoveringUnit = newHoveringUnit;
+            UpdateUnitCard(showUnitCard, hoveringUnit);
+        }
+    }
+
+    private void ClearHover(){
+        hoveringTile = null;
+        hoveringUnit = null;
+        UpdateUnitCard(false, hoveringUnit);
+    }
+
+    private void UpdateUnitCard(bool show, SRPGUnit hoveringUnit){
+        Debug.Log($"UpdateUnitCard: {show},{hoveringUnit}");
+        if(show && hoveringUnit){
             unitCard.Open();
             unitCard.SetUnit(hoveringUnit);
+        } else {
+            unitCard.Close();
         }
     }
 }

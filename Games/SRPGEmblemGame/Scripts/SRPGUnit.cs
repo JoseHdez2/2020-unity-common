@@ -85,8 +85,6 @@ public class SRPGUnit : LerpMovement
     // includeEmpty: include empty tiles alonside enemy-occupied tiles.
     private List<Vector2> GetAttackPositions(List<Vector2> fromPositions, bool excludeFrom = false, bool includeEmpty = false){
         List<Vector2> attackPositions = fromPositions.SelectMany(pos => GetAttackPositions(pos, includeEmpty)).Distinct().ToList();
-        Debug.Log(attackPositions);
-        Debug.Log(attackPositions.Count());
         if (excludeFrom){
             return attackPositions.Where(atkPos => !fromPositions.Any(fromPos => atkPos == fromPos)).ToList(); // TODO extract into Utils.
         } else {
