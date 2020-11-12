@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 using ExtensionMethods;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class SRPGUnit : LerpMovement
 {
     public string id;
@@ -23,6 +24,7 @@ public class SRPGUnit : LerpMovement
     private TilemapCollider2D tilemapCollider2D;
     private SpriteRenderer spriteRenderer;
     private List<SRPGTile> tiles = null;
+    private Collider2D collider;
 
     public Vector2? idlePos = null;
     public State state = State.Idle;
@@ -39,6 +41,7 @@ public class SRPGUnit : LerpMovement
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         idlePos = transform.position;
+        collider = GetComponent<Collider2D>();
     }
 
     public void SpawnMoveTiles(GameObject pfTile){
@@ -46,7 +49,7 @@ public class SRPGUnit : LerpMovement
         tiles = new List<SRPGTile>();
         for (int i = -moveRange; i <= moveRange; i++) {
             for (int j = -moveRange; j <= moveRange; j++) {
-                if (!(i == 0 && j == 0) && (Math.Abs(i) + Math.Abs(j) <= moveRange)){
+                if ((Math.Abs(i) + Math.Abs(j) <= moveRange)){
                     Vector3 pos = transform.position + new Vector3(i, j, 0);
                     if(IsEmptyTile(pos, unitColls)){
                         GameObject tileObj = Instantiate(pfTile, pos, Quaternion.identity);
@@ -60,7 +63,9 @@ public class SRPGUnit : LerpMovement
     }
 
     private bool IsEmptyTile(Vector3 pos, List<BoxCollider2D> unitColls){
-        return !tilemapCollider2D.OverlapPoint(pos) && unitColls.None(coll => coll.bounds.Contains(pos));
+        return !tilemapCollider2D.OverlapPoint(pos) 
+                && unitColls.None(coll => coll.bounds.Contains(pos))
+                || collider.bounds.Contains(pos);
     }
 
     public void ToIdle(){

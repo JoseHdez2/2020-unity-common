@@ -60,7 +60,6 @@ public class SrpgController : MonoBehaviour {
     }
 
     public void ToggleFieldCursor(bool activate){
-        Debug.Log($"ToggleFieldCursor:{activate}");
         fieldCursor.gameObject.SetActive(activate);
     }
 }
