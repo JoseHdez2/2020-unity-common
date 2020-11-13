@@ -8,12 +8,13 @@ using ExtensionMethods;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class SRPGUnit : LerpMovement
+public class SrpgUnit : LerpMovement
 {
     public string id;
     public string name;
     public string typeId;
     public string teamId;
+    public int maxHp = 10;
     public int hp = 10;
     public int attack = 1;
     public int defense = 1;
@@ -27,16 +28,22 @@ public class SRPGUnit : LerpMovement
     private List<SrpgTile> tiles = null;
     private Collider2D collider;
 
+    [SerializeField] DamagePopup pfDamagePopup; 
+
     public Vector2? idlePos = null;
     public State state = State.Idle;
     public bool hasAttackedThisTurn = false;
+
+    // Settings
+    public bool friendlyFire = false;
 
     public enum State {
         Idle,
         SelectingMove,
         Moving,
         Moved,
-        Spent
+        SelectingAttack,
+        Spent,
     }
 
     private void Awake() {
@@ -47,9 +54,9 @@ public class SRPGUnit : LerpMovement
         srpgController = FindObjectOfType<SrpgController>();
     }
 
-    public void SpawnMoveTiles(GameObject pfTileMove, GameObject pfTileAttack){
+    public void ToSelectingMove(GameObject pfTileMove, GameObject pfTileAttack){
         List<Vector2> movePositions = GetMovePositions();
-        tiles = new List<SrpgTile>();
+        DestroyTiles();
         foreach (Vector2 pos in movePositions){
             GameObject tileObj = Instantiate(pfTileMove, pos, Quaternion.identity);
             SrpgTile tile = tileObj.GetComponent<SrpgTile>();
@@ -61,6 +68,16 @@ public class SRPGUnit : LerpMovement
             tiles.Add(tile2);
         }
         state = State.SelectingMove;
+    }
+
+    public void ToSelectingAttack(GameObject pfTileAttack){
+        DestroyTiles();
+        foreach (Vector2 pos2 in GetAttackPositions(transform.position, includeEmpty: true)){
+            GameObject tileObj2 = Instantiate(pfTileAttack, pos2, Quaternion.identity);
+            SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
+            tiles.Add(tile2);
+        }
+        state = State.SelectingAttack;
     }
 
     // Get the positions that this unit can currently move to.
@@ -122,7 +139,7 @@ public class SRPGUnit : LerpMovement
         if(otherColl == null){
             return SrpgTile.Content.Empty;
         }
-        SRPGUnit unit = otherColl.GetComponent<SRPGUnit>();
+        SrpgUnit unit = otherColl.GetComponent<SrpgUnit>();
         if(unit.teamId == teamId){
             return SrpgTile.Content.HasFriend;
         } else {
@@ -151,10 +168,26 @@ public class SRPGUnit : LerpMovement
         state = State.Moving;
     }
 
-    public void Attack(Vector2 pos){
-        destinationPos = pos;
-        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
-        // state = State.Moving;
+    public void Attack(SrpgUnit hoveringUnit){
+        if(!friendlyFire && hoveringUnit.teamId == teamId){
+            Debug.LogWarning("Cannot attack friend! (Friendly fire is ON).");
+            return;
+        }
+        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
+        int dmg = CalculateDamage(hoveringUnit);
+        hoveringUnit.Damage(dmg);
+        ToSpent();
+    }
+
+    // TODO very primitive. take into account the attack type, etc.
+    private int CalculateDamage(SrpgUnit targetUnit){
+        return attack - targetUnit.defense;
+    }
+
+    public void Damage(int amount){
+        DamagePopup damagePopup = Instantiate(pfDamagePopup, transform.position, Quaternion.identity, transform);
+        damagePopup.SetPopupText(amount.ToString());
+        hp -= amount;
     }
 
     public void FinishMoving(){
@@ -183,10 +216,8 @@ public class SRPGUnit : LerpMovement
     public void DestroyTiles(){
         if(tiles != null){
             tiles.ForEach(tile => tile.SelfDestroy());
-            tiles = null;
-        } else {
-            Debug.LogWarning("Tried to destroy non-existent tiles.");
         }
+        tiles = new List<SrpgTile>();
     }
 
     private int GetAttackRange(){

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SRPGUnitMenu : ButtonMenuBase
+public class SrpgUnitMenu : ButtonMenuBase
 {
     [SerializeField] private ImageWipe buttonContainer;
     [SerializeField] private Button attackButton;
@@ -15,7 +15,9 @@ public class SRPGUnitMenu : ButtonMenuBase
 
     private SrpgAudioSource audioSource;
     private SrpgController srpgController;
-    private SRPGUnit selectedUnit;
+    private SrpgUnit selectedUnit;
+
+    [SerializeField] private GameObject pfAttackTile; 
 
     public bool showStatusButton;
     public bool showCancelButton;
@@ -34,7 +36,7 @@ public class SRPGUnitMenu : ButtonMenuBase
         selectedButton = null;
     }
 
-    public void Open(SRPGUnit unit){
+    public void Open(SrpgUnit unit){
         buttonContainer.ToggleWipe(true);
         srpgController.ToggleFieldCursor(false);
         gameObject.SetActive(true);
@@ -45,17 +47,17 @@ public class SRPGUnitMenu : ButtonMenuBase
     }
 
     // All buttons reactivate by default. Deactivate the relevant ones.
-    private void HideIrrelevantButtons(SRPGUnit unit){
+    private void HideIrrelevantButtons(SrpgUnit unit){
         if(!unit.CanAttack()){
             attackButton.gameObject.SetActive(false);
         }
         if(!unit.HasItem()){
             itemButton.gameObject.SetActive(false);
         }
-        if(unit.state != SRPGUnit.State.Idle){
+        if(unit.state != SrpgUnit.State.Idle){
             moveButton.gameObject.SetActive(false);
         }
-        if(unit.state == SRPGUnit.State.Spent){
+        if(unit.state == SrpgUnit.State.Spent){
             waitButton.gameObject.SetActive(false);
         }
         if(!showStatusButton){
@@ -67,7 +69,8 @@ public class SRPGUnitMenu : ButtonMenuBase
     }
 
     public void HandleAttack(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
+        selectedUnit.ToSelectingAttack(pfAttackTile);
+        Close();
     }
 
     public void HandleMove(){
@@ -88,15 +91,14 @@ public class SRPGUnitMenu : ButtonMenuBase
     }
 
     public void HandleCancel(){
-        Debug.Log("HandleCancel");
         if(!selectedUnit){
             Debug.LogWarning("UnitMenu has no selectedUnit! (Maybe the menu should have been disabled.)");
             return;
         }
-        if(selectedUnit.state == SRPGUnit.State.Moved){
+        if(selectedUnit.state == SrpgUnit.State.Moved){
             selectedUnit.ToIdle();
             Close();
-        } else if(selectedUnit.state == SRPGUnit.State.SelectingMove) {
+        } else if(selectedUnit.state == SrpgUnit.State.SelectingMove) {
             selectedUnit.ToIdle();
             Close();
         } else {

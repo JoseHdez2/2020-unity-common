@@ -1874,12 +1874,15 @@ MonoBehaviour:
   name: John
   typeId: Skellyman
   teamId: bad guys
+  maxHp: 10
   hp: 10
   attack: 1
-  defense: 1
+  defense: 0
   moveRange: 3
+  pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
   state: 0
   hasAttackedThisTurn: 0
+  friendlyFire: 0
 --- !u!61 &767693346
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2739,6 +2742,7 @@ MonoBehaviour:
   hoveringTile: {fileID: 0}
   deadzone: 0.041
   cursorCooldown: 0.01
+  showUnitCard: 1
 --- !u!61 &1224961160
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3327,6 +3331,7 @@ Transform:
   - {fileID: 1294057414}
   - {fileID: 1092375980}
   - {fileID: 1648616318}
+  - {fileID: 1757239004}
   m_Father: {fileID: 14805866}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3345,6 +3350,7 @@ MonoBehaviour:
   cardBg: {fileID: 1294057417}
   unitNameText: {fileID: 1092375981}
   unitTypeText: {fileID: 1648616319}
+  unitHpText: {fileID: 1757239005}
 --- !u!1 &1514132121
 GameObject:
   m_ObjectHideFlags: 0
@@ -4204,12 +4210,15 @@ MonoBehaviour:
   name: Michael
   typeId: Medic
   teamId: good guys
+  maxHp: 10
   hp: 10
   attack: 1
-  defense: 1
+  defense: 0
   moveRange: 3
+  pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
   state: 0
   hasAttackedThisTurn: 0
+  friendlyFire: 0
 --- !u!212 &1741206235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4275,6 +4284,140 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1757239003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1757239004}
+  - component: {fileID: 1757239006}
+  - component: {fileID: 1757239005}
+  m_Layer: 0
+  m_Name: UnitHpText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1757239004
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757239003}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1497607466}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -38, y: -23.12}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1757239005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757239003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'HP: '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 28
+  m_fontSizeBase: 28
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1757239006
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757239003}
+  m_CullTransparentMesh: 0
 --- !u!1 &1799773276
 GameObject:
   m_ObjectHideFlags: 0
@@ -4331,6 +4474,7 @@ MonoBehaviour:
   statusButton: {fileID: 411846678}
   waitButton: {fileID: 1242496255}
   cancelButton: {fileID: 1894991908}
+  pfAttackTile: {fileID: 1286690954498784044, guid: f0a6ab2e3e228d64690450673a101454, type: 3}
   showStatusButton: 0
   showCancelButton: 0
 --- !u!1 &1890333862
@@ -4395,12 +4539,15 @@ MonoBehaviour:
   name: Chad
   typeId: King
   teamId: good guys
+  maxHp: 10
   hp: 10
-  attack: 1
+  attack: 2
   defense: 1
   moveRange: 3
+  pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
   state: 0
   hasAttackedThisTurn: 0
+  friendlyFire: 0
 --- !u!212 &1890333865
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4968,8 +5115,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 0000000005000000030000000600000004000000070000000800000009000000
-    _keys: 0000000005000000030000000600000004000000070000000800000009000000
+    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a000000
+    _keys: 00000000050000000300000006000000040000000700000008000000090000000a000000
     _values:
     - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
     - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
@@ -4979,6 +5126,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 128dae8260715c349955950eac098e1f, type: 3}
     - {fileID: 8300000, guid: 989b5df9f44d22c4b90215ebd1e102ae, type: 3}
     - {fileID: 8300000, guid: 079f97c2f00a18744bef103680691967, type: 3}
+    - {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   respectSoundSeniority: 0
 --- !u!82 &1976563420
 AudioSource:

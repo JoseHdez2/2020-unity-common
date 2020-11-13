@@ -8,14 +8,14 @@ public class SrpgFieldCursor : LerpMovement
 {
     // GameObject references
     private SrpgAudioSource audioSource;
-    private SRPGUnitCard unitCard;
-    private SRPGUnitMenu unitMenu;
+    private SrpgUnitCard unitCard;
+    private SrpgUnitMenu unitMenu;
     [SerializeField] private GameObject pfTileMove; 
     [SerializeField] private GameObject pfTileAttack; 
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
-    public SRPGUnit selectedUnit;
-    [SerializeField] private SRPGUnit hoveringUnit;
+    public SrpgUnit selectedUnit;
+    [SerializeField] private SrpgUnit hoveringUnit;
     [SerializeField] private SrpgTile hoveringTile;
     [Header("Settings")]
     [Range(0,0.5f)]
@@ -30,8 +30,8 @@ public class SrpgFieldCursor : LerpMovement
     void Awake()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
-        unitCard = FindObjectOfType<SRPGUnitCard>();
-        unitMenu = FindObjectOfType<SRPGUnitMenu>();
+        unitCard = FindObjectOfType<SrpgUnitCard>();
+        unitMenu = FindObjectOfType<SrpgUnitMenu>();
     }
 
     private void OnEnable() {
@@ -50,7 +50,7 @@ public class SrpgFieldCursor : LerpMovement
             base.Update();
             return;
         }
-        if(selectedUnit && selectedUnit.state == SRPGUnit.State.Moving){
+        if(selectedUnit && selectedUnit.state == SrpgUnit.State.Moving){
             return;
         }
         if(curCursorCooldown > 0){
@@ -69,26 +69,49 @@ public class SrpgFieldCursor : LerpMovement
             HandleConfirm();
         }
         else if (Input.GetButtonDown("Cancel")){
-            if(selectedUnit){
-                if(selectedUnit.state == SRPGUnit.State.SelectingMove){
-                    selectedUnit.ToIdle();
-                    selectedUnit = null;
-                    audioSource.PlaySound(ESRPGSound.Cancel);
-                } else {
-                    audioSource.PlaySound(ESRPGSound.Buzzer);
-                }
-            } else {
-                audioSource.PlaySound(ESRPGSound.Buzzer);
-            }
+            HandleCancel();
         }
     }
 
-    private void HandleConfirm()
-    {
-        if (selectedUnit && selectedUnit.state == SRPGUnit.State.SelectingMove && hoveringTile && hoveringTile.highlightType == SrpgTile.Highlight.Move){
-            selectedUnit.Move(transform.position);
-        } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SRPGUnit.State.Spent) {
+    private void HandleConfirm(){
+        if (selectedUnit && hoveringTile){
+            switch (hoveringTile.highlightType){
+                case SrpgTile.Highlight.Move:
+                    selectedUnit.Move(transform.position);
+                    break;
+                case SrpgTile.Highlight.Attack:
+                    if(selectedUnit.state == SrpgUnit.State.SelectingAttack && hoveringUnit){ // TODO recheck whether these checks are ok.
+                        selectedUnit.Attack(hoveringUnit);
+                    } else {
+                        audioSource.PlaySound(ESRPGSound.Buzzer);
+                    }
+                    break;
+                default:
+                    audioSource.PlaySound(ESRPGSound.Buzzer); break;
+            }
+        } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SrpgUnit.State.Spent) {
             SelectUnit();
+        } else {
+            audioSource.PlaySound(ESRPGSound.Buzzer);
+        }
+    }
+
+    private void HandleCancel(){
+        if(selectedUnit){
+            switch (selectedUnit.state)
+            {
+                case SrpgUnit.State.SelectingMove:
+                    selectedUnit.ToIdle();
+                    selectedUnit = null;    
+                    audioSource.PlaySound(ESRPGSound.Cancel);
+                    break;
+                case SrpgUnit.State.SelectingAttack:
+                    unitMenu.Open(selectedUnit);
+                    audioSource.PlaySound(ESRPGSound.Cancel);
+                    break;
+                default:
+                    audioSource.PlaySound(ESRPGSound.Buzzer); break;
+            }
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
         }
@@ -101,8 +124,8 @@ public class SrpgFieldCursor : LerpMovement
     private void SelectUnit(){
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         selectedUnit = hoveringUnit;
-        if(selectedUnit.state == SRPGUnit.State.Idle){
-            selectedUnit.SpawnMoveTiles(pfTileMove, pfTileAttack);
+        if(selectedUnit.state == SrpgUnit.State.Idle){
+            selectedUnit.ToSelectingMove(pfTileMove, pfTileAttack);
         }
     }
 
@@ -123,7 +146,7 @@ public class SrpgFieldCursor : LerpMovement
 
     private void SetHover(Collider2D other){
         var newHoveringTile = other?.gameObject.GetComponent<SrpgTile>();
-        var newHoveringUnit = other?.gameObject.GetComponent<SRPGUnit>();
+        var newHoveringUnit = other?.gameObject.GetComponent<SrpgUnit>();
         if(newHoveringTile){
             hoveringTile = newHoveringTile;
         } else if (newHoveringUnit){
@@ -138,8 +161,7 @@ public class SrpgFieldCursor : LerpMovement
         UpdateUnitCard(false, hoveringUnit);
     }
 
-    private void UpdateUnitCard(bool show, SRPGUnit hoveringUnit){
-        Debug.Log($"UpdateUnitCard: {show},{hoveringUnit}");
+    private void UpdateUnitCard(bool show, SrpgUnit hoveringUnit){
         if(show && hoveringUnit){
             unitCard.Open();
             unitCard.SetUnit(hoveringUnit);

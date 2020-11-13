@@ -12,18 +12,18 @@ public class SrpgController : MonoBehaviour {
     protected List<string> teamIds;
     protected string curTeam = "good guys";
 
-    protected ILookup<string, SRPGUnit> unitsByTeam;
-    protected ILookup<Vector3, SRPGUnit> unitsByPosition; // TODO
+    protected ILookup<string, SrpgUnit> unitsByTeam;
+    protected ILookup<Vector3, SrpgUnit> unitsByPosition; // TODO
     private List<BoxCollider2D> unitColls;
 
     public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
     protected SrpgFieldCursor fieldCursor;
-    protected SRPGUnitMenu unitMenu;
+    protected SrpgUnitMenu unitMenu;
 
     protected void Start() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
-        unitMenu = FindObjectOfType<SRPGUnitMenu>();
+        unitMenu = FindObjectOfType<SrpgUnitMenu>();
         UpdateUnitColliders();
         InitializeTeams();
         // semaphor = new ActiveSemaphor();
@@ -32,7 +32,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     private void InitializeTeams(){
-        SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
+        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         unitsByTeam = units.ToLookup(unit => unit.teamId);
         unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         teamIds = unitsByTeam.Select(g => g.Key).ToList();
@@ -40,23 +40,23 @@ public class SrpgController : MonoBehaviour {
         teamText.text = $"{curTeam}'s Turn";
     }
 
-    private void InitializeUnit(SRPGUnit unit){
+    private void InitializeUnit(SrpgUnit unit){
         if(unit.teamId == curTeam){
             unit.ToIdle();
             unit.hasAttackedThisTurn = false;
         } else {
-            unit.state = SRPGUnit.State.Spent; // Using "unit.ToSpent()" here results in unexpected early call to CheckForTurnChange.
+            unit.state = SrpgUnit.State.Spent; // Using "unit.ToSpent()" here results in unexpected early call to CheckForTurnChange.
         }
     }
 
     public void CheckForTurnChange(){
-        int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SRPGUnit.State.Spent);
+        int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
         if(unitsNotSpent > 0){
             Debug.Log($"{unitsNotSpent} unit(s) remain.");
             return;
         } else {
             ChangeTurn();
-            SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
+            SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
             unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         }
     }
@@ -72,7 +72,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     private void UpdateUnitColliders(){
-        unitColls = FindObjectsOfType<SRPGUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
+        unitColls = FindObjectsOfType<SrpgUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
     }
 
     public List<BoxCollider2D> GetUnitColliders() { return unitColls; }

@@ -12,7 +12,8 @@ public enum ESRPGSound {
     MenuCursor,
     UnitPrompt,
     UnitFootsteps,
-    TurnChange
+    TurnChange,
+    Attack
 }
 
 [RequireComponent(typeof(AudioSource))]

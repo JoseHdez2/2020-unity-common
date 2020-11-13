@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SRPGUnitType : MonoBehaviour
+public class SrpgUnitType : MonoBehaviour
 {
     public string id;
     public string name;
