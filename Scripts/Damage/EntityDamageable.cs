@@ -14,6 +14,7 @@ public enum EDamageableEffect {
 [RequireComponent(typeof(BoxCollider2D))] // TODO this wouldnt work with just Collider2D I think...
 public class EntityDamageable : MonoBehaviour
 {
+    [Header("EntityDamageable")]
     [Tooltip("Optional sound to be played on damage.")]
     public AudioClip soundDamage;
     [Tooltip("Optional sound to be played on heal.")]
@@ -24,7 +25,7 @@ public class EntityDamageable : MonoBehaviour
     public GameObject deathExplosionPrefab;
     [Tooltip("Optional prefab for showing damage amounts.")]
     public DamagePopup pfDamagePopup;
-    public ETeam team;
+    public ETeam team; // TODO move up into children.
 
     // bool isAlive;
     protected int health;

@@ -8,8 +8,10 @@ using ExtensionMethods;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
-public class SrpgUnit : LerpMovement
+[RequireComponent(typeof(LerpMovement))]
+public class SrpgUnit : EntityDamageable
 {
+    [Header("SrpgUnit")]
     public string id;
     public string name;
     public string typeId;
@@ -18,7 +20,7 @@ public class SrpgUnit : LerpMovement
     public int hp = 10;
     public int attack = 1;
     public int defense = 1;
-    [Header("Movement range of unit, in tiles.")]
+    [Tooltip("Movement range of unit, in tiles.")]
     public int moveRange = 3;
 
     // GameObject refs
@@ -28,7 +30,7 @@ public class SrpgUnit : LerpMovement
     private List<SrpgTile> tiles = null;
     private Collider2D collider;
 
-    [SerializeField] DamagePopup pfDamagePopup; 
+    [SerializeField] private LerpMovement lerpMovement; 
 
     // Unit position at the start of this turn. Unit will return here if movement is canceled.
     public Vector2? idlePos = null;
@@ -50,6 +52,7 @@ public class SrpgUnit : LerpMovement
     private void Awake() {
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        lerpMovement = GetComponent<LerpMovement>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
         srpgController = FindObjectOfType<SrpgController>();
@@ -153,18 +156,18 @@ public class SrpgUnit : LerpMovement
         FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         state = State.Idle;
         spriteRenderer.color = Color.white;
-        destinationPos = idlePos;
+        lerpMovement.destinationPos = idlePos;
     }
 
     private void Update() {
-        base.Update();
-        if(state == State.Moving && destinationPos == null){
+        lerpMovement.Update();
+        if(state == State.Moving && lerpMovement.destinationPos == null){
             FinishMoving();
         }
     }
 
     public void Move(Vector2 pos){
-        destinationPos = pos;
+        lerpMovement.destinationPos = pos;
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
         state = State.Moving;
     }
@@ -182,7 +185,7 @@ public class SrpgUnit : LerpMovement
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
         int dmg = CalculateDamage(hoveringUnit);
         hoveringUnit.Damage(dmg);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.6f);
         ToSpent();
     }
 
@@ -201,9 +204,10 @@ public class SrpgUnit : LerpMovement
     }
 
     private IEnumerator CrDie(){
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.4f);
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitDeath);
         Destroy(this.gameObject);
+        // TODO call srpgController.UpdateTeams with an offset.
     }
 
     public void FinishMoving(){
