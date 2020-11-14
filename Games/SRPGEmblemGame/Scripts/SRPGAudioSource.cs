@@ -14,7 +14,8 @@ public enum ESRPGSound {
     UnitFootsteps,
     TurnChange,
     Attack,
-    UnitDeath
+    UnitDeath,
+    FanfareWin
 }
 
 [RequireComponent(typeof(AudioSource))]

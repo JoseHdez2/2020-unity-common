@@ -30,6 +30,7 @@ public class SrpgUnit : LerpMovement
 
     [SerializeField] DamagePopup pfDamagePopup; 
 
+    // Unit position at the start of this turn. Unit will return here if movement is canceled.
     public Vector2? idlePos = null;
     public State state = State.Idle;
     public bool hasAttackedThisTurn = false;
@@ -173,9 +174,15 @@ public class SrpgUnit : LerpMovement
             Debug.LogWarning("Cannot attack friend! (Friendly fire is ON).");
             return;
         }
+        StartCoroutine(CrAttack(hoveringUnit));
+    }
+
+    public IEnumerator CrAttack(SrpgUnit hoveringUnit){
+        srpgController.ToggleFieldCursor(false);
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
         int dmg = CalculateDamage(hoveringUnit);
         hoveringUnit.Damage(dmg);
+        yield return new WaitForSeconds(2f);
         ToSpent();
     }
 
@@ -189,9 +196,14 @@ public class SrpgUnit : LerpMovement
         damagePopup.SetPopupText(amount.ToString());
         hp -= amount;
         if(hp <= 0){
-            FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitDeath);
-            Destroy(this.gameObject);
+            StartCoroutine(CrDie());
         }
+    }
+
+    private IEnumerator CrDie(){
+        yield return new WaitForSeconds(1f);
+        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitDeath);
+        Destroy(this.gameObject);
     }
 
     public void FinishMoving(){
@@ -200,13 +212,17 @@ public class SrpgUnit : LerpMovement
         FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
     }
 
-    public void ToSpent(){
+
+    // checkForTurnChange: prevents recursively calling: unit.ToSpent() => CheckForTurnChange() => ChangeTurn() => unit.ToSpent()...
+    public void ToSpent(bool checkForTurnChange = true){
         DestroyTiles();
         FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;
         spriteRenderer.color = Color.gray;
         state = State.Spent;
-        FindObjectOfType<SrpgController>().CheckForTurnChange();
+        if(checkForTurnChange){
+            FindObjectOfType<SrpgController>().UpdateTeams();
+        }
     }
 
     public bool CanAttack(){

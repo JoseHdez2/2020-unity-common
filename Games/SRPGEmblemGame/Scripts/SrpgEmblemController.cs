@@ -8,15 +8,14 @@ public class SrpgEmblemController : SrpgController
     private SrpgEmblemMusicSource musicSource;
     private VfxNinjaVision ninjaVision;
 
-    private void Start() {
-        base.Start();
+    private void Awake() {
         musicSource = FindObjectOfType<SrpgEmblemMusicSource>();
         musicSource.PlaySound(GetTurnMusic());
         ninjaVision = GetComponent<VfxNinjaVision>();
     }
 
-    public override void ChangeTurn(){
-        base.ChangeTurn();
+    public override void ChangeTurn(string forceTeamId){
+        base.ChangeTurn(forceTeamId);
         ToggleFieldCursor(false);
         StartCoroutine(CrChangeTurn());
     }
@@ -43,6 +42,23 @@ public class SrpgEmblemController : SrpgController
         } else { // if (curTeam == "bad guys"){
             return ESrpgEmblemMusic.EnemyTurn;
         }
+    }
+
+    protected override void EndGame(){
+        Debug.Log("Game has ended!");
+        StartCoroutine(CrEndGame());
+    }
+
+    private IEnumerator CrEndGame(){
+        Debug.Log("Ending game...");
+        teamText.text = $"Victory!";
+        ninjaVision.GetReady();
+        yield return new WaitForSeconds(0.3f);
+        ToggleFieldCursor(false);
+        audioSource.PlaySound(ESRPGSound.FanfareWin);
+        ninjaVision.Activate();
+        yield return new WaitForSeconds(1);
+        musicSource.Pause();
     }
 
 }

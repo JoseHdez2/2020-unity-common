@@ -7,7 +7,7 @@ using System.Linq;
 public class SrpgController : MonoBehaviour {
     
     protected SrpgAudioSource audioSource;
-    [SerializeField] protected TMP_Text teamText;
+    [SerializeField] protected TMP_Text teamText; // TODO this is UI and should probably go in SrpgEmblemController.
     // Teams and turns
     protected List<string> teamIds;
     protected string curTeam = "good guys";
@@ -25,50 +25,68 @@ public class SrpgController : MonoBehaviour {
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         UpdateUnitColliders();
-        InitializeTeams();
+        ChangeTurn(forceTeamId: "good guys");
         // semaphor = new ActiveSemaphor();
         // semaphor.objects.Add(fieldCursor.gameObject);
         // semaphor.objects.Add(unitMenu.gameObject);
     }
 
-    private void InitializeTeams(){
-        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
-        unitsByTeam = units.ToLookup(unit => unit.teamId);
-        unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
-        teamIds = unitsByTeam.Select(g => g.Key).ToList();
-        units.ToList().ForEach(unit => InitializeUnit(unit));
-        teamText.text = $"{curTeam}'s Turn";
-    }
-
-    private void InitializeUnit(SrpgUnit unit){
-        if(unit.teamId == curTeam){
-            unit.ToIdle();
-            unit.hasAttackedThisTurn = false;
-        } else {
-            unit.state = SrpgUnit.State.Spent; // Using "unit.ToSpent()" here results in unexpected early call to CheckForTurnChange.
-        }
-    }
-
-    public void CheckForTurnChange(){
-        int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
-        if(unitsNotSpent > 0){
-            Debug.Log($"{unitsNotSpent} unit(s) remain.");
-            return;
-        } else {
-            ChangeTurn();
-            SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
-            unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
-        }
-    }
-
-    public virtual void ChangeTurn(){
+    public virtual void ChangeTurn(string forceTeamId = null){
         curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
-        InitializeTeams();
-        Debug.Log($"{curTeam}'s Turn.");
+        if(forceTeamId != null){
+            curTeam = forceTeamId;
+        }
+        StartTurn(curTeam);
+    }
+
+    private void StartTurn(string teamId){
+        UpdateTeams();
+        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+        units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
+        teamText.text = $"{teamId}'s Turn";
+        Debug.Log($"{teamId}'s Turn.");
     }
 
     public void ToggleFieldCursor(bool activate){
         fieldCursor.gameObject.SetActive(activate);
+    }
+
+    // Note: this method also checks for turn change / game end.
+    public void UpdateTeams(){
+        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+        unitsByTeam = units.ToLookup(unit => unit.teamId);
+        unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
+        teamIds = unitsByTeam.Select(g => g.Key).ToList();
+        CheckForTurnChangeOrGameEnd();
+    }
+
+    private void CheckForTurnChangeOrGameEnd(){
+        if(teamIds.Count == 1){
+            EndGame();
+        } else {
+            int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
+            if(unitsNotSpent > 0){
+                Debug.Log($"{unitsNotSpent} unit(s) remain.");
+                return;
+            } else {
+                ChangeTurn();
+                SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+                unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
+            }
+        }
+    }
+
+    protected virtual void EndGame(){
+        Debug.Log("Game has ended!");
+    }
+
+    private void InitializeUnit(SrpgUnit unit, string teamId){
+        if(unit.teamId == teamId){
+            unit.ToIdle();
+            unit.hasAttackedThisTurn = false;
+        } else {
+            unit.ToSpent(checkForTurnChange: false);
+        }
     }
 
     private void UpdateUnitColliders(){
