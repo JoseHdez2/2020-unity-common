@@ -27,6 +27,8 @@ public class SrpgFieldCursor : LerpMovement
     // Settings
     public bool showUnitCard = true;
 
+    Vector2 lastMousePos;
+
     void Awake()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
@@ -34,6 +36,7 @@ public class SrpgFieldCursor : LerpMovement
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         cursorColl = GetComponent<Collider2D>();
+        lastMousePos = Input.mousePosition;
     }
 
     private void OnEnable() {
@@ -45,15 +48,21 @@ public class SrpgFieldCursor : LerpMovement
         UpdateUnitCard(show: false, null);
     }
 
-
     // Update is called once per frame
     void Update()
     {
+        // Vector2 mousePos = Input.mousePosition;
+        // if(mousePos != lastMousePos){
+        //     if(!cursorColl.bounds.Contains(mousePos)){
+        //         destinationPos = mousePos;
+        //     }
+        //     lastMousePos = mousePos;
+        // }
         if(destinationPos.HasValue){
             base.Update();
             return;
         }
-        if(selectedUnit && selectedUnit.state == SrpgUnit.State.Moving){
+        if(selectedUnit && selectedUnit.state == SrpgUnit.State.Moving){ // TODO remove this
             return;
         }
         if(curCursorCooldown > 0){
@@ -93,7 +102,7 @@ public class SrpgFieldCursor : LerpMovement
                     audioSource.PlaySound(ESRPGSound.Buzzer); break;
             }
         } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SrpgUnit.State.Spent) {
-            SelectUnit();
+            SelectUnit(hoveringUnit);
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
         }
@@ -125,9 +134,10 @@ public class SrpgFieldCursor : LerpMovement
         unitMenu.Open(selectedUnit);
     }
 
-    private void SelectUnit(){
+    public void SelectUnit(SrpgUnit unitToSelect){
+        destinationPos = unitToSelect.transform.position;
         audioSource.PlaySound(ESRPGSound.SelectUnit);
-        selectedUnit = hoveringUnit;
+        selectedUnit = unitToSelect;
         if(selectedUnit.state == SrpgUnit.State.Idle){
             selectedUnit.ToSelectingMove();
         }
@@ -148,6 +158,7 @@ public class SrpgFieldCursor : LerpMovement
         SetHover(other);
     }
 
+    // TODO maybe delete this.
     private void SetHoverFromCurPos(){
         var newHoveringTile = FindObjectsOfType<SrpgTile>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
         var newHoveringUnit = FindObjectsOfType<SrpgUnit>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
@@ -182,5 +193,9 @@ public class SrpgFieldCursor : LerpMovement
         } else {
             unitCard.Close();
         }
+    }
+
+    public void OnMouseDown(){
+        audioSource.PlaySound(ESRPGSound.Attack);
     }
 }

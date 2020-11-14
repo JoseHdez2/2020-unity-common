@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 using UnityEngine.Tilemaps;
 using ExtensionMethods;
@@ -9,8 +10,7 @@ using ExtensionMethods;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(LerpMovement))]
-public class SrpgUnit : EntityDamageable
-{
+public class SrpgUnit : EntityDamageable {
     [Header("SrpgUnit")]
     public string id;
     public string name;
@@ -70,11 +70,13 @@ public class SrpgUnit : EntityDamageable
         foreach (Vector2 pos in movePositions){
             GameObject tileObj = Instantiate(prefabContainer.pfTileMove, pos, Quaternion.identity);
             SrpgTile tile = tileObj.GetComponent<SrpgTile>();
+            tile.unit = this;
             tiles.Add(tile);
         }
         foreach (Vector2 pos2 in GetAttackPositions(movePositions, excludeFrom: true, includeEmpty: true)){
             GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
             SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
+            tile2.unit = this;
             tiles.Add(tile2);
         }
         state = State.SelectingMove;
@@ -85,6 +87,7 @@ public class SrpgUnit : EntityDamageable
         foreach (Vector2 pos2 in GetAttackPositions(transform.position, includeEmpty: true)){
             GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
             SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
+            tile2.unit = this;
             tiles.Add(tile2);
         }
         state = State.SelectingAttack;

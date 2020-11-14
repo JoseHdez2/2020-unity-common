@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class SrpgTile : SpritePopInOut
 {
+    public SrpgUnit unit;
     public Highlight highlightType;
     
     public enum Highlight {
