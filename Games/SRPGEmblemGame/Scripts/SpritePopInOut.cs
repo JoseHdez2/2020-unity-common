@@ -31,6 +31,12 @@ public class SpritePopInOut : MonoBehaviour {
     }
 
     public void SelfDestroy() {
+        Collider2D coll = GetComponent<Collider2D>();
+        Debug.Log(coll);
+        if(coll != null){
+            coll.enabled = false;
+            Debug.Log("Disabled collider!!");
+        }
         Destroy(this.gameObject, 1);
         animationSizeDestination = Vector3.zero;
     }

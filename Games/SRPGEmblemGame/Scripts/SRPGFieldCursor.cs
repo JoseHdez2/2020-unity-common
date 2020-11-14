@@ -8,10 +8,10 @@ public class SrpgFieldCursor : LerpMovement
 {
     // GameObject references
     private SrpgAudioSource audioSource;
+    private SrpgPrefabContainer prefabContainer;
     private SrpgUnitCard unitCard;
+    private Collider2D cursorColl;
     private SrpgUnitMenu unitMenu;
-    [SerializeField] private GameObject pfTileMove; 
-    [SerializeField] private GameObject pfTileAttack; 
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
     public SrpgUnit selectedUnit;
@@ -32,9 +32,12 @@ public class SrpgFieldCursor : LerpMovement
         audioSource = FindObjectOfType<SrpgAudioSource>();
         unitCard = FindObjectOfType<SrpgUnitCard>();
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
+        prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
+        cursorColl = GetComponent<Collider2D>();
     }
 
     private void OnEnable() {
+        SetHoverFromCurPos();
         UpdateUnitCard(show: showUnitCard, hoveringUnit);
     }
 
@@ -67,13 +70,13 @@ public class SrpgFieldCursor : LerpMovement
             MoveCursor(transform.position + Vector3.down);
         } else if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Submit")) {
             HandleConfirm();
-        }
-        else if (Input.GetButtonDown("Cancel")){
+        } else if (Input.GetButtonDown("Cancel")){
             HandleCancel();
         }
     }
 
     private void HandleConfirm(){
+        SetHoverFromCurPos();
         if (selectedUnit && hoveringTile){
             switch (hoveringTile.highlightType){
                 case SrpgTile.Highlight.Move:
@@ -97,6 +100,7 @@ public class SrpgFieldCursor : LerpMovement
     }
 
     private void HandleCancel(){
+        SetHoverFromCurPos();
         if(selectedUnit){
             switch (selectedUnit.state)
             {
@@ -125,7 +129,7 @@ public class SrpgFieldCursor : LerpMovement
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         selectedUnit = hoveringUnit;
         if(selectedUnit.state == SrpgUnit.State.Idle){
-            selectedUnit.ToSelectingMove(pfTileMove, pfTileAttack);
+            selectedUnit.ToSelectingMove();
         }
     }
 
@@ -144,9 +148,19 @@ public class SrpgFieldCursor : LerpMovement
         SetHover(other);
     }
 
+    private void SetHoverFromCurPos(){
+        var newHoveringTile = FindObjectsOfType<SrpgTile>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
+        var newHoveringUnit = FindObjectsOfType<SrpgUnit>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
+        SetHover(newHoveringTile, newHoveringUnit);
+    }
+
     private void SetHover(Collider2D other){
         var newHoveringTile = other?.gameObject.GetComponent<SrpgTile>();
         var newHoveringUnit = other?.gameObject.GetComponent<SrpgUnit>();
+        SetHover(newHoveringTile, newHoveringUnit);
+    }
+
+    private void SetHover(SrpgTile newHoveringTile, SrpgUnit newHoveringUnit){
         if(newHoveringTile){
             hoveringTile = newHoveringTile;
         } else if (newHoveringUnit){

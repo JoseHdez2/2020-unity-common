@@ -29,6 +29,7 @@ public class SrpgUnit : EntityDamageable
     private SrpgController srpgController;
     private List<SrpgTile> tiles = null;
     private Collider2D collider;
+    private SrpgPrefabContainer prefabContainer;
 
     [SerializeField] private LerpMovement lerpMovement; 
 
@@ -57,30 +58,32 @@ public class SrpgUnit : EntityDamageable
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
         srpgController = FindObjectOfType<SrpgController>();
+        prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         maxHealth = maxHp;
         health = hp;
     }
 
-    public void ToSelectingMove(GameObject pfTileMove, GameObject pfTileAttack){
+    public void ToSelectingMove(){
+        lerpMovement.destinationPos = idlePos;
         List<Vector2> movePositions = GetMovePositions();
         DestroyTiles();
         foreach (Vector2 pos in movePositions){
-            GameObject tileObj = Instantiate(pfTileMove, pos, Quaternion.identity);
+            GameObject tileObj = Instantiate(prefabContainer.pfTileMove, pos, Quaternion.identity);
             SrpgTile tile = tileObj.GetComponent<SrpgTile>();
             tiles.Add(tile);
         }
         foreach (Vector2 pos2 in GetAttackPositions(movePositions, excludeFrom: true, includeEmpty: true)){
-            GameObject tileObj2 = Instantiate(pfTileAttack, pos2, Quaternion.identity);
+            GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
             SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
             tiles.Add(tile2);
         }
         state = State.SelectingMove;
     }
 
-    public void ToSelectingAttack(GameObject pfTileAttack){
+    public void ToSelectingAttack(){
         DestroyTiles();
         foreach (Vector2 pos2 in GetAttackPositions(transform.position, includeEmpty: true)){
-            GameObject tileObj2 = Instantiate(pfTileAttack, pos2, Quaternion.identity);
+            GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
             SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
             tiles.Add(tile2);
         }

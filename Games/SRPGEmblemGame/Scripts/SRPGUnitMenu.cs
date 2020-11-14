@@ -17,8 +17,6 @@ public class SrpgUnitMenu : ButtonMenuBase
     private SrpgController srpgController;
     private SrpgUnit selectedUnit;
 
-    [SerializeField] private GameObject pfAttackTile; 
-
     public bool showStatusButton;
     public bool showCancelButton;
 
@@ -69,7 +67,7 @@ public class SrpgUnitMenu : ButtonMenuBase
     }
 
     public void HandleAttack(){
-        selectedUnit.ToSelectingAttack(pfAttackTile);
+        selectedUnit.ToSelectingAttack();
         Close();
     }
 
@@ -100,6 +98,9 @@ public class SrpgUnitMenu : ButtonMenuBase
             Close();
         } else if(selectedUnit.state == SrpgUnit.State.SelectingMove) {
             selectedUnit.ToIdle();
+            Close();
+        } else if(selectedUnit.state == SrpgUnit.State.SelectingAttack) {
+            selectedUnit.ToSelectingMove();
             Close();
         } else {
             audioSource.PlaySound(ESRPGSound.Buzzer);
