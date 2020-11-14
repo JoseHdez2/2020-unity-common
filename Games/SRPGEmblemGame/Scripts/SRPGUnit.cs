@@ -188,6 +188,10 @@ public class SrpgUnit : LerpMovement
         DamagePopup damagePopup = Instantiate(pfDamagePopup, transform.position, Quaternion.identity, transform);
         damagePopup.SetPopupText(amount.ToString());
         hp -= amount;
+        if(hp <= 0){
+            FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitDeath);
+            Destroy(this.gameObject);
+        }
     }
 
     public void FinishMoving(){

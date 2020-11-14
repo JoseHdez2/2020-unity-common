@@ -1876,7 +1876,7 @@ MonoBehaviour:
   teamId: bad guys
   maxHp: 10
   hp: 10
-  attack: 1
+  attack: 2
   defense: 0
   moveRange: 3
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
@@ -4212,7 +4212,7 @@ MonoBehaviour:
   teamId: good guys
   maxHp: 10
   hp: 10
-  attack: 1
+  attack: 5
   defense: 0
   moveRange: 3
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
@@ -5115,8 +5115,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a000000
-    _keys: 00000000050000000300000006000000040000000700000008000000090000000a000000
+    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b000000
+    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b000000
     _values:
     - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
     - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
@@ -5127,6 +5127,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 989b5df9f44d22c4b90215ebd1e102ae, type: 3}
     - {fileID: 8300000, guid: 079f97c2f00a18744bef103680691967, type: 3}
     - {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
+    - {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
   respectSoundSeniority: 0
 --- !u!82 &1976563420
 AudioSource:
