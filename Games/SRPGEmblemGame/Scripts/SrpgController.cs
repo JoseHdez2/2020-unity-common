@@ -25,13 +25,13 @@ public class SrpgController : MonoBehaviour {
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         UpdateUnitColliders();
-        ChangeTurn(forceTeamId: "good guys");
+        ChangeTurn(firstTurn: true, forceTeamId: "good guys");
         // semaphor = new ActiveSemaphor();
         // semaphor.objects.Add(fieldCursor.gameObject);
         // semaphor.objects.Add(unitMenu.gameObject);
     }
 
-    public virtual void ChangeTurn(string forceTeamId = null){
+    public virtual void ChangeTurn(bool firstTurn = false, string forceTeamId = null){
         curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
         if(forceTeamId != null){
             curTeam = forceTeamId;
@@ -40,7 +40,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     private void StartTurn(string teamId){
-        UpdateTeams();
+        UpdateTeamsSoft();
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
         teamText.text = $"{teamId}'s Turn";
@@ -52,12 +52,16 @@ public class SrpgController : MonoBehaviour {
     }
 
     // Note: this method also checks for turn change / game end.
-    public void UpdateTeams(){
+    public void UpdateTeamsHard(){
+        UpdateTeamsSoft();
+        CheckForTurnChangeOrGameEnd();
+    }
+
+    private void UpdateTeamsSoft(){
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         unitsByTeam = units.ToLookup(unit => unit.teamId);
         unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         teamIds = unitsByTeam.Select(g => g.Key).ToList();
-        CheckForTurnChangeOrGameEnd();
     }
 
     private void CheckForTurnChangeOrGameEnd(){
@@ -85,7 +89,7 @@ public class SrpgController : MonoBehaviour {
             unit.ToIdle();
             unit.hasAttackedThisTurn = false;
         } else {
-            unit.ToSpent(checkForTurnChange: false);
+            unit.ToSpent(hard: false);
         }
     }
 

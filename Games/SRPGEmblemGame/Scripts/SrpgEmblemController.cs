@@ -14,8 +14,8 @@ public class SrpgEmblemController : SrpgController
         ninjaVision = GetComponent<VfxNinjaVision>();
     }
 
-    public override void ChangeTurn(string forceTeamId){
-        base.ChangeTurn(forceTeamId);
+    public override void ChangeTurn(bool firstTurn = false, string forceTeamId = null){
+        base.ChangeTurn(firstTurn, forceTeamId);
         ToggleFieldCursor(false);
         StartCoroutine(CrChangeTurn());
     }
