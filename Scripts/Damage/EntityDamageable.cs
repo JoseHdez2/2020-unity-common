@@ -96,7 +96,6 @@ public class EntityDamageable : MonoBehaviour
         if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
         if (deathExplosionPrefab) { Instantiate(deathExplosionPrefab, gameObject.transform.position, gameObject.transform.rotation); }
         GetComponent<BoxCollider2D>().enabled = false; // TODO what if EntityDamageable has another collider type?
-        Debug.LogFormat($"spriteRenderer: <b>{spriteRenderer}</b>");
         this.spriteRenderer.enabled = false;
         GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(sr => sr.enabled = false);
         Destroy(this.gameObject, 2);

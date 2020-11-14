@@ -189,7 +189,7 @@ public class SrpgUnit : EntityDamageable
         yield return new WaitForSeconds(0.3f);
         int dmg = CalculateDamage(hoveringUnit);
         hoveringUnit.Damage(new Damage(amount: dmg));
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.3f);
         ToSpent();
     }
 

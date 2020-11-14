@@ -44,7 +44,7 @@ public class SrpgController : MonoBehaviour {
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
         teamText.text = $"{teamId}'s Turn";
-        Debug.Log($"{teamId}'s Turn.");
+        Debug.LogFormat($"<color=green>{teamId}'s Turn.</color>");
     }
 
     public void ToggleFieldCursor(bool activate){
@@ -65,12 +65,12 @@ public class SrpgController : MonoBehaviour {
     }
 
     private void CheckForTurnChangeOrGameEnd(){
-        if(teamIds.Count == 1){
+        if(HasGameEnded()){
             EndGame();
         } else {
             int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
             if(unitsNotSpent > 0){
-                Debug.Log($"{unitsNotSpent} unit(s) remain.");
+                Debug.LogFormat($"<color=gray>{unitsNotSpent} unit(s) remain.</color>");
                 return;
             } else {
                 ChangeTurn();
@@ -78,6 +78,14 @@ public class SrpgController : MonoBehaviour {
                 unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
             }
         }
+    }
+    
+    private bool HasGameEnded(){
+        return teamIds.Count() == 1 || teamIds.Where(t => IsTeamAlive(t)).Count() == 1;
+    }
+
+    private bool IsTeamAlive(string teamId){
+        return unitsByTeam[teamId] != null && unitsByTeam[teamId].Any(u => u.hp > 0);
     }
 
     protected virtual void EndGame(){
