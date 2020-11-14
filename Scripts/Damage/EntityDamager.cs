@@ -16,13 +16,13 @@ public enum EDamagerType
 
 public class Damage
 {
-    public int damage;
+    public int amount;
     // TODO color;
     public Vector2 pushVector;
     public float pushSpeed;
 
-    public Damage(int damage, Vector2 pushVector, float pushSpeed){
-        this.damage = damage;
+    public Damage(int amount, Vector2 pushVector = new Vector2(), float pushSpeed = 0){
+        this.amount = amount;
         this.pushVector = pushVector;
         this.pushSpeed = pushSpeed;
     }

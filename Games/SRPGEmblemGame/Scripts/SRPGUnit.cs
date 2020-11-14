@@ -50,12 +50,15 @@ public class SrpgUnit : EntityDamageable
     }
 
     private void Awake() {
+        base.Awake();
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lerpMovement = GetComponent<LerpMovement>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
         srpgController = FindObjectOfType<SrpgController>();
+        maxHealth = maxHp;
+        health = hp;
     }
 
     public void ToSelectingMove(GameObject pfTileMove, GameObject pfTileAttack){
@@ -183,8 +186,9 @@ public class SrpgUnit : EntityDamageable
     public IEnumerator CrAttack(SrpgUnit hoveringUnit){
         srpgController.ToggleFieldCursor(false);
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
+        yield return new WaitForSeconds(0.3f);
         int dmg = CalculateDamage(hoveringUnit);
-        hoveringUnit.Damage(dmg);
+        hoveringUnit.Damage(new Damage(amount: dmg));
         yield return new WaitForSeconds(0.6f);
         ToSpent();
     }
@@ -194,10 +198,9 @@ public class SrpgUnit : EntityDamageable
         return attack - targetUnit.defense;
     }
 
-    public void Damage(int amount){
-        DamagePopup damagePopup = Instantiate(pfDamagePopup, transform.position, Quaternion.identity, transform);
-        damagePopup.SetPopupText(amount.ToString());
-        hp -= amount;
+    public override void Damage(Damage damage){
+        base.Damage(damage);
+        hp = health;
         if(hp <= 0){
             StartCoroutine(CrDie());
         }
@@ -205,8 +208,6 @@ public class SrpgUnit : EntityDamageable
 
     private IEnumerator CrDie(){
         yield return new WaitForSeconds(0.4f);
-        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitDeath);
-        Destroy(this.gameObject);
         // TODO call srpgController.UpdateTeams with an offset.
     }
 

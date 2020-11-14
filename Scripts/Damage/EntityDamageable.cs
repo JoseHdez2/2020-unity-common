@@ -40,13 +40,12 @@ public class EntityDamageable : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     // private AbstractMovement movement;
     private Color colorReal;
-    private AudioSource sound;
+    [SerializeField] private AudioSource audioSource;
     public void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         // movement = GetComponent<AbstractMovement>();
         colorReal = spriteRenderer.color;
-        sound = GetComponent<AudioSource>();
     }
 
     public virtual void Start()
@@ -58,7 +57,7 @@ public class EntityDamageable : MonoBehaviour
     {
         health += healQty;
         if (health > maxHealth) { health = maxHealth; }
-        if (soundHeal) { sound.clip = soundHeal; sound.Play(); }
+        if (soundHeal) { audioSource.clip = soundHeal; audioSource.Play(); }
         if (pfDamagePopup){ CreatePopup(healQty, colorHeal); }
         StartCoroutine(Blink(colorHeal));
     }
@@ -74,29 +73,30 @@ public class EntityDamageable : MonoBehaviour
     internal void ExpandMaxHealth(int qty)
     {
         maxHealth += qty;
-        if (soundHeal) { sound.clip = soundHeal; sound.Play(); }
+        if (soundHeal) { audioSource.clip = soundHeal; audioSource.Play(); }
         if (pfDamagePopup) { CreatePopup(qty, colorExpandHealth); }
         StartCoroutine(Blink(colorExpandHealth));
     }
 
     public virtual void Damage(Damage damage)
     {
-        health -= damage.damage;
-        if (pfDamagePopup) { CreatePopup(damage.damage, colorDamage); }
+        health -= damage.amount;
+        if (pfDamagePopup) { CreatePopup(damage.amount, colorDamage); }
         if (health <= 0) { Die(); }
         else
         {
             // if (movement) { movement.SetMovement(EMovementType.BULLET_PUSH, damage.pushVector * damage.pushSpeed); } // TODO reduce pushSpeed with eg. armor
-            if (soundDamage) { sound.clip = soundDamage; sound.Play(); }
+            if (soundDamage) { audioSource.clip = soundDamage; audioSource.Play(); }
             StartCoroutine(Blink(colorDamage));
         }
     }
 
     public virtual void Die()
     {
-        if (soundDie != null) { sound.clip = soundDie; sound.Play(); }
+        if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
         if (deathExplosionPrefab) { Instantiate(deathExplosionPrefab, gameObject.transform.position, gameObject.transform.rotation); }
         GetComponent<BoxCollider2D>().enabled = false; // TODO what if EntityDamageable has another collider type?
+        Debug.LogFormat($"spriteRenderer: <b>{spriteRenderer}</b>");
         this.spriteRenderer.enabled = false;
         GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(sr => sr.enabled = false);
         Destroy(this.gameObject, 2);

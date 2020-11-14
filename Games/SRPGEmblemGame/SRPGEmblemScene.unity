@@ -1870,7 +1870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d902af6de4cdbd4eaa15ef53cbe5f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundDamage: {fileID: 0}
+  soundDamage: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   soundHeal: {fileID: 0}
   soundDie: {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
   deathExplosionPrefab: {fileID: 0}
@@ -1880,6 +1880,7 @@ MonoBehaviour:
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  audioSource: {fileID: 1976563420}
   id: john
   name: John
   typeId: Skellyman
@@ -4229,7 +4230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d902af6de4cdbd4eaa15ef53cbe5f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundDamage: {fileID: 0}
+  soundDamage: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   soundHeal: {fileID: 0}
   soundDie: {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
   deathExplosionPrefab: {fileID: 0}
@@ -4239,6 +4240,7 @@ MonoBehaviour:
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  audioSource: {fileID: 1976563420}
   id: mick
   name: Michael
   typeId: Medic
@@ -4580,9 +4582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d902af6de4cdbd4eaa15ef53cbe5f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundDamage: {fileID: 0}
+  soundDamage: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   soundHeal: {fileID: 0}
-  soundDie: {fileID: 0}
+  soundDie: {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
   deathExplosionPrefab: {fileID: 0}
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
   team: 0
@@ -4590,6 +4592,7 @@ MonoBehaviour:
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  audioSource: {fileID: 0}
   id: chad
   name: Chad
   typeId: King
@@ -5181,7 +5184,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 128dae8260715c349955950eac098e1f, type: 3}
     - {fileID: 8300000, guid: 989b5df9f44d22c4b90215ebd1e102ae, type: 3}
     - {fileID: 8300000, guid: 079f97c2f00a18744bef103680691967, type: 3}
-    - {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
+    - {fileID: 8300000, guid: 437445937f4a57e43ad2be3341eff116, type: 3}
     - {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
     - {fileID: 8300000, guid: 10455130460f0ec4eb2a02e767891b9b, type: 3}
   respectSoundSeniority: 0
