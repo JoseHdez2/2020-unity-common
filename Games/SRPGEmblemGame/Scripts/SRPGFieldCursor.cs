@@ -154,6 +154,16 @@ public class SrpgFieldCursor : LerpMovement
         curCursorCooldown = cursorCooldown;
     }
 
+    public void MoveCursorAndConfirm(Vector3 pos){
+        StartCoroutine(CrMoveCursorAndConfirm(pos));
+    }
+
+    private IEnumerator CrMoveCursorAndConfirm(Vector3 pos){
+        MoveCursor(pos);
+        yield return new WaitUntil(() => !destinationPos.HasValue);
+        HandleConfirm();
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
         SetHover(other);
     }
@@ -193,9 +203,5 @@ public class SrpgFieldCursor : LerpMovement
         } else {
             unitCard.Close();
         }
-    }
-
-    public void OnMouseDown(){
-        audioSource.PlaySound(ESRPGSound.Attack);
     }
 }

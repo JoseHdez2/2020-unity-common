@@ -27,4 +27,8 @@ public class SrpgTile : SpritePopInOut
         public int defense;
         public Dictionary<string, int> traversabilityByUnitType;
     }
+
+    private void OnMouseDown(){
+        FindObjectOfType<SrpgFieldCursor>().MoveCursorAndConfirm(transform.position);
+    }
 }

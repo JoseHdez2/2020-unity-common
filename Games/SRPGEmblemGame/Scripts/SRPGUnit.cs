@@ -259,4 +259,8 @@ public class SrpgUnit : EntityDamageable {
         //  X   X X  X
         // X X  XXX
     }
+
+    private void OnMouseDown(){
+        FindObjectOfType<SrpgFieldCursor>().MoveCursorAndConfirm(transform.position);
+    }
 }
