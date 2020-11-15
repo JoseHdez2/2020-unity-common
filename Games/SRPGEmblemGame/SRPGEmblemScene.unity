@@ -2802,7 +2802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf45b79d456d61549aa87208fdc97f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  speed: 8
   levelBoundsColl: {fileID: 1061599912}
   selectedUnit: {fileID: 0}
   hoveringUnit: {fileID: 0}

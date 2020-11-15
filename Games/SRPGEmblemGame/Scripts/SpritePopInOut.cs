@@ -8,8 +8,8 @@ public class SpritePopInOut : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
 
     public Vector3 animationSizeDestination = Vector3.one;
-    [Range(0,1)]
-    public float animationSpeed = 0.1f;
+
+    public float animationSpeed = 1f;
     // Start is called before the first frame update
     void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -22,7 +22,7 @@ public class SpritePopInOut : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(spriteRenderer.size.x != animationSizeDestination.x){
-            spriteRenderer.size = Vector3.Lerp(spriteRenderer.size, animationSizeDestination, animationSpeed);
+            spriteRenderer.size = Vector3.Lerp(spriteRenderer.size, animationSizeDestination, animationSpeed * Time.deltaTime);
         }
     }
 
