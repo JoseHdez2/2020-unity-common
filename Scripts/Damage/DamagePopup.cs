@@ -20,7 +20,7 @@ public class DamagePopup : Ephemeral
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.position += Vector3.up * speed;
+        gameObject.transform.position += Vector3.up * speed * Time.deltaTime;
     }
 
     public void SetPopupText(string str) { text.text = str; }

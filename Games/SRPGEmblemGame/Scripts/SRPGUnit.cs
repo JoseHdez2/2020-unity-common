@@ -20,6 +20,7 @@ public class SrpgUnit : EntityDamageable {
     public int hp = 10;
     public int attack = 1;
     public int defense = 1;
+    public int attackRange = 1;
     [Tooltip("Movement range of unit, in tiles.")]
     public int moveRange = 3;
 
@@ -252,7 +253,7 @@ public class SrpgUnit : EntityDamageable {
     }
 
     private int GetAttackRange(){
-        return 1; // TODO get the max and min of all possible attacks this unit can perform.
+        return attackRange; // TODO get the max and min of all possible attacks this unit can perform.
         // TODO consider airborne units, etc. Returning an int will not suffice, change to a more complex struct.
         // TODO this struct should have: attack range, attack type, AND attack Kernel (think matrix convolution).
         // X X  XXX

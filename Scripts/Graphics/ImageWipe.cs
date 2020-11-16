@@ -38,22 +38,19 @@ public class ImageWipe : MonoBehaviour
     }
 
     // TODO rename this method. "toggle" shouldn't take a bool, and "wipe" is ambiguous.
-    public void ToggleWipe(bool fillScreen)
-    {
+    public void ToggleWipe(bool fillScreen){
         image.raycastTarget = true;
         isWipingFast = false;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
 
-    public void ToggleWipeFast(bool fillScreen)
-    {
+    public void ToggleWipeFast(bool fillScreen){
         image.raycastTarget = true;
         isWipingFast = true;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
 
-    private void Update()
-    {
+    private void Update(){
         wipeProgress = image.fillAmount;
         switch (wipeMode)
         {

@@ -19,11 +19,16 @@ public class SrpgController : MonoBehaviour {
     public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
     protected SrpgFieldCursor fieldCursor;
     protected SrpgUnitMenu unitMenu;
+    
+    [SerializeField] private TextAsset settingsJsonFile;
+    public SrpgSettings settings;
 
     protected void Start() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
+        settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
+
         UpdateUnitColliders();
         ChangeTurn(firstTurn: true, forceTeamId: "good guys");
         // semaphor = new ActiveSemaphor();

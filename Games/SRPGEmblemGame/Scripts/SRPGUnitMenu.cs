@@ -17,9 +17,6 @@ public class SrpgUnitMenu : ButtonMenuBase
     private SrpgController srpgController;
     private SrpgUnit selectedUnit;
 
-    public bool showStatusButton;
-    public bool showCancelButton;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -58,10 +55,10 @@ public class SrpgUnitMenu : ButtonMenuBase
         if(unit.state == SrpgUnit.State.Spent){
             waitButton.gameObject.SetActive(false);
         }
-        if(!showStatusButton){
+        if(!srpgController.settings.showStatusButton){
             statusButton.gameObject.SetActive(false);
         }
-        if(!showCancelButton){
+        if(!srpgController.settings.showCancelButton){
             cancelButton.gameObject.SetActive(false);
         }
     }

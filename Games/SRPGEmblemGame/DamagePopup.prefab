@@ -184,5 +184,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ttl: 2
-  speed: 0.01
+  speed: 3
   heightOffset: 0.5
