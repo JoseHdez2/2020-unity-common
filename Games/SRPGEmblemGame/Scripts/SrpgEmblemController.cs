@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(VfxNinjaVision))]
@@ -51,11 +52,20 @@ public class SrpgEmblemController : SrpgController
 
     private IEnumerator CrEndGame(){
         Debug.Log("Ending game...");
-        teamText.text = $"Victory!";
+        string winningTeamId = teamIds.FirstOrDefault(t => IsTeamAlive(t));
+        if(winningTeamId == "good guys"){
+            teamText.text = $"Victory!";
+        } else {
+            teamText.text = $"Defeat...";
+        }
         ninjaVision.GetReady();
         yield return new WaitForSeconds(0.3f);
         ToggleFieldCursor(false);
-        audioSource.PlaySound(ESRPGSound.FanfareWin);
+        if(winningTeamId == "good guys"){
+            audioSource.PlaySound(ESRPGSound.FanfareWin);
+        } else {
+            audioSource.PlaySound(ESRPGSound.FanfareLose);
+        }
         ninjaVision.Activate();
         yield return new WaitForSeconds(1);
         musicSource.Pause();

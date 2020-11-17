@@ -2949,8 +2949,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  hoveringUnit: {fileID: 0}
-  hoveringTile: {fileID: 0}
   teamId: 
   selectedUnit: {fileID: 0}
 --- !u!212 &1220691922
@@ -4611,7 +4609,7 @@ MonoBehaviour:
   attack: 5
   defense: 0
   attackRange: 1
-  moveRange: 3
+  moveRange: 4
   items:
   - typeId: walkman
     amount: 1
@@ -5553,8 +5551,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c000000
-    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c000000
+    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d000000
+    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d000000
     _values:
     - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
     - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
@@ -5567,6 +5565,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 437445937f4a57e43ad2be3341eff116, type: 3}
     - {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
     - {fileID: 8300000, guid: 10455130460f0ec4eb2a02e767891b9b, type: 3}
+    - {fileID: 8300000, guid: fff92e352fb40f54cb6277bd1812b9e6, type: 3}
   respectSoundSeniority: 0
 --- !u!82 &1976563420
 AudioSource:

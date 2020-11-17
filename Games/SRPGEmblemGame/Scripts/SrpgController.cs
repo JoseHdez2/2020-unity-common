@@ -32,7 +32,8 @@ public class SrpgController : MonoBehaviour {
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
 
-        ChangeTurn(firstTurn: true, forceTeamId: "bad guys");
+        enemyCursor.gameObject.SetActive(false);
+        ChangeTurn(firstTurn: true, forceTeamId: "good guys");
         // semaphor = new ActiveSemaphor();
         // semaphor.objects.Add(fieldCursor.gameObject);
         // semaphor.objects.Add(unitMenu.gameObject);
@@ -57,8 +58,10 @@ public class SrpgController : MonoBehaviour {
     public void ToggleFieldCursor(bool activate){
         if(curTeam == "good guys"){
             fieldCursor.gameObject.SetActive(activate);
+            enemyCursor.gameObject.SetActive(false);
         } else {
             enemyCursor.gameObject.SetActive(activate);
+            fieldCursor.gameObject.SetActive(false);
         }
     }
 
@@ -96,7 +99,7 @@ public class SrpgController : MonoBehaviour {
         return teamIds.Count() == 1 || teamIds.Where(t => IsTeamAlive(t)).Count() == 1;
     }
 
-    private bool IsTeamAlive(string teamId){
+    protected bool IsTeamAlive(string teamId){
         return unitsByTeam[teamId] != null && unitsByTeam[teamId].Any(u => u.IsAlive());
     }
 
