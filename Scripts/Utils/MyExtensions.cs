@@ -135,5 +135,13 @@ namespace ExtensionMethods
         public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate){
             return !source.Any(predicate);
         }
+
+        public static void LogColor(string stringToLog, string color){
+            Debug.LogFormat($"<color={color}>{stringToLog}</color>");
+        }
+
+        public static void LogRed(string stringToLog){
+            LogColor(stringToLog, "red");
+        }
     }
 }

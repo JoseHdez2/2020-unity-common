@@ -91,11 +91,10 @@ public class EntityDamageable : MonoBehaviour
         }
     }
 
-    public virtual void Die()
-    {
+    public virtual void Die(){
         if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
         if (deathExplosionPrefab) { Instantiate(deathExplosionPrefab, gameObject.transform.position, gameObject.transform.rotation); }
-        GetComponent<BoxCollider2D>().enabled = false; // TODO what if EntityDamageable has another collider type?
+        Destroy(GetComponent<BoxCollider2D>()); // TODO what if EntityDamageable has another collider type?
         this.spriteRenderer.enabled = false;
         GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(sr => sr.enabled = false);
         Destroy(this.gameObject, 2);

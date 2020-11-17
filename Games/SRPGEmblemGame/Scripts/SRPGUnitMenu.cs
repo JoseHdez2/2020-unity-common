@@ -64,7 +64,7 @@ public class SrpgUnitMenu : ButtonMenuBase
     }
 
     public void HandleAttack(){
-        selectedUnit.ToSelectingAttack();
+        selectedUnit.ToSelectingAttackTarget();
         Close();
     }
 
@@ -96,7 +96,7 @@ public class SrpgUnitMenu : ButtonMenuBase
         } else if(selectedUnit.state == SrpgUnit.State.SelectingMove) {
             selectedUnit.ToIdle();
             Close();
-        } else if(selectedUnit.state == SrpgUnit.State.SelectingAttack) {
+        } else if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget) {
             selectedUnit.ToSelectingMove();
             Close();
         } else {

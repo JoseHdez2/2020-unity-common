@@ -3,6 +3,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ExtensionMethods;
 
 public class SrpgController : MonoBehaviour {
     
@@ -18,6 +19,7 @@ public class SrpgController : MonoBehaviour {
 
     public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
     protected SrpgFieldCursor fieldCursor;
+    protected SrpgEnemyCursor enemyCursor;
     protected SrpgUnitMenu unitMenu;
     
     [SerializeField] private TextAsset settingsJsonFile;
@@ -26,11 +28,11 @@ public class SrpgController : MonoBehaviour {
     protected void Start() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
+        enemyCursor = FindObjectOfType<SrpgEnemyCursor>();
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
 
-        UpdateUnitColliders();
-        ChangeTurn(firstTurn: true, forceTeamId: "good guys");
+        ChangeTurn(firstTurn: true, forceTeamId: "bad guys");
         // semaphor = new ActiveSemaphor();
         // semaphor.objects.Add(fieldCursor.gameObject);
         // semaphor.objects.Add(unitMenu.gameObject);
@@ -53,17 +55,22 @@ public class SrpgController : MonoBehaviour {
     }
 
     public void ToggleFieldCursor(bool activate){
-        fieldCursor.gameObject.SetActive(activate);
+        if(curTeam == "good guys"){
+            fieldCursor.gameObject.SetActive(activate);
+        } else {
+            enemyCursor.gameObject.SetActive(activate);
+        }
     }
 
-    // Note: this method also checks for turn change / game end.
+    // Note: 'hard' means this method also checks for turn change / game end.
     public void UpdateTeamsHard(){
         UpdateTeamsSoft();
         CheckForTurnChangeOrGameEnd();
     }
 
-    private void UpdateTeamsSoft(){
+    public void UpdateTeamsSoft(){
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+        UpdateUnitColliders(units);
         unitsByTeam = units.ToLookup(unit => unit.teamId);
         unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
         teamIds = unitsByTeam.Select(g => g.Key).ToList();
@@ -90,7 +97,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     private bool IsTeamAlive(string teamId){
-        return unitsByTeam[teamId] != null && unitsByTeam[teamId].Any(u => u.hp > 0);
+        return unitsByTeam[teamId] != null && unitsByTeam[teamId].Any(u => u.IsAlive());
     }
 
     protected virtual void EndGame(){
@@ -106,8 +113,8 @@ public class SrpgController : MonoBehaviour {
         }
     }
 
-    private void UpdateUnitColliders(){
-        unitColls = FindObjectsOfType<SrpgUnit>().Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
+    private void UpdateUnitColliders(SrpgUnit[] units){
+        unitColls = units.Where(u => u.IsAlive()).Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
     }
 
     public List<BoxCollider2D> GetUnitColliders() { return unitColls; }

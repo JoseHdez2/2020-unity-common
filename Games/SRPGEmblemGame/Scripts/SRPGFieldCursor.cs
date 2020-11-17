@@ -27,7 +27,7 @@ public class SrpgFieldCursor : LerpMovement
     // Settings
     public bool showUnitCard = true;
 
-    Vector2 lastMousePos;
+    Vector2 lastMousePos; // TODO
 
     void Awake()
     {
@@ -92,7 +92,7 @@ public class SrpgFieldCursor : LerpMovement
                     selectedUnit.Move(transform.position);
                     break;
                 case SrpgTile.Highlight.Attack:
-                    if(selectedUnit.state == SrpgUnit.State.SelectingAttack && hoveringUnit){ // TODO recheck whether these checks are ok.
+                    if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget && hoveringUnit){ // TODO recheck whether these checks are ok.
                         selectedUnit.Attack(hoveringUnit);
                     } else {
                         audioSource.PlaySound(ESRPGSound.Buzzer);
@@ -118,7 +118,7 @@ public class SrpgFieldCursor : LerpMovement
                     selectedUnit = null;    
                     audioSource.PlaySound(ESRPGSound.Cancel);
                     break;
-                case SrpgUnit.State.SelectingAttack:
+                case SrpgUnit.State.SelectingAttackTarget:
                     unitMenu.Open(selectedUnit);
                     audioSource.PlaySound(ESRPGSound.Cancel);
                     break;
@@ -199,6 +199,7 @@ public class SrpgFieldCursor : LerpMovement
     private void UpdateUnitCard(bool show, SrpgUnit hoveringUnit){
         if(show && hoveringUnit){
             unitCard.Open();
+            
             unitCard.SetUnit(hoveringUnit);
         } else {
             unitCard.Close();

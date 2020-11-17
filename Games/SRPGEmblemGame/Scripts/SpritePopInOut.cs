@@ -35,7 +35,6 @@ public class SpritePopInOut : MonoBehaviour {
         Debug.Log(coll);
         if(coll != null){
             coll.enabled = false;
-            Debug.Log("Disabled collider!!");
         }
         Destroy(this.gameObject, 1);
         animationSizeDestination = Vector3.zero;
