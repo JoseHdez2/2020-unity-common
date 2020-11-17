@@ -261,11 +261,8 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public bool CanAttack(SrpgAttack attack){
-        return !hasAttackedThisTurn && attack.range == ManhattanDistance(attack.target); // TODO attack.range.Contains(distance)
-    }
-
-    public int ManhattanDistance(SrpgUnit other){
-        return (int)(this.transform.position.ManhattanDistance(other.transform.position));
+        int distanceToTarget = (int)(this.transform.position.ManhattanDistance(attack.target.transform.position));
+        return !hasAttackedThisTurn && attack.range == distanceToTarget; // TODO attack.range.Contains(distanceToTarget)
     }
 
     public bool HasItem(){
@@ -310,5 +307,12 @@ public class SrpgUnit : EntityDamageable {
         int minHp = targetedUnits.Min(targetUnit => targetUnit.hp);
         SrpgUnit chosenTarget = targetedUnits.First(targetUnit => targetUnit.hp == minHp);
         return new SrpgAttack(){attacker = this, target = chosenTarget, range = GetAttackRange()}; // TODO use item instead.
+    }
+
+    public Vector2 PositionForAttack(SrpgAttack attack){
+        List<Vector2> movePositions = GetMovePositions();
+        Vector2 targetPos = attack.target.transform.position;
+        return movePositions.FirstOrDefault(pos => attack.range == (int)(pos.ManhattanDistance(targetPos)));  // TODO attack.range.Contains(distance)
+        // TODO use closest? use best terrain? criteria
     }
 }

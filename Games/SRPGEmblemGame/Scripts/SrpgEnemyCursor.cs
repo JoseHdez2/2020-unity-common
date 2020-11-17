@@ -38,14 +38,15 @@ public class SrpgEnemyCursor : LerpMovement {
             MyExtensions.LogRed("Won't do anything!");
             selectedUnit.ToSpent();
         } else {
-            if(unit.CanAttack(bestAttack)){
-                MyExtensions.LogRed("Will attack!");
-                unit.Attack(bestAttack.target);
-            } else {
+            if(!unit.CanAttack(bestAttack)){
                 MyExtensions.LogRed("Will move, then attack!");
-                selectedUnit.ToSpent();
-                // TODO
+                Vector2 pos = unit.PositionForAttack(bestAttack);
+                MyExtensions.LogRed($"move pos: {pos}");
+                unit.Move(pos);
+                yield return new WaitUntil(() => selectedUnit.state != SrpgUnit.State.Moving);
             }
+            MyExtensions.LogRed("Will attack!");
+            unit.Attack(bestAttack.target);
         }
         yield return new WaitUntil(() => selectedUnit.state == SrpgUnit.State.Spent);
         selectedUnit = null;
