@@ -61,6 +61,7 @@ public class SrpgController : MonoBehaviour {
             enemyCursor.gameObject.SetActive(false);
         } else {
             enemyCursor.gameObject.SetActive(activate);
+            enemyCursor.StartTurn();
             fieldCursor.gameObject.SetActive(false);
         }
     }

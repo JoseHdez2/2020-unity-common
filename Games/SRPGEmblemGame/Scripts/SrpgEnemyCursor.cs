@@ -16,7 +16,7 @@ public class SrpgEnemyCursor : LerpMovement {
         srpgController = FindObjectOfType<SrpgController>();
     }
 
-    private void OnEnable() {
+    public void StartTurn(){
         StartCoroutine(CrTurn());
     }
 
