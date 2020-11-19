@@ -3031,6 +3031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popOutSize: {x: 0, y: 0, z: 0}
   popOutAlpha: 0
+  popOutRotationConfig: {x: 0, y: 0, z: 0}
   animationSpeed: 10
 --- !u!1 &1224961156
 GameObject:
@@ -3199,6 +3200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popOutSize: {x: 0, y: 0, z: 0}
   popOutAlpha: 0
+  popOutRotationConfig: {x: 0, y: 0, z: 0}
   animationSpeed: 10
 --- !u!1 &1238888048
 GameObject:

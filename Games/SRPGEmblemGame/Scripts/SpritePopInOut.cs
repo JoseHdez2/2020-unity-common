@@ -8,14 +8,18 @@ using System;
 public class SpritePopInOut : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
 
-    private Vector3 popInSize = Vector3.one;
+    private Vector3 popInSize;
     private float popInAlpha;
+    private Quaternion popInRotation;
 
     public Vector3 popOutSize = Vector3.zero;
     public float popOutAlpha = 0f;
+    public Vector3 popOutRotationConfig;
+    private Quaternion popOutRotation;
 
-    private Vector3 targetSize = Vector3.one;
-    private float targetAlpha = 1f;
+    private Vector3 targetSize;
+    private float targetAlpha;
+    private Quaternion targetRotation;
 
     public float animationSpeed = 1f;
     // Start is called before the first frame update
@@ -23,6 +27,9 @@ public class SpritePopInOut : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         popInAlpha = spriteRenderer.color.a;
         popInSize = spriteRenderer.size;
+        popInRotation = this.transform.rotation;
+        popOutRotation = Quaternion.Euler(popOutRotationConfig);
+        transform.rotation = popOutRotation;
         if(spriteRenderer.drawMode != SpriteDrawMode.Sliced){
             Debug.LogWarning("SpriteRenderer not set to Sliced! Setting automatically.");
             spriteRenderer.drawMode = SpriteDrawMode.Sliced;
@@ -44,6 +51,12 @@ public class SpritePopInOut : MonoBehaviour {
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, targetAlpha);
             }
         }
+        if(!IsRotationAnimationFinished()){
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, animationSpeed * Time.deltaTime);
+            if(IsRotationAnimationFinished()){
+                transform.rotation = targetRotation;
+            }
+        }
     }
 
     private void OnEnable() {
@@ -63,6 +76,7 @@ public class SpritePopInOut : MonoBehaviour {
     private IEnumerator CrPopIn(){
         targetSize = popInSize;
         targetAlpha = popInAlpha;
+        targetRotation = popInRotation;
         yield return new WaitUntil(() => IsAnimationFinished());
         GetComponent<Collider2D>().enabled = true;
         yield return null;
@@ -75,6 +89,7 @@ public class SpritePopInOut : MonoBehaviour {
         }
         targetSize = popOutSize;
         targetAlpha = popOutAlpha;
+        targetRotation = popOutRotation;
         yield return new WaitUntil(() => IsAnimationFinished());
         if(destroy){
             Destroy(this.gameObject);
@@ -91,7 +106,12 @@ public class SpritePopInOut : MonoBehaviour {
         return Math.Abs(spriteRenderer.color.a - targetAlpha) < 0.05;
     }
 
+    private bool IsRotationAnimationFinished(){
+        // return true;
+        return Quaternion.Angle(transform.rotation, targetRotation) < 0.5;
+    }
+
     private bool IsAnimationFinished(){
-        return IsSizeAnimationFinished() && IsAlphaAnimationFinished();
+        return IsSizeAnimationFinished() && IsAlphaAnimationFinished() && IsRotationAnimationFinished();
     }
 }

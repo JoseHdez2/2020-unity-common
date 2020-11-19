@@ -96,10 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ece0df7d82ce645aa43c63856b21b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationSizeDestination: {x: 1, y: 1, z: 1}
-  animationSpeed: 15
-  unit: {fileID: 0}
+  popOutSize: {x: 0, y: 0, z: 0}
+  popOutAlpha: 0
+  popOutRotationConfig: {x: 0, y: 0, z: 180}
+  animationSpeed: 10
+  parentUnit: {fileID: 0}
   highlightType: 1
+  content: 0
 --- !u!61 &8190831324277911241
 BoxCollider2D:
   m_ObjectHideFlags: 0
