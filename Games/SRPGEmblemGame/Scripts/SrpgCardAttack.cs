@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
-using UnityEngine.UI;
 
-public class SrpgUnitCard : MonoBehaviour
+public class SrpgCardAttack : MonoBehaviour
 {
     public ImageWipe cardBg;
-    public TMP_Text unitNameText;
-    public TMP_Text unitTypeText;
-    public TMP_Text unitHpText;
+    public TMP_Text attackNameText;
+    public TMP_Text attackPowerText;
+    public TMP_Text attackHitText;
 
     private List<TMP_Text> texts = new List<TMP_Text>();
-
-    private SrpgController srpgController;
 
     // Start is called before the first frame update
     void Start()
     {
         texts = new List<TMP_Text>();
-        texts.AddRange(new TMP_Text[]{unitNameText, unitTypeText, unitHpText});
-        srpgController = FindObjectOfType<SrpgController>();
+        texts.AddRange(new TMP_Text[]{attackNameText, attackPowerText, attackHitText});
         Close();
     }
 
@@ -32,11 +28,9 @@ public class SrpgUnitCard : MonoBehaviour
     }
 
     public void SetUnit(SrpgUnit unit){
-        unitNameText.text = unit.name;
-        unitTypeText.text = unit.typeId;
-        unitHpText.text = $"HP: {unit.hp} / {unit.maxHp}";
-        Color c = (unit.teamId == "good guys") ? srpgController.colorGood : srpgController.colorBad;
-        cardBg.GetComponent<Image>().color = new Color(c.r, c.g, c.b, cardBg.GetComponent<Image>().color.a);
+        attackNameText.text = unit.name;
+        attackPowerText.text = unit.typeId;
+        attackHitText.text = $"HP: {unit.hp} / {unit.maxHp}";
     }
 
     public void Open(){

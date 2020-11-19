@@ -2,7 +2,7 @@
 [System.Serializable]
 public class SrpgItem {
     public string typeId;
-    public int amount;
+    public int remainingDurability;
 }
 
 public class SrpgItemType {
@@ -10,6 +10,7 @@ public class SrpgItemType {
     public string name;
     public int range;
     public int power;
+    public int durability;
 }
 
 public class SrpgAttack {

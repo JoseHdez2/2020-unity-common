@@ -12,7 +12,7 @@ public class SrpgFieldCursor : LerpMovement
     private SrpgPrefabContainer prefabContainer;
     private SrpgUnitCard unitCard;
     private Collider2D cursorColl;
-    private SrpgUnitMenu unitMenu;
+    private SrpgMenuUnit unitMenu;
     private SpritePopInOut spritePopInOut;
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
@@ -35,7 +35,7 @@ public class SrpgFieldCursor : LerpMovement
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         unitCard = FindObjectOfType<SrpgUnitCard>();
-        unitMenu = FindObjectOfType<SrpgUnitMenu>();
+        unitMenu = FindObjectOfType<SrpgMenuUnit>();
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         cursorColl = GetComponent<Collider2D>();
         spritePopInOut = GetComponent<SpritePopInOut>();

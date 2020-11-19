@@ -12,6 +12,8 @@ public class SrpgController : MonoBehaviour {
     // Teams and turns
     protected List<string> teamIds;
     protected string curTeam = "good guys";
+    
+    public Color colorGood, colorBad;
 
     protected ILookup<string, SrpgUnit> unitsByTeam;
     protected ILookup<Vector3, SrpgUnit> unitsByPosition; // TODO
@@ -20,7 +22,7 @@ public class SrpgController : MonoBehaviour {
     public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
     protected SrpgFieldCursor fieldCursor;
     protected SrpgEnemyCursor enemyCursor;
-    protected SrpgUnitMenu unitMenu;
+    protected SrpgMenuUnit unitMenu;
     
     [SerializeField] private TextAsset settingsJsonFile;
     public SrpgSettings settings;
@@ -29,7 +31,7 @@ public class SrpgController : MonoBehaviour {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         enemyCursor = FindObjectOfType<SrpgEnemyCursor>();
-        unitMenu = FindObjectOfType<SrpgUnitMenu>();
+        unitMenu = FindObjectOfType<SrpgMenuUnit>();
         settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
 
         enemyCursor.gameObject.SetActive(false);

@@ -50,6 +50,7 @@ public class SrpgUnit : EntityDamageable {
         Moving,
         Moved,
         SelectingAttackTarget,
+        SelectingAttackType,
         Spent,
     }
 
@@ -81,6 +82,11 @@ public class SrpgUnit : EntityDamageable {
         DestroyTiles();
         List<Vector2> attackPositions = GetAttackPositions(transform.position, includeEmpty: true);
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
+    }
+
+    public void ToSelectingAttackType(){
+        state = State.SelectingAttackType;
+        // FindObjectOfType
     }
 
     private IEnumerator CrCreateTiles(List<Vector2> positions, GameObject pfTile){
@@ -124,24 +130,6 @@ public class SrpgUnit : EntityDamageable {
 
     // includeEmpty: include empty tiles alonside enemy-occupied tiles.
     private List<Vector2> GetAttackPositions(Vector2 fromPosition, bool includeEmpty = false){
-        List<Vector2> attackPositions = new List<Vector2>();
-        List<BoxCollider2D> unitColls = srpgController.GetUnitColliders();
-        int attackRange = GetAttackRange();
-        for (int i = -attackRange; i <= attackRange; i++) {
-            for (int j = -attackRange; j <= attackRange; j++) {
-                if(Math.Abs(i) + Math.Abs(j) > attackRange){ continue; }
-                Vector3 pos = new Vector3(fromPosition.x + i, fromPosition.y + j, 0);
-                var tileType = GetTileType(pos, unitColls);
-                if(tileType == SrpgTile.Content.HasEnemy || (includeEmpty && tileType == SrpgTile.Content.Empty)){
-                    attackPositions.Add(pos);
-                }
-            }
-        }
-        return attackPositions;
-    }
-
-    // includeEmpty: include empty tiles alonside enemy-occupied tiles.
-    public List<Vector2> GetAttackTiles(Vector2 fromPosition, bool includeEmpty = false){
         List<Vector2> attackPositions = new List<Vector2>();
         List<BoxCollider2D> unitColls = srpgController.GetUnitColliders();
         int attackRange = GetAttackRange();
