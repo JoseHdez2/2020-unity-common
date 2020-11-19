@@ -57,12 +57,20 @@ public class SrpgController : MonoBehaviour {
 
     public void ToggleFieldCursor(bool activate){
         if(curTeam == "good guys"){
-            fieldCursor.gameObject.SetActive(activate);
-            enemyCursor.gameObject.SetActive(false);
+            if(activate){
+                fieldCursor.gameObject.SetActive(true);
+            } else {
+                fieldCursor.SelfDisable();
+            }
+            enemyCursor.SelfDisable();
         } else {
-            enemyCursor.gameObject.SetActive(activate);
-            enemyCursor.StartTurn();
-            fieldCursor.gameObject.SetActive(false);
+            if(activate){
+                enemyCursor.gameObject.SetActive(true);
+                enemyCursor.StartTurn();
+            } else {
+                enemyCursor.SelfDisable();
+            }
+            fieldCursor.SelfDisable();
         }
     }
 

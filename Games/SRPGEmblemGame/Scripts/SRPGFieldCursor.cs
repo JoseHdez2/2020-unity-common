@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(SpritePopInOut))]
 public class SrpgFieldCursor : LerpMovement
 {
     // GameObject references
@@ -12,6 +13,7 @@ public class SrpgFieldCursor : LerpMovement
     private SrpgUnitCard unitCard;
     private Collider2D cursorColl;
     private SrpgUnitMenu unitMenu;
+    private SpritePopInOut spritePopInOut;
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
     public SrpgUnit selectedUnit;
@@ -36,12 +38,17 @@ public class SrpgFieldCursor : LerpMovement
         unitMenu = FindObjectOfType<SrpgUnitMenu>();
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         cursorColl = GetComponent<Collider2D>();
+        spritePopInOut = GetComponent<SpritePopInOut>();
         lastMousePos = Input.mousePosition;
     }
 
     private void OnEnable() {
         SetHoverFromCurPos();
         UpdateUnitCard(show: showUnitCard, hoveringUnit);
+    }
+
+    public void SelfDisable(){
+        spritePopInOut.SelfDisable();
     }
 
     private void OnDisable() {

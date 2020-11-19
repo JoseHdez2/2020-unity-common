@@ -4,16 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[RequireComponent(typeof(SpritePopInOut))]
 public class SrpgEnemyCursor : LerpMovement {
     
     private SrpgAudioSource audioSource;
     private SrpgController srpgController;
     public string teamId;
     public SrpgUnit selectedUnit;
+    private SpritePopInOut spritePopInOut;
 
     private void Awake() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         srpgController = FindObjectOfType<SrpgController>();
+        spritePopInOut = GetComponent<SpritePopInOut>();
+    }
+
+    public void SelfDisable(){
+        spritePopInOut.SelfDisable();
     }
 
     public void StartTurn(){
