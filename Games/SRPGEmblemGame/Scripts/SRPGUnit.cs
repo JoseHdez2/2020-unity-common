@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 using ExtensionMethods;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(ObjectShake))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(LerpMovement))]
 public class SrpgUnit : EntityDamageable {
@@ -28,6 +29,7 @@ public class SrpgUnit : EntityDamageable {
     // GameObject refs
     private TilemapCollider2D tilemapCollider2D;
     private SpriteRenderer spriteRenderer;
+    protected ObjectShake objectShake;
     private SrpgController srpgController;
     private List<SrpgTile> tiles = null;
     private Collider2D collider;
@@ -56,6 +58,7 @@ public class SrpgUnit : EntityDamageable {
         base.Awake();
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        objectShake = GetComponent<ObjectShake>();
         lerpMovement = GetComponent<LerpMovement>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
@@ -223,6 +226,7 @@ public class SrpgUnit : EntityDamageable {
 
     public override void Damage(Damage damage){
         base.Damage(damage);
+        // objectShake.Shake();
         hp = health;
         if(hp <= 0){
             StartCoroutine(CrDie());

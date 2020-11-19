@@ -44,6 +44,7 @@ public class SrpgEnemyCursor : LerpMovement {
         SrpgAttack bestAttack = unit.BestAttack();
         if(bestAttack == null){
             MyExtensions.LogRed("Won't do anything!");
+            audioSource.PlaySound(ESRPGSound.UnitPrompt);
             selectedUnit.ToSpent();
         } else {
             if(!unit.CanAttack(bestAttack)){
@@ -57,6 +58,7 @@ public class SrpgEnemyCursor : LerpMovement {
                 MoveAiCursor(pos);
                 yield return new WaitUntil(() => destinationPos == null);
             }
+            audioSource.PlaySound(ESRPGSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
             MyExtensions.LogRed("Will attack!");

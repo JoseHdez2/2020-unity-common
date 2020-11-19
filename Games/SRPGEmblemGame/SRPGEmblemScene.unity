@@ -1831,6 +1831,7 @@ GameObject:
   - component: {fileID: 679118539}
   - component: {fileID: 679118538}
   - component: {fileID: 679118537}
+  - component: {fileID: 679118542}
   m_Layer: 0
   m_Name: SrpgUnitEnemy (1)
   m_TagString: Untagged
@@ -1980,6 +1981,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &679118542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679118536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0276f556bae534f81fba954bb00a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDecay: 0.3
+  shakeIntensity: 0.3
+  tempShakeIntensity: 0
 --- !u!1 &767693342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,6 +2009,7 @@ GameObject:
   - component: {fileID: 767693345}
   - component: {fileID: 767693346}
   - component: {fileID: 767693347}
+  - component: {fileID: 767693348}
   m_Layer: 0
   m_Name: SrpgUnitEnemy
   m_TagString: Untagged
@@ -2142,6 +2159,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+--- !u!114 &767693348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767693342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0276f556bae534f81fba954bb00a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDecay: 0.3
+  shakeIntensity: 0.3
+  tempShakeIntensity: 0
 --- !u!1 &781760034
 GameObject:
   m_ObjectHideFlags: 0
@@ -3131,7 +3163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf45b79d456d61549aa87208fdc97f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 12
   levelBoundsColl: {fileID: 1061599912}
   selectedUnit: {fileID: 0}
   hoveringUnit: {fileID: 0}
@@ -4578,6 +4610,7 @@ GameObject:
   - component: {fileID: 1741206234}
   - component: {fileID: 1741206233}
   - component: {fileID: 1741206237}
+  - component: {fileID: 1741206238}
   m_Layer: 0
   m_Name: SrpgUnitPlayer
   m_TagString: Untagged
@@ -4731,6 +4764,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+--- !u!114 &1741206238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741206232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0276f556bae534f81fba954bb00a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDecay: 0.3
+  shakeIntensity: 0.3
+  tempShakeIntensity: 0
 --- !u!1 &1757239003
 GameObject:
   m_ObjectHideFlags: 0

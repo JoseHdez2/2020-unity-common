@@ -39,7 +39,8 @@ public class SrpgController : MonoBehaviour {
         // semaphor.objects.Add(unitMenu.gameObject);
     }
 
-    public virtual void ChangeTurn(bool firstTurn = false, string forceTeamId = null){
+    public void ChangeTurn(bool firstTurn = false, string forceTeamId = null){
+        ToggleFieldCursor(false);
         curTeam = curTeam == "good guys" ? "bad guys" : "good guys";
         if(forceTeamId != null){
             curTeam = forceTeamId;
@@ -53,6 +54,11 @@ public class SrpgController : MonoBehaviour {
         units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
         teamText.text = $"{teamId}'s Turn";
         Debug.LogFormat($"<color=green>{teamId}'s Turn.</color>");
+        StartTurnChild();
+    }
+
+    protected virtual void StartTurnChild(){
+        ToggleFieldCursor(true);
     }
 
     public void ToggleFieldCursor(bool activate){
