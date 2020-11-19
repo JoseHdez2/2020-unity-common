@@ -66,33 +66,30 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public void ToSelectingMove(){
+        state = State.SelectingMove;
         lerpMovement.destinationPos = idlePos;
         List<Vector2> movePositions = GetMovePositions();
+        List<Vector2> attackPositions = GetAttackPositions(movePositions, excludeFrom: true, includeEmpty: true);
         DestroyTiles();
-        foreach (Vector2 pos in movePositions){
-            GameObject tileObj = Instantiate(prefabContainer.pfTileMove, pos, Quaternion.identity);
-            SrpgTile tile = tileObj.GetComponent<SrpgTile>();
-            tile.parentUnit = this;
-            tiles.Add(tile);
-        }
-        foreach (Vector2 pos2 in GetAttackPositions(movePositions, excludeFrom: true, includeEmpty: true)){
-            GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
-            SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
-            tile2.parentUnit = this;
-            tiles.Add(tile2);
-        }
-        state = State.SelectingMove;
+        StartCoroutine(CrCreateTiles(movePositions, prefabContainer.pfTileMove));
+        StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
     }
 
     public void ToSelectingAttackTarget(){
-        DestroyTiles();
-        foreach (Vector2 pos2 in GetAttackPositions(transform.position, includeEmpty: true)){
-            GameObject tileObj2 = Instantiate(prefabContainer.pfTileAttack, pos2, Quaternion.identity);
-            SrpgTile tile2 = tileObj2.GetComponent<SrpgTile>();
-            tile2.parentUnit = this;
-            tiles.Add(tile2);
-        }
         state = State.SelectingAttackTarget;
+        DestroyTiles();
+        List<Vector2> attackPositions = GetAttackPositions(transform.position, includeEmpty: true);
+        StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
+    }
+
+    private IEnumerator CrCreateTiles(List<Vector2> positions, GameObject pfTile){
+        foreach (Vector2 pos in positions){
+            GameObject tileObj = Instantiate(pfTile, pos, Quaternion.identity);
+            SrpgTile tile = tileObj.GetComponent<SrpgTile>();
+            tile.parentUnit = this;
+            tiles.Add(tile);
+            yield return new WaitForSeconds(0.005f);
+        }
     }
 
     // Get the positions that this unit can currently move to.
