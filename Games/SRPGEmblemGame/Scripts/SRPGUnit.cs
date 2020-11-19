@@ -24,6 +24,8 @@ public class SrpgUnit : EntityDamageable {
     public int moveRange = 3;
     public List<SrpgItem> items;
 
+    public Sprite attackSprite;
+
     // GameObject refs
     private TilemapCollider2D tilemapCollider2D;
     private SpriteRenderer spriteRenderer;
@@ -205,9 +207,13 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public IEnumerator CrAttack(SrpgUnit hoveringUnit){
-        srpgController.ToggleFieldCursor(false);
+        srpgController.ToggleFieldCursorFalse();
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
+        if(attackSprite){
+            spriteRenderer.sprite = attackSprite;
+        }
         yield return new WaitForSeconds(0.3f);
+        spriteRenderer.sprite = idleSprite;
         int dmg = CalculateDamage(hoveringUnit);
         hoveringUnit.Damage(new Damage(amount: dmg));
         yield return new WaitForSeconds(0.3f);
@@ -241,6 +247,7 @@ public class SrpgUnit : EntityDamageable {
 
     // hard: "true" checks for turn end. "false" prevents recursive calls if we are already changing turns.
     public void ToSpent(bool hard = true){
+        // srpgController.ToggleFieldCursorFalse();
         DestroyTiles();
         FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;

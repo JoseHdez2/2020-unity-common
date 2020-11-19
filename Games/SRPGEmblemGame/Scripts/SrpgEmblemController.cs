@@ -23,7 +23,6 @@ public class SrpgEmblemController : SrpgController
         Debug.Log("Change Turn!");
         ninjaVision.GetReady();
         yield return new WaitForSeconds(0.3f);
-        ToggleFieldCursor(false);
         audioSource.PlaySound(ESRPGSound.TurnChange);
         ninjaVision.Activate();
         yield return new WaitForSeconds(1);

@@ -33,7 +33,7 @@ public class SrpgUnitMenu : ButtonMenuBase
 
     public void Open(SrpgUnit unit){
         buttonContainer.ToggleWipe(true);
-        srpgController.ToggleFieldCursor(false);
+        srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
         HideIrrelevantButtons(unit);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
@@ -106,9 +106,9 @@ public class SrpgUnitMenu : ButtonMenuBase
 
     public void Close(){
         buttonContainer.ToggleWipe(false);
-        srpgController.ToggleFieldCursor(true);
         audioSource.PlaySound(ESRPGSound.Cancel);
         gameObject.SetActive(false);
+        srpgController.UpdateTeamsHard();
     }    
 
     // Must reset to null each time the menu becomes inactive. Only used for making a sound when the selected button changes.

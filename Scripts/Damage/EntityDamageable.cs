@@ -35,6 +35,7 @@ public class EntityDamageable : SpritePopInOut
     public Color colorExpandHealth = Color.yellow;
 
     [Header("EntityDamageable Sprites")]
+    protected Sprite idleSprite;
     public Sprite hitSprite;
     public Sprite deathSprite;
 
@@ -49,6 +50,7 @@ public class EntityDamageable : SpritePopInOut
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         objectShake = GetComponentInChildren<ObjectShake>();
+        idleSprite = spriteRenderer.sprite;
         if(objectShake == null){
             Debug.LogWarning("No ObjectShake component found!");
         }
@@ -89,14 +91,28 @@ public class EntityDamageable : SpritePopInOut
     public virtual void Damage(Damage damage)
     {
         health -= damage.amount;
-        // objectShake.Shake(); // TODO
+        StartCoroutine(CrDamage());
         if (pfDamagePopup) { CreatePopup(damage.amount, colorDamage); }
-        if (health <= 0) { Die(); }
-        else
-        {
+        if (health <= 0) { 
+            Die(); 
+        } else {
             // if (movement) { movement.SetMovement(EMovementType.BULLET_PUSH, damage.pushVector * damage.pushSpeed); } // TODO reduce pushSpeed with eg. armor
             if (soundDamage) { audioSource.clip = soundDamage; audioSource.Play(); }
             StartCoroutine(Blink(colorDamage));
+            if(objectShake){
+                objectShake.Shake();
+            }
+            StartCoroutine(CrDamage());
+        }
+    }
+
+    protected IEnumerator CrDamage(){
+        if(deathSprite){
+            spriteRenderer.sprite = hitSprite;
+        }
+        yield return new WaitForSeconds(1f);
+        if(idleSprite){
+            spriteRenderer.sprite = idleSprite;
         }
     }
 
@@ -104,7 +120,18 @@ public class EntityDamageable : SpritePopInOut
         if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
         if (deathExplosionPrefab) { Instantiate(deathExplosionPrefab, gameObject.transform.position, gameObject.transform.rotation); }
         Destroy(GetComponent<BoxCollider2D>()); // TODO what if EntityDamageable has another collider type?
-        this.spriteRenderer.enabled = false;
+        StartCoroutine(CrDie());
+    }
+
+    private IEnumerator CrDie(){
+        if(deathSprite){
+            spriteRenderer.sprite = deathSprite;
+        }
+        while(spriteRenderer.color.a > 0){
+            float alpha = spriteRenderer.color.a - 0.1f;
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            yield return new WaitForSeconds(0.1f);
+        }
         GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(sr => sr.enabled = false);
         Destroy(this.gameObject, 2);
     }

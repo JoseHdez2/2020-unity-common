@@ -43,16 +43,15 @@ public class SrpgEnemyCursor : LerpMovement {
         yield return new WaitUntil(() => !destinationPos.HasValue);
         SrpgAttack bestAttack = unit.BestAttack();
         if(bestAttack == null){
-            MyExtensions.LogRed("Won't do anything!");
+            Log("Won't do anything!");
             audioSource.PlaySound(ESRPGSound.UnitPrompt);
             selectedUnit.ToSpent();
         } else {
             if(!unit.CanAttack(bestAttack)){
-                MyExtensions.LogRed("Will move, then attack!");
+                Log("Will move, then attack!");
                 unit.ToSelectingMove();
                 yield return new WaitForSeconds(0.5f);
                 Vector2 pos = unit.PositionForAttack(bestAttack);
-                MyExtensions.LogRed($"move pos: {pos}");
                 unit.Move(pos);
                 yield return new WaitUntil(() => selectedUnit.state != SrpgUnit.State.Moving);
                 MoveAiCursor(pos);
@@ -61,12 +60,16 @@ public class SrpgEnemyCursor : LerpMovement {
             audioSource.PlaySound(ESRPGSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
-            MyExtensions.LogRed("Will attack!");
+            Log("Will attack!");
             unit.Attack(bestAttack.target);
         }
         yield return new WaitUntil(() => selectedUnit.state == SrpgUnit.State.Spent);
         selectedUnit = null;
         yield break;
+    }
+
+    private void Log(string str){
+        Debug.LogFormat($"<color=blue>{str}</color>");
     }
 
     // We don't need input cooldowns or bounds checking.

@@ -61,7 +61,11 @@ public class SrpgController : MonoBehaviour {
         ToggleFieldCursor(true);
     }
 
-    public void ToggleFieldCursor(bool activate){
+    public void ToggleFieldCursorFalse(){
+        ToggleFieldCursor(false);
+    }
+
+    protected void ToggleFieldCursor(bool activate){
         if(curTeam == "good guys"){
             if(activate){
                 fieldCursor.gameObject.SetActive(true);
@@ -80,7 +84,6 @@ public class SrpgController : MonoBehaviour {
 
     // Note: 'hard' means this method also checks for turn change / game end.
     public void UpdateTeamsHard(){
-        ToggleFieldCursor(true); // TODO show cursor after a unit is spent. is this the best place?
         UpdateTeamsSoft();
         CheckForTurnChangeOrGameEnd();
     }
@@ -100,6 +103,7 @@ public class SrpgController : MonoBehaviour {
             int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
             if(unitsNotSpent > 0){
                 Debug.LogFormat($"<color=gray>{unitsNotSpent} unit(s) remain.</color>");
+                ToggleFieldCursor(true); // TODO show cursor after a unit is spent. is this the best place?
                 return;
             } else {
                 ChangeTurn();
