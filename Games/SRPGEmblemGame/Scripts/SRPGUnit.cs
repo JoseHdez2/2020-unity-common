@@ -7,8 +7,6 @@ using System;
 using UnityEngine.Tilemaps;
 using ExtensionMethods;
 
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(ObjectShake))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(LerpMovement))]
 public class SrpgUnit : EntityDamageable {
@@ -29,7 +27,6 @@ public class SrpgUnit : EntityDamageable {
     // GameObject refs
     private TilemapCollider2D tilemapCollider2D;
     private SpriteRenderer spriteRenderer;
-    protected ObjectShake objectShake;
     private SrpgController srpgController;
     private List<SrpgTile> tiles = null;
     private Collider2D collider;
@@ -57,8 +54,7 @@ public class SrpgUnit : EntityDamageable {
     private void Awake() {
         base.Awake();
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        objectShake = GetComponent<ObjectShake>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         lerpMovement = GetComponent<LerpMovement>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
@@ -216,7 +212,6 @@ public class SrpgUnit : EntityDamageable {
         hoveringUnit.Damage(new Damage(amount: dmg));
         yield return new WaitForSeconds(0.3f);
         ToSpent();
-        srpgController.ToggleFieldCursor(true);
     }
 
     // TODO very primitive. take into account the attack type, etc.
@@ -226,7 +221,6 @@ public class SrpgUnit : EntityDamageable {
 
     public override void Damage(Damage damage){
         base.Damage(damage);
-        // objectShake.Shake();
         hp = health;
         if(hp <= 0){
             StartCoroutine(CrDie());

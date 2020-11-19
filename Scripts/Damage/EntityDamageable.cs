@@ -10,9 +10,8 @@ public enum EDamageableEffect {
     INVINCIBLE
 }
 
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))] // TODO this wouldnt work with just Collider2D I think...
-public class EntityDamageable : MonoBehaviour
+public class EntityDamageable : SpritePopInOut
 {
     [Header("EntityDamageable")]
     [Tooltip("Optional sound to be played on damage.")]
@@ -35,15 +34,24 @@ public class EntityDamageable : MonoBehaviour
     public Color colorHeal = Color.green;
     public Color colorExpandHealth = Color.yellow;
 
+    [Header("EntityDamageable Sprites")]
+    public Sprite hitSprite;
+    public Sprite deathSprite;
+
     private Dictionary<EDamageableEffect, Color> currentEffects = new Dictionary<EDamageableEffect, Color>();
 
     private SpriteRenderer spriteRenderer;
+    private ObjectShake objectShake;
     // private AbstractMovement movement;
     private Color colorReal;
     [SerializeField] private AudioSource audioSource;
     public void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        objectShake = GetComponentInChildren<ObjectShake>();
+        if(objectShake == null){
+            Debug.LogWarning("No ObjectShake component found!");
+        }
         // movement = GetComponent<AbstractMovement>();
         colorReal = spriteRenderer.color;
     }
@@ -81,6 +89,7 @@ public class EntityDamageable : MonoBehaviour
     public virtual void Damage(Damage damage)
     {
         health -= damage.amount;
+        // objectShake.Shake(); // TODO
         if (pfDamagePopup) { CreatePopup(damage.amount, colorDamage); }
         if (health <= 0) { Die(); }
         else

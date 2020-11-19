@@ -68,7 +68,6 @@ public class SrpgController : MonoBehaviour {
             } else {
                 fieldCursor.SelfDisable();
             }
-            enemyCursor.SelfDisable();
         } else {
             if(activate){
                 enemyCursor.gameObject.SetActive(true);
@@ -76,12 +75,12 @@ public class SrpgController : MonoBehaviour {
             } else {
                 enemyCursor.SelfDisable();
             }
-            fieldCursor.SelfDisable();
         }
     }
 
     // Note: 'hard' means this method also checks for turn change / game end.
     public void UpdateTeamsHard(){
+        ToggleFieldCursor(true); // TODO show cursor after a unit is spent. is this the best place?
         UpdateTeamsSoft();
         CheckForTurnChangeOrGameEnd();
     }

@@ -7,10 +7,10 @@ public class ObjectShake : MonoBehaviour {
 
 	private Vector3 originPosition;
 	private Quaternion originRotation;
-	public float shakeDecay = 0.5f;
-	public float shakeIntensity = .3f;
+	public float shakeDecay = 0.2f;
+	public float shakeIntensity = .2f;
 
-	public float tempShakeIntensity = 0;
+	private float curShakeIntensity = 0;
 
 	private bool isShaking = false;
 	
@@ -21,15 +21,15 @@ public class ObjectShake : MonoBehaviour {
 	// }
 	
 	void Update (){
-		if (tempShakeIntensity > 0){
+		if (curShakeIntensity > 0){
 			isShaking = true;
-			transform.position = originPosition + Random.insideUnitSphere * tempShakeIntensity;
+			transform.position = originPosition + Random.insideUnitSphere * curShakeIntensity;
 			transform.rotation = new Quaternion(
-				originRotation.x + Random.Range (-tempShakeIntensity,tempShakeIntensity) * .2f,
-				originRotation.y + Random.Range (-tempShakeIntensity,tempShakeIntensity) * .2f,
-				originRotation.z + Random.Range (-tempShakeIntensity,tempShakeIntensity) * .2f,
-				originRotation.w + Random.Range (-tempShakeIntensity,tempShakeIntensity) * .2f);
-			tempShakeIntensity -= shakeDecay * Time.deltaTime;
+				originRotation.x + Random.Range (-curShakeIntensity,curShakeIntensity) * .2f,
+				originRotation.y + Random.Range (-curShakeIntensity,curShakeIntensity) * .2f,
+				originRotation.z + Random.Range (-curShakeIntensity,curShakeIntensity) * .2f,
+				originRotation.w + Random.Range (-curShakeIntensity,curShakeIntensity) * .2f);
+			curShakeIntensity -= shakeDecay * Time.deltaTime;
 		} else if(isShaking) {
 			isShaking = false;
 			// GetComponent<Collider2D>().enabled = true;
@@ -39,6 +39,6 @@ public class ObjectShake : MonoBehaviour {
 	public void Shake(){
 		originPosition = transform.position;
 		originRotation = transform.rotation;
-		tempShakeIntensity = shakeIntensity;
+		curShakeIntensity = shakeIntensity;
 	}
 }
