@@ -1,21 +1,43 @@
 
+using ExtensionMethods;
+using UnityEngine;
+
 [System.Serializable]
 public class SrpgItem {
+    public string id;
     public string typeId;
+    public string ownerId;
     public int remainingDurability;
-}
-
-public class SrpgItemType {
-    public string typeId;
-    public string name;
-    public int range;
-    public int power;
-    public int durability;
 }
 
 public class SrpgAttack {
     public SrpgUnit attacker;
+    public Vector2 attackerPos; // Note: we don't get it from "attacker" because it may represent a future pos.
     public SrpgUnit target;
-    // SrpgItemType item;
-    public int range;
+    public SrpgItem weapon;
+    public SrpgItemType weaponType;
+    public int expectedDamage;
+
+    public SrpgAttack(SrpgUnit attacker, Vector2 attackerPos, SrpgUnit target, SrpgItem weapon, SrpgItemType weaponType){
+        this.attacker = attacker;
+        this.attackerPos = attackerPos;
+        this.target = target;
+        this.weapon = weapon;
+        this.weaponType = weaponType;
+    }
+
+    public bool IsValid(){
+        int distanceToTarget = attackerPos.ManhattanDistanceInt(target.transform.position);
+        MyExtensions.LogRed($"{weaponType}: Is {distanceToTarget} contained in {weaponType.range}?");
+        return weaponType.range.Contains(distanceToTarget);
+    }
+
+    public bool SimulateAttackHit(){
+        return true;
+    }
+
+    // TODO very primitive. take into account the attack type, etc.
+    public int CalculateDamage(){
+        return weaponType.power - target.defense; // TODO use unit attack too.
+    }
 }

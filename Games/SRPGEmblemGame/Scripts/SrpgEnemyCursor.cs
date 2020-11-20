@@ -41,17 +41,17 @@ public class SrpgEnemyCursor : LerpMovement {
     private IEnumerator CrUnitTurn(SrpgUnit unit){
         MoveAiCursor(unit.transform.position);
         yield return new WaitUntil(() => !destinationPos.HasValue);
-        SrpgAttack bestAttack = unit.BestAttack();
+        SrpgAttack bestAttack = unit.MaxDamageAttack();
         if(bestAttack == null){
             Log("Won't do anything!");
             audioSource.PlaySound(ESRPGSound.UnitPrompt);
             selectedUnit.ToSpent();
         } else {
-            if(!unit.CanAttack(bestAttack)){
+            if(!bestAttack.IsValid()){
                 Log("Will move, then attack!");
                 unit.ToSelectingMove();
                 yield return new WaitForSeconds(0.5f);
-                Vector2 pos = unit.PositionForAttack(bestAttack);
+                Vector2 pos = bestAttack.attackerPos;
                 unit.Move(pos);
                 yield return new WaitUntil(() => selectedUnit.state != SrpgUnit.State.Moving);
                 MoveAiCursor(pos);
@@ -61,7 +61,7 @@ public class SrpgEnemyCursor : LerpMovement {
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
             Log("Will attack!");
-            unit.Attack(bestAttack.target);
+            unit.Attack(bestAttack);
         }
         yield return new WaitUntil(() => selectedUnit.state == SrpgUnit.State.Spent);
         selectedUnit = null;

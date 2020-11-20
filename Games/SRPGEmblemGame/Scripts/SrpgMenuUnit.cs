@@ -85,11 +85,4 @@ public class SrpgMenuUnit : SrpgMenuBase
         }
     }
 
-    public void Close(){
-        buttonContainer.ToggleWipe(false);
-        audioSource.PlaySound(ESRPGSound.Cancel);
-        gameObject.SetActive(false);
-        srpgController.UpdateTeamsHard();
-    }    
-
 }

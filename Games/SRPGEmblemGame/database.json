@@ -1,11 +1,11 @@
 {
-    "item_types": [
+    "itemTypes": [
         {"id": "potion", "name": "Potion"},
-        {"id": "sword-1", "name": "Iron Sword", "power": 2, "range": 1, "durability": 45},
-        {"id": "sword-2", "name": "Steel Sword", "power": 5, "range": 1, "durability": 45},
-        {"id": "bow-1", "name": "Iron Bow", "power": 2, "range": 2, "durability": 30}
+        {"id": "sword-1", "name": "Iron Sword", "power": 2, "range": [1], "durability": 45},
+        {"id": "sword-2", "name": "Steel Sword", "power": 5, "range": [1], "durability": 45},
+        {"id": "bow-1", "name": "Iron Bow", "power": 2, "range": [2], "durability": 30}
     ],
-    "unit_types": [
+    "unitTypes": [
         {"id": "soldier-1", "name": "Skeleton Soldier", "items": ["sword-1"]},
         {"id": "bowman-1", "name": "Skeleton Bowman", "items": ["bow-1"]}
     ]

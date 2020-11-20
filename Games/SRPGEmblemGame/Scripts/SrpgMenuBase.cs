@@ -5,14 +5,14 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     
     protected SrpgAudioSource audioSource;
     protected SrpgController srpgController;
-    protected SrpgEmblemDatabase srpgEmblemDatabase;
+    protected SrpgDatabase srpgEmblemDatabase;
     [SerializeField] protected ImageWipe buttonContainer;
 
     void Start()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         srpgController = FindObjectOfType<SrpgController>();
-        srpgEmblemDatabase = FindObjectOfType<SrpgEmblemDatabase>();
+        srpgEmblemDatabase = FindObjectOfType<SrpgDatabase>();
         buttonContainer.ToggleWipe(false);
     }
 
@@ -40,4 +40,11 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     }
 
     protected abstract void HandleCancel();
+
+    public void Close(){
+        buttonContainer.ToggleWipe(false);
+        audioSource.PlaySound(ESRPGSound.Cancel);
+        gameObject.SetActive(false);
+        srpgController.UpdateTeamsHard();
+    }    
 }

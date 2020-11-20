@@ -13,6 +13,7 @@ public class SrpgFieldCursor : LerpMovement
     private SrpgUnitCard unitCard;
     private Collider2D cursorColl;
     private SrpgMenuUnit unitMenu;
+    private SrpgMenuAttackType attackTypeMenu;
     private SpritePopInOut spritePopInOut;
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
@@ -31,11 +32,11 @@ public class SrpgFieldCursor : LerpMovement
 
     Vector2 lastMousePos; // TODO
 
-    void Awake()
-    {
+    void Awake(){
         audioSource = FindObjectOfType<SrpgAudioSource>();
         unitCard = FindObjectOfType<SrpgUnitCard>();
         unitMenu = FindObjectOfType<SrpgMenuUnit>();
+        attackTypeMenu = FindObjectOfType<SrpgMenuAttackType>();
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         cursorColl = GetComponent<Collider2D>();
         spritePopInOut = GetComponent<SpritePopInOut>();
@@ -56,8 +57,7 @@ public class SrpgFieldCursor : LerpMovement
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         // Vector2 mousePos = Input.mousePosition;
         // if(mousePos != lastMousePos){
         //     if(!cursorColl.bounds.Contains(mousePos)){
@@ -100,7 +100,8 @@ public class SrpgFieldCursor : LerpMovement
                     break;
                 case SrpgTile.Highlight.Attack:
                     if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget && hoveringUnit){ // TODO recheck whether these checks are ok.
-                        selectedUnit.Attack(hoveringUnit);
+                        attackTypeMenu.Open(selectedUnit, hoveringUnit);
+                        // selectedUnit.Attack(hoveringUnit);
                     } else {
                         audioSource.PlaySound(ESRPGSound.Buzzer);
                     }

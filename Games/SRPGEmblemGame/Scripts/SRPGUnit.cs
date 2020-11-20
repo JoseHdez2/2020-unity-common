@@ -19,19 +19,17 @@ public class SrpgUnit : EntityDamageable {
     public int hp = 10;
     public int attack = 1;
     public int defense = 1;
-    public int attackRange = 1;
-    [Tooltip("Movement range of unit, in tiles.")]
     public int moveRange = 3;
     public List<SrpgItem> items;
 
     public Sprite attackSprite;
 
     // GameObject refs
-    private TilemapCollider2D tilemapCollider2D;
+    public TilemapCollider2D tilemapCollider2D;
     private SpriteRenderer spriteRenderer;
-    private SrpgController srpgController;
+    public SrpgController srpgController;
     private List<SrpgTile> tiles = null;
-    private Collider2D collider;
+    public Collider2D collider;
     private SrpgPrefabContainer prefabContainer;
 
     [SerializeField] private LerpMovement lerpMovement; 
@@ -70,8 +68,8 @@ public class SrpgUnit : EntityDamageable {
     public void ToSelectingMove(){
         state = State.SelectingMove;
         lerpMovement.destinationPos = idlePos;
-        List<Vector2> movePositions = GetMovePositions();
-        List<Vector2> attackPositions = GetAttackPositions(movePositions, excludeFrom: true, includeEmpty: true);
+        List<Vector2> movePositions = SrpgUnitLogic.GetMovePositions(this);
+        List<Vector2> attackPositions = SrpgUnitLogic.GetAttackPositions(this, movePositions, excludeFrom: true, includeEmpty: true);
         DestroyTiles();
         StartCoroutine(CrCreateTiles(movePositions, prefabContainer.pfTileMove));
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
@@ -80,7 +78,7 @@ public class SrpgUnit : EntityDamageable {
     public void ToSelectingAttackTarget(){
         state = State.SelectingAttackTarget;
         DestroyTiles();
-        List<Vector2> attackPositions = GetAttackPositions(transform.position, includeEmpty: true);
+        List<Vector2> attackPositions = this.GetAttackPositions(new List<Vector2>(){transform.position}, includeEmpty: true);
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
     }
 
@@ -96,72 +94,6 @@ public class SrpgUnit : EntityDamageable {
             tile.parentUnit = this;
             tiles.Add(tile);
             yield return new WaitForSeconds(0.005f);
-        }
-    }
-
-    // Get the positions that this unit can currently move to.
-    public List<Vector2> GetMovePositions(){
-        List<Vector2> movePositions = new List<Vector2>();
-        List<BoxCollider2D> unitColls = srpgController.GetUnitColliders();
-        for (int i = -moveRange; i <= moveRange; i++) {
-            for (int j = -moveRange; j <= moveRange; j++) {
-                if(Math.Abs(i) + Math.Abs(j) > moveRange){ continue; }
-                Vector3 pos = transform.position + new Vector3(i, j, 0);
-                var tileType = GetTileType(pos, unitColls);
-                if(tileType == SrpgTile.Content.Empty || tileType == SrpgTile.Content.HasMe){
-                    movePositions.Add(pos);
-                }
-            }
-        }
-        return movePositions;
-    }
-
-    // Get the positions that this unit can attack before or after moving.
-    // excludeFrom: result will not include fromPositions.
-    // includeEmpty: include empty tiles alonside enemy-occupied tiles.
-    public List<Vector2> GetAttackPositions(List<Vector2> fromPositions, bool excludeFrom = false, bool includeEmpty = false){
-        List<Vector2> attackPositions = fromPositions.SelectMany(pos => GetAttackPositions(pos, includeEmpty)).Distinct().ToList();
-        if (excludeFrom){
-            return attackPositions.Where(atkPos => !fromPositions.Any(fromPos => atkPos == fromPos)).ToList(); // TODO extract into Utils.
-        } else {
-            return attackPositions;
-        }
-    }
-
-    // includeEmpty: include empty tiles alonside enemy-occupied tiles.
-    private List<Vector2> GetAttackPositions(Vector2 fromPosition, bool includeEmpty = false){
-        List<Vector2> attackPositions = new List<Vector2>();
-        List<BoxCollider2D> unitColls = srpgController.GetUnitColliders();
-        int attackRange = GetAttackRange();
-        for (int i = -attackRange; i <= attackRange; i++) {
-            for (int j = -attackRange; j <= attackRange; j++) {
-                if(Math.Abs(i) + Math.Abs(j) > attackRange){ continue; }
-                Vector3 pos = new Vector3(fromPosition.x + i, fromPosition.y + j, 0);
-                var tileType = GetTileType(pos, unitColls);
-                if(tileType == SrpgTile.Content.HasEnemy || (includeEmpty && tileType == SrpgTile.Content.Empty)){
-                    attackPositions.Add(pos);
-                }
-            }
-        }
-        return attackPositions;
-    }
-
-    private SrpgTile.Content GetTileType(Vector3 pos, List<BoxCollider2D> unitColls){
-        if(tilemapCollider2D.OverlapPoint(pos)){
-            return SrpgTile.Content.Solid;
-        }
-        if(collider.bounds.Contains(pos)){
-            return SrpgTile.Content.HasMe;
-        }
-        BoxCollider2D otherColl = unitColls.FirstOrDefault(coll => coll.bounds.Contains(pos));
-        if(otherColl == null){
-            return SrpgTile.Content.Empty;
-        }
-        SrpgUnit unit = otherColl.GetComponent<SrpgUnit>();
-        if(unit.teamId == teamId){
-            return SrpgTile.Content.HasFriend;
-        } else {
-            return SrpgTile.Content.HasEnemy;
         }
     }
 
@@ -186,15 +118,15 @@ public class SrpgUnit : EntityDamageable {
         state = State.Moving;
     }
 
-    public void Attack(SrpgUnit hoveringUnit){
-        if(!friendlyFire && hoveringUnit.teamId == teamId){
+    public void Attack(SrpgAttack attack){
+        if(!friendlyFire && attack.target.teamId == attack.attacker.teamId){
             Debug.LogWarning("Cannot attack friend! (Friendly fire is ON).");
             return;
         }
-        StartCoroutine(CrAttack(hoveringUnit));
+        StartCoroutine(CrAttack(attack.target, attack));
     }
 
-    public IEnumerator CrAttack(SrpgUnit hoveringUnit){
+    public IEnumerator CrAttack(SrpgUnit hoveringUnit, SrpgAttack attack){
         srpgController.ToggleFieldCursorFalse();
         FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
         if(attackSprite){
@@ -202,15 +134,20 @@ public class SrpgUnit : EntityDamageable {
         }
         yield return new WaitForSeconds(0.3f);
         spriteRenderer.sprite = idleSprite;
-        int dmg = CalculateDamage(hoveringUnit);
-        hoveringUnit.Damage(new Damage(amount: dmg));
+        if(attack.SimulateAttackHit()){
+            SrpgItem usedWeapon = items.FirstOrDefault(it => it.id == attack.weapon.id);
+            usedWeapon.remainingDurability -= 1;
+            if(usedWeapon.remainingDurability <= 0){
+                Debug.Log("Weapon broke!"); // TODO
+            }
+            int dmg = attack.CalculateDamage();
+            hoveringUnit.Damage(new Damage(amount: dmg));
+        } else {
+            
+            FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Miss);
+        }
         yield return new WaitForSeconds(0.3f);
         ToSpent();
-    }
-
-    // TODO very primitive. take into account the attack type, etc.
-    private int CalculateDamage(SrpgUnit targetUnit){
-        return attack - targetUnit.defense;
     }
 
     public override void Damage(Damage damage){
@@ -246,15 +183,6 @@ public class SrpgUnit : EntityDamageable {
         }
     }
 
-    public bool CanAttack(){
-        return !hasAttackedThisTurn && GetAttackPositions(transform.position).Count() > 0;
-    }
-
-    public bool CanAttack(SrpgAttack attack){
-        int distanceToTarget = (int)(this.transform.position.ManhattanDistance(attack.target.transform.position));
-        return !hasAttackedThisTurn && attack.range == distanceToTarget; // TODO attack.range.Contains(distanceToTarget)
-    }
-
     public bool HasItem(){
         return false;
     }
@@ -266,14 +194,6 @@ public class SrpgUnit : EntityDamageable {
         tiles = new List<SrpgTile>();
     }
 
-    private int GetAttackRange(){
-        return attackRange; // TODO get the max and min of all possible attacks this unit can perform.
-        // TODO consider airborne units, etc. Returning an int will not suffice, change to a more complex struct.
-        // TODO this struct should have: attack range, attack type, AND attack Kernel (think matrix convolution).
-        // X X  XXX
-        //  X   X X  X
-        // X X  XXX
-    }
 
     private void OnMouseDown(){
         FindObjectOfType<SrpgFieldCursor>().MoveCursorAndConfirm(transform.position);
@@ -283,26 +203,4 @@ public class SrpgUnit : EntityDamageable {
         return hp > 0;
     }
 
-    // Return the 'best' possible attack this turn (or none).
-    public SrpgAttack BestAttack(){
-        // TODO for each attack item, do this.
-        List<Vector2> movePositions = GetMovePositions();
-        List<Vector2> targetedPositions = GetAttackPositions(movePositions);
-        List<SrpgUnit> targetedUnits = srpgController.GetUnitColliders()
-            .Where(coll => targetedPositions.Any(pos => coll.bounds.Contains(pos)))
-            .Select(coll => coll.GetComponent<SrpgUnit>()).ToList();
-        if(targetedUnits.IsEmpty()){
-            return null;
-        }
-        int minHp = targetedUnits.Min(targetUnit => targetUnit.hp);
-        SrpgUnit chosenTarget = targetedUnits.First(targetUnit => targetUnit.hp == minHp);
-        return new SrpgAttack(){attacker = this, target = chosenTarget, range = GetAttackRange()}; // TODO use item instead.
-    }
-
-    public Vector2 PositionForAttack(SrpgAttack attack){
-        List<Vector2> movePositions = GetMovePositions();
-        Vector2 targetPos = attack.target.transform.position;
-        return movePositions.FirstOrDefault(pos => attack.range == (int)(pos.ManhattanDistance(targetPos)));  // TODO attack.range.Contains(distance)
-        // TODO use closest? use best terrain? criteria
-    }
 }

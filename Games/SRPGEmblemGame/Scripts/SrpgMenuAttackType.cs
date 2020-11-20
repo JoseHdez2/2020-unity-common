@@ -9,27 +9,31 @@ public class SrpgMenuAttackType : SrpgMenuBase {
     
     [SerializeField] private Button pfButton;
 
-    public void Open(SrpgUnit unit){
+    public void Open(SrpgUnit attackingUnit, SrpgUnit targetedUnit){
         buttonContainer.ToggleWipe(true);
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
-        RefreshButtons(unit);
+        RefreshButtons(attackingUnit, targetedUnit);
         audioSource.PlaySound(ESRPGSound.SelectUnit);
         ResetCursor();
-        selectedUnit = unit;
+        selectedUnit = attackingUnit;
     }
-
     
-    public void RefreshButtons(SrpgUnit unit){
+    public void RefreshButtons(SrpgUnit attackingUnit, SrpgUnit targetedUnit){
         DestroyButtons();
-        unit.items.ToList().ForEach(b => AddButton(b));
+        attackingUnit.items.ToList().ForEach(item => TryAddButton(attacker: attackingUnit, target: targetedUnit, weapon: item));
         AddCancelButton();
     }
 
-    public void AddButton(SrpgItem item) {
+    public void TryAddButton(SrpgUnit attacker, SrpgUnit target, SrpgItem weapon) {
+        SrpgAttack attack = new SrpgAttack(attacker: attacker, attackerPos: attacker.transform.position, weapon: weapon, weaponType: srpgController.database.itemTypes[weapon.typeId], target: target);
+
+        if(!attack.IsValid()){
+            return;
+        }
         Button b = Instantiate(pfButton, buttonContainer.transform);
-        b.onClick.AddListener(() => SelectAttackType(item));
-        b.GetComponentInChildren<TMP_Text>().text = $"{item.typeId} ({item.remainingDurability})";
+        b.onClick.AddListener(() => SelectAttackType(attack));
+        b.GetComponentInChildren<TMP_Text>().text = $"{attack.weaponType.name} ({weapon.remainingDurability})";
         b.interactable = true;
     }
 
@@ -40,8 +44,9 @@ public class SrpgMenuAttackType : SrpgMenuBase {
         b.interactable = true;
     }
 
-    public void SelectAttackType(SrpgItem item){
-        Debug.Log(item);
+    public void SelectAttackType(SrpgAttack attack){
+        selectedUnit.Attack(attack);
+        Close();
     }
 
     public void DestroyButtons(){
@@ -49,7 +54,15 @@ public class SrpgMenuAttackType : SrpgMenuBase {
     }
 
     protected override void HandleCancel(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
-        // throw new NotImplementedException();
+        if(!selectedUnit){
+            Debug.LogWarning("No selectedUnit! (Maybe the menu should have stayed disabled.)");
+            return;
+        }
+        switch (selectedUnit.state) {
+            case SrpgUnit.State.SelectingAttackType:
+                selectedUnit.ToSelectingAttackTarget(); Close(); break;
+            default:
+                audioSource.PlaySound(ESRPGSound.Buzzer); break;
+        }
     }
 }

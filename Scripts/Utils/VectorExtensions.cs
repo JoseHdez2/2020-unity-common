@@ -23,6 +23,11 @@ namespace ExtensionMethods
         {
             return Math.Abs(v.x - other.x) + Math.Abs(v.y - other.y);
         }
+        
+        public static int ManhattanDistanceInt(this Vector2 v, Vector2 other)
+        {
+            return (int)Math.Round(v.ManhattanDistance(other), MidpointRounding.AwayFromZero);
+        }
 
         public static float ManhattanDistance(this Vector3 v, Vector3 other)
         {

@@ -14,6 +14,7 @@ public enum ESRPGSound {
     UnitFootsteps,
     TurnChange,
     Attack,
+    Miss,
     UnitDeath,
     FanfareWin,
     FanfareLose

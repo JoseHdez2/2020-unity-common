@@ -27,12 +27,15 @@ public class SrpgController : MonoBehaviour {
     [SerializeField] private TextAsset settingsJsonFile;
     public SrpgSettings settings;
 
+    public SrpgDatabase database;
+
     protected void Start() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
         fieldCursor = FindObjectOfType<SrpgFieldCursor>();
         enemyCursor = FindObjectOfType<SrpgEnemyCursor>();
         unitMenu = FindObjectOfType<SrpgMenuUnit>();
         settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
+        database = FindObjectOfType<SrpgDatabase>();
 
         enemyCursor.gameObject.SetActive(false);
         ChangeTurn(firstTurn: true, forceTeamId: "good guys");

@@ -1966,6 +1966,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: id
       value: connor
       objectReference: {fileID: 0}
@@ -1981,6 +1985,22 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1976563420}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].id
+      value: bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].typeId
+      value: bow-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].ownerId
+      value: connor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].remainingDurability
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 5105731807620758822, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.5
@@ -5515,6 +5535,7 @@ GameObject:
   - component: {fileID: 1723448282}
   - component: {fileID: 1723448283}
   - component: {fileID: 1723448284}
+  - component: {fileID: 1723448285}
   m_Layer: 0
   m_Name: SrpgEmblemController
   m_TagString: Untagged
@@ -5556,6 +5577,7 @@ MonoBehaviour:
     showCancelButton: 0
     showStatusButton: 0
     friendlyFire: 0
+  database: {fileID: 0}
 --- !u!114 &1723448284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5575,6 +5597,22 @@ MonoBehaviour:
   ninjaVisionTop: {fileID: 1238888052}
   ninjaVisionBottom: {fileID: 1073406007}
   leftToRight: 1
+--- !u!114 &1723448285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723448281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0e0a038ba26a84ab7a22a84e4886df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  databaseJsonFile: {fileID: 4900000, guid: b1454b517226f384aaf503efd4791dcc, type: 3}
+  db:
+    itemTypes: []
+    unitTypes: []
 --- !u!1 &1741206232
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,14 +5695,20 @@ MonoBehaviour:
   hp: 10
   attack: 5
   defense: 0
-  attackRange: 1
   moveRange: 4
   items:
-  - typeId: walkman
-    remainingDurability: 0
-  - typeId: french-fries
-    remainingDurability: 0
+  - id: sword-11234
+    typeId: sword-2
+    ownerId: mick
+    remainingDurability: 20
+  - id: sword-11234
+    typeId: bow-1
+    ownerId: mick
+    remainingDurability: 21
   attackSprite: {fileID: 7752409098073067923, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
+  tilemapCollider2D: {fileID: 0}
+  srpgController: {fileID: 0}
+  collider: {fileID: 0}
   lerpMovement: {fileID: 0}
   state: 0
   hasAttackedThisTurn: 0
@@ -6486,8 +6530,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d000000
-    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d000000
+    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d00000001000000
+    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d00000001000000
     _values:
     - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
     - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
@@ -6500,6 +6544,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 437445937f4a57e43ad2be3341eff116, type: 3}
     - {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
     - {fileID: 8300000, guid: 10455130460f0ec4eb2a02e767891b9b, type: 3}
+    - {fileID: 8300000, guid: fff92e352fb40f54cb6277bd1812b9e6, type: 3}
     - {fileID: 8300000, guid: fff92e352fb40f54cb6277bd1812b9e6, type: 3}
   respectSoundSeniority: 0
 --- !u!82 &1976563420
@@ -7175,9 +7220,29 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1976563420}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].id
+      value: s
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].typeId
+      value: sword-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].ownerId
+      value: john
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: items.Array.data[0].remainingDurability
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5105731807620758822, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.5
