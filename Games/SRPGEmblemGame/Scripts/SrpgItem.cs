@@ -28,7 +28,6 @@ public class SrpgAttack {
 
     public bool IsValid(){
         int distanceToTarget = attackerPos.ManhattanDistanceInt(target.transform.position);
-        MyExtensions.LogRed($"{weaponType}: Is {distanceToTarget} contained in {weaponType.range}?");
         return weaponType.range.Contains(distanceToTarget);
     }
 

@@ -99,7 +99,7 @@ public class SrpgFieldCursor : LerpMovement
                     selectedUnit.Move(transform.position);
                     break;
                 case SrpgTile.Highlight.Attack:
-                    if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget && hoveringUnit){ // TODO recheck whether these checks are ok.
+                    if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget && hoveringUnit && selectedUnit.CanAttack(hoveringUnit)){ // TODO recheck whether these checks are ok.
                         attackTypeMenu.Open(selectedUnit, hoveringUnit);
                         // selectedUnit.Attack(hoveringUnit);
                     } else {

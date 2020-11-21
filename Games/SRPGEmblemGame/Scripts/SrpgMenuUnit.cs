@@ -24,7 +24,7 @@ public class SrpgMenuUnit : SrpgMenuBase
 
     // All buttons reactivate by default. Deactivate the relevant ones.
     private void HideIrrelevantButtons(SrpgUnit unit){
-        if(!unit.CanAttack()){
+        if(!unit.CanAttackSomeTarget()){
             attackButton.gameObject.SetActive(false);
         }
         if(!unit.HasItem()){

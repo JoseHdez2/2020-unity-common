@@ -16,7 +16,7 @@ public static class SrpgUnitLogicAi {
 
     private static SrpgAttack MaxDamageAttackForWeapon(this SrpgUnit unit, SrpgItem item, List<Vector2> movePositions) {
         SrpgItemType weaponType = unit.srpgController.database.itemTypes[item.typeId];
-        List<Vector2> targetedPositions = unit.GetAttackPositions(movePositions);
+        List<Vector2> targetedPositions = unit.GetPossibleTargets(movePositions);
         List<SrpgUnit> targetedUnits = unit.srpgController.GetUnitColliders()
             .Where(coll => targetedPositions.Any(pos => coll.bounds.Contains(pos)))
             .Select(coll => coll.GetComponent<SrpgUnit>()).ToList();

@@ -60,6 +60,10 @@ public class SrpgEnemyCursor : LerpMovement {
             audioSource.PlaySound(ESRPGSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
+            MoveAiCursor(bestAttack.target.transform.position);
+            yield return new WaitUntil(() => destinationPos == null);
+
+            yield return new WaitForSeconds(0.5f);
             Log("Will attack!");
             unit.Attack(bestAttack);
         }

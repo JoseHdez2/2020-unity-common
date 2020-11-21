@@ -68,8 +68,8 @@ public class SrpgUnit : EntityDamageable {
     public void ToSelectingMove(){
         state = State.SelectingMove;
         lerpMovement.destinationPos = idlePos;
-        List<Vector2> movePositions = SrpgUnitLogic.GetMovePositions(this);
-        List<Vector2> attackPositions = SrpgUnitLogic.GetAttackPositions(this, movePositions, excludeFrom: true, includeEmpty: true);
+        List<Vector2> movePositions = this.GetMovePositions();
+        List<Vector2> attackPositions = this.GetPossibleTargets(origins: movePositions, excludeFrom: true, includeEmpty: true);
         DestroyTiles();
         StartCoroutine(CrCreateTiles(movePositions, prefabContainer.pfTileMove));
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
@@ -78,7 +78,7 @@ public class SrpgUnit : EntityDamageable {
     public void ToSelectingAttackTarget(){
         state = State.SelectingAttackTarget;
         DestroyTiles();
-        List<Vector2> attackPositions = this.GetAttackPositions(new List<Vector2>(){transform.position}, includeEmpty: true);
+        List<Vector2> attackPositions = this.GetPossibleTargets(this.GetCurPos(), includeEmpty: true);
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
     }
 
