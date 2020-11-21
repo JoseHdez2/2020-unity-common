@@ -39,12 +39,11 @@ public class SrpgEnemyCursor : LerpMovement {
     }
 
     private IEnumerator CrUnitTurn(SrpgUnit unit){
-        MoveAiCursor(unit.transform.position);
-        yield return new WaitUntil(() => !destinationPos.HasValue);
+        yield return StartCoroutine(CrMoveAiCursor(unit.transform.position));
         SrpgAttack bestAttack = unit.MaxDamageAttack();
+        audioSource.PlaySound(ESrpgSound.UnitPrompt);
         if(bestAttack == null){
             Log("Won't do anything!");
-            audioSource.PlaySound(ESrpgSound.UnitPrompt);
             selectedUnit.ToSpent();
         } else {
             if(!unit.transform.position.Equals(bestAttack.attackerPos)){
@@ -52,18 +51,14 @@ public class SrpgEnemyCursor : LerpMovement {
                 unit.ToSelectingMove();
                 yield return new WaitForSeconds(0.5f);
                 Vector2 pos = bestAttack.attackerPos;
+                yield return StartCoroutine(CrMoveAiCursor(pos, simulateConfirm: true));
                 unit.Move(pos);
                 yield return new WaitUntil(() => selectedUnit.state != SrpgUnit.State.Moving);
-                MoveAiCursor(pos);
-                yield return new WaitUntil(() => destinationPos == null);
             }
             audioSource.PlaySound(ESrpgSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
-            MoveAiCursor(bestAttack.target.transform.position);
-            yield return new WaitUntil(() => destinationPos == null);
-
-            yield return new WaitForSeconds(0.5f);
+            yield return StartCoroutine(CrMoveAiCursor(bestAttack.target.transform.position, simulateConfirm: true));
             Log("Will attack!");
             unit.Attack(bestAttack);
         }
@@ -77,9 +72,18 @@ public class SrpgEnemyCursor : LerpMovement {
     }
 
     // We don't need input cooldowns or bounds checking.
-    private void MoveAiCursor(Vector3 pos){
+    private IEnumerator CrMoveAiCursor(Vector3 pos, bool simulateConfirm= false){
         audioSource.PlaySound(ESrpgSound.FieldCursor);
         destinationPos = pos;
+        yield return new WaitUntil(() => !destinationPos.HasValue);
+        if(simulateConfirm){
+            SimulateConfirm();
+        }
+    }
+
+    private void SimulateConfirm(){
+        audioSource.PlaySound(ESrpgSound.FieldCursor);
+        // spritePopInOut.SelfHide();
     }
 
 }

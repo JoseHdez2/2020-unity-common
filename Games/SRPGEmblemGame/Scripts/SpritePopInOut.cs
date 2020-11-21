@@ -61,16 +61,23 @@ public class SpritePopInOut : MonoBehaviour {
 
     private void OnEnable() {
         spriteRenderer.size = popOutSize;
+        PopIn();
+    }
+
+    public void PopIn(){
         StartCoroutine(CrPopIn());
     }
 
+    public void SelfHide() {
+        StartCoroutine(CrPopOut(PopOutMode.Disable));
+    }
 
     public void SelfDisable() {
-        StartCoroutine(CrPopOut(destroy: false));
+        StartCoroutine(CrPopOut(PopOutMode.Disable));
     }
 
     public void SelfDestroy() {
-        StartCoroutine(CrPopOut(destroy: true));
+        StartCoroutine(CrPopOut(PopOutMode.Destroy));
     }
 
     private IEnumerator CrPopIn(){
@@ -82,7 +89,9 @@ public class SpritePopInOut : MonoBehaviour {
         yield return null;
     }
 
-    private IEnumerator CrPopOut(bool destroy){
+    private enum PopOutMode { Hide, Disable, Destroy };
+
+    private IEnumerator CrPopOut(PopOutMode mode){
         Collider2D coll = GetComponent<Collider2D>();
         if(coll != null){
             coll.enabled = false;
@@ -91,10 +100,12 @@ public class SpritePopInOut : MonoBehaviour {
         targetAlpha = popOutAlpha;
         targetRotation = popOutRotation;
         yield return new WaitUntil(() => IsAnimationFinished());
-        if(destroy){
-            Destroy(this.gameObject);
-        } else {
-            this.gameObject.SetActive(false);
+        switch(mode){
+            case PopOutMode.Hide: break;
+            case PopOutMode.Disable:
+                this.gameObject.SetActive(false); break;
+            case PopOutMode.Destroy:
+                Destroy(this.gameObject); break;
         }
     }
 
@@ -111,7 +122,7 @@ public class SpritePopInOut : MonoBehaviour {
         return Quaternion.Angle(transform.rotation, targetRotation) < 0.5;
     }
 
-    private bool IsAnimationFinished(){
+    public bool IsAnimationFinished(){
         return IsSizeAnimationFinished() && IsAlphaAnimationFinished() && IsRotationAnimationFinished();
     }
 }

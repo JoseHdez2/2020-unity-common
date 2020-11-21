@@ -93,6 +93,14 @@ public static class SrpgUnitLogic {
         return !unit.hasAttackedThisTurn && unit.GetPossibleTargets().Contains(targetUnit.transform.position);
     }
 
+    public static bool CanAttackWithFirstWeapon(this SrpgUnit unit, SrpgUnit targetUnit){
+        return !unit.hasAttackedThisTurn && unit.GetPossibleTargets(origins: unit.GetCurPos(), range: unit.GetType(unit.items[0]).range).Contains(targetUnit.transform.position);
+    }
+
+    public static SrpgItemType GetType(this SrpgUnit unit, SrpgItem item){
+        return unit.srpgController.database.itemTypes[item.typeId];
+    }
+
     private static SrpgTile.Content GetTileType(this SrpgUnit unit, Vector3 pos, List<BoxCollider2D> unitColls){
         if(unit.tilemapCollider2D.OverlapPoint(pos)){
             return SrpgTile.Content.Solid;

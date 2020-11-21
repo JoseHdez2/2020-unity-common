@@ -128,7 +128,7 @@ public class SrpgUnit : EntityDamageable {
         StartCoroutine(CrAttack(attack.target, attack));
     }
 
-    public IEnumerator CrAttack(SrpgUnit hoveringUnit, SrpgAttack attack){
+    public IEnumerator CrAttack(SrpgUnit targetedUnit, SrpgAttack attack, bool canCounter= true){
         srpgController.ToggleFieldCursorFalse();
         yield return new WaitForSeconds(0.3f); // hack so that the Attack sound is played. Otherwise the "menu close" sound overrides.
         srpgAudioSource.PlaySound(ESrpgSound.Attack);
@@ -144,11 +144,15 @@ public class SrpgUnit : EntityDamageable {
                 Debug.Log("Weapon broke!"); // TODO
             }
             int dmg = attack.CalculateDamage();
-            hoveringUnit.Damage(new Damage(amount: dmg));
+            targetedUnit.Damage(new Damage(amount: dmg));
         } else {
             srpgAudioSource.PlaySound(ESrpgSound.Miss);
         }
         yield return new WaitForSeconds(0.3f);
+        if(canCounter && targetedUnit.IsAlive() && targetedUnit.CanAttackWithFirstWeapon(this)){
+            SrpgAttack counterAtk = new SrpgAttack(targetedUnit, targetedUnit.transform.position, target: this, targetedUnit.items[0], this.GetType(targetedUnit.items[0]));
+            yield return StartCoroutine(targetedUnit.CrAttack(this, counterAtk, canCounter: false));
+        }
         ToSpent();
     }
 
@@ -169,7 +173,9 @@ public class SrpgUnit : EntityDamageable {
     public void FinishMoving(){
         srpgAudioSource.PlaySound(ESrpgSound.UnitPrompt);
         state = State.Moved;
-        FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
+        if(teamId == "good guys"){
+            FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
+        }
     }
 
     // hard: "true" checks for turn end. "false" prevents recursive calls if we are already changing turns.
