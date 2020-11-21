@@ -24,9 +24,11 @@ public class ImageWipe : MonoBehaviour
 
     public bool isDone() => wipeMode == WipeMode.Empty || wipeMode == WipeMode.Filled;
 
-    private void Awake()
-    {
+    private void Awake(){
         image = GetComponentInChildren<Image>();
+    }
+
+    private void Start(){
         if(wipeMode == WipeMode.Empty) {
             image.fillAmount = 0;
             ToggleWipe(false);

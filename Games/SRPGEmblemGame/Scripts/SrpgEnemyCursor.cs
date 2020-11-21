@@ -44,10 +44,10 @@ public class SrpgEnemyCursor : LerpMovement {
         SrpgAttack bestAttack = unit.MaxDamageAttack();
         if(bestAttack == null){
             Log("Won't do anything!");
-            audioSource.PlaySound(ESRPGSound.UnitPrompt);
+            audioSource.PlaySound(ESrpgSound.UnitPrompt);
             selectedUnit.ToSpent();
         } else {
-            if(!bestAttack.IsValid()){
+            if(!unit.transform.position.Equals(bestAttack.attackerPos)){
                 Log("Will move, then attack!");
                 unit.ToSelectingMove();
                 yield return new WaitForSeconds(0.5f);
@@ -57,7 +57,7 @@ public class SrpgEnemyCursor : LerpMovement {
                 MoveAiCursor(pos);
                 yield return new WaitUntil(() => destinationPos == null);
             }
-            audioSource.PlaySound(ESRPGSound.UnitPrompt);
+            audioSource.PlaySound(ESrpgSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
             yield return new WaitForSeconds(0.5f);
             MoveAiCursor(bestAttack.target.transform.position);
@@ -78,7 +78,7 @@ public class SrpgEnemyCursor : LerpMovement {
 
     // We don't need input cooldowns or bounds checking.
     private void MoveAiCursor(Vector3 pos){
-        audioSource.PlaySound(ESRPGSound.FieldCursor);
+        audioSource.PlaySound(ESrpgSound.FieldCursor);
         destinationPos = pos;
     }
 

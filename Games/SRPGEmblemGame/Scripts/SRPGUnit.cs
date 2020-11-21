@@ -31,6 +31,7 @@ public class SrpgUnit : EntityDamageable {
     private List<SrpgTile> tiles = null;
     public Collider2D collider;
     private SrpgPrefabContainer prefabContainer;
+    private SrpgAudioSource srpgAudioSource;
 
     [SerializeField] private LerpMovement lerpMovement; 
 
@@ -57,6 +58,7 @@ public class SrpgUnit : EntityDamageable {
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         lerpMovement = GetComponent<LerpMovement>();
+        srpgAudioSource = FindObjectOfType<SrpgAudioSource>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
         srpgController = FindObjectOfType<SrpgController>();
@@ -114,7 +116,7 @@ public class SrpgUnit : EntityDamageable {
 
     public void Move(Vector2 pos){
         lerpMovement.destinationPos = pos;
-        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitFootsteps);
+        srpgAudioSource.PlaySound(ESrpgSound.UnitFootsteps);
         state = State.Moving;
     }
 
@@ -128,7 +130,8 @@ public class SrpgUnit : EntityDamageable {
 
     public IEnumerator CrAttack(SrpgUnit hoveringUnit, SrpgAttack attack){
         srpgController.ToggleFieldCursorFalse();
-        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Attack);
+        yield return new WaitForSeconds(0.3f); // hack so that the Attack sound is played. Otherwise the "menu close" sound overrides.
+        srpgAudioSource.PlaySound(ESrpgSound.Attack);
         if(attackSprite){
             spriteRenderer.sprite = attackSprite;
         }
@@ -143,8 +146,7 @@ public class SrpgUnit : EntityDamageable {
             int dmg = attack.CalculateDamage();
             hoveringUnit.Damage(new Damage(amount: dmg));
         } else {
-            
-            FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.Miss);
+            srpgAudioSource.PlaySound(ESrpgSound.Miss);
         }
         yield return new WaitForSeconds(0.3f);
         ToSpent();
@@ -165,7 +167,7 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public void FinishMoving(){
-        FindObjectOfType<SrpgAudioSource>().PlaySound(ESRPGSound.UnitPrompt);
+        srpgAudioSource.PlaySound(ESrpgSound.UnitPrompt);
         state = State.Moved;
         FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
     }

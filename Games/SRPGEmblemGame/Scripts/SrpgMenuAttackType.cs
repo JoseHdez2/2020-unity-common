@@ -14,7 +14,7 @@ public class SrpgMenuAttackType : SrpgMenuBase {
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
         RefreshButtons(attackingUnit, targetedUnit);
-        audioSource.PlaySound(ESRPGSound.SelectUnit);
+        audioSource.PlaySound(ESrpgSound.SelectUnit);
         ResetCursor();
         selectedUnit = attackingUnit;
     }
@@ -62,7 +62,7 @@ public class SrpgMenuAttackType : SrpgMenuBase {
             case SrpgUnit.State.SelectingAttackType:
                 selectedUnit.ToSelectingAttackTarget(); Close(); break;
             default:
-                audioSource.PlaySound(ESRPGSound.Buzzer); break;
+                audioSource.PlaySound(ESrpgSound.Buzzer); break;
         }
     }
 }

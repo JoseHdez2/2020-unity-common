@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ESRPGSound {
+public enum ESrpgSound {
     FieldCursor,
     Toggle,
     Accept,
@@ -14,12 +14,12 @@ public enum ESRPGSound {
     UnitFootsteps,
     TurnChange,
     Attack,
-    Miss,
     UnitDeath,
     FanfareWin,
-    FanfareLose
+    FanfareLose,
+    Miss
 }
 
 [RequireComponent(typeof(AudioSource))]
-public class SrpgAudioSource : AudioSourceMultiBase<ESRPGSound>
+public class SrpgAudioSource : AudioSourceMultiBase<ESrpgSound>
 {}

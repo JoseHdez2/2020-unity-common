@@ -103,16 +103,16 @@ public class SrpgFieldCursor : LerpMovement
                         attackTypeMenu.Open(selectedUnit, hoveringUnit);
                         // selectedUnit.Attack(hoveringUnit);
                     } else {
-                        audioSource.PlaySound(ESRPGSound.Buzzer);
+                        audioSource.PlaySound(ESrpgSound.Buzzer);
                     }
                     break;
                 default:
-                    audioSource.PlaySound(ESRPGSound.Buzzer); break;
+                    audioSource.PlaySound(ESrpgSound.Buzzer); break;
             }
         } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SrpgUnit.State.Spent) {
             SelectUnit(hoveringUnit);
         } else {
-            audioSource.PlaySound(ESRPGSound.Buzzer);
+            audioSource.PlaySound(ESrpgSound.Buzzer);
         }
     }
 
@@ -124,17 +124,17 @@ public class SrpgFieldCursor : LerpMovement
                 case SrpgUnit.State.SelectingMove:
                     selectedUnit.ToIdle();
                     selectedUnit = null;    
-                    audioSource.PlaySound(ESRPGSound.Cancel);
+                    audioSource.PlaySound(ESrpgSound.Cancel);
                     break;
                 case SrpgUnit.State.SelectingAttackTarget:
                     unitMenu.Open(selectedUnit);
-                    audioSource.PlaySound(ESRPGSound.Cancel);
+                    audioSource.PlaySound(ESrpgSound.Cancel);
                     break;
                 default:
-                    audioSource.PlaySound(ESRPGSound.Buzzer); break;
+                    audioSource.PlaySound(ESrpgSound.Buzzer); break;
             }
         } else {
-            audioSource.PlaySound(ESRPGSound.Buzzer);
+            audioSource.PlaySound(ESrpgSound.Buzzer);
         }
     }
 
@@ -144,7 +144,7 @@ public class SrpgFieldCursor : LerpMovement
 
     public void SelectUnit(SrpgUnit unitToSelect){
         destinationPos = unitToSelect.transform.position;
-        audioSource.PlaySound(ESRPGSound.SelectUnit);
+        audioSource.PlaySound(ESrpgSound.SelectUnit);
         selectedUnit = unitToSelect;
         if(selectedUnit.state == SrpgUnit.State.Idle){
             selectedUnit.ToSelectingMove();
@@ -157,7 +157,7 @@ public class SrpgFieldCursor : LerpMovement
         //     return;
         // }
         ClearHover();
-        audioSource.PlaySound(ESRPGSound.FieldCursor);
+        audioSource.PlaySound(ESrpgSound.FieldCursor);
         destinationPos = pos;
         curCursorCooldown = cursorCooldown;
     }

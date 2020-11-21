@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class SrpgMenuBase : ButtonMenuBase {
@@ -30,7 +31,7 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     {         
         if (eventSystem.currentSelectedGameObject != selectedButton) {
             if(selectedButton != null){ // Avoid playing when the first button becomes selected automatically. but play thereafter.
-                audioSource.PlaySound(ESRPGSound.MenuCursor);
+                audioSource.PlaySound(ESrpgSound.MenuCursor);
             }
             selectedButton = eventSystem.currentSelectedGameObject;
         }
@@ -42,9 +43,14 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     protected abstract void HandleCancel();
 
     public void Close(){
+        StartCoroutine(CrClose());
+    }
+
+    private IEnumerator CrClose(){
         buttonContainer.ToggleWipe(false);
-        audioSource.PlaySound(ESRPGSound.Cancel);
-        gameObject.SetActive(false);
+        audioSource.PlaySound(ESrpgSound.Cancel);
+        yield return new WaitUntil(() => buttonContainer.isDone());
         srpgController.UpdateTeamsHard();
-    }    
+        gameObject.SetActive(false);
+    }
 }

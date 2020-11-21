@@ -24,7 +24,7 @@ public class SrpgEmblemController : SrpgController
         teamText.color = (curTeam == "good guys") ? colorGood : colorBad;
         ninjaVision.GetReady();
         yield return new WaitForSeconds(0.3f);
-        audioSource.PlaySound(ESRPGSound.TurnChange);
+        audioSource.PlaySound(ESrpgSound.TurnChange);
         ninjaVision.Activate();
         yield return new WaitForSeconds(1);
         musicSource.Pause();
@@ -60,9 +60,9 @@ public class SrpgEmblemController : SrpgController
         yield return new WaitForSeconds(0.3f);
         ToggleFieldCursor(false);
         if(winningTeamId == "good guys"){
-            audioSource.PlaySound(ESRPGSound.FanfareWin);
+            audioSource.PlaySound(ESrpgSound.FanfareWin);
         } else {
-            audioSource.PlaySound(ESRPGSound.FanfareLose);
+            audioSource.PlaySound(ESrpgSound.FanfareLose);
         }
         ninjaVision.Activate();
         yield return new WaitForSeconds(1);

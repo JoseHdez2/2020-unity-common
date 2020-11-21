@@ -17,7 +17,7 @@ public class SrpgMenuUnit : SrpgMenuBase
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
         HideIrrelevantButtons(unit);
-        audioSource.PlaySound(ESRPGSound.SelectUnit);
+        audioSource.PlaySound(ESrpgSound.SelectUnit);
         ResetCursor();
         selectedUnit = unit;
     }
@@ -50,15 +50,15 @@ public class SrpgMenuUnit : SrpgMenuBase
     }
 
     public void HandleMove(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
+        audioSource.PlaySound(ESrpgSound.Buzzer);
     }
 
     public void HandleItem(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
+        audioSource.PlaySound(ESrpgSound.Buzzer);
     }
 
     public void HandleStatus(){
-        audioSource.PlaySound(ESRPGSound.Buzzer);
+        audioSource.PlaySound(ESrpgSound.Buzzer);
     }
 
     public void HandleWait(){
@@ -81,7 +81,7 @@ public class SrpgMenuUnit : SrpgMenuBase
             selectedUnit.ToSelectingMove();
             Close();
         } else {
-            audioSource.PlaySound(ESRPGSound.Buzzer);
+            audioSource.PlaySound(ESrpgSound.Buzzer);
         }
     }
 
