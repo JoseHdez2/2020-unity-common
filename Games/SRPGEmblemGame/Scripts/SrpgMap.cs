@@ -10,7 +10,7 @@ public class SrpgMap : MonoBehaviour
 {
     [SerializeField] private TextAsset mapJsonFile;
     
-    [SerializeField] public SrpgMapData data;
+    public static SrpgMapData data;
 
     [SerializeField] private Tilemap tilemap;
     [SerializeField] private Tilemap tilemapSolid;
@@ -28,7 +28,6 @@ public class SrpgMap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        data = JsonUtility.FromJson<SrpgMapData>(mapJsonFile.text);
         legend = BuildLegend(data.legend);
         units = data.units.ToDictionary(u => u.id);
         solidTiles = solidTilesConfig.Split(',').Select(part => part.Replace(" ", "")).ToList();
@@ -43,14 +42,20 @@ public class SrpgMap : MonoBehaviour
             .ToDictionary(part => part.Split('=')[0], part => part.Split('=')[1]);
     }
 
+    public void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            FindObjectOfType<LevelLoader>().LoadPrevLevel();
+        }
+    }
+
     private void BuildLevel(List<string> map)
     {
         tilemap.ClearAllTiles();
         tilemapSolid.ClearAllTiles();
         FindObjectsOfType<SrpgUnit>().ToList().ForEach(u => Destroy(u.gameObject));
-        int y = map.Count() - 1;
+        int y = map.Count() - 1 - (int)Math.Floor(map.Count() / 2f); // for centering;
         foreach (string row in map){
-            int x = -1;
+            int x = -1 - (int)Math.Floor(row.Length / 2f); // for centering
             foreach (char tileChar in row){
                 x++;
                 if(tileChar == ' ') continue;

@@ -47,7 +47,9 @@ public class LevelLoader : MonoBehaviour
     IEnumerator LoadLevelInner(int levelIndex)
     {
         Debug.Log($"Loading level: {levelIndex}.");
-        controls.Disable();
+        if(controls != null){
+            controls.Disable();
+        }
         disableDuringLoad.ForEach(obj => obj.SetActive(false));
         if (transition) {
             transition.SetTrigger("Start");

@@ -1,0 +1,14 @@
+{
+    "map": [
+        "p t g",
+        "   g ",
+        "  g  ",
+        " g   ",
+        "g t 1"
+    ],
+    "units": [
+        {"id": "enemy-1", "teamId": "bad guys", "name": "Skeleton Soldier", "items": ["sword-1"]},
+        {"id": "player", "teamId": "good guys", "name": "John", "items": ["sword-2"]}
+    ],
+    "legend": "t=tree, g=grass, 1=enemy-1, p=player"
+}
