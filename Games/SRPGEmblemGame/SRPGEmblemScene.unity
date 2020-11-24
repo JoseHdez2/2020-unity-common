@@ -567,6 +567,121 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106216734}
   m_CullTransparentMesh: 0
+--- !u!1 &238938170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 238938171}
+  - component: {fileID: 238938172}
+  m_Layer: 0
+  m_Name: SrpgMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &238938171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238938170}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 811.60254, y: 237.42229, z: -2.9479861}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &238938172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238938170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d70d3bbd516d3440a2980c767932c76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapJsonFile: {fileID: 4900000, guid: fa00e1babf293874da1ddd71d77eb763, type: 3}
+  data:
+    map: []
+    units: []
+    legend: 
+  tilemap: {fileID: 1609670255}
+  tilemapSolid: {fileID: 273617422}
+  tiles:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - tree
+    - grass
+    _keys:
+    - tree
+    - grass
+    _values:
+    - {fileID: 11400000, guid: 72e6763db50643d41a6ca2a19db0a0bd, type: 2}
+    - {fileID: 11400000, guid: 24299ef6cd712fe49bc58fdfaa635a16, type: 2}
+  sprites:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues:
+    - enemy-1
+    - player
+    _keys:
+    - enemy-1
+    - player
+    _values:
+    - {fileID: -9070619250103152716, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
+    - {fileID: 1456961050158473222, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
+  pfSrpgUnit: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
 --- !u!1 &239278151
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,6 +2115,18 @@ PrefabInstance:
     - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: items.Array.data[0].remainingDurability
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.name
+      value: Connor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.teamId
+      value: bad guys
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.typeId
+      value: Archerskelly
       objectReference: {fileID: 0}
     - target: {fileID: 5105731807620758822, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5542,7 +5669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1723448282
 Transform:
   m_ObjectHideFlags: 0
@@ -6147,6 +6274,22 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1976563420}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.name
+      value: Jerry
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.teamId
+      value: good guys
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.typeId
+      value: Bowman
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.moveRange
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6636618724010235899, guid: d403502cf0f0f234881051ca113478ce, type: 3}
       propertyPath: m_Name
       value: SrpgUnitPlayerJerry
@@ -7111,6 +7254,18 @@ PrefabInstance:
       propertyPath: items.Array.data[0].remainingDurability
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.name
+      value: John
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.teamId
+      value: bad guys
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105731807620758808, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
+      propertyPath: data.typeId
+      value: Swordskelly
+      objectReference: {fileID: 0}
     - target: {fileID: 5105731807620758822, guid: 558c6975a62e7574c80433f8379e214c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.5
@@ -7183,6 +7338,26 @@ PrefabInstance:
     - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
       propertyPath: typeId
       value: Swordsman
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.teamId
+      value: good guys
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.id
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.name
+      value: Michael
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.typeId
+      value: Swordsman
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636618724010235897, guid: d403502cf0f0f234881051ca113478ce, type: 3}
+      propertyPath: data.moveRange
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6636618724010235899, guid: d403502cf0f0f234881051ca113478ce, type: 3}
       propertyPath: m_Name

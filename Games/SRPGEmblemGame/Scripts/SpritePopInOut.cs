@@ -36,6 +36,16 @@ public class SpritePopInOut : MonoBehaviour {
         }
     }
 
+    private void OnEnable() { // TODO change to Start.
+        spriteRenderer.size = popOutSize;
+        PopIn();
+    }
+
+    public void SelfEnable() {
+        this.gameObject.SetActive(true);
+        PopIn();
+    }
+
     // Update is called once per frame
     void Update() {
         if(!IsSizeAnimationFinished()){
@@ -57,11 +67,6 @@ public class SpritePopInOut : MonoBehaviour {
                 transform.rotation = targetRotation;
             }
         }
-    }
-
-    private void OnEnable() {
-        spriteRenderer.size = popOutSize;
-        PopIn();
     }
 
     public void PopIn(){

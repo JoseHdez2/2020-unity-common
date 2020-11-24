@@ -15,7 +15,7 @@ public class SrpgEnemyCursor : LerpMovement {
 
     private void Awake() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
-        srpgController = FindObjectOfType<SrpgController>();
+        srpgController = FindObjectOfType<SrpgController>(includeInactive: true);
         spritePopInOut = GetComponent<SpritePopInOut>();
     }
 

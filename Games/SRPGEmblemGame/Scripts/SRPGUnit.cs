@@ -11,15 +11,16 @@ using ExtensionMethods;
 [RequireComponent(typeof(LerpMovement))]
 public class SrpgUnit : EntityDamageable {
     [Header("SrpgUnit")]
-    public string id;
-    public string name;
-    public string typeId;
-    public string teamId;
-    public int maxHp = 10;
-    public int hp = 10;
-    public int attack = 1;
-    public int defense = 1;
-    public int moveRange = 3;
+
+    public SrpgUnitData data;
+    
+    public string name => data.name;
+    public string teamId => data.teamId;
+    public string typeId => data.typeId;
+    public int hp => data.hp;
+    public int maxHp => data.maxHp;
+    public int defense => data.defense;
+    public int moveRange => data.moveRange;
     public List<SrpgItem> items;
 
     public Sprite attackSprite;
@@ -61,10 +62,10 @@ public class SrpgUnit : EntityDamageable {
         srpgAudioSource = FindObjectOfType<SrpgAudioSource>();
         idlePos = transform.position;
         collider = GetComponent<Collider2D>();
-        srpgController = FindObjectOfType<SrpgController>();
+        srpgController = FindObjectOfType<SrpgController>(includeInactive: true);
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
-        maxHealth = maxHp;
-        health = hp;
+        maxHealth = data.maxHp;
+        health = data.hp;
     }
 
     public void ToSelectingMove(){
@@ -75,6 +76,11 @@ public class SrpgUnit : EntityDamageable {
         DestroyTiles();
         StartCoroutine(CrCreateTiles(movePositions, prefabContainer.pfTileMove));
         StartCoroutine(CrCreateTiles(attackPositions, prefabContainer.pfTileAttack));
+    }
+
+    internal void SetData(SrpgUnitData unitData)
+    {
+        data = unitData;
     }
 
     public void ToSelectingAttackTarget(){
@@ -121,7 +127,7 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public void Attack(SrpgAttack attack){
-        if(!friendlyFire && attack.target.teamId == attack.attacker.teamId){
+        if(!friendlyFire && attack.target.data.teamId == attack.attacker.data.teamId){
             Debug.LogWarning("Cannot attack friend! (Friendly fire is ON).");
             return;
         }
@@ -158,8 +164,8 @@ public class SrpgUnit : EntityDamageable {
 
     public override void Damage(Damage damage){
         base.Damage(damage);
-        hp = health;
-        if(hp <= 0){
+        data.hp = health;
+        if(data.hp <= 0){
             StartCoroutine(CrDie());
         }
     }
@@ -173,7 +179,7 @@ public class SrpgUnit : EntityDamageable {
     public void FinishMoving(){
         srpgAudioSource.PlaySound(ESrpgSound.UnitPrompt);
         state = State.Moved;
-        if(teamId == "good guys"){
+        if(data.teamId == "good guys"){
             FindObjectOfType<SrpgFieldCursor>().OpenUnitMenu();
         }
     }
@@ -208,7 +214,7 @@ public class SrpgUnit : EntityDamageable {
     }
 
     public bool IsAlive(){
-        return hp > 0;
+        return data.hp > 0;
     }
 
 }
