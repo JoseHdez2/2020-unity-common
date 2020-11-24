@@ -141,7 +141,8 @@ public class SrpgController : MonoBehaviour {
 
     private void UpdateUnitColliders(SrpgUnit[] units){
         unitColls = units.Where(u => u.IsAlive()).Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
+        Debug.Log(string.Join(", ", unitColls));
     }
 
-    public List<BoxCollider2D> GetUnitColliders() { return unitColls; }
+    public List<BoxCollider2D> GetUnitColliders() { Debug.Log(string.Join(", ", unitColls)); return unitColls; }
 }

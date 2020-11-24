@@ -108,7 +108,7 @@ public static class SrpgUnitLogic {
         if(unit.collider.bounds.Contains(pos)){
             return SrpgTile.Content.HasMe;
         }
-        BoxCollider2D otherColl = unitColls.FirstOrDefault(coll => coll.bounds.Contains(pos));
+        BoxCollider2D otherColl = unitColls.Where(coll => coll != null).FirstOrDefault(coll => coll.bounds.Contains(pos));
         if(otherColl == null){
             return SrpgTile.Content.Empty;
         }

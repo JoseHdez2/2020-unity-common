@@ -617,6 +617,7 @@ MonoBehaviour:
     legend: 
   tilemap: {fileID: 1609670255}
   tilemapSolid: {fileID: 273617422}
+  solidTilesConfig: tree,wall
   tiles:
     reorderableList:
       canAdd: 1

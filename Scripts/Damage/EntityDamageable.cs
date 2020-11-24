@@ -56,6 +56,12 @@ public class EntityDamageable : SpritePopInOut
         }
         // movement = GetComponent<AbstractMovement>();
         colorReal = spriteRenderer.color;
+        if(audioSource == null){
+            audioSource = GetComponentInChildren<AudioSource>();
+        }
+        if(audioSource == null){
+            audioSource = FindObjectOfType<AudioSource>();
+        }
     }
 
     public virtual void Start()

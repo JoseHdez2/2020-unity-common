@@ -16,7 +16,8 @@ public class SrpgMap : MonoBehaviour
     [SerializeField] private Tilemap tilemapSolid;
 
     public Dictionary<string, string> legend;
-    public Dictionary<string, string> legendSolid;
+    public string solidTilesConfig;
+    private List<string> solidTiles; // TODO delete this?
 
     public Dictionary<string, SrpgUnitData> units;
 
@@ -30,12 +31,14 @@ public class SrpgMap : MonoBehaviour
         data = JsonUtility.FromJson<SrpgMapData>(mapJsonFile.text);
         legend = BuildLegend(data.legend);
         units = data.units.ToDictionary(u => u.id);
+        solidTiles = solidTilesConfig.Split(',').Select(part => part.Replace(" ", "")).ToList();
         BuildLevel(data.map);
         FindObjectOfType<SrpgController>(includeInactive: true).gameObject.SetActive(true);
+        FindObjectOfType<SrpgController>(includeInactive: true).UpdateTeamsSoft();
     }
 
     private Dictionary<string, string> BuildLegend(string legendStr){
-        return legendStr.Split(',').ToList()
+        return legendStr.Split(',')
             .Select(part => part.Replace(" ", ""))
             .ToDictionary(part => part.Split('=')[0], part => part.Split('=')[1]);
     }
@@ -45,7 +48,7 @@ public class SrpgMap : MonoBehaviour
         tilemap.ClearAllTiles();
         tilemapSolid.ClearAllTiles();
         FindObjectsOfType<SrpgUnit>().ToList().ForEach(u => Destroy(u.gameObject));
-        int y = 0;
+        int y = map.Count() - 1;
         foreach (string row in map){
             int x = -1;
             foreach (char tileChar in row){
@@ -55,14 +58,18 @@ public class SrpgMap : MonoBehaviour
                 Tile tile = null;
                 SrpgUnitData unitData = null;
                 if(tiles.TryGetValue(name, out tile)){
-                    tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+                    if(solidTiles.Contains(name)){ 
+                        tilemapSolid.SetTile(new Vector3Int(x, y, 0), tile);
+                    } else {
+                        tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+                    }
                 } else if (units.TryGetValue(name, out unitData)) {
                     SrpgUnit newUnit = Instantiate(pfSrpgUnit, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
                     newUnit.SetData(unitData);
                 } // else check if it's a GLOBAL tile / unit.
             }
             
-            y++;
+            y--;
         }
     }
 }
