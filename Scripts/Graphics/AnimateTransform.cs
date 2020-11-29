@@ -51,7 +51,7 @@ public class AnimateTransform : MonoBehaviour {
             case Attribute.POS_X: transform.position += new Vector3(delta, 0, 0); break;
             case Attribute.POS_Y: transform.position += new Vector3(0, delta, 0); break;
             case Attribute.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
-            case Attribute.ROT_Z: transform.RotateAround(transform.position, Vector3.forward, delta); break;
+            case Attribute.ROT_Z: transform.RotateAround(transform.position, transform.forward, delta); break;
         }
     }
 }
