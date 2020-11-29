@@ -3200,6 +3200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1125792955}
   - component: {fileID: 1125792956}
+  - component: {fileID: 1125792957}
   m_Layer: 5
   m_Name: SrpgMenuAttackType
   m_TagString: Untagged
@@ -3241,6 +3242,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonContainer: {fileID: 1339063716}
   pfButton: {fileID: 8240670259117361596, guid: a5b2fc14816b167449dee144cef1799b, type: 3}
+--- !u!225 &1125792957
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125792954}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1164499615
 GameObject:
   m_ObjectHideFlags: 0
@@ -3533,7 +3546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5013bd9d1197e244cacd1436c71ce404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popOutSize: {x: 0, y: 0, z: 0}
+  popOutSize: {x: 0.01, y: 0.01, z: 0.01}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}
   animationSpeed: 10
@@ -3702,7 +3715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5013bd9d1197e244cacd1436c71ce404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popOutSize: {x: 0, y: 0, z: 0}
+  popOutSize: {x: 0.01, y: 0.01, z: 0.01}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}
   animationSpeed: 10
@@ -4896,6 +4909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1497607466}
   - component: {fileID: 1497607467}
+  - component: {fileID: 1497607468}
   m_Layer: 0
   m_Name: SrpgUnitCard
   m_TagString: Untagged
@@ -4937,6 +4951,18 @@ MonoBehaviour:
   unitNameText: {fileID: 1092375981}
   unitTypeText: {fileID: 1648616319}
   unitHpText: {fileID: 1757239005}
+--- !u!225 &1497607468
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497607465}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1514132121
 GameObject:
   m_ObjectHideFlags: 0
@@ -5725,6 +5751,7 @@ MonoBehaviour:
     showStatusButton: 0
     friendlyFire: 0
   database: {fileID: 0}
+  map: {fileID: 0}
 --- !u!114 &1723448284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5919,6 +5946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1799773277}
   - component: {fileID: 1799773278}
+  - component: {fileID: 1799773279}
   m_Layer: 5
   m_Name: SrpgUnitMenu
   m_TagString: Untagged
@@ -5965,6 +5993,18 @@ MonoBehaviour:
   statusButton: {fileID: 411846678}
   waitButton: {fileID: 1242496255}
   cancelButton: {fileID: 1894991908}
+--- !u!225 &1799773279
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799773276}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1894991906
 GameObject:
   m_ObjectHideFlags: 0

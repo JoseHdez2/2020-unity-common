@@ -57,7 +57,7 @@ public class SrpgFieldCursor : LerpMovement
     }
 
     // Update is called once per frame
-    void Update(){
+    new void Update(){
         // Vector2 mousePos = Input.mousePosition;
         // if(mousePos != lastMousePos){
         //     if(!cursorColl.bounds.Contains(mousePos)){

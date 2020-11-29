@@ -16,12 +16,15 @@ public class SrpgUnitCard : MonoBehaviour
 
     private SrpgController srpgController;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    void Awake(){
         texts = new List<TMP_Text>();
         texts.AddRange(new TMP_Text[]{unitNameText, unitTypeText, unitHpText});
         srpgController = FindObjectOfType<SrpgController>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         Close();
     }
 

@@ -105,7 +105,7 @@ public static class SrpgUnitLogic {
         if(unit.tilemapCollider2D.OverlapPoint(pos)){
             return SrpgTile.Content.Solid;
         }
-        if(unit.collider.bounds.Contains(pos)){
+        if(unit.collider2d.bounds.Contains(pos)){
             return SrpgTile.Content.HasMe;
         }
         BoxCollider2D otherColl = unitColls.Where(coll => coll != null).FirstOrDefault(coll => coll.bounds.Contains(pos));

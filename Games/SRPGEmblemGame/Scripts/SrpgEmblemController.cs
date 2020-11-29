@@ -20,7 +20,6 @@ public class SrpgEmblemController : SrpgController
     }
 
     private IEnumerator CrChangeTurn(){
-        Debug.Log("Change Turn!");
         teamText.color = (curTeam == "good guys") ? colorGood : colorBad;
         ninjaVision.GetReady();
         yield return new WaitForSeconds(0.3f);

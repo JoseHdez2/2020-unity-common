@@ -12,7 +12,7 @@ public class SpritePopInOut : MonoBehaviour {
     private float popInAlpha;
     private Quaternion popInRotation;
 
-    public Vector3 popOutSize = Vector3.zero;
+    public Vector3 popOutSize = new Vector3(0.01f, 0.01f, 0.01f); // TODO setting this to zero results in NaN assignment.
     public float popOutAlpha = 0f;
     public Vector3 popOutRotationConfig;
     private Quaternion popOutRotation;
@@ -37,8 +37,10 @@ public class SpritePopInOut : MonoBehaviour {
     }
 
     private void OnEnable() { // TODO change to Start.
-        spriteRenderer.size = popOutSize;
-        PopIn();
+        if(spriteRenderer){  
+            spriteRenderer.size = popOutSize;
+            PopIn();
+        }
     }
 
     public void SelfEnable() {
@@ -49,7 +51,8 @@ public class SpritePopInOut : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(!IsSizeAnimationFinished()){
-            spriteRenderer.size = Vector3.Lerp(spriteRenderer.size, targetSize, animationSpeed * Time.deltaTime);
+            Vector3 scale = Vector3.Lerp(spriteRenderer.size, targetSize, animationSpeed * Time.deltaTime);
+            spriteRenderer.size = new Vector3(Norm(scale.x), Norm(scale.y), Norm(scale.z)); // TODO maybe overkill
             if(IsSizeAnimationFinished()){
                 spriteRenderer.size = targetSize;
             }
@@ -67,6 +70,10 @@ public class SpritePopInOut : MonoBehaviour {
                 transform.rotation = targetRotation;
             }
         }
+    }
+
+    private float Norm(float f){
+        return float.IsNaN(f) ? 0f : f;
     }
 
     public void PopIn(){

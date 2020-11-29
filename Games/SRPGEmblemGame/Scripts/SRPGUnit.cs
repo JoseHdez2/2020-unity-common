@@ -30,7 +30,7 @@ public class SrpgUnit : EntityDamageable {
     private SpriteRenderer spriteRenderer;
     public SrpgController srpgController;
     private List<SrpgTile> tiles = null;
-    public Collider2D collider;
+    public Collider2D collider2d;
     private SrpgPrefabContainer prefabContainer;
     private SrpgAudioSource srpgAudioSource;
 
@@ -54,14 +54,14 @@ public class SrpgUnit : EntityDamageable {
         Spent,
     }
 
-    private void Awake() {
+    private new void Awake() {
         base.Awake();
         tilemapCollider2D = FindObjectOfType<TilemapCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         lerpMovement = GetComponent<LerpMovement>();
         srpgAudioSource = FindObjectOfType<SrpgAudioSource>();
         idlePos = transform.position;
-        collider = GetComponent<Collider2D>();
+        collider2d = GetComponent<Collider2D>();
         srpgController = FindObjectOfType<SrpgController>(includeInactive: true);
         prefabContainer = FindObjectOfType<SrpgPrefabContainer>();
         maxHealth = data.maxHp;
@@ -186,7 +186,6 @@ public class SrpgUnit : EntityDamageable {
 
     // hard: "true" checks for turn end. "false" prevents recursive calls if we are already changing turns.
     public void ToSpent(bool hard = true){
-        // srpgController.ToggleFieldCursorFalse();
         DestroyTiles();
         FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;

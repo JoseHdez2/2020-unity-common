@@ -8,8 +8,9 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     protected SrpgController srpgController;
     protected SrpgDatabase srpgEmblemDatabase;
 
-    void Start()
+    new void Awake()
     {
+        base.Awake();
         audioSource = FindObjectOfType<SrpgAudioSource>();
         srpgController = FindObjectOfType<SrpgController>(includeInactive: true);
         srpgEmblemDatabase = FindObjectOfType<SrpgDatabase>();
@@ -41,13 +42,11 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
 
     protected abstract void HandleCancel();
 
-    public new void Close(){
-        StartCoroutine(CrClose());
+    public override void PreClose() {
+        audioSource.PlaySound(ESrpgSound.Cancel);
     }
 
-    private new IEnumerator CrClose(){
-        audioSource.PlaySound(ESrpgSound.Cancel);
-        yield return StartCoroutine(base.CrClose());
+    public override void PostClose() {
         srpgController.UpdateTeamsHard();
     }
 }

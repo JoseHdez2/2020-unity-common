@@ -23,13 +23,16 @@ public class ButtonMenuBase : MonoBehaviour
     [Tooltip("Optional ImageWipe container. If present, it will wipe the menu on and off the screen.")]
     [SerializeField] protected ImageWipe buttonContainer;
     
-    void Awake(){
+    protected void Awake(){
         canvasGroup = GetComponentInChildren<CanvasGroup>(includeInactive: true);
         if (canvasGroup == null) { Debug.Log("Did not find a CanvasGroup in children."); }
         layoutGroup = GetComponentInChildren<LayoutGroup>(includeInactive: true);
         if (layoutGroup == null) { Debug.Log("Did not find a LayoutGroup in children."); }
         eventSystem = FindObjectOfType<EventSystem>();
         canvasGroup.blocksRaycasts = false; // to override OnEnable setting it to 'true'.
+    }
+
+    protected void Start(){
         if(buttonContainer){   
             buttonContainer.ToggleWipe(false);
         }
@@ -82,7 +85,9 @@ public class ButtonMenuBase : MonoBehaviour
     }
 
     public void Close(){
+        PreClose();
         StartCoroutine(CrClose());
+        PostClose();
     }
 
     protected IEnumerator CrClose(){
@@ -90,6 +95,9 @@ public class ButtonMenuBase : MonoBehaviour
         yield return new WaitUntil(() => buttonContainer.isDone());
         gameObject.SetActive(false);
     }
+
+    public virtual void PreClose() {}
+    public virtual void PostClose() {}
 
     public ButtonUI[] GetButtonsUI() => layoutGroup.GetComponentsInChildren<ButtonUI>();
     public Button[] GetButtons() => layoutGroup.GetComponentsInChildren<Button>();
