@@ -7,17 +7,15 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     protected SrpgAudioSource audioSource;
     protected SrpgController srpgController;
     protected SrpgDatabase srpgEmblemDatabase;
-    [SerializeField] protected ImageWipe buttonContainer;
 
     void Start()
     {
         audioSource = FindObjectOfType<SrpgAudioSource>();
-        srpgController = FindObjectOfType<SrpgController>();
+        srpgController = FindObjectOfType<SrpgController>(includeInactive: true);
         srpgEmblemDatabase = FindObjectOfType<SrpgDatabase>();
-        buttonContainer.ToggleWipe(false);
     }
 
-    public void OnEnable(){
+    public new void OnEnable(){
         base.OnEnable();
 
         selectedButton = null;
@@ -34,6 +32,7 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
                 audioSource.PlaySound(ESrpgSound.MenuCursor);
             }
             selectedButton = eventSystem.currentSelectedGameObject;
+            Debug.Log($"Selected: {selectedButton}");
         }
         if(Input.GetButtonDown("Cancel")){
             HandleCancel();
@@ -42,15 +41,13 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
 
     protected abstract void HandleCancel();
 
-    public void Close(){
+    public new void Close(){
         StartCoroutine(CrClose());
     }
 
-    private IEnumerator CrClose(){
-        buttonContainer.ToggleWipe(false);
+    private new IEnumerator CrClose(){
         audioSource.PlaySound(ESrpgSound.Cancel);
-        yield return new WaitUntil(() => buttonContainer.isDone());
+        yield return StartCoroutine(base.CrClose());
         srpgController.UpdateTeamsHard();
-        gameObject.SetActive(false);
     }
 }

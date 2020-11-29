@@ -15,13 +15,24 @@ public class ButtonMenuBase : MonoBehaviour
 {
     protected EventSystem eventSystem;
     private LayoutGroup layoutGroup;
+    
+    private CanvasGroup canvasGroup;
 
     private bool checkIfMenuIsFocused = true;
+
+    [Tooltip("Optional ImageWipe container. If present, it will wipe the menu on and off the screen.")]
+    [SerializeField] protected ImageWipe buttonContainer;
     
     void Awake(){
+        canvasGroup = GetComponentInChildren<CanvasGroup>(includeInactive: true);
+        if (canvasGroup == null) { Debug.Log("Did not find a CanvasGroup in children."); }
         layoutGroup = GetComponentInChildren<LayoutGroup>(includeInactive: true);
-        if (layoutGroup == null) { Debug.Log("Did not find a VerticalLayoutGroup in children."); }
+        if (layoutGroup == null) { Debug.Log("Did not find a LayoutGroup in children."); }
         eventSystem = FindObjectOfType<EventSystem>();
+        canvasGroup.blocksRaycasts = false; // to override OnEnable setting it to 'true'.
+        if(buttonContainer){   
+            buttonContainer.ToggleWipe(false);
+        }
     }
 
     protected void OnEnable()
@@ -31,6 +42,7 @@ public class ButtonMenuBase : MonoBehaviour
             button.gameObject.SetActive(true);
         }
         checkIfMenuIsFocused = true;
+        canvasGroup.blocksRaycasts = true; // TODO optimally, it should wait for the end of an animation or something, before doing this.
     }
 
     protected void OnDisable()
@@ -39,6 +51,7 @@ public class ButtonMenuBase : MonoBehaviour
         {
             button.gameObject.SetActive(false);
         }
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void ResetCursor(){
@@ -66,6 +79,16 @@ public class ButtonMenuBase : MonoBehaviour
         } else {
             Debug.LogWarning("No first button found!");
         }
+    }
+
+    public void Close(){
+        StartCoroutine(CrClose());
+    }
+
+    protected IEnumerator CrClose(){
+        buttonContainer.ToggleWipe(false);
+        yield return new WaitUntil(() => buttonContainer.isDone());
+        gameObject.SetActive(false);
     }
 
     public ButtonUI[] GetButtonsUI() => layoutGroup.GetComponentsInChildren<ButtonUI>();

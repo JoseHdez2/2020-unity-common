@@ -28,6 +28,7 @@ public class SrpgController : MonoBehaviour {
     public SrpgSettings settings;
 
     public SrpgDatabase database;
+    public SrpgMap map;
 
     protected void Start() {
         audioSource = FindObjectOfType<SrpgAudioSource>();
@@ -36,7 +37,11 @@ public class SrpgController : MonoBehaviour {
         unitMenu = FindObjectOfType<SrpgMenuUnit>();
         settings = JsonUtility.FromJson<SrpgSettings>(settingsJsonFile.text);
         database = FindObjectOfType<SrpgDatabase>();
+        map = FindObjectOfType<SrpgMap>();
 
+        if(SrpgMap.data != null){
+            map.Build();
+        }
         enemyCursor.gameObject.SetActive(false);
         ChangeTurn(firstTurn: true, forceTeamId: "good guys");
         // semaphor = new ActiveSemaphor();

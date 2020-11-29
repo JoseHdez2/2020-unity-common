@@ -26,13 +26,11 @@ public class SrpgMap : MonoBehaviour
     public SrpgUnit pfSrpgUnit;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    public void Build() {
         legend = BuildLegend(data.legend);
         units = data.units.ToDictionary(u => u.id);
         solidTiles = solidTilesConfig.Split(',').Select(part => part.Replace(" ", "")).ToList();
         BuildLevel(data.map);
-        FindObjectOfType<SrpgController>(includeInactive: true).gameObject.SetActive(true);
         FindObjectOfType<SrpgController>(includeInactive: true).UpdateTeamsSoft();
     }
 
