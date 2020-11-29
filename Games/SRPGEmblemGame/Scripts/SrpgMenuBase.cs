@@ -47,6 +47,6 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
     }
 
     public override void PostClose() {
-        srpgController.UpdateTeamsHard();
+        srpgController.UpdateTeamsAndCheckForTurnChange();
     }
 }

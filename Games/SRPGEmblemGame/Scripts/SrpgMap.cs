@@ -31,7 +31,7 @@ public class SrpgMap : MonoBehaviour
         units = data.units.ToDictionary(u => u.id);
         solidTiles = solidTilesConfig.Split(',').Select(part => part.Replace(" ", "")).ToList();
         BuildLevel(data.map);
-        FindObjectOfType<SrpgController>(includeInactive: true).UpdateTeamsSoft();
+        FindObjectOfType<SrpgController>(includeInactive: true).UpdateTeams();
     }
 
     private Dictionary<string, string> BuildLegend(string legendStr){

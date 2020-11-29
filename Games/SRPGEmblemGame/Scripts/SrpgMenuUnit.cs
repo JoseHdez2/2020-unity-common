@@ -62,7 +62,7 @@ public class SrpgMenuUnit : SrpgMenuBase
     }
 
     public void HandleWait(){
-        selectedUnit.ToSpent();
+        selectedUnit.ToSpent(checkForTurnChange: false); // We're already going to check when this menu is closed!
         Close();
     }
 

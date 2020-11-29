@@ -185,14 +185,14 @@ public class SrpgUnit : EntityDamageable {
     }
 
     // hard: "true" checks for turn end. "false" prevents recursive calls if we are already changing turns.
-    public void ToSpent(bool hard = true){
+    public void ToSpent(bool checkForTurnChange = true){
         DestroyTiles();
         FindObjectOfType<SrpgFieldCursor>(includeInactive: true).selectedUnit = null;
         idlePos = transform.position;
         spriteRenderer.color = Color.gray;
         state = State.Spent;
-        if(hard){
-            FindObjectOfType<SrpgController>().UpdateTeamsHard();
+        if(checkForTurnChange){
+            FindObjectOfType<SrpgController>().UpdateTeamsAndCheckForTurnChange();
         }
     }
 

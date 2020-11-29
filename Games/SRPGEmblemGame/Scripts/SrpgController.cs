@@ -59,7 +59,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     private void StartTurn(string teamId){
-        UpdateTeamsSoft();
+        UpdateTeams();
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
         teamText.text = $"{teamId}'s Turn";
@@ -93,12 +93,12 @@ public class SrpgController : MonoBehaviour {
     }
 
     // Note: 'hard' means this method also checks for turn change / game end.
-    public void UpdateTeamsHard(){
-        UpdateTeamsSoft();
+    public void UpdateTeamsAndCheckForTurnChange(){
+        UpdateTeams();
         CheckForTurnChangeOrGameEnd();
     }
 
-    public void UpdateTeamsSoft(){
+    public void UpdateTeams(){
         SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
         UpdateUnitColliders(units);
         unitsByTeam = units.ToLookup(unit => unit.teamId);
@@ -140,7 +140,7 @@ public class SrpgController : MonoBehaviour {
             unit.ToIdle();
             unit.hasAttackedThisTurn = false;
         } else {
-            unit.ToSpent(hard: false);
+            unit.ToSpent(checkForTurnChange: false);
         }
     }
 
