@@ -33,7 +33,6 @@ public abstract class SrpgMenuBase : ButtonMenuBase {
                 audioSource.PlaySound(ESrpgSound.MenuCursor);
             }
             selectedButton = eventSystem.currentSelectedGameObject;
-            Debug.Log($"Selected: {selectedButton}");
         }
         if(Input.GetButtonDown("Cancel")){
             HandleCancel();

@@ -14,9 +14,14 @@ public class SrpgEmblemTitleController : MonoBehaviour
         
     }
 
-    public void SetLevel(TextAsset mapJsonFile){
+    public void SetLevel(TextAsset mapJsonFile)
+    {
         SrpgMap.data = JsonUtility.FromJson<SrpgMapData>(mapJsonFile.text);
-        textPreview.text = string.Join("\n", SrpgMap.data.map);
+        textPreview.text = BuildPreview();
         buttonPlay.interactable = true;
+    }
+
+    private string BuildPreview(){
+        return string.Join("\n", SrpgMap.data.map);
     }
 }
