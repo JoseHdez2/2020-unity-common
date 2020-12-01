@@ -77,7 +77,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
         yield return new WaitForSeconds(2f);
         PlaySound(EReDungPlayerSound.TIMEWARP1);
         screenWipe.ToggleWipe(true);
-        yield return new WaitUntil(() => screenWipe.isDone());
+        yield return new WaitUntil(() => screenWipe.IsDone());
 
         // dialogManager.WriteOneShot("You fainted!");
         RestoreHealth();
@@ -86,7 +86,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
 
         PlaySound(EReDungPlayerSound.TIMEWARP2);
         FindObjectOfType<ImageWipe>().ToggleWipe(false);
-        yield return new WaitUntil(() => screenWipe.isDone());
+        yield return new WaitUntil(() => screenWipe.IsDone());
         GetComponentInChildren<Collider>().enabled = true;
         // controls.Enable();
     }

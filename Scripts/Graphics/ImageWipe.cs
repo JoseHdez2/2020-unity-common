@@ -22,7 +22,7 @@ public class ImageWipe : MonoBehaviour
     
     public bool isWipingFast { get; private set; }
 
-    public bool isDone() => wipeMode == WipeMode.Empty || wipeMode == WipeMode.Filled;
+    public bool IsDone() => wipeMode == WipeMode.Empty || wipeMode == WipeMode.Filled;
 
     private void Awake(){
         image = GetComponentInChildren<Image>();

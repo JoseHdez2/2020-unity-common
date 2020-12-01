@@ -57,7 +57,7 @@ public class LevelLoader : MonoBehaviour
             // yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).IsName("Start"));
         } else if (screenWipe) {
             screenWipe.ToggleWipe(true);
-            yield return new WaitUntil(() => screenWipe.isDone());
+            yield return new WaitUntil(() => screenWipe.IsDone());
         }
         SceneManager.LoadScene(levelIndex);
     }

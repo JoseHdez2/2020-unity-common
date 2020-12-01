@@ -92,7 +92,7 @@ public class ButtonMenuBase : MonoBehaviour
 
     protected IEnumerator CrClose(){
         buttonContainer.ToggleWipe(false);
-        yield return new WaitUntil(() => buttonContainer.isDone());
+        yield return new WaitUntil(() => buttonContainer.IsDone());
         gameObject.SetActive(false);
     }
 
