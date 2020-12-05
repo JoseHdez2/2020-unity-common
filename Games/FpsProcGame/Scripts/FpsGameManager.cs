@@ -12,24 +12,11 @@ public class FpsGameManager : MonoBehaviour
 
     void Start()
     {
-        LoadIcons();
         List<List<string>> blueprint = FindObjectOfType<ProcFpsGeneratorBuilding>().GenerateBuilding(gridSize);
         Debug.Log($"something: {string.Join("\n\n", blueprint.Select(f => string.Join("\n", f)))}");
         FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(new Vector3(10,0,10), gridSize, cellScale, blueprint);
         // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
     }
 
-    public Texture2D[] icons; // icons array
-    void LoadIcons(){
-        object[] loadedIcons = Resources.LoadAll ("lorc",typeof(Texture2D)) ;
-        icons = new Texture2D[loadedIcons.Length];
-    //this
-        // for(int x = 0; x< loadedIcons.Length;x++){
-        //     icons [x] = (Sprite)loadedIcons [x];
-        // }
-    //or this
-        loadedIcons.CopyTo (icons,0);
-
-    }
 
 }

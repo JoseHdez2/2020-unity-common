@@ -1041,6 +1041,7 @@ GameObject:
   - component: {fileID: 232178356}
   - component: {fileID: 232178358}
   - component: {fileID: 232178359}
+  - component: {fileID: 232178360}
   m_Layer: 0
   m_Name: FpsGameManager
   m_TagString: Untagged
@@ -1136,6 +1137,24 @@ MonoBehaviour:
       eulerAngles: {x: 0, y: 0, z: 0}
     - prefab: {fileID: 1579477099226215691, guid: 44427fd1685a2074fb82e24b2a3a1a4f, type: 3}
       eulerAngles: {x: 0, y: 0, z: 0}
+--- !u!114 &232178360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232178355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad23eb4b94cbe764d940ac86c308684d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstNamesJsonFile: {fileID: 4900000, guid: 0c1fa50ae22742749b38d3a27deec259, type: 3}
+  lastNamesJsonFile: {fileID: 4900000, guid: 5b7540c39357e104bbc141729e5fbb93, type: 3}
+  streetNamesJsonFile: {fileID: 4900000, guid: a57a6adadd660744a80bda8b50085261, type: 3}
+  firstNames: []
+  lastNames: []
+  streetNames: []
 --- !u!43 &300661617
 Mesh:
   m_ObjectHideFlags: 0
@@ -4107,7 +4126,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f41de41ab616ae44bc96068ccc73bc3, type: 2}
+  - {fileID: 2100000, guid: d3273a1c58f41cb42b1545305580e636, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
