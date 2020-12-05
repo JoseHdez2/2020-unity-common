@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MathUtils
+
+namespace ExtensionMethods
 {
-    public static int ClampToPositive(int val){
-        return val < 0 ? 0 : val;
-    }
-
-    public static int Clamp(int val, int min, int max)
+    public static class MathUtils
     {
-        if (val < min) return min;
-        if (val > max) return max;
-        return val;
-    }
+        public static int ClampToPositive(this int val){
+            return val < 0 ? 0 : val;
+        }
 
-    // for wrapping the menu cursor around.
-    public static int InverseClamp(int val, int min, int max)
-    {
-        if (val < min) return max;
-        if (val > max) return min;
-        return val;
+        public static int Clamp(this int val, int min, int max)
+        {
+            if (val < min) return min;
+            if (val > max) return max;
+            return val;
+        }
+
+        // for wrapping the menu cursor around.
+        public static int InverseClamp(this int val, int min, int max)
+        {
+            if (val < min) return max;
+            if (val > max) return min;
+            return val;
+        }
+
+        public static bool IsBetween(this int i, int min, int max) => (i >= min && i <= max);
     }
 }
