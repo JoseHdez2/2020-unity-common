@@ -143,5 +143,7 @@ namespace ExtensionMethods
         public static void LogRed(string stringToLog){
             LogColor(stringToLog, "red");
         }
+
+        public static Vector3 ScaleWith(this Vector3 vector, Vector3 scale) => Vector3.Scale(vector, scale);
     }
 }

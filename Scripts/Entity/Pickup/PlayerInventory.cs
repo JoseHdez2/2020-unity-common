@@ -1,4 +1,5 @@
 ﻿
+using ExtensionMethods;
 using RotaryHeart.Lib.SerializableDictionary;
 using System;
 using UnityEngine;
@@ -20,7 +21,7 @@ public abstract class Inventory<EItemType> : MonoBehaviour
         {
             items[itemType] += qty;
         }
-        items[itemType] = MathUtils.ClampToPositive(items[itemType]);
+        items[itemType] = items[itemType].ClampToPositive();
     }
 
     public bool HasAny(EItemType itemType) => items.ContainsKey(itemType) && items[itemType] > 0;
