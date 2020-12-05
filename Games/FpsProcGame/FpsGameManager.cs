@@ -14,7 +14,7 @@ public class FpsGameManager : MonoBehaviour
     {
         List<List<string>> blueprint = FindObjectOfType<ProcFpsGeneratorBuilding>().GenerateBuilding(gridSize);
         Debug.Log($"something: {string.Join("\n\n", blueprint.Select(f => string.Join("\n", f)))}");
-        FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(new Vector3(), gridSize, cellScale, blueprint);
+        FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(new Vector3(10,0,10), gridSize, cellScale, blueprint);
         // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
     }
 
