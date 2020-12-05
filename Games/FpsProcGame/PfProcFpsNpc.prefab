@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb9819d33f7e1a94e8b66bb4eee0520b, type: 2}
+  - {fileID: 2100000, guid: ec3c4c36a309e7340974929d08ce5b12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3151,6 +3151,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d699ef35a2720f24c9376fb5c56b1f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faces:
+  - {fileID: 2800000, guid: 88dfcb5299f59af4e89b18c0669ee3ca, type: 3}
+  - {fileID: 2800000, guid: e0a2f9f515f96ca4a9445a46a531f8e2, type: 3}
+  - {fileID: 2800000, guid: 346484a29f4f7434c834869d7d9e82cd, type: 3}
+  - {fileID: 2800000, guid: a67c60f29ca2e7243b00b14395bd9748, type: 3}
+  - {fileID: 2800000, guid: 6adc0c805ec2525469fa8614c5373607, type: 3}
+  - {fileID: 2800000, guid: c666c442256e801439b411a72f8165dd, type: 3}
+  - {fileID: 2800000, guid: 3f48dcb079909bd41b2b206225915a46, type: 3}
+  - {fileID: 2800000, guid: 0aac522354efc0f4abbc53e02545b2ba, type: 3}
+  - {fileID: 2800000, guid: 8011ec8b8d96d034fa6a92af8872ed3c, type: 3}
+  - {fileID: 2800000, guid: 9341f5a8e1b2cef4e983818ea893085e, type: 3}
+  faceRenderer: {fileID: 1600489707374945599}
+  faceShader: {fileID: 0}
 --- !u!1 &7980075892015109885
 GameObject:
   m_ObjectHideFlags: 0
