@@ -10,9 +10,18 @@ public class ProcFpsGeneratorBuilding : MonoBehaviour {
     [SerializeField] Vector3 cellScale = Vector3.one;
 
     public List<List<string>> GenerateBuilding(Vector3Int gridSize){
-
+        Vector2Int floorSize = new Vector2Int(gridSize.x, gridSize.y);
         List<List<string>> grid = CreateCube(gridSize, '.');
         grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList();
+        // grid = grid.Select(floor => SetTile(floor, floorSize.RandomPos(), 'u')).ToList();
+        for(int z = 0; z < gridSize.z; z++){
+            Debug.Log(z);
+            var randPos = floorSize.RandomPos();
+            grid[z] = SetTile(grid[z], randPos, 'u');
+            if(z < gridSize.z - 1) {
+                grid[z+1] = SetTile(grid[z], randPos, 'd');
+            }
+        }
         return grid;
 
         // var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -26,7 +35,12 @@ public class ProcFpsGeneratorBuilding : MonoBehaviour {
     }
 
     private List<string> FillSquare(List<string> grid, Vector2Int topleft, Vector2Int size, char c){
-        return grid.Select((row, i) => i.IsBetween(topleft.y, topleft.y + size.y) ? row.ReplaceAt(topleft.x, new string(c, size.x)) : row)
+        return grid.Select((row, i) => i.IsBetweenMaxExclusive(topleft.y, topleft.y + size.y) ? row.ReplaceAt(topleft.x, new string(c, size.x)) : row)
+            .ToList();
+    }
+
+    private List<string> SetTile(List<string> grid, Vector2Int pos, char c){
+        return grid.Select((row, i) => i == pos.y ? row.ReplaceAt(pos.x, c) : row)
             .ToList();
     }
 

@@ -33,5 +33,7 @@ namespace ExtensionMethods
         {
             return Math.Abs(v.x - other.x) + Math.Abs(v.y - other.y) + Math.Abs(v.z - other.z);
         }
+
+        public static Vector2Int RandomPos(this Vector2Int matrixSize) => new Vector2Int(UnityEngine.Random.Range(0, matrixSize.x), UnityEngine.Random.Range(0, matrixSize.y));
     }
 }

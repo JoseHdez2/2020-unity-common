@@ -8,6 +8,13 @@ public class DummyJsonArray {
     [SerializeField] public List<string> values;
 }
 
+[System.Serializable]
+public class FpsProcQuest {
+    string questgiverId, targetId;
+    int targetAmount = 1, count = 0;
+    bool started = false, finished = false;
+}
+
 public class FpsProcDatabase : MonoBehaviour {
     
     public static List<Texture2D> icons, faces;

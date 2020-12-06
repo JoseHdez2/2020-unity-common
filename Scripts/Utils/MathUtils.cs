@@ -26,5 +26,6 @@ namespace ExtensionMethods
         }
 
         public static bool IsBetween(this int i, int min, int max) => (i >= min && i <= max);
+        public static bool IsBetweenMaxExclusive(this int i, int min, int max) => (i >= min && i < max);
     }
 }
