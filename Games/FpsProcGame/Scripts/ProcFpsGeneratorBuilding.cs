@@ -12,10 +12,9 @@ public class ProcFpsGeneratorBuilding : MonoBehaviour {
     public List<List<string>> GenerateBuilding(Vector3Int gridSize){
         Vector2Int floorSize = new Vector2Int(gridSize.x, gridSize.y);
         List<List<string>> grid = CreateCube(gridSize, '.');
-        grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList();
+        // grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList();
         // grid = grid.Select(floor => SetTile(floor, floorSize.RandomPos(), 'u')).ToList();
         for(int z = 0; z < gridSize.z; z++){
-            Debug.Log(z);
             var randPos = floorSize.RandomPos();
             grid[z] = SetTile(grid[z], randPos, 'u');
             if(z < gridSize.z - 1) {

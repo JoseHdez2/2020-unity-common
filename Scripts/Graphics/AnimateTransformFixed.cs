@@ -23,6 +23,7 @@ public class AnimateTransformFixed : MonoBehaviour {
             case Attribute.POS_X: transform.position = new Vector3(value, 0, 0); break;
             case Attribute.POS_Y: transform.position = new Vector3(0, value, 0); break;
             case Attribute.SCALE: transform.localScale = new Vector3(0, value, 0); break;
+            case Attribute.ROT_Y: transform.RotateAround(transform.position, transform.up, value); break;
             case Attribute.ROT_Z: transform.RotateAround(transform.position, transform.forward, value); break;
         }
     }
