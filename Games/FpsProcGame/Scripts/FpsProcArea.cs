@@ -21,6 +21,10 @@ public abstract class FpsProcArea : MonoBehaviour {
 
     ///<summary>
     /// Generate the random tilemap, for later instantiation.
+    /// Use ASCII and https://en.wikipedia.org/wiki/Box-drawing_character#DOS.
+    ///  	│ 	┤ 	╡ 	╢ 	╖ 	╕ 	╣ 	║ 	╗ 	╝ 	╜ 	╛ 	┐
+    /// └ 	┴ 	┬ 	├ 	─ 	┼ 	╞ 	╟ 	╚ 	╔ 	╩ 	╦ 	╠ 	═ 	╬ 	╧
+    /// ╨ 	╤ 	╥ 	╙ 	╘ 	╒ 	╓ 	╫ 	╪ 	┘ 	┌ 	
     ///</summary>
     public abstract FpsProcAreaData GenerateArea(Vector3Int? gridSize);
     protected List<List<string>> CreateCube(Vector3Int gridSize, char c){
