@@ -34,6 +34,12 @@ namespace ExtensionMethods
             return Math.Abs(v.x - other.x) + Math.Abs(v.y - other.y) + Math.Abs(v.z - other.z);
         }
 
-        public static Vector2Int RandomPos(this Vector2Int matrixSize) => new Vector2Int(UnityEngine.Random.Range(0, matrixSize.x), UnityEngine.Random.Range(0, matrixSize.y));
+        public static Vector2Int RandomPos(this BoundsInt bounds) {
+            return new Vector2Int(UnityEngine.Random.Range(bounds.xMin, bounds.xMax), UnityEngine.Random.Range(bounds.yMin, bounds.yMax));
+        }
+
+        public static BoundsInt WithSize(this BoundsInt b, int width, int height) {
+            return new BoundsInt(){xMin=b.xMin, xMax=b.xMin+width, yMin=b.yMin, yMax=b.yMin+height};
+        }
     }
 }

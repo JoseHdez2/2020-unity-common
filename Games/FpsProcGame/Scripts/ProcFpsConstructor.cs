@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using RotaryHeart.Lib.SerializableDictionary;
 using UnityEngine;
 using ExtensionMethods;
@@ -17,7 +16,7 @@ public class ProcFpsConstructor : MonoBehaviour {
     public SerializableDictionaryBase<char, ProcFpsPrefab> prefabs;
 
     public void InstantiateTilemap(FpsProcAreaData d){
-        GameObject parent = new GameObject(name);
+        GameObject parent = new GameObject(name: d.name);
         parent.transform.position = d.origin;
         for(int y = 0; y < d.gridSize.y; y++){ // floors
             for(int z = 0; z < d.gridSize.z; z++){
