@@ -10,6 +10,11 @@ public class FpsProcAreaData {
     public Vector3Int gridSize; // area generation input.
     public Vector3 cellScale = Vector3.one; // area instantiation input.
     public List<List<string>> tilemap; // generation output. (instantiation input).
+
+    public Bounds GetBounds() {
+        Vector3 size = gridSize.ScaleWith(cellScale);
+        return new Bounds(origin + size / 2, size);
+    }
 }
 
 public abstract class FpsProcArea : MonoBehaviour {

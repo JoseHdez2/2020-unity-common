@@ -145,5 +145,7 @@ namespace ExtensionMethods
         }
 
         public static Vector3 ScaleWith(this Vector3 vector, Vector3 scale) => Vector3.Scale(vector, scale);
+        public static Vector3 ScaleWith(this Vector3Int vector, Vector3 scale) => Vector3.Scale(vector, scale);
+        public static Vector3Int ScaleWith(this Vector3Int vector, Vector3Int scale) => Vector3Int.Scale(vector, scale);
     }
 }
