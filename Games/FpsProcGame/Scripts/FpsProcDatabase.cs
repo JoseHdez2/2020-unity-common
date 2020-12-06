@@ -1,32 +1,36 @@
 
+using System.Collections.Generic;
+using ExtensionMethods;
 using UnityEngine;
 
 [System.Serializable]
 public class DummyJsonArray {
-    [SerializeField] public string[] values;
+    [SerializeField] public List<string> values;
 }
 
 public class FpsProcDatabase : MonoBehaviour {
     
-    public static Texture2D[] icons;
-    public static Texture2D[] faces;
+    public static List<Texture2D> icons, faces;
     public TextAsset firstNamesJsonFile, lastNamesJsonFile, streetNamesJsonFile;
-    public static string[] firstNames, lastNames, streetNames;
+    public static List<string> firstNames, lastNames, streetNames;
 
-    private void Start() {
-        LoadImgsFromFolder(icons, folder: "lorc");
-        LoadImgsFromFolder(faces, folder: "faces");
+    private void Awake() {
+        icons = LoadImgsFromFolder(folder: "lorc");
+        faces = LoadImgsFromFolder(folder: "faces");
         firstNames = JsonUtility.FromJson<DummyJsonArray>(firstNamesJsonFile.text).values;
         lastNames = JsonUtility.FromJson<DummyJsonArray>(lastNamesJsonFile.text).values;
         streetNames = JsonUtility.FromJson<DummyJsonArray>(streetNamesJsonFile.text).values;
     }
 
-    void LoadImgsFromFolder(Texture2D[] imagesAry, string folder){
-        object[] loadedIcons = Resources.LoadAll (folder, typeof(Texture2D)) ;
-        imagesAry = new Texture2D[loadedIcons.Length];
-        loadedIcons.CopyTo(imagesAry, 0);
+    private List<Texture2D> LoadImgsFromFolder(string folder){
+        return new List<Texture2D>(Resources.LoadAll<Texture2D>(folder));
     }
 
-    public int GetRandomFaceIndex() => Random.Range(0, faces.Length);
-    public int GetRandomIconIndex() => Random.Range(0, icons.Length);
+    public int GetRandomFaceIndex() => Random.Range(0, faces.Count);
+    public int GetRandomIconIndex() => Random.Range(0, icons.Count);
+
+    public string GetRandomFullName() {
+        string lastName = lastNames.RandomItem() + (Random.Range(0,10) == 9 ? $"-{lastNames.RandomItem()}" : "");
+        return $"{firstNames.RandomItem()} {lastName}";
+    }
 }

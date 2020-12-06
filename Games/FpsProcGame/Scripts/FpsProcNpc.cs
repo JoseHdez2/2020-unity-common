@@ -3,20 +3,27 @@ using System.Collections.Generic;
 using ExtensionMethods;
 using UnityEngine;
 
+[System.Serializable]
+public class FpsProcNpcData {
+    public string fullName;
+    public int faceIndex;
+}
+
 public class FpsProcNpc : MonoBehaviour
 {
-    public static List<string> unisexNames = new List<string>{"Addison", "Adrian", "Alex", "Arden", "Aubrey", "August", "Bailey"};
-    public List<Texture2D> faces;
+    public FpsProcNpcData data = new FpsProcNpcData();
     public Texture2D face;
     public MeshRenderer faceRenderer;
     public Shader faceShader;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        this.gameObject.name = $"{unisexNames.RandomItem()} Smith";
+    void Start(){
+        FpsProcDatabase db = FindObjectOfType<FpsProcDatabase>();
+        data.fullName = db.GetRandomFullName();
+        name = data.fullName;
         // faceRenderer.material = new Material(faceShader);
-        faceRenderer.material.mainTexture = faces.RandomItem();
+        data.faceIndex = db.GetRandomFaceIndex();
+        faceRenderer.material.mainTexture = FpsProcDatabase.faces[data.faceIndex];
         faceRenderer.material.color = Color.white;
     }
 
