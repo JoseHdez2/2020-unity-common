@@ -1844,7 +1844,7 @@ MonoBehaviour:
   textAreaName: {fileID: 2084879649}
   textTarget: {fileID: 616692374}
   textAreaMap: {fileID: 1541297550}
-  gridSize: {x: 4, y: 4, z: 20}
+  gridSize: {x: 4, y: 4, z: 5}
   cellScale: {x: 4, y: 2, z: 4}
   npcAmount: 10
   pfNpc: {fileID: 7165591943753391322, guid: c77366683e18ba54b91403c3186721f7, type: 3}

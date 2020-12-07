@@ -3,14 +3,12 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 
-public class FpsProcAreaBuilding : FpsProcArea {
+public class FpsProcBldgOffice : FpsProcBldg {
 
-    public override FpsProcAreaData GenerateArea(Vector3Int? gridSize){
-        string areaName = $"{FpsProcDatabase.streetNames.RandomItem()} Building";
-        return new FpsProcAreaData(){name=areaName, tilemap=GenerateBuilding(gridSize.Value)};
-    }
+    public override string GenerateName(FpsProcAreaGenInput input) => $"{FpsProcDatabase.streetNames.RandomItem()} Building";
 
-    public List<List<string>> GenerateBuilding(Vector3Int gridSize){
+    public override List<List<string>> GenerateTilemap(FpsProcAreaGenInput input){
+        Vector3Int gridSize = input.gridSize;
         BoundsInt floorBounds = new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y};
         BoundsInt floorBoundsInner = new BoundsInt(){xMin=1, xMax=gridSize.x-1, yMin=1, yMax=gridSize.y-1};
         List<List<string>> grid = CreateCube(gridSize, '.');
@@ -26,15 +24,12 @@ public class FpsProcAreaBuilding : FpsProcArea {
                     .Select(floor => SetTile(floor, new Vector2Int(), 'x'))
                     .ToList(); // outer walls
         for(int z = 0; z < gridSize.z; z++){
-            Debug.Log(z);
             List<Vector2Int> emptyTilesThisFloor = GetTilesWithChar(floor: grid[z], c: '.');
             if(z+1 >= gridSize.z) { // if last floor...
-                Debug.Log("last floor!");
                 if(!emptyTilesThisFloor.IsEmpty()){
                     grid[z] = SetTile(grid[z], emptyTilesThisFloor.RandomItem(), 'u');
                 }
             } else {
-                Debug.Log("not last floor!");
                 List<Vector2Int> emptyTilesUpperFloor = GetTilesWithChar(floor: grid[z+1], c: '.');
                 List<Vector2Int> candidates = emptyTilesThisFloor.Where(c => emptyTilesUpperFloor.Contains(c)).ToList();
                 if(!candidates.IsEmpty()){
@@ -43,13 +38,11 @@ public class FpsProcAreaBuilding : FpsProcArea {
                     grid[z+1] = SetTile(grid[z], randPos, 'd');
                 }
             }
-            Debug.Log(z);
         }
-        return grid;
 
-        // var watch = System.Diagnostics.Stopwatch.StartNew();
-        // Debug.Log("${watch.ElapsedTicks}");
+        return grid;
     }
+
 
     protected List<Vector2Int> GetTilesWithChar(List<string> floor, char c) =>
         floor.SelectMany((row, y) => row.Select((tile, x) => new Tile(){x=x, y=y, c=tile}))

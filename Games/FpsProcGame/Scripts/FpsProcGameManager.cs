@@ -18,32 +18,30 @@ public class FpsProcGameManager : MonoBehaviour
     List<FpsProcNpc> items = new List<FpsProcNpc>();
     public FpsProcNpc targetNpc;
 
+    // var watch = System.Diagnostics.Stopwatch.StartNew();
+    // Debug.Log("${watch.ElapsedTicks}");
+
     void Start()
     {
-        FpsProcAreaData area = FindObjectOfType<FpsProcAreaBuilding>().GenerateArea(gridSize);
-        Debug.Log($"something: {area.TilemapToStr()}");
-        area.origin = new Vector3(10,0,10);
-        area.gridSize = gridSize;
-        area.cellScale = cellScale;
-        EnterArea(area);
+        GameObject go = new GameObject();
+        FpsProcBldgOffice officeBldg = FindObjectOfType<FpsProcBldgOffice>();
+        officeBldg.Generate(new FpsProcAreaGenInput(){gridSize=gridSize, npcAmount=npcAmount});
+        Debug.Log($"something: {officeBldg.data.TilemapToStr()}");
+        officeBldg.data.origin = new Vector3(10,0,10);
+        officeBldg.data.cellScale = cellScale;
+        officeBldg.Instantiate(pfNpc);
+        EnterBuilding(officeBldg);
         StartCoroutine(CrMission());
         // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
     }
 
-    public void EnterArea(FpsProcAreaData area){
-        textAreaName.text = area.name;
-        textAreaMap.text = area.TilemapToStr();
-        FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(area);
-        Bounds areaBounds = area.GetBounds();
-        var npcsParent = new GameObject("npcs");
-        foreach(int i in Enumerable.Range(0, npcAmount)){
-            npcs.Add(Instantiate(pfNpc, areaBounds.RandomPos(), Quaternion.identity, npcsParent.transform));
-        }
+    public void EnterBuilding(FpsProcBldg bldg){
+        textAreaName.text = bldg.data.name;
+        textAreaMap.text = bldg.data.TilemapToStr();
     }
 
     public void EnterFloor(FpsProcAreaData area, int floorNum){
         textAreaName.text = $"{area.name} F{floorNum}";
-        
     }
 
     private IEnumerator CrMission()
