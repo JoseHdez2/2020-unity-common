@@ -1,23 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExtensionMethods;
-using RotaryHeart.Lib.SerializableDictionary;
 using UnityEngine;
 
-public class FpsProcAreaGenInput {
-    
-    public Vector3Int gridSize;
-    public int npcAmount;
-}
-
 [System.Serializable]
-public class FpsProcAreaData {
-    public string name = "";
-    public Vector3Int gridSize; // area generation input.
-    public int npcAmount;
-
+public class FpsProcBldgData {
+    
     public Vector3 origin;
     public Vector3 cellScale = Vector3.one; // area instantiation input.
+    public Vector3Int gridSize;
+    public int npcAmount;
+    public string name = "";
     public List<List<string>> tilemap; // generation output. (instantiation input).
 
     public Bounds GetBounds() {
@@ -32,7 +25,7 @@ public class FpsProcAreaData {
 
 public abstract class FpsProcBldg : MonoBehaviour {
 
-    public FpsProcAreaData data;
+    public FpsProcBldgData data;
     
     private FpsProcDatabase db;
     private List<FpsProcNpcData> npcsData;
@@ -42,12 +35,10 @@ public abstract class FpsProcBldg : MonoBehaviour {
         db = FindObjectOfType<FpsProcDatabase>();
     }
 
-    public void Generate(FpsProcAreaGenInput input){
-        data.gridSize = input.gridSize;
-        data.tilemap = GenerateTilemap(input);
-        data.name = GenerateName(input);
+    public void Generate(){
+        data.tilemap = GenerateTilemap(data);
+        data.name = GenerateName(data);
     }
-
     
     ///<summary>
     /// Generate the random tilemap, for later instantiation.
@@ -56,8 +47,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
     /// └ 	┴ 	┬ 	├ 	─ 	┼ 	╞ 	╟ 	╚ 	╔ 	╩ 	╦ 	╠ 	═ 	╬ 	╧
     /// ╨ 	╤ 	╥ 	╙ 	╘ 	╒ 	╓ 	╫ 	╪ 	┘ 	┌ 	
     ///</summary>
-    public abstract List<List<string>> GenerateTilemap(FpsProcAreaGenInput input);
-    public abstract string GenerateName(FpsProcAreaGenInput input);
+    public abstract List<List<string>> GenerateTilemap(FpsProcBldgData input);
+    public abstract string GenerateName(FpsProcBldgData input);
     
     public void Instantiate(FpsProcNpc pfNpc){
         name = data.name;
@@ -82,6 +73,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
         var npcsParent = new GameObject("npcs");
         npcsParent.transform.parent = transform;
         Bounds areaBounds = data.GetBounds();
+        npcs = new List<FpsProcNpc>();
+        npcsData = new List<FpsProcNpcData>();
         foreach(int i in Enumerable.Range(0, data.npcAmount)){
             FpsProcNpc npc = Instantiate(pfNpc, areaBounds.RandomPos(), Quaternion.identity, npcsParent.transform);
             npcsData.Add(npc.data);

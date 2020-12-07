@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public class SpriteKeyframe {
+    public Vector3 scale;
+    public float alpha;
+    public Quaternion rotation;
+}
+
 // A sprite that pops in when enabled, and pops out when destroyed/disabled.
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpritePopInOut : MonoBehaviour {
@@ -20,6 +26,7 @@ public class SpritePopInOut : MonoBehaviour {
     private Vector3 targetSize;
     private float targetAlpha;
     private Quaternion targetRotation;
+    SpriteKeyframe target, popIn, popOut = new SpriteKeyframe(){scale=new Vector3(0.01f, 0.01f, 0.01f), alpha=0f}; // TODO use this.
 
     public float animationSpeed = 1f;
     // Start is called before the first frame update

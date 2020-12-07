@@ -5,14 +5,16 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UIElements;
 
 public class FpsProcGameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap;
+    [SerializeField] Image briefingImage;
     [SerializeField] Vector3Int gridSize;
     [SerializeField] Vector3 cellScale = Vector3.one;
     [SerializeField] int npcAmount;
-    [SerializeField] FpsProcNpc pfNpc;
+    [SerializeField] public FpsProcNpc pfNpc;
 
     List<FpsProcNpc> npcs = new List<FpsProcNpc>();
     List<FpsProcNpc> items = new List<FpsProcNpc>();
@@ -23,15 +25,7 @@ public class FpsProcGameManager : MonoBehaviour
 
     void Start()
     {
-        GameObject go = new GameObject();
-        FpsProcBldgOffice officeBldg = FindObjectOfType<FpsProcBldgOffice>();
-        officeBldg.Generate(new FpsProcAreaGenInput(){gridSize=gridSize, npcAmount=npcAmount});
-        Debug.Log($"something: {officeBldg.data.TilemapToStr()}");
-        officeBldg.data.origin = new Vector3(10,0,10);
-        officeBldg.data.cellScale = cellScale;
-        officeBldg.Instantiate(pfNpc);
-        EnterBuilding(officeBldg);
-        StartCoroutine(CrMission());
+        // StartCoroutine(CrMission());
         // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
     }
 
@@ -40,12 +34,11 @@ public class FpsProcGameManager : MonoBehaviour
         textAreaMap.text = bldg.data.TilemapToStr();
     }
 
-    public void EnterFloor(FpsProcAreaData area, int floorNum){
+    public void EnterFloor(FpsProcBldgData area, int floorNum){
         textAreaName.text = $"{area.name} F{floorNum}";
     }
 
-    private IEnumerator CrMission()
-    {
+    private IEnumerator CrMission(){
         targetNpc = npcs.RandomItem();
         yield return new WaitForSeconds(1f);
         textTarget.text = $"Target: {targetNpc.data.fullName}";

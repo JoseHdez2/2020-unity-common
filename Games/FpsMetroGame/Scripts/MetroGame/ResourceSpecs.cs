@@ -14,7 +14,10 @@ public enum EResource
 [Serializable]
 public class RangeFloat
 {
-    public float start, end;
+    public float min, max;
+
+    public RangeFloat() {}
+    public RangeFloat(float min, float max) { (this.min, this.max) = (min, max);}
 }
 
 [System.Serializable]

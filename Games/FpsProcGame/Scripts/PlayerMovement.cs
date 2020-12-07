@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 velocity;
     bool isGrounded;
+    [SerializeField] private bool enableGravity = true;
 
     // Update is called once per frame
     void Update()
@@ -41,7 +42,9 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        if(enableGravity){
+            velocity.y += gravity * Time.deltaTime;
+        }
 
         controller.Move(velocity * Time.deltaTime);
     }

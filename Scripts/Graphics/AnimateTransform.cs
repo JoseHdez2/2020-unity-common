@@ -6,37 +6,34 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public enum Attribute { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z }
+public enum AttributeCycle { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z }
 
 [Serializable]
-public class MyTransformAnimation {
-    [SerializeField] public Attribute attr;
+public class AnimationCycle {
+    [SerializeField] public AttributeCycle attr;
     [SerializeField] public AnimationCurve curve = AnimationCurve.EaseInOut(0, 0, 0, 1);
     [SerializeField] public float speed = 1f;
     [SerializeField] public float valueRange = 1f;
 }
 
 public class AnimateTransform : MonoBehaviour {
-    [SerializeField] public List<MyTransformAnimation> anims;
+    [SerializeField] public List<AnimationCycle> anims;
 
-    private Dictionary<Attribute, float> prevValues = new Dictionary<Attribute, float>();
-    private Dictionary<Attribute, float> prevTimes = new Dictionary<Attribute, float>();
+    private Dictionary<AttributeCycle, float> prevValues = new Dictionary<AttributeCycle, float>();
+    private Dictionary<AttributeCycle, float> prevTimes = new Dictionary<AttributeCycle, float>();
 
     // Use this for initialization
-    void Start()
-    {
+    void Start(){
         anims.ForEach(anim => prevValues[anim.attr] = 0f);
         anims.ForEach(anim => prevTimes[anim.attr] = Time.time);
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
         anims.ForEach(anim => UpdateAnim(anim));
     }
 
-    private void UpdateAnim(MyTransformAnimation anim)
-    {
+    private void UpdateAnim(AnimationCycle anim){
         float time = Time.time;
         float value = anim.curve.Evaluate((Time.time * anim.speed) % 1);
 
@@ -48,11 +45,11 @@ public class AnimateTransform : MonoBehaviour {
 
         float delta = valueDelta * timeDelta * anim.valueRange;
         switch (anim.attr) {
-            case Attribute.POS_X: transform.position += new Vector3(delta, 0, 0); break;
-            case Attribute.POS_Y: transform.position += new Vector3(0, delta, 0); break;
-            case Attribute.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
-            case Attribute.ROT_Y: transform.RotateAround(transform.position, transform.up, delta); break;
-            case Attribute.ROT_Z: transform.RotateAround(transform.position, transform.forward, delta); break;
+            case AttributeCycle.POS_X: transform.position += new Vector3(delta, 0, 0); break;
+            case AttributeCycle.POS_Y: transform.position += new Vector3(0, delta, 0); break;
+            case AttributeCycle.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
+            case AttributeCycle.ROT_Y: transform.RotateAround(transform.position, transform.up, delta); break;
+            case AttributeCycle.ROT_Z: transform.RotateAround(transform.position, transform.forward, delta); break;
         }
     }
 }

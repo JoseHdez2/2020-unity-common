@@ -1,16 +1,23 @@
-﻿using UnityEngine;
-using System.Collections;
-using RotaryHeart.Lib.SerializableDictionary;
-using System.Linq;
-using System;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class AnimateTransformFixed : MonoBehaviour {
-    [SerializeField] public List<AnimationCycle> anims;
+public enum AttributeOneTime { ALPHA }
 
-    // Update is called once per frame
+public class AnimationOneTime {
+    public bool isFinished = true;
+    [SerializeField] public AttributeOneTime attr;
+    [SerializeField] public AnimationCurve valueCurve = AnimationCurve.EaseInOut(0, 0, 0, 1);
+    [SerializeField] public RangeFloat valueRange = new RangeFloat(0f, 1f);
+    [SerializeField] public float speed = 1f;
+}
+
+public class AnimFade : MonoBehaviour
+{
+    [SerializeField] public List<AnimationOneTime> anims;
+    // Start is called before the first frame update
     void FixedUpdate(){
-        anims.ForEach(anim => UpdateAnim(anim));
+        // anims.ForEach(anim => UpdateAnim(anim));
     }
 
     private void UpdateAnim(AnimationCycle anim){
