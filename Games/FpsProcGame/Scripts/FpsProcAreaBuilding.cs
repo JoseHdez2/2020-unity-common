@@ -6,9 +6,9 @@ using UnityEngine;
 public class FpsProcAreaBuilding : FpsProcArea {
 
     public override FpsProcAreaData GenerateArea(Vector3Int? gridSize){
-        string name = $"{FpsProcDatabase.streetNames.RandomItem()} Building";
-        Debug.Log(name);
-        return new FpsProcAreaData(){name=name, tilemap=GenerateBuilding(gridSize.Value)};
+        string areaName = $"{FpsProcDatabase.streetNames.RandomItem()} Building";
+        Debug.Log(areaName);
+        return new FpsProcAreaData(){name=areaName, tilemap=GenerateBuilding(gridSize.Value)};
     }
 
     public List<List<string>> GenerateBuilding(Vector3Int gridSize){

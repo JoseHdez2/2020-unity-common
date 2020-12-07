@@ -17,6 +17,7 @@ public class ProcFpsConstructor : MonoBehaviour {
 
     public void InstantiateTilemap(FpsProcAreaData d){
         GameObject parent = new GameObject(name: d.name);
+        Debug.Log(d.name);
         parent.transform.position = d.origin;
         for(int y = 0; y < d.gridSize.y; y++){ // floors
             for(int z = 0; z < d.gridSize.z; z++){

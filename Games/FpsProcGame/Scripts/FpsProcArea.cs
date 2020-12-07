@@ -15,6 +15,8 @@ public class FpsProcAreaData {
         Vector3 size = gridSize.ScaleWith(cellScale);
         return new Bounds(origin + size / 2, size);
     }
+
+    public string TilemapToStr() => string.Join("\n\n", tilemap.Select(f => string.Join("\n", f)));
 }
 
 public abstract class FpsProcArea : MonoBehaviour {

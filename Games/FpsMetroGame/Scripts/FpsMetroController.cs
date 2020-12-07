@@ -12,10 +12,10 @@ public class AmmoInventoryEntry
     public int amount = 0;
 }
 
-public class Controller : MonoBehaviour
+public class FpsMetroController : MonoBehaviour
 {
     //Urg that's ugly, maybe find a better way
-    public static Controller Instance { get; protected set; }
+    public static FpsMetroController Instance { get; protected set; }
 
     public Camera MainCamera;
     public Camera WeaponCamera;

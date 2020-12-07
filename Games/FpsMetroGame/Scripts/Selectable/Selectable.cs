@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Selectable : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Selectable : MonoBehaviour
 
     private Renderer myRenderer;
     private Material myMaterial;
+
+    [SerializeField] private UnityEvent action;
     virtual protected void Awake()
     {
         myRenderer = this.GetComponent<Renderer>();
@@ -30,6 +33,9 @@ public class Selectable : MonoBehaviour
     public void OnClick()
     {
         if(myRenderer) myRenderer.material = materialClicked;
+        if(action != null){
+            action.Invoke();
+        }
         OnClickDown();
     }
 

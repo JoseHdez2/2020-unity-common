@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ExtensionMethods;
@@ -18,18 +19,25 @@ public class FpsProcGameManager : MonoBehaviour
     void Start()
     {
         FpsProcAreaData blueprint = FindObjectOfType<FpsProcAreaBuilding>().GenerateArea(gridSize);
-        Debug.Log($"something: {string.Join("\n\n", blueprint.tilemap.Select(f => string.Join("\n", f)))}");
+        Debug.Log($"something: {blueprint.TilemapToStr()}");
+        blueprint.origin = new Vector3(10,0,10);
+        blueprint.gridSize = gridSize;
         blueprint.cellScale = cellScale;
-        FpsProcAreaData d = new FpsProcAreaData(){origin=new Vector3(10,0,10), gridSize=gridSize, cellScale=cellScale, tilemap=blueprint.tilemap};
-        FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(d);
-        Bounds areaBounds = d.GetBounds();
+        FindObjectOfType<ProcFpsConstructor>().InstantiateTilemap(blueprint);
+        Bounds areaBounds = blueprint.GetBounds();
         var npcsParent = new GameObject("npcs");
         foreach(int i in Enumerable.Range(0, npcAmount)){
             npcs.Add(Instantiate(pfNpc, areaBounds.RandomPos(), Quaternion.identity, npcsParent.transform));
         }
-        targetNpc = npcs.RandomItem();
-        Debug.Log($"Your target is {targetNpc.data.fullName}. You have 60 seconds.");
+        StartCoroutine(CrMission());
         // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
+    }
+
+    private IEnumerator CrMission()
+    {
+        targetNpc = npcs.RandomItem();
+        yield return new WaitForSeconds(1f);
+        Debug.Log($"Your target is {targetNpc.data.fullName}. You have 60 seconds.");
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc){
