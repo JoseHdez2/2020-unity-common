@@ -50,12 +50,14 @@ public class EntityDamageable : SpritePopInOut
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         objectShake = GetComponentInChildren<ObjectShake>();
-        idleSprite = spriteRenderer.sprite;
+        if(spriteRenderer){
+            idleSprite = spriteRenderer.sprite;
+            colorReal = spriteRenderer.color;
+        }
         if(objectShake == null){
             Debug.LogWarning("No ObjectShake component found!");
         }
         // movement = GetComponent<AbstractMovement>();
-        colorReal = spriteRenderer.color;
         if(audioSource == null){
             audioSource = GetComponentInChildren<AudioSource>();
         }
@@ -113,11 +115,11 @@ public class EntityDamageable : SpritePopInOut
     }
 
     protected IEnumerator CrDamage(){
-        if(deathSprite){
+        if(spriteRenderer && deathSprite){
             spriteRenderer.sprite = hitSprite;
         }
         yield return new WaitForSeconds(1f);
-        if(idleSprite){
+        if(spriteRenderer && idleSprite){
             spriteRenderer.sprite = idleSprite;
         }
     }

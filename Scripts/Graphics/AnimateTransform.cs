@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public enum Attribute { POS_X, POS_Y, SCALE, ROT_Z }
+public enum Attribute { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z }
 
 [Serializable]
 public class MyTransformAnimation {
@@ -51,6 +51,7 @@ public class AnimateTransform : MonoBehaviour {
             case Attribute.POS_X: transform.position += new Vector3(delta, 0, 0); break;
             case Attribute.POS_Y: transform.position += new Vector3(0, delta, 0); break;
             case Attribute.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
+            case Attribute.ROT_Y: transform.RotateAround(transform.position, transform.up, delta); break;
             case Attribute.ROT_Z: transform.RotateAround(transform.position, transform.forward, delta); break;
         }
     }

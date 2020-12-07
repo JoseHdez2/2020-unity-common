@@ -44,7 +44,7 @@ public class DialogBubbleUI : MonoBehaviour
         tmpText.text = "";
         if (wipeOnNewText) {
             imageWipe.ToggleWipeFast(false);
-            yield return new WaitUntil(() => imageWipe.isDone());
+            yield return new WaitUntil(() => imageWipe.IsDone());
         }
         imageWipe.ToggleWipe(true);
 
@@ -64,7 +64,7 @@ public class DialogBubbleUI : MonoBehaviour
         if (imageWipe) { imageWipe.ToggleWipe(show); }
     }
 
-    public bool IsWipeDone() => imageWipe.isDone();
+    public bool IsWipeDone() => imageWipe.IsDone();
 
     private void Update() {
         if (config && imageWipe.wipeMode == ImageWipe.WipeMode.Filled) {
@@ -116,7 +116,7 @@ public class DialogBubbleUI : MonoBehaviour
     }
 
     private IEnumerator UpdateText(int iChar) {
-        yield return new WaitUntil(() => imageWipe.isDone());
+        yield return new WaitUntil(() => imageWipe.IsDone());
         charIndex = iChar;
         if (IsDone()) {
             ChangeStateToWaiting();
