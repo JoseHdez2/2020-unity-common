@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public class FpsProcGameManager : MonoBehaviour
 {
     [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap;
-    [SerializeField] Image briefingImage;
+    [SerializeField] AnimFade briefingImage;
     [SerializeField] Vector3Int gridSize;
     [SerializeField] Vector3 cellScale = Vector3.one;
     [SerializeField] int npcAmount;
@@ -18,16 +18,29 @@ public class FpsProcGameManager : MonoBehaviour
 
     List<FpsProcNpc> npcs = new List<FpsProcNpc>();
     List<FpsProcNpc> items = new List<FpsProcNpc>();
-    public FpsProcNpc targetNpc;
+    public FpsProcNpcData targetNpc;
 
     // var watch = System.Diagnostics.Stopwatch.StartNew();
     // Debug.Log("${watch.ElapsedTicks}");
 
     void Start()
     {
-        // StartCoroutine(CrMission());
-        // FindObjectOfType<ProcFpsGeneratorBuilding>().CreateBuilding(new Vector3(), gridSize, cellScale, 3);
+        StartCoroutine(CrMission());
     }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.B)){
+            StartCoroutine(ShowBriefing());
+        }
+    }
+
+    private IEnumerator ShowBriefing(){
+        briefingImage.Toggle(true);
+        yield return new WaitForSeconds(5f);
+        briefingImage.Toggle(false);
+    }
+
+    
 
     public void EnterBuilding(FpsProcBldg bldg){
         textAreaName.text = bldg.data.name;
@@ -39,9 +52,9 @@ public class FpsProcGameManager : MonoBehaviour
     }
 
     private IEnumerator CrMission(){
-        targetNpc = npcs.RandomItem();
         yield return new WaitForSeconds(1f);
-        textTarget.text = $"Target: {targetNpc.data.fullName}";
+        targetNpc = FindObjectsOfType<FpsProcBldg>().SelectMany(bldg => bldg.npcsData).ToList().RandomItem();
+        textTarget.text = $"Target: {targetNpc.fullName}";
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc){

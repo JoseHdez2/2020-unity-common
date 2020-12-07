@@ -3249,14 +3249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf45b79d456d61549aa87208fdc97f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
-  levelBoundsColl: {fileID: 1061599912}
-  selectedUnit: {fileID: 0}
-  hoveringUnit: {fileID: 0}
-  hoveringTile: {fileID: 0}
-  deadzone: 0.041
-  cursorCooldown: 0.01
-  showUnitCard: 1
 --- !u!61 &1224961160
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4089,10 +4081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c237de0c7f8429f49a21846aab043160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardBg: {fileID: 1294057417}
-  unitNameText: {fileID: 1092375981}
-  unitTypeText: {fileID: 1648616319}
-  unitHpText: {fileID: 1757239005}
 --- !u!225 &1497607468
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4148,7 +4136,10 @@ MonoBehaviour:
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 0
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5735,46 +5726,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ad4b9c896ed8747bec40a029a1ae47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundDict:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 1
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 1
-    _keyValues: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
-    _keys: 00000000050000000300000006000000040000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
-    _values:
-    - {fileID: 8300000, guid: 485d40a12aa428446a63350f4a22c20f, type: 3}
-    - {fileID: 8300000, guid: 2ac6dc3d580bd18428fb2b1e75eefacb, type: 3}
-    - {fileID: 8300000, guid: e076d505835caaa4c93e58ee9e85d117, type: 3}
-    - {fileID: 8300000, guid: 9f60503c89c19294595d09a6019feba1, type: 3}
-    - {fileID: 8300000, guid: 9beccd68ab028064fbf8b734195b30d7, type: 3}
-    - {fileID: 8300000, guid: 128dae8260715c349955950eac098e1f, type: 3}
-    - {fileID: 8300000, guid: 989b5df9f44d22c4b90215ebd1e102ae, type: 3}
-    - {fileID: 8300000, guid: 079f97c2f00a18744bef103680691967, type: 3}
-    - {fileID: 8300000, guid: 437445937f4a57e43ad2be3341eff116, type: 3}
-    - {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
-    - {fileID: 8300000, guid: 10455130460f0ec4eb2a02e767891b9b, type: 3}
-    - {fileID: 8300000, guid: fff92e352fb40f54cb6277bd1812b9e6, type: 3}
-    - {fileID: 8300000, guid: 4ca784eeede82d743812aa22fbf46c99, type: 3}
-  respectSoundSeniority: 0
 --- !u!82 &1976563420
 AudioSource:
   m_ObjectHideFlags: 0

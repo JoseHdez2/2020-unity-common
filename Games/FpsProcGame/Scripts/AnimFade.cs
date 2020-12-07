@@ -1,35 +1,46 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AttributeOneTime { ALPHA }
-
-public class AnimationOneTime {
-    public bool isFinished = true;
-    [SerializeField] public AttributeOneTime attr;
-    [SerializeField] public AnimationCurve valueCurve = AnimationCurve.EaseInOut(0, 0, 0, 1);
-    [SerializeField] public RangeFloat valueRange = new RangeFloat(0f, 1f);
-    [SerializeField] public float speed = 1f;
+[Serializable]
+public class AnimKeyFrame {
+    public float cgAlpha; // Canvas Group alpha.
 }
 
-public class AnimFade : MonoBehaviour
-{
-    [SerializeField] public List<AnimationOneTime> anims;
+public class AnimFade : MonoBehaviour{
+    AnimKeyFrame kfPopIn = new AnimKeyFrame();
+    AnimKeyFrame kfPopOut = new AnimKeyFrame();
+    AnimKeyFrame kfCur = new AnimKeyFrame();
+    AnimKeyFrame kfTarget = new AnimKeyFrame();
+    public float animationSpeed = 1f;
     // Start is called before the first frame update
-    void FixedUpdate(){
-        // anims.ForEach(anim => UpdateAnim(anim));
+    [SerializeField] CanvasGroup canvasGroup;
+
+    void Awake(){
+        if(canvasGroup){
+            kfPopOut.cgAlpha = 0f;
+            kfPopIn.cgAlpha = 1f;
+        }
     }
 
-    private void UpdateAnim(AnimationCycle anim){
-        float value = anim.curve.Evaluate((Time.time * anim.speed) % 1);
-
-        value *= anim.valueRange;
-        switch (anim.attr) {
-            case AttributeCycle.POS_X: transform.position = new Vector3(value, 0, 0); break;
-            case AttributeCycle.POS_Y: transform.position = new Vector3(0, value, 0); break;
-            case AttributeCycle.SCALE: transform.localScale = new Vector3(0, value, 0); break;
-            case AttributeCycle.ROT_Y: transform.RotateAround(transform.position, transform.up, value); break;
-            case AttributeCycle.ROT_Z: transform.RotateAround(transform.position, transform.forward, value); break;
+    void Update(){
+        if(canvasGroup){
+            if(!IsCgAlphaAnimDone()){
+                kfCur.cgAlpha = Mathf.Lerp(kfCur.cgAlpha, kfTarget.cgAlpha, animationSpeed * Time.deltaTime);
+                canvasGroup.alpha = kfCur.cgAlpha;
+                if(IsCgAlphaAnimDone()){
+                    canvasGroup.alpha = kfTarget.cgAlpha;
+                }
+            }
         }
+    }
+
+    public void Toggle(bool show){
+        kfTarget = show ? kfPopIn : kfPopOut;
+    }
+
+    private bool IsCgAlphaAnimDone(){
+        return Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;
     }
 }
