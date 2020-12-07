@@ -17,10 +17,13 @@ public class FpsProcAreaBuilding : FpsProcArea {
         // grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList(); // cubicles
         grid = grid.Select(floor => FillSquare(floor, new BoundsInt(){yMax=1, xMax=gridSize.x-1}, '┬')) // outer walls
                     .Select(floor => FillSquare(floor, new BoundsInt(){xMax=1, yMax=gridSize.y-1}, '├'))
+                    .Select(floor => FillSquare(floor, new BoundsInt(){xMin=gridSize.x-1, xMax=gridSize.x, yMax=gridSize.y-1}, '┤'))
+                    .Select(floor => FillSquare(floor, new BoundsInt(){xMax=gridSize.x-1, yMin=gridSize.y-1, yMax=gridSize.y}, '┴'))
                     .Select(floor => SetTile(floor, (Vector2Int)floorBounds.min, '┌'))
                     .Select(floor => SetTile(floor, new Vector2Int(floorBounds.max.x-1, floorBounds.min.y), '┐'))
                     .Select(floor => SetTile(floor, new Vector2Int(floorBounds.min.x, floorBounds.max.y-1), '└'))
                     .Select(floor => SetTile(floor, (Vector2Int)floorBounds.max - Vector2Int.one, '┘'))
+                    .Select(floor => SetTile(floor, new Vector2Int(), 'x'))
                     .ToList(); // outer walls
         for(int z = 0; z < gridSize.z; z++){
             Debug.Log(z);
