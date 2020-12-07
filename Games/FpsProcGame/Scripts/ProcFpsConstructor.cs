@@ -16,18 +16,19 @@ public class ProcFpsConstructor : MonoBehaviour {
     public SerializableDictionaryBase<char, ProcFpsPrefab> prefabs;
 
     public void InstantiateTilemap(FpsProcAreaData d){
-        GameObject parent = new GameObject(name: d.name);
-        Debug.Log(d.name);
-        parent.transform.position = d.origin;
-        for(int y = 0; y < d.gridSize.y; y++){ // floors
-            for(int z = 0; z < d.gridSize.z; z++){
-                for(int x = 0; x < d.gridSize.z; x++){
+        GameObject building = new GameObject(name: d.name);
+        building.transform.position = d.origin;
+        for(int z = 0; z < d.gridSize.z; z++){ // floors
+            GameObject floor = new GameObject(name: $"Floor {z}");
+            floor.transform.parent = building.transform;
+            for(int y = 0; y < d.gridSize.y; y++){
+                for(int x = 0; x < d.gridSize.x; x++){
                     ProcFpsPrefab pf;
                     prefabs.TryGetValue(d.tilemap[z][y][x], out pf);
                     if(pf == null){
-                        Debug.LogError($"No prefab for character '{d.tilemap[y][z][x]}'.");
+                        Debug.LogError($"No prefab for character '{d.tilemap[z][y][x]}'.");
                     } else {
-                        Instantiate(pf.prefab, d.origin + new Vector3(y, z, x).ScaleWith(d.cellScale), Quaternion.Euler(pf.eulerAngles), parent.transform);
+                        Instantiate(pf.prefab, d.origin + new Vector3(y, z, x).ScaleWith(d.cellScale), Quaternion.Euler(pf.eulerAngles), floor.transform);
                     }
                 }
             }

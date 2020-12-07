@@ -36,6 +36,6 @@ public class FpsProcNpc : MonoBehaviour
     }
 
     public void ClickedOn(){
-        Debug.Log($"You clicked on {data.fullName}.");
+        FindObjectOfType<FpsProcGameManager>().ClickNpc(this);
     }
 }

@@ -16,7 +16,9 @@ public class FpsProcAreaData {
         return new Bounds(origin + size / 2, size);
     }
 
-    public string TilemapToStr() => string.Join("\n\n", tilemap.Select(f => string.Join("\n", f)));
+    public string TilemapToStr() => string.Join("\n\n", Enumerable.Reverse(tilemap).Select((f,i) => $"F{tilemap.Count - i}:\n{string.Join("\n", f)}"));
+    public string TilemapToStr(int floorNum) => string.Join("\n\n", Enumerable.Reverse(tilemap)
+        .Select((f, i) => $"<color={(i == floorNum ? "yellow" : "white")}>{string.Join("\n", f)}</color>"));
 }
 
 public abstract class FpsProcArea : MonoBehaviour {
@@ -42,11 +44,6 @@ public abstract class FpsProcArea : MonoBehaviour {
 
     protected List<string> FillSquare(List<string> grid, BoundsInt bounds, char c){
         return grid.Select((row, i) => i.IsBetweenMaxExclusive(bounds.yMin, bounds.yMax) ? row.ReplaceAt(bounds.xMin, new string(c, bounds.size.x)) : row)
-            .ToList();
-    }
-
-    protected List<string> OutlineSquare(List<string> grid, BoundsInt bounds, char c){
-        return grid.Select((row, i) => i == bounds.yMin || i == bounds.yMax-1 ? row.ReplaceAt(bounds.xMin, new string(c, bounds.size.x)) : row)
             .ToList();
     }
 
