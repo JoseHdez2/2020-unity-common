@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
 
-    public float speed = 12f;
+    public float speed = 6f;
+    public float dashCoef = 2f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;    
 
@@ -17,9 +18,10 @@ public class PlayerMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
-    Vector3 velocity;
+    Vector3 move, velocity;
     bool isGrounded;
     [SerializeField] private bool enableGravity = true;
+    private bool isDashing;
 
     // Update is called once per frame
     void Update()
@@ -34,7 +36,12 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        move = transform.right * x + transform.forward * z;
+        move.Normalize();
+        isDashing = Input.GetButton("Fire3");
+        if(isDashing){
+            move *= dashCoef;
+        }
 
         controller.Move(move * speed * Time.deltaTime);
 
@@ -50,6 +57,6 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    public bool IsWalking() => isGrounded && HorizontalVelocity() > 0;
-    public float HorizontalVelocity() => Math.Abs(Input.GetAxis("Horizontal")) + Math.Abs(Input.GetAxis("Vertical"));
+    public bool IsWalking() => isGrounded && move.magnitude > 0;
+    public float MoveMagnitude() => move.magnitude;
 }

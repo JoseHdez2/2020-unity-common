@@ -16,19 +16,22 @@ public class PlayerMovementFootsteps : MonoBehaviour
     [SerializeField] List<FootstepSound> footstepSounds;
     [SerializeField] PlayerMovement playerMovement;
     private bool checkMove = true;
+    private bool leftFoot = true;
 
     // Update is called once per frame
     void Update(){
-        if(checkMove){ // && playerMovement.IsWalking()){
-            StartCoroutine(PlayFootstep(playerMovement.HorizontalVelocity()));
+        if(checkMove && playerMovement.IsWalking()){
+            StartCoroutine(PlayFootstep(playerMovement.MoveMagnitude()));
         }
     }
     
     private IEnumerator PlayFootstep(float velocity){
         checkMove = false;
-        yield return new WaitForSeconds(1 - velocity * 0.5f);
+        audioSource.panStereo = leftFoot ? -0.5f : 0.5f;
         audioSource.clip = footstepSounds.Select(fs => fs.clip).ToList().RandomItem();
         audioSource.Play();
+        leftFoot = !leftFoot;
+        yield return new WaitForSeconds(1 - velocity * 0.5f);
         checkMove = true;
     }
 }
