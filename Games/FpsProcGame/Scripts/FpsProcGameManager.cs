@@ -56,6 +56,12 @@ public class FpsProcGameManager : MonoBehaviour
 
     public void EnterFloor(FpsProcBldgData area, int floorNum){
         textAreaName.text = $"{area.name} F{floorNum}";
+        textAreaMap.text = area.TilemapToStr(floorNum);
+    }
+    
+    public void ExitFloor(){
+        textAreaName.text = "";
+        textAreaMap.text = "";
     }
 
     private IEnumerator CrMission(){

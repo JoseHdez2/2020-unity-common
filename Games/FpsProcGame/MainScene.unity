@@ -4331,7 +4331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &652511692
 Transform:
   m_ObjectHideFlags: 0
@@ -4362,10 +4362,11 @@ MonoBehaviour:
     origin: {x: 10, y: 0, z: 30}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 4}
-    npcAmount: 5
+    npcsPerFloor: 2
     name: 
   npcsData: []
   npcs: []
+  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!43 &703734570
 Mesh:
   m_ObjectHideFlags: 0
@@ -5885,11 +5886,12 @@ MonoBehaviour:
   data:
     origin: {x: 10, y: 0, z: 10}
     cellScale: {x: 4, y: 2, z: 4}
-    gridSize: {x: 4, y: 4, z: 2}
-    npcAmount: 5
+    gridSize: {x: 5, y: 5, z: 4}
+    npcsPerFloor: 2
     name: 
   npcsData: []
   npcs: []
+  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &853369337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7949,7 +7951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1204321915
 Transform:
   m_ObjectHideFlags: 0
@@ -7980,10 +7982,11 @@ MonoBehaviour:
     origin: {x: 30, y: 0, z: 30}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 10}
-    npcAmount: 5
+    npcsPerFloor: 2
     name: 
   npcsData: []
   npcs: []
+  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &1207164143
 GameObject:
   m_ObjectHideFlags: 0
@@ -10792,7 +10795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1587189235
 Transform:
   m_ObjectHideFlags: 0
@@ -10823,10 +10826,11 @@ MonoBehaviour:
     origin: {x: 30, y: 0, z: 10}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 4}
-    npcAmount: 5
+    npcsPerFloor: 2
     name: 
   npcsData: []
   npcs: []
+  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &1691421610
 GameObject:
   m_ObjectHideFlags: 0
@@ -11602,6 +11606,23 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1939352506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1848927244229480299, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+  m_PrefabInstance: {fileID: 1471669006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1939352507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939352506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c40ce437b0708849a0e7836fc3198b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1941073488
 GameObject:
   m_ObjectHideFlags: 0
