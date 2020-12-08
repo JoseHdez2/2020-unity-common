@@ -4197,7 +4197,7 @@ MonoBehaviour:
     origin: {x: 10, y: 0, z: 30}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 4}
-    npcAmount: 0
+    npcAmount: 5
     name: 
   npcsData: []
   npcs: []
@@ -5358,7 +5358,7 @@ MonoBehaviour:
     origin: {x: 10, y: 0, z: 10}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 2}
-    npcAmount: 0
+    npcAmount: 5
     name: 
   npcsData: []
   npcs: []
@@ -7452,7 +7452,7 @@ MonoBehaviour:
     origin: {x: 30, y: 0, z: 30}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 10}
-    npcAmount: 0
+    npcAmount: 5
     name: 
   npcsData: []
   npcs: []
@@ -10285,7 +10285,7 @@ MonoBehaviour:
     origin: {x: 30, y: 0, z: 10}
     cellScale: {x: 4, y: 2, z: 4}
     gridSize: {x: 4, y: 4, z: 4}
-    npcAmount: 0
+    npcAmount: 5
     name: 
   npcsData: []
   npcs: []

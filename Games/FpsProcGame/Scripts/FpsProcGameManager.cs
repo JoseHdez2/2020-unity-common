@@ -7,9 +7,18 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UIElements;
 
+public class FpsProcGoal {
+    public enum Type {Sabotage, Contact, Extract, Neutralize}
+    public Type type;
+    public GameObject target;
+    public string targetName;
+    public string ToStr() => $"{type} {targetName}";
+}
+
 public class FpsProcGameManager : MonoBehaviour
 {
-    [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap;
+    List<FpsProcGoal> goals = new List<FpsProcGoal>();
+    [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap, textBriefing;
     [SerializeField] AnimFade briefingImage;
     [SerializeField] Vector3Int gridSize;
     [SerializeField] Vector3 cellScale = Vector3.one;
@@ -38,9 +47,7 @@ public class FpsProcGameManager : MonoBehaviour
         briefingImage.Toggle(true);
         yield return new WaitForSeconds(5f);
         briefingImage.Toggle(false);
-    }
-
-    
+    }    
 
     public void EnterBuilding(FpsProcBldg bldg){
         textAreaName.text = bldg.data.name;

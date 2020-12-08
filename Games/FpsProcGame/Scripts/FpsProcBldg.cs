@@ -75,7 +75,6 @@ public abstract class FpsProcBldg : MonoBehaviour {
         Bounds areaBounds = data.GetBounds();
         npcs = new List<FpsProcNpc>();
         npcsData = new List<FpsProcNpcData>();
-        Debug.Log(npcsData);
         foreach(int i in Enumerable.Range(0, data.npcAmount)){
             FpsProcNpc npc = Instantiate(pfNpc, areaBounds.RandomPos(), Quaternion.identity, npcsParent.transform);
             npcsData.Add(npc.data);
