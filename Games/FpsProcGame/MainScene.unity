@@ -4315,58 +4315,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616692372}
   m_CullTransparentMesh: 0
---- !u!1 &652511691
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 652511692}
-  - component: {fileID: 652511693}
-  m_Layer: 0
-  m_Name: procFpsBuilding3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &652511692
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652511691}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1941073490}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &652511693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 652511691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b3d443e8283b74196ca6020cb65656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    origin: {x: 10, y: 0, z: 30}
-    cellScale: {x: 4, y: 2, z: 4}
-    gridSize: {x: 4, y: 4, z: 4}
-    npcsPerFloor: 2
-    name: 
-  npcsData: []
-  npcs: []
-  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!43 &703734570
 Mesh:
   m_ObjectHideFlags: 0
@@ -5840,58 +5788,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &847482952
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 847482953}
-  - component: {fileID: 847482954}
-  m_Layer: 0
-  m_Name: procFpsBuilding
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &847482953
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847482952}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1941073490}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &847482954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 847482952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b3d443e8283b74196ca6020cb65656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    origin: {x: 10, y: 0, z: 10}
-    cellScale: {x: 4, y: 2, z: 4}
-    gridSize: {x: 5, y: 5, z: 4}
-    npcsPerFloor: 2
-    name: 
-  npcsData: []
-  npcs: []
-  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &853369337
 GameObject:
   m_ObjectHideFlags: 0
@@ -7935,58 +7831,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1204321914
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1204321915}
-  - component: {fileID: 1204321916}
-  m_Layer: 0
-  m_Name: procFpsBuilding4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1204321915
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204321914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1941073490}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1204321916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204321914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b3d443e8283b74196ca6020cb65656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    origin: {x: 30, y: 0, z: 30}
-    cellScale: {x: 4, y: 2, z: 4}
-    gridSize: {x: 4, y: 4, z: 10}
-    npcsPerFloor: 2
-    name: 
-  npcsData: []
-  npcs: []
-  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &1207164143
 GameObject:
   m_ObjectHideFlags: 0
@@ -10779,58 +10623,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1587189234
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1587189235}
-  - component: {fileID: 1587189236}
-  m_Layer: 0
-  m_Name: procFpsBuilding2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1587189235
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587189234}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1941073490}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1587189236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587189234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b3d443e8283b74196ca6020cb65656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    origin: {x: 30, y: 0, z: 10}
-    cellScale: {x: 4, y: 2, z: 4}
-    gridSize: {x: 4, y: 4, z: 4}
-    npcsPerFloor: 2
-    name: 
-  npcsData: []
-  npcs: []
-  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
 --- !u!1 &1691421610
 GameObject:
   m_ObjectHideFlags: 0
@@ -11652,10 +11444,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719cb3ec7ba3d5b4eaad1cae94f506c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildings:
-  - {fileID: 847482954}
-  gridSize: {x: 4, y: 4, z: 4}
-  npcAmount: 10
+  tilemap: 'ooo
+
+    o o
+
+    ooo'
+  prefabs:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 6f00
+    _keys: 6f00
+    _values:
+    - {fileID: 3453521826699677935, guid: dff7803a4b406d843b709e2b561e876f, type: 3}
+  cellScale: {x: 30, y: 0, z: 30}
 --- !u!4 &1941073490
 Transform:
   m_ObjectHideFlags: 0
@@ -11664,13 +11485,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941073488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.332705, y: 4.1708145, z: 25.492151}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 847482953}
-  - {fileID: 1587189235}
-  - {fileID: 652511692}
-  - {fileID: 1204321915}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
