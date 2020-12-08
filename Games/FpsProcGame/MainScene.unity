@@ -9539,8 +9539,8 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 2e007800750064002c251c25242534250c25102514251825
-    _keys: 2e007800750064002c251c25242534250c25102514251825
+    _keyValues: 2e007800750064002c251c25242534250c251025142518255f00
+    _keys: 2e007800750064002c251c25242534250c251025142518255f00
     _values:
     - prefab: {fileID: 1579477099226215691, guid: 7fee6df815e03b5419e19fc6c033e6c6, type: 3}
       eulerAngles: {x: 0, y: 0, z: 0}
@@ -9566,6 +9566,8 @@ MonoBehaviour:
       eulerAngles: {x: 0, y: 270, z: 0}
     - prefab: {fileID: 1579477099226215691, guid: 71bcea1f5d3c48a4fb999f453e9fb3d8, type: 3}
       eulerAngles: {x: 0, y: 180, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: ca175df7e2e4f194395dfef6d5b0ec14, type: 3}
+      eulerAngles: {x: 0, y: 0, z: 0}
 --- !u!4 &1497374762
 Transform:
   m_ObjectHideFlags: 0

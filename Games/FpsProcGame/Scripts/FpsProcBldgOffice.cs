@@ -12,6 +12,8 @@ public class FpsProcBldgOffice : FpsProcBldg {
         BoundsInt floorBounds = new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y};
         BoundsInt floorBoundsInner = new BoundsInt(){xMin=1, xMax=gridSize.x-1, yMin=1, yMax=gridSize.y-1};
         List<List<string>> grid = CreateCube(gridSize, '.');
+        grid[grid.Count-1] = FillSquare(grid[grid.Count-1], new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y}, '_'); // top floor
+
         // grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList(); // cubicles
         grid = grid.Select(floor => FillSquare(floor, new BoundsInt(){yMax=1, xMax=gridSize.x-1}, '┬')) // outer walls
                     .Select(floor => FillSquare(floor, new BoundsInt(){xMax=1, yMax=gridSize.y-1}, '├'))
@@ -26,9 +28,7 @@ public class FpsProcBldgOffice : FpsProcBldg {
         for(int z = 0; z < gridSize.z; z++){
             List<Vector2Int> emptyTilesThisFloor = GetTilesWithChar(floor: grid[z], c: '.');
             if(z+1 >= gridSize.z) { // if last floor...
-                if(!emptyTilesThisFloor.IsEmpty()){
-                    grid[z] = SetTile(grid[z], emptyTilesThisFloor.RandomItem(), 'u');
-                }
+                continue;
             } else {
                 List<Vector2Int> emptyTilesUpperFloor = GetTilesWithChar(floor: grid[z+1], c: '.');
                 List<Vector2Int> candidates = emptyTilesThisFloor.Where(c => emptyTilesUpperFloor.Contains(c)).ToList();
@@ -39,6 +39,7 @@ public class FpsProcBldgOffice : FpsProcBldg {
                 }
             }
         }
+        grid[0] = SetTile(grid[0], pos: GetTilesWithChar(floor: grid[0], c: '┴').RandomItem(), c: '_'); // entrance
 
         return grid;
     }
