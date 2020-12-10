@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f37d1141403f8aa4c9c0b21930b5a03f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -141,19 +141,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8379550395166910112}
+  footstepDelayMax: 0.75
+  footstepDelayDiff: 0.25
   footstepSounds:
+  - type: concrete
+    clips:
+    - {fileID: 8300000, guid: 90d4978ebae80234e856e5ab9756e32a, type: 3}
+    - {fileID: 8300000, guid: 6c9931c6d77c24145a0c750decff2898, type: 3}
+    - {fileID: 8300000, guid: 0da05b5e360245e40954b11c99a6caa8, type: 3}
+    - {fileID: 8300000, guid: 5e22399693eb1a24991e21cda62092d0, type: 3}
+    - {fileID: 8300000, guid: 3f6fa91e4a85af345bcf1f96c58a63a8, type: 3}
+    - {fileID: 8300000, guid: 4fe20692039cacb44b036518f6436789, type: 3}
+    - {fileID: 8300000, guid: 2c67c8e54ea6c804a814e0deb549eae2, type: 3}
+    - {fileID: 8300000, guid: 13bf2400530ee214c8a31596f8d3ebff, type: 3}
+    - {fileID: 8300000, guid: d4d8f1298846bed4ea3fa643d263443b, type: 3}
+    - {fileID: 8300000, guid: af60c7b6da8b79543a58310e79b40bf0, type: 3}
   - type: grass
-    clip: {fileID: 8300000, guid: 87732d75aa9e77d478a58efd2070d668, type: 3}
-  - type: grass
-    clip: {fileID: 8300000, guid: b8cefd1f479ad904e870fe420d731b77, type: 3}
-  - type: grass
-    clip: {fileID: 8300000, guid: bc432b5661abe7f438fc0f1963f2ddd8, type: 3}
-  - type: grass
-    clip: {fileID: 8300000, guid: dea9393f945bee54abf45bede36553d2, type: 3}
-  - type: grass
-    clip: {fileID: 8300000, guid: ab30b18f78e84b143851f57c269cbf3f, type: 3}
-  - type: grass
-    clip: {fileID: 8300000, guid: 39165b6d1ea28624c95c6798f34dbf3c, type: 3}
+    clips: []
   playerMovement: {fileID: 1848927244229480297}
 --- !u!1 &1848927243812163640
 GameObject:
@@ -252,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1848927244229480296}
   speed: 12
+  dashCoef: 2
   gravity: -9.81
   jumpHeight: 3
   groundCheck: {fileID: 1848927243812163639}

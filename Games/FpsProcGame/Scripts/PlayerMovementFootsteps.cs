@@ -5,18 +5,19 @@ using ExtensionMethods;
 using RotaryHeart.Lib.SerializableDictionary;
 using UnityEngine;
 
-public class PlayerMovementFootsteps : MonoBehaviour
-{
+public class PlayerMovementFootsteps : MonoBehaviour {
     [System.Serializable]
-    class FootstepSound {
+    class FootstepSoundList {
         public string type;
-        public AudioClip clip;
+        [SerializeField] public List<AudioClip> clips;
     }
     [SerializeField] AudioSource audioSource;
-    [SerializeField] List<FootstepSound> footstepSounds;
+    [SerializeField] float footstepDelayMax = 1, footstepDelayDiff = 0.5f;
+    [SerializeField] List<FootstepSoundList> footstepSounds;
     [SerializeField] PlayerMovement playerMovement;
     private bool checkMove = true;
     private bool leftFoot = true;
+
 
     // Update is called once per frame
     void Update(){
@@ -28,10 +29,10 @@ public class PlayerMovementFootsteps : MonoBehaviour
     private IEnumerator PlayFootstep(float velocity){
         checkMove = false;
         audioSource.panStereo = leftFoot ? -0.5f : 0.5f;
-        audioSource.clip = footstepSounds.Select(fs => fs.clip).ToList().RandomItem();
+        audioSource.clip = footstepSounds[0].clips.ToList().RandomItem();
         audioSource.Play();
         leftFoot = !leftFoot;
-        yield return new WaitForSeconds(1 - velocity * 0.5f);
+        yield return new WaitForSeconds(footstepDelayMax - velocity * footstepDelayDiff);
         checkMove = true;
     }
 }
