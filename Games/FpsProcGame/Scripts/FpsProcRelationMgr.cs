@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ExtensionMethods;
 using RotaryHeart.Lib.SerializableDictionary;
 using UnityEngine;
@@ -19,25 +20,33 @@ public class FpsProcRelationship {
 
 public class FpsProcRelationMgr : MonoBehaviour {
     private FpsProcNpc target;
-    [SerializeField] List<FpsProcRelationship> relations;
     private FpsProcGameMgr gameManager;
+    public List<FpsProcRelationship> relations;
 
     private void Awake() {
         gameManager = FindObjectOfType<FpsProcGameMgr>();
     }
 
-    public void GenerateRelationships(){
-        List<FpsProcNpc> npcs = new List<FpsProcNpc>();
-        npcs.Add(target);
-        List<FpsProcNpc> unusedNpcs = gameManager.npcs;
-        while(npcs.Count > 0){
-            FpsProcNpc npc1 = npcs[0];
-            npcs.RemoveAt(0);
+    public List<FpsProcRelationship> GenerateRelationships(List<FpsProcNpc> npcs, FpsProcNpc finalNpc = null){
+        List<FpsProcNpc> npcsToRelate = new List<FpsProcNpc>();
+        List<FpsProcRelationship> relationships = new List<FpsProcRelationship>();
+        npcsToRelate.Add(finalNpc);
+        List<FpsProcNpc> unusedNpcs = new List<FpsProcNpc>(npcs);
+        unusedNpcs.Remove(finalNpc);
+        while(!npcsToRelate.IsEmpty() && !unusedNpcs.IsEmpty()){
+            Debug.Log(!npcsToRelate.IsEmpty() && !unusedNpcs.IsEmpty());
+            FpsProcNpc npc1 = npcsToRelate[0];
+            npcsToRelate.RemoveAt(0);
             FpsProcNpc npc2 = unusedNpcs.RandomItem();
             unusedNpcs.Remove(npc2);
             FpsProcRelationship r = new FpsProcRelationship(npc1.data.fullName, npc2.data.fullName);
-            relations.Add(r);
-            npcs.Add(npc2);
+            relationships.Add(r);
+            npcsToRelate.Add(npc2);
         }
+        return relationships;
+    }
+
+    public FpsProcRelationship GetRelationship(string npcNameA, string npcNameB){
+        return relations.Where(r => r.uuidA == npcNameA && r.uuidB == npcNameB || r.uuidA == npcNameB && r.uuidB == npcNameA).FirstOrDefault();
     }
 }

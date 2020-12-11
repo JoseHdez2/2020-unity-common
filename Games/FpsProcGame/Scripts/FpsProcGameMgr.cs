@@ -6,31 +6,36 @@ using ExtensionMethods;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class FpsProcGoal {
-    public enum Type {Interrogate, Contact, Extract, Neutralize}
+    public enum Type {Interrogate, Contact, Extract, Neutralize, Investigate}
     public Type type;
     public GameObject target;
     public string targetName;
-    public string ToStr() => $"{type} {targetName}";
+    public bool completed;
+    public string ToStrPro() => $"{(completed ? $"<s>{ToStr()}</s>" : ToStr())}";
+    public string ToStr() => $"{type} <u>{targetName}</u>.";
 }
 
 public class FpsProcGameMgr : MonoBehaviour
 {
-    List<FpsProcGoal> goals = new List<FpsProcGoal>();
-    [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap, textNotepad, textConversation;
+    [Header("UI Stuff")]
     [SerializeField] Button btnGoodbye;
-    [SerializeField] AnimFade missionImage;
-    [SerializeField] Vector3Int gridSize;
-    [SerializeField] Vector3 cellScale = Vector3.one;
-    [SerializeField] int npcAmount;
-    [SerializeField] public FpsProcNpc pfNpc;
+    [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap, textConversation;
+    [SerializeField] ButtonMenu notebookButtons;
+    [SerializeField] VfxLerpInOut notebook;
 
+    [Header("Data Stuff")]
+    [SerializeField] public FpsProcNpc pfNpc;
     public List<FpsProcNpc> npcs = new List<FpsProcNpc>();
     List<FpsProcNpc> items = new List<FpsProcNpc>();
-    public FpsProcNpc targetNpc;
+    List<FpsProcGoal> goals = new List<FpsProcGoal>();
+    public FpsProcNpc targetNpc, npcWeAreTalkingWith;
     private MouseLook mouseLook;
     private PlayerMovement playerController;
+    private FpsProcRelationMgr relationsMgr;
+
 
     // var watch = System.Diagnostics.Stopwatch.StartNew();
     // Debug.Log("${watch.ElapsedTicks}");
@@ -39,6 +44,7 @@ public class FpsProcGameMgr : MonoBehaviour
     {
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
+        relationsMgr = FindObjectOfType<FpsProcRelationMgr>();
         TogglePlayerControls(false);
         StartCoroutine(CrMission());
         ToggleConversation(false);
@@ -53,13 +59,17 @@ public class FpsProcGameMgr : MonoBehaviour
         }
     }
 
-    public void ToggleConversation(bool enable){
+    public void EndConversation() => ToggleConversation(false);
+
+    private void ToggleConversation(bool enable, FpsProcNpc talkingWith = null){
+        UpdateNotepad();
         textConversation.enabled = enable;
-        textNotepad.enabled = enable;
+        notebook.Toggle(enable);
         btnGoodbye.gameObject.SetActive(enable);
         textAreaMap.enabled = !enable;
         textAreaName.enabled = !enable;
         TogglePlayerControls(!enable);
+        npcWeAreTalkingWith = (enable && talkingWith) ? talkingWith : null;
     }
 
     public void TogglePlayerControls(bool enable){
@@ -68,9 +78,9 @@ public class FpsProcGameMgr : MonoBehaviour
     }
 
     private IEnumerator ShowBriefing(){
-        missionImage.Toggle(true);
+        notebook.Toggle(true);
         yield return new WaitForSeconds(5f);
-        missionImage.Toggle(false);
+        notebook.Toggle(false); // TODO what if player starts a conversation before 5s pass?
     }    
 
     public void EnterFloor(FpsProcBldgData area, int floorNum){
@@ -93,15 +103,37 @@ public class FpsProcGameMgr : MonoBehaviour
         targetNpc = npcs.RandomItem();
         FpsProcGoal goal = new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName};
         goals.Add(goal);
-        textTarget.text = $"<u>M</u>ission: {goal.ToStr()}";
+        UpdateNotepad();
+        relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
         TogglePlayerControls(true);
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){
         Debug.Log($"You clicked on {clickedNpc.data.fullName}.");
         textConversation.text = greeting;
-        ToggleConversation(true);
+        ToggleConversation(true, clickedNpc);
     }
 
+    public void InterrogateNpc(FpsProcNpc npc, FpsProcGoal subject){
+        FpsProcRelationship relationship = relationsMgr.GetRelationship(npc.data.fullName, subject.targetName);
+        if(relationship != null){
+            FpsProcNpc targetNpc = npcs.FirstOrDefault(n => n == subject.target);
+            string place = "{targetNpc.data.bldgName}, {targetNpc.data.bldgFloor}";
+            Say($"Oh, I know {subject.targetName}. They're a(n) {relationship.type}. They're in {place}.");
+            goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=place});
+            UpdateNotepad();
+        } else {
+            Say("Sorry, I don't know about that.");
+        }
+    }
 
+    private void UpdateNotepad(){
+        notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro(), interactable=!g.completed, action = new UnityEvent()}).ToList();
+        notebookButtons.RefreshButtons();
+        // TODO play writing on paper sound.
+    }
+
+    private void Say(string str){
+        textConversation.text = str;
+    }
 }

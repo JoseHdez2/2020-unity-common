@@ -6,8 +6,8 @@ using TMPro;
 
 [System.Serializable]
 public class FpsProcNpcData {
-    public string uuid, fullName, greeting;
-    public int faceIndex;
+    public string uuid, fullName, greeting, bldgName;
+    public int faceIndex, bldgFloor;
 }
 
 public class FpsProcNpc : MonoBehaviour

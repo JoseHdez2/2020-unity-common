@@ -7,6 +7,13 @@ public class VfxLerpInOut : MonoBehaviour {
     [SerializeField] GameObject stageIn, stageOut;
 
     // TODO implement "autoInitializeGameObjects" bool, which creates all of the stage and ninjaVision gameObjects on the fly.
+
+    private void Awake(){
+        stageIn = new GameObject("stageIn");
+        stageIn.transform.position = transform.position;
+        stageIn.transform.parent = transform.parent;
+    }
+
     private void Start() {
         GetReady();
     }

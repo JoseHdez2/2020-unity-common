@@ -31,7 +31,7 @@ namespace ExtensionMethods
         }
         
         public static T RandomItem<T>(this List<T> list) 
-            => list[UnityEngine.Random.Range(0, list.Count - 1)];
+            => list[UnityEngine.Random.Range(0, list.Count)];
 
         // https://stackoverflow.com/a/222640
         public static IList<T> Clone<T>(this IList<T> listToClone) where T: ICloneable
