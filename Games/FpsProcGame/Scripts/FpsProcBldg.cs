@@ -13,13 +13,14 @@ public class FpsProcBldgData {
     public string name = "";
     public List<List<string>> tilemap; // generation output. (instantiation input).
 
+    public Vector3 GetOrigin() => origin - cellScale / 2; // TODO fix this misalignment.
+
     public Vector3 GetSize() => gridSize.ScaleWith(cellScale);
-
-    public Vector3 GetCenter() => origin + GetSize() / 2;
-
+    public Vector3 GetFloorSize() => new Vector3(gridSize.x, 1, gridSize.y).ScaleWith(cellScale);
+    public Vector3 GetCenter() => GetOrigin() + GetSize() / 2;
+    public Vector3 GetFloorCenter(int floorNum) => GetOrigin() + Vector3.up * cellScale.y * (floorNum + 0.5f) + GetFloorSize() / 2;
     public Bounds GetBounds() =>  new Bounds(GetCenter(), GetSize());
-
-    public Vector3 GetFloorMiddlePoint(int floorNum) => origin + new Vector3(gridSize.x / 2, floorNum, gridSize.y / 2).ScaleWith(cellScale);
+    public Bounds GetFloorBounds(int floorNum) =>  new Bounds(GetFloorCenter(floorNum), GetFloorSize());
 
     public string TilemapToStr() => string.Join("\n\n", Enumerable.Reverse(tilemap).Select((f,i) => $"F{tilemap.Count - i}:\n{string.Join("\n", f)}"));
     public string TilemapToStr(int floorNum) => string.Join("\n\n", Enumerable.Reverse(tilemap)
@@ -69,11 +70,11 @@ public abstract class FpsProcBldg : MonoBehaviour {
             GameObject floor = new GameObject(name: $"Floor {z}");
             floor.transform.parent = transform;
 
-            Vector3 boundsCtr = data.GetFloorMiddlePoint(z) + new Vector3(-data.cellScale.x, data.cellScale.y, -data.cellScale.z) / 2; // fix mysterious misalignment.
-            FpsProcBounds bounds = Instantiate(pfBounds, boundsCtr, Quaternion.identity, floor.transform);
-            bounds.transform.localScale = data.cellScale.ScaleWith(new Vector3(data.gridSize.x, 0.2f, data.gridSize.y));
+            FpsProcBounds bounds = Instantiate(pfBounds, data.GetFloorCenter(z), Quaternion.identity, floor.transform);
+            bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(1, 0.2f, 1));
             bounds.bldg = this;
             bounds.floorNum = z;
+            
 
             for(int y = 0; y < data.gridSize.y; y++){
                 for(int x = 0; x < data.gridSize.x; x++){
@@ -87,9 +88,10 @@ public abstract class FpsProcBldg : MonoBehaviour {
                 }
             }
             
-            Bounds floorBounds = bounds.GetBounds();
+            Bounds floorBounds = data.GetFloorBounds(z);
+            float floorY = (floorBounds.min.y + floorBounds.max.y) / 2;
             foreach(int i in Enumerable.Range(0, data.npcsPerFloor)){
-                FpsProcNpc npc = Instantiate(pfNpc, floorBounds.RandomPos(), Quaternion.identity, npcsParent.transform);
+                FpsProcNpc npc = Instantiate(pfNpc, floorBounds.RandomPos().WithY(floorY - 0.25f), Quaternion.identity, npcsParent.transform);
                 npcsData.Add(npc.data);
                 npcs.Add(npc);
             }
@@ -105,6 +107,15 @@ public abstract class FpsProcBldg : MonoBehaviour {
     protected List<string> FillSquare(List<string> grid, BoundsInt bounds, char c){
         return grid.Select((row, i) => i.IsBetweenMaxExclusive(bounds.yMin, bounds.yMax) ? row.ReplaceAt(bounds.xMin, new string(c, bounds.size.x)) : row)
             .ToList();
+    }
+
+    protected List<string> DrawSquare(List<string> grid, BoundsInt bounds, char c){
+        grid[bounds.yMin] = grid[bounds.yMin].ReplaceAt(bounds.xMin, new string(c, bounds.size.x));
+        grid[bounds.yMax] = grid[bounds.yMin].ReplaceAt(bounds.xMin, new string(c, bounds.size.x));
+        for(int y = bounds.yMin; y < bounds.yMax; y++){
+            grid[y] = grid[y].ReplaceAt(bounds.xMin, c).ReplaceAt(bounds.xMax, c);
+        }
+        return grid;
     }
 
     protected List<string> SetTile(List<string> grid, Vector2Int pos, char c){

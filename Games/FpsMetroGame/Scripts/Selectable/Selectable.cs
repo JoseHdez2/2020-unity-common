@@ -13,6 +13,8 @@ public class Selectable : MonoBehaviour
     private Material myMaterial;
 
     [SerializeField] private UnityEvent action;
+    public bool selected;
+
     virtual protected void Awake()
     {
         myRenderer = this.GetComponent<Renderer>();
@@ -23,20 +25,24 @@ public class Selectable : MonoBehaviour
     internal void Select()
     {
         if(myRenderer) myRenderer.material = materialSelected;
+        selected = true;
     }
 
     internal void Deselect()
     {
         if(myRenderer) myRenderer.material = myMaterial;
+        selected = false;
     }
 
     public void OnClick()
     {
-        if(myRenderer) myRenderer.material = materialClicked;
-        if(action != null){
-            action.Invoke();
+        if(selected){
+            if(myRenderer) myRenderer.material = materialClicked;  
+            if(action != null){
+                action.Invoke();
+            }
+            OnClickDown();
         }
-        OnClickDown();
     }
 
     protected virtual void OnClickDown() { }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     origin: {x: 10, y: 0, z: 10}
-    cellScale: {x: 4, y: 2, z: 4}
+    cellScale: {x: 4, y: 2.25, z: 4}
     gridSize: {x: 5, y: 5, z: 4}
     npcsPerFloor: 2
     name: 

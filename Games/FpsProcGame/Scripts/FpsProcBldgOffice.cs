@@ -15,8 +15,8 @@ public class FpsProcBldgOffice : FpsProcBldg {
         grid[grid.Count-1] = FillSquare(grid[grid.Count-1], new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y}, '_'); // top floor
 
         // grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList(); // cubicles
-        grid = grid.Select(floor => FillSquare(floor, new BoundsInt(){yMax=1, xMax=gridSize.x-1}, '┬')) // outer walls
-                    .Select(floor => FillSquare(floor, new BoundsInt(){xMax=1, yMax=gridSize.y-1}, '├'))
+        grid = grid.Select(floor => FillSquare(floor, floorBounds.TopWall(), '┬')) // outer walls
+                    .Select(floor => FillSquare(floor, floorBounds.LeftWall(), '├'))
                     .Select(floor => FillSquare(floor, new BoundsInt(){xMin=gridSize.x-1, xMax=gridSize.x, yMax=gridSize.y-1}, '┤'))
                     .Select(floor => FillSquare(floor, new BoundsInt(){xMax=gridSize.x-1, yMin=gridSize.y-1, yMax=gridSize.y}, '┴'))
                     .Select(floor => SetTile(floor, (Vector2Int)floorBounds.min, '┌'))

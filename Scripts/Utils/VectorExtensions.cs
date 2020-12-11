@@ -41,8 +41,15 @@ namespace ExtensionMethods
             return new Vector3(UnityEngine.Random.Range(bounds.min.x, bounds.max.x), UnityEngine.Random.Range(bounds.min.y, bounds.max.y), UnityEngine.Random.Range(bounds.min.z, bounds.max.z));
         }
 
-        public static BoundsInt WithSize(this BoundsInt b, int width, int height) {
-            return new BoundsInt(){xMin=b.xMin, xMax=b.xMin+width, yMin=b.yMin, yMax=b.yMin+height};
-        }
+        public static Vector3 WithY(this Vector3 v, float newY) => new Vector3(v.x, newY, v.z);
+
+        public static BoundsInt WithSize(this BoundsInt b, int width, int height) => new BoundsInt(b.position, new Vector3Int(width, height, 1));
+
+        public static Bounds WithSize(this BoundsInt b, Vector3 size) => new Bounds(b.position, size);
+        
+        public static BoundsInt TopWall(this BoundsInt b) => new BoundsInt(){xMin=0, yMin=0}.WithSize(width:b.size.x, height:1);
+        public static BoundsInt BottomWall(this BoundsInt b) => new BoundsInt(){xMin=0, yMin=b.yMax-1}.WithSize(width:b.size.x, height:1);
+        public static BoundsInt LeftWall(this BoundsInt b) => new BoundsInt(){xMin=0, yMin=0}.WithSize(width:1, height:b.size.y);
+        public static BoundsInt RightWall(this BoundsInt b) => new BoundsInt(){xMin=b.xMax-1, yMin=0}.WithSize(width:1, height:b.size.y); // FIXME
     }
 }

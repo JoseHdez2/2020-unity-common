@@ -12,8 +12,6 @@ public class FpsProcBounds : MonoBehaviour
         boxColl = GetComponent<BoxCollider>();
     }
 
-    public Bounds GetBounds() => boxColl.bounds;
-
     private void OnTriggerEnter(Collider other) {
         FindObjectOfType<FpsProcGameManager>().EnterFloor(bldg.data, floorNum);
     }

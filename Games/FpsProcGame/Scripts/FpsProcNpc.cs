@@ -8,6 +8,7 @@ using TMPro;
 public class FpsProcNpcData {
     public string fullName;
     public int faceIndex;
+    public string greeting;
 }
 
 public class FpsProcNpc : MonoBehaviour
@@ -16,6 +17,7 @@ public class FpsProcNpc : MonoBehaviour
     public Texture2D face;
     public MeshRenderer faceRenderer;
     [SerializeField] private TMP_Text textName;
+    private static List<string> greetings = new List<string>(){"Hello.", "Hi!", "What's up?", "Yes?"};
 
     // Start is called before the first frame update
     void Start(){
@@ -25,17 +27,12 @@ public class FpsProcNpc : MonoBehaviour
         textName.text = data.fullName;
         // faceRenderer.material = new Material(faceShader);
         data.faceIndex = db.GetRandomFaceIndex();
+        data.greeting = greetings.RandomItem();
         faceRenderer.material.mainTexture = FpsProcDatabase.faces[data.faceIndex];
         faceRenderer.material.color = Color.white;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ClickedOn(){
-        FindObjectOfType<FpsProcGameManager>().ClickNpc(this);
+        FindObjectOfType<FpsProcGameManager>().ClickNpc(this, data.greeting);
     }
 }
