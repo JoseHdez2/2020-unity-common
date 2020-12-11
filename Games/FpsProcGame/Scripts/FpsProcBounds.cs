@@ -13,10 +13,10 @@ public class FpsProcBounds : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        FindObjectOfType<FpsProcGameManager>().EnterFloor(bldg.data, floorNum);
+        FindObjectOfType<FpsProcGameMgr>().EnterFloor(bldg.data, floorNum);
     }
 
     private void OnTriggerExit(Collider other) {
-        FindObjectOfType<FpsProcGameManager>().ExitFloor();
+        FindObjectOfType<FpsProcGameMgr>().ExitFloor();
     }
 }

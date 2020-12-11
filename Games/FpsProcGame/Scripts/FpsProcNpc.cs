@@ -6,9 +6,8 @@ using TMPro;
 
 [System.Serializable]
 public class FpsProcNpcData {
-    public string fullName;
+    public string uuid, fullName, greeting;
     public int faceIndex;
-    public string greeting;
 }
 
 public class FpsProcNpc : MonoBehaviour
@@ -33,6 +32,6 @@ public class FpsProcNpc : MonoBehaviour
     }
 
     public void ClickedOn(){
-        FindObjectOfType<FpsProcGameManager>().ClickNpc(this, data.greeting);
+        FindObjectOfType<FpsProcGameMgr>().ClickNpc(this, data.greeting);
     }
 }

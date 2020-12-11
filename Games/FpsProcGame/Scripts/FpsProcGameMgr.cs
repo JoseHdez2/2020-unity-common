@@ -8,14 +8,14 @@ using TMPro;
 using UnityEngine.UI;
 
 public class FpsProcGoal {
-    public enum Type {Sabotage, Contact, Extract, Neutralize}
+    public enum Type {Interrogate, Contact, Extract, Neutralize}
     public Type type;
     public GameObject target;
     public string targetName;
     public string ToStr() => $"{type} {targetName}";
 }
 
-public class FpsProcGameManager : MonoBehaviour
+public class FpsProcGameMgr : MonoBehaviour
 {
     List<FpsProcGoal> goals = new List<FpsProcGoal>();
     [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap, textNotepad, textConversation;
@@ -26,9 +26,9 @@ public class FpsProcGameManager : MonoBehaviour
     [SerializeField] int npcAmount;
     [SerializeField] public FpsProcNpc pfNpc;
 
-    List<FpsProcNpc> npcs = new List<FpsProcNpc>();
+    public List<FpsProcNpc> npcs = new List<FpsProcNpc>();
     List<FpsProcNpc> items = new List<FpsProcNpc>();
-    public FpsProcNpcData targetNpc;
+    public FpsProcNpc targetNpc;
     private MouseLook mouseLook;
     private PlayerMovement playerController;
 
@@ -39,6 +39,7 @@ public class FpsProcGameManager : MonoBehaviour
     {
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
+        TogglePlayerControls(false);
         StartCoroutine(CrMission());
         ToggleConversation(false);
     }
@@ -58,8 +59,12 @@ public class FpsProcGameManager : MonoBehaviour
         btnGoodbye.gameObject.SetActive(enable);
         textAreaMap.enabled = !enable;
         textAreaName.enabled = !enable;
-        mouseLook.enabled = !enable;
-        playerController.enabled = !enable;
+        TogglePlayerControls(!enable);
+    }
+
+    public void TogglePlayerControls(bool enable){
+        mouseLook.enabled = enable;
+        playerController.enabled = enable;
     }
 
     private IEnumerator ShowBriefing(){
@@ -78,10 +83,18 @@ public class FpsProcGameManager : MonoBehaviour
         textAreaMap.text = "";
     }
 
+    string[] intro = {"In the future", "there is no privacy.", "People live in fear", "and secret agents uphold the order.", "they are called", "THE BLADERUNNERS"};
+    string[] intro2 = {"In the future", "corporations have taken over.", "A.I. reigns supreme", "and secret agents do its bidding.", "they are called", "THE BLADERUNNERS"};
+    string[] intro3 = {"In the future", "life has no value.", "In a certain page, for the right price", "secret agents will kill for you.", "they are called", "THE BLADERUNNERS"};
+
     private IEnumerator CrMission(){
         yield return new WaitForSeconds(1f);
-        targetNpc = FindObjectsOfType<FpsProcBldg>().SelectMany(bldg => bldg.npcsData).ToList().RandomItem();
-        textTarget.text = $"Target: {targetNpc.fullName}";
+        npcs = FindObjectsOfType<FpsProcBldg>().SelectMany(bldg => bldg.npcs).ToList();
+        targetNpc = npcs.RandomItem();
+        FpsProcGoal goal = new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName};
+        goals.Add(goal);
+        textTarget.text = $"<u>M</u>ission: {goal.ToStr()}";
+        TogglePlayerControls(true);
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){
