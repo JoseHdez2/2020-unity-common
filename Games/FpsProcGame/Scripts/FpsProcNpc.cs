@@ -6,7 +6,7 @@ using TMPro;
 
 [System.Serializable]
 public class FpsProcNpcData {
-    public string uuid, fullName, greeting, bldgName;
+    public string uuid, fullName, greeting, bldgName, groupId;
     public int faceIndex, bldgFloor;
 }
 
@@ -22,10 +22,11 @@ public class FpsProcNpc : MonoBehaviour
     void Start(){
         FpsProcDatabase db = FindObjectOfType<FpsProcDatabase>();
         data.fullName = db.GetRandomFullName();
+        data.uuid = $"{data.fullName}_{GetInstanceID()}";
         name = data.fullName;
         textName.text = data.fullName;
         // faceRenderer.material = new Material(faceShader);
-        data.faceIndex = db.GetRandomFaceIndex();
+        data.faceIndex = FpsProcDatabase.GetRandomFaceIndex();
         data.greeting = greetings.RandomItem();
         faceRenderer.material.mainTexture = FpsProcDatabase.faces[data.faceIndex];
         faceRenderer.material.color = Color.white;

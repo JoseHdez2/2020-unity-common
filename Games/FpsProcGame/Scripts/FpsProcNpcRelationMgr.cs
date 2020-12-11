@@ -6,7 +6,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class FpsProcRelationship {
-    public enum Type {boss, subordinate, coworker, spouse, friend, acquaintance};
+    public enum Type {superior, subordinate, coworker, spouse, friend, acquaintance};
     public Type type;
     public string uuidA, uuidB;
     public static Type RandomType() => RandomUtils.RandomEnumValue<Type>();
@@ -18,10 +18,12 @@ public class FpsProcRelationship {
     }
 }
 
-public class FpsProcRelationMgr : MonoBehaviour {
+public class FpsProcNpcRelationMgr : MonoBehaviour {
     private FpsProcNpc target;
     private FpsProcGameMgr gameManager;
     public List<FpsProcRelationship> relations;
+
+    [SerializeField] RangeInt relationshipsPerNpc;
 
     private void Awake() {
         gameManager = FindObjectOfType<FpsProcGameMgr>();
@@ -34,7 +36,6 @@ public class FpsProcRelationMgr : MonoBehaviour {
         List<FpsProcNpc> unusedNpcs = new List<FpsProcNpc>(npcs);
         unusedNpcs.Remove(finalNpc);
         while(!npcsToRelate.IsEmpty() && !unusedNpcs.IsEmpty()){
-            Debug.Log(!npcsToRelate.IsEmpty() && !unusedNpcs.IsEmpty());
             FpsProcNpc npc1 = npcsToRelate[0];
             npcsToRelate.RemoveAt(0);
             FpsProcNpc npc2 = unusedNpcs.RandomItem();

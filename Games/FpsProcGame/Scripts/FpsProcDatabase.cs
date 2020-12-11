@@ -33,8 +33,8 @@ public class FpsProcDatabase : MonoBehaviour {
         return new List<Texture2D>(Resources.LoadAll<Texture2D>(folder));
     }
 
-    public int GetRandomFaceIndex() => Random.Range(0, faces.Count);
-    public int GetRandomIconIndex() => Random.Range(0, icons.Count);
+    public static int GetRandomFaceIndex() => Random.Range(0, faces.Count);
+    public static int GetRandomIconIndex() => Random.Range(0, icons.Count);
 
     public string GetRandomFullName() {
         string lastName = lastNames.RandomItem() + (Random.Range(0,10) == 9 ? $"-{lastNames.RandomItem()}" : "");

@@ -14,7 +14,8 @@ public class FpsProcGoal {
     public GameObject target;
     public string targetName;
     public bool completed;
-    public string ToStrPro() => $"{(completed ? $"<s>{ToStr()}</s>" : ToStr())}";
+    public int depth = 0;
+    public string ToStrPro() => $"{(depth > 0 ? new string(' ', depth) + "⮤ " : "")}{(completed ? $"<s>{ToStr()}</s>" : ToStr())}";
     public string ToStr() => $"{type} <u>{targetName}</u>.";
 }
 
@@ -22,7 +23,8 @@ public class FpsProcGameMgr : MonoBehaviour
 {
     [Header("UI Stuff")]
     [SerializeField] Button btnGoodbye;
-    [SerializeField] TMP_Text textAreaName, textTarget, textAreaMap, textConversation;
+    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation;
+    [SerializeField] ImageWipe bgConversation, bgGoodbye;
     [SerializeField] ButtonMenu notebookButtons;
     [SerializeField] VfxLerpInOut notebook;
 
@@ -34,7 +36,8 @@ public class FpsProcGameMgr : MonoBehaviour
     public FpsProcNpc targetNpc, npcWeAreTalkingWith;
     private MouseLook mouseLook;
     private PlayerMovement playerController;
-    private FpsProcRelationMgr relationsMgr;
+    private FpsProcNpcRelationMgr relationsMgr;
+    private FpsProcNpcAffiliationMgr affiliationsMgr;
 
 
     // var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -44,15 +47,16 @@ public class FpsProcGameMgr : MonoBehaviour
     {
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
-        relationsMgr = FindObjectOfType<FpsProcRelationMgr>();
+        relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
+        affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
         TogglePlayerControls(false);
         StartCoroutine(CrMission());
         ToggleConversation(false);
     }
 
     private void Update() {
-        if(Input.GetKeyDown(KeyCode.B)){
-            StartCoroutine(ShowBriefing());
+        if(Input.GetKeyDown(KeyCode.N)){
+            StartCoroutine(ShowNotepad());
         }
         if(Input.GetButton("Cancel") && !mouseLook.enabled){
             ToggleConversation(false);
@@ -77,15 +81,15 @@ public class FpsProcGameMgr : MonoBehaviour
         playerController.enabled = enable;
     }
 
-    private IEnumerator ShowBriefing(){
+    private IEnumerator ShowNotepad(){
         notebook.Toggle(true);
         yield return new WaitForSeconds(5f);
         notebook.Toggle(false); // TODO what if player starts a conversation before 5s pass?
     }    
 
-    public void EnterFloor(FpsProcBldgData area, int floorNum){
-        textAreaName.text = $"{area.name} F{floorNum}";
-        textAreaMap.text = area.TilemapToStr(floorNum);
+    public void EnterFloor(FpsProcBounds floor){
+        textAreaName.text = floor.ToStr();
+        textAreaMap.text = floor.bldg.data.TilemapToStr(floor.floorNum);
     }
     
     public void ExitFloor(){
@@ -101,15 +105,20 @@ public class FpsProcGameMgr : MonoBehaviour
         yield return new WaitForSeconds(1f);
         npcs = FindObjectsOfType<FpsProcBldg>().SelectMany(bldg => bldg.npcs).ToList();
         targetNpc = npcs.RandomItem();
-        FpsProcGoal goal = new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName};
-        goals.Add(goal);
-        UpdateNotepad();
         relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
+        affiliationsMgr.organizations = affiliationsMgr.GenerateOrganizations();
+        affiliationsMgr.organizations = affiliationsMgr.GenerateAffiliations(affiliationsMgr.organizations, npcs);
+        Debug.Log(affiliationsMgr.organizations.Count);
+        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
+        Debug.Log($"Organizations for targetNpc: {affiliationsMgr.GetOrganizations(targetNpc.data.fullName).Count}");
+        FpsProcOrganization targetOrg = affiliationsMgr.GetOrganizations(targetNpc.data.uuid).RandomItem();
+        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=targetOrg.name});
+        UpdateNotepad();
         TogglePlayerControls(true);
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){
-        Debug.Log($"You clicked on {clickedNpc.data.fullName}.");
+        Debug.Log($"You clicked on {clickedNpc.data.uuid}.");
         textConversation.text = greeting;
         ToggleConversation(true, clickedNpc);
     }
