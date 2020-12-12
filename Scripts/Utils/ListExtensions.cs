@@ -34,9 +34,11 @@ namespace ExtensionMethods
             => list[UnityEngine.Random.Range(0, list.Count)];
 
         // https://stackoverflow.com/a/222640
-        public static IList<T> Clone<T>(this IList<T> listToClone) where T: ICloneable
-        {
+        public static IList<T> Clone<T>(this IList<T> listToClone) where T: ICloneable{
             return listToClone.Select(item => (T)item.Clone()).ToList();
         }
+
+        /// <summary>Get element by index, or by the closest valid index.</summary>
+        public static T GetOrClamp<T>(this IList<T> list, int i) => list[i.Clamp(0, list.Count-1)];
     }
 }

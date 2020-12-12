@@ -21,7 +21,7 @@ public class FpsProcDatabase : MonoBehaviour {
     public TextAsset firstNamesJsonFile, lastNamesJsonFile, streetNamesJsonFile;
     public static List<string> firstNames, lastNames, streetNames;
 
-    private void Awake() {
+    public void Initialize() {
         icons = LoadImgsFromFolder(folder: "lorc");
         faces = LoadImgsFromFolder(folder: "faces");
         firstNames = JsonUtility.FromJson<DummyJsonArray>(firstNamesJsonFile.text).values;

@@ -21,7 +21,7 @@ public class PlayerMovementFootsteps : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        if(checkMove && playerMovement.IsWalking()){
+        if(checkMove && playerMovement.enabled && playerMovement.IsWalking()){
             StartCoroutine(PlayFootstep(playerMovement.MoveMagnitude()));
         }
     }

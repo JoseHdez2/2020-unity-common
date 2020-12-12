@@ -24,9 +24,11 @@ public class FpsProcGameMgr : MonoBehaviour
     [Header("UI Stuff")]
     [SerializeField] Button btnGoodbye;
     [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation;
-    [SerializeField] ImageWipe bgConversation, bgGoodbye;
+    [SerializeField] ImageWipe bgConversation;
     [SerializeField] ButtonMenu notebookButtons;
     [SerializeField] VfxLerpInOut notebook;
+    [SerializeField] AnimFade conversationCanvasGroup;
+
 
     [Header("Data Stuff")]
     [SerializeField] public FpsProcNpc pfNpc;
@@ -55,6 +57,7 @@ public class FpsProcGameMgr : MonoBehaviour
     [NonSerialized] public FpsProcNpc targetNpc, npcWeAreTalkingWith;
     private MouseLook mouseLook;
     private PlayerMovement playerController;
+    [NonSerialized] public FpsProcDatabase database;
     [NonSerialized] public FpsProcNpcRelationMgr relationsMgr;
     [NonSerialized] public FpsProcNpcAffiliationMgr affiliationsMgr;
 
@@ -66,6 +69,7 @@ public class FpsProcGameMgr : MonoBehaviour
     {
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
+        database = FindObjectOfType<FpsProcDatabase>();
         relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
         affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
         TogglePlayerControls(false);
@@ -85,10 +89,9 @@ public class FpsProcGameMgr : MonoBehaviour
     public void EndConversation() => ToggleConversation(false);
 
     private void ToggleConversation(bool enable, FpsProcNpc talkingWith = null){
-        UpdateNotepad();
-        textConversation.enabled = enable;
+        conversationCanvasGroup.Toggle(enable);
+        bgConversation.ToggleWipe(enable);
         notebook.Toggle(enable);
-        btnGoodbye.gameObject.SetActive(enable);
         textAreaMap.enabled = !enable;
         textAreaName.enabled = !enable;
         TogglePlayerControls(!enable);
@@ -121,29 +124,36 @@ public class FpsProcGameMgr : MonoBehaviour
     string[] intro3 = {"In the future", "life has no value.", "In a certain page, for the right price", "secret agents will kill for you.", "they are called", "THE BLADERUNNERS"};
 
     private void StartMission(){
-        InstantiateNpcs();
-        targetNpc = npcs.RandomItem();
-        relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
+        database.Initialize();
+        npcs = InstantiateNpcs();
+        npcsData = npcs.Select(n => n.data).ToList();
+        // relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
         affiliationsMgr.organizations = affiliationsMgr.GenerateOrganizations();
         affiliationsMgr.organizations = affiliationsMgr.GenerateAffiliations(affiliationsMgr.organizations, npcs);
+        string targetUuid = affiliationsMgr.organizations.RandomItem().members.Keys.ToList().RandomItem();
+        targetNpc = npcs.FirstOrDefault(n => n.data.uuid == targetUuid);
         goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
         FpsProcOrganization targetOrg = affiliationsMgr.GetOrganizations(targetNpc.data.uuid).RandomItem();
         goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=targetOrg.name});
         UpdateNotepad();
         TogglePlayerControls(true);
+        ToggleConversation(false);
     }
 
-    private void InstantiateNpcs(){
+    private List<FpsProcNpc> InstantiateNpcs(){
         var npcsParent = new GameObject("npcs");
         npcsParent.transform.parent = transform;
+        List<FpsProcNpc> newNpcs = new List<FpsProcNpc>();
         foreach(int i in Enumerable.Range(0, npcsAmount)){
             FpsProcNpc npc = Instantiate(pfNpc, new Vector3(), Quaternion.identity, npcsParent.transform);
-            npcsData.Add(npc.data);
-            npcs.Add(npc);
+            npc.data = new FpsProcNpcData(database);
+            newNpcs.Add(npc);
         }
+        return newNpcs;
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){
+        if(npcWeAreTalkingWith == clickedNpc) return;
         Debug.Log($"You clicked on {clickedNpc.data.uuid}.");
         textConversation.text = greeting;
         ToggleConversation(true, clickedNpc);
@@ -160,6 +170,27 @@ public class FpsProcGameMgr : MonoBehaviour
         } else {
             Say("Sorry, I don't know about that.");
         }
+    }
+
+    public void AskNpcName(){
+        Say($"My name is {npcWeAreTalkingWith.data.fullName}.");
+        npcWeAreTalkingWith.ToggleName(true);
+    }
+
+    public void AskNpcJob(){
+        List<FpsProcOrganization> orgs = affiliationsMgr.GetOrganizations(npcWeAreTalkingWith.data.uuid);
+        if(orgs.IsEmpty()){
+            Say($"I am currently unemployed.");
+        } else {
+            int rank = affiliationsMgr.GetAffiliationRank(npcWeAreTalkingWith.data.uuid, orgs[0].name);
+            string rankName = orgs[0].GetRankName(rank);
+            if(rank == 0){
+                Say($"I'm the {rankName} of the {orgs[0].name}.");
+            } else {
+                Say($"I'm {rankName.A_An()} {rankName} in the {orgs[0].name}.");
+            }
+        }
+        npcWeAreTalkingWith.ToggleJob(true);
     }
 
     private void UpdateNotepad(){

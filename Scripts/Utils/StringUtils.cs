@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 public enum ECase
 {
@@ -50,5 +51,8 @@ namespace ExtensionMethods
         public static string ReplaceAt(this string input, int index, string subStr){
             return input.Remove(index, subStr.Length).Insert(index, subStr);
         }
+
+        /// <summary>Return the correct indefinite article for the string.</summary>
+        public static string A_An(this string noun) => Regex.IsMatch(noun, "^([aeio]|un|ul)", RegexOptions.IgnoreCase) ? "an" : "a";
     }
 }

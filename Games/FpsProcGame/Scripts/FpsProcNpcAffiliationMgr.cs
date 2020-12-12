@@ -6,27 +6,33 @@ using UnityEngine;
 
 [System.Serializable]
 public class FpsProcOrganization {
-    public enum Type {School, University, Company, Association, Resistance, Government, Army, Family};
+    public enum Type {School, University, College, Company, Association, Family, Resistance, Government, Army, Church};
     public Type type;
     public string name;
     public int logoIndex;
     // each member uuid alongside their importance (0 is the most important).
     public SerializableDictionaryBase<string, int> members = new SerializableDictionaryBase<string, int>(); 
     public List<int> membersPerLevel;
-    public List<FpsProcBounds> areas;
+    public List<FpsProcBounds> areas = new List<FpsProcBounds>();
     // public SerializableDictionaryBase<string, string> roleNames;
     public static Type RandomType() => RandomUtils.RandomEnumValue<Type>();
     public int GetMembersAmount() => membersPerLevel.Count();
-}
-
-[System.Serializable]
-public class RangeInt{
-    public int min, max;
-
-    public RangeInt() {}
-    public RangeInt(int min, int max) { (this.min, this.max) = (min, max);}
-
-    public int RandomInt() => Random.Range(min, max);
+    public string GetRankName(int rank) => rankNames[type].GetOrClamp(rank);
+    public static Dictionary<Type, List<string>> rankNames = new Dictionary<Type, List<string>>()
+    {
+        {Type.School, new List<string>(){"Principal", "Teacher", "Student"}},
+        {Type.University, new List<string>(){"Chancellor", "Professor", "Associate Professor", "Doctorate Student", "Graduate Student", "Student"}},
+        {Type.College, new List<string>(){"Dean", "Professor", "Associate Professor", "Lecturer", "Graduate Student", "Student"}},
+        {Type.Government, new List<string>(){"President", "Minister", "Senator", "Ambassador", "Governor"}}, // TODO maybe not correct, w/e.
+        {Type.Company, new List<string>(){"CEO", "Director", "Manager", "Assistant Manager", "Employee"}},
+        {Type.Association, new List<string>(){"Boss", "Underboss", "Street boss", "Consigliere", "Capo", "Soldier"}},
+        {Type.Family, new List<string>(){"Boss", "Underboss", "Street boss", "Consigliere", "Capo", "Soldier"}},
+        {Type.Resistance, new List<string>(){"General", "Colonel", "Major", "Captain", "Lieutenant", "Private"}},
+        {Type.Army, new List<string>(){"General", "Colonel", "Major", "Captain", "Lieutenant", "Private"}},
+        // {Type.Navy, new List<string>(){"Admiral", "Colonel", "Major", "Captain", "Lieutenant", "Private"}},
+        // {Type.Family, new List<string>(){"Head", "Grandparent", "Parent", "Child"}},
+        {Type.Church, new List<string>(){"Pope", "Cardinal", "Archbishop", "Bishop", "Priest", "Deacon"}},
+    };
 }
 
 public class FpsProcNpcAffiliationMgr : MonoBehaviour {
@@ -58,9 +64,10 @@ public class FpsProcNpcAffiliationMgr : MonoBehaviour {
         foreach(FpsProcOrganization org in newOrganizations){
             for(int i = 0; i < org.membersPerLevel.Count; i++){
                 for (int j = 0; j < org.membersPerLevel[i]; j++){
-                    List<FpsProcNpc> npcsNotInOrg = npcs.Where(n => !org.members.ContainsKey(n.data.uuid)).ToList();
-                    if(npcsNotInOrg.IsEmpty()){ break; }
+                    List<FpsProcNpc> unemployedNpcs = npcs.Where(n => !newOrganizations.Any(o => o.members.ContainsKey(n.data.uuid))).ToList();
+                    if(unemployedNpcs.IsEmpty()){ break; }
                     FpsProcNpc randomNpc = npcs.Where(n => !org.members.ContainsKey(n.data.uuid)).ToList().RandomItem();
+                    // Debug.Log($"{randomNpc.data.uuid} is a {org.GetRankName(i)} from {org.name}.");
                     org.members[randomNpc.data.uuid] = i;
                 }
             }
@@ -68,7 +75,8 @@ public class FpsProcNpcAffiliationMgr : MonoBehaviour {
         return newOrganizations;
     }
 
-    public int GetAffiliation(string npcUuid, string orgName){
+    /// <summary>Will return rank if it exists, <b>null</b> if it doesn't.</summary>
+    public int GetAffiliationRank(string npcUuid, string orgName){
         return organizations.FirstOrDefault(o => o.name == orgName).members[npcUuid];
     }
 
