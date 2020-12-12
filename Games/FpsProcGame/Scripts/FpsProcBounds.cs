@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExtensionMethods;
 using UnityEngine;
 
 public class FpsProcBounds : MonoBehaviour
@@ -27,4 +28,10 @@ public class FpsProcBounds : MonoBehaviour
     private void OnTriggerExit(Collider other) {
         FindObjectOfType<FpsProcGameMgr>().ExitFloor();
     }
+
+    public Vector3 RandomNpcSpawnPos(){
+        Bounds floorBounds = bldg.data.GetFloorBounds(floorNum);
+        float floorY = (floorBounds.min.y + floorBounds.max.y) / 2;
+        return floorBounds.RandomPos().WithY(floorY - 0.25f);
+    }      
 }

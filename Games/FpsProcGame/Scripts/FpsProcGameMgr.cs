@@ -31,13 +31,32 @@ public class FpsProcGameMgr : MonoBehaviour
     [Header("Data Stuff")]
     [SerializeField] public FpsProcNpc pfNpc;
     public List<FpsProcNpc> npcs = new List<FpsProcNpc>();
+    
+    public List<FpsProcNpcData> npcsData;
+    [SerializeField] int npcsAmount;
+
+    internal void RepositionNpcs()
+    {
+        foreach(FpsProcNpc npc in npcs){
+            List<FpsProcOrganization> orgs = affiliationsMgr.GetOrganizations(npc.data.uuid);
+            FpsProcBounds fpsProcBounds;
+            if(orgs.IsEmpty()) {
+                Debug.LogError("Npc has no organization!");
+                fpsProcBounds = affiliationsMgr.organizations.RandomItem().areas.RandomItem();
+            } else {
+                fpsProcBounds = orgs.RandomItem().areas.RandomItem();
+            }
+            npc.transform.position = fpsProcBounds.RandomNpcSpawnPos();
+        }
+    }
+
     List<FpsProcNpc> items = new List<FpsProcNpc>();
     List<FpsProcGoal> goals = new List<FpsProcGoal>();
-    public FpsProcNpc targetNpc, npcWeAreTalkingWith;
+    [NonSerialized] public FpsProcNpc targetNpc, npcWeAreTalkingWith;
     private MouseLook mouseLook;
     private PlayerMovement playerController;
-    private FpsProcNpcRelationMgr relationsMgr;
-    private FpsProcNpcAffiliationMgr affiliationsMgr;
+    [NonSerialized] public FpsProcNpcRelationMgr relationsMgr;
+    [NonSerialized] public FpsProcNpcAffiliationMgr affiliationsMgr;
 
 
     // var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -50,7 +69,7 @@ public class FpsProcGameMgr : MonoBehaviour
         relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
         affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
         TogglePlayerControls(false);
-        StartCoroutine(CrMission());
+        StartMission();
         ToggleConversation(false);
     }
 
@@ -101,20 +120,27 @@ public class FpsProcGameMgr : MonoBehaviour
     string[] intro2 = {"In the future", "corporations have taken over.", "A.I. reigns supreme", "and secret agents do its bidding.", "they are called", "THE BLADERUNNERS"};
     string[] intro3 = {"In the future", "life has no value.", "In a certain page, for the right price", "secret agents will kill for you.", "they are called", "THE BLADERUNNERS"};
 
-    private IEnumerator CrMission(){
-        yield return new WaitForSeconds(1f);
-        npcs = FindObjectsOfType<FpsProcBldg>().SelectMany(bldg => bldg.npcs).ToList();
+    private void StartMission(){
+        InstantiateNpcs();
         targetNpc = npcs.RandomItem();
         relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
         affiliationsMgr.organizations = affiliationsMgr.GenerateOrganizations();
         affiliationsMgr.organizations = affiliationsMgr.GenerateAffiliations(affiliationsMgr.organizations, npcs);
-        Debug.Log(affiliationsMgr.organizations.Count);
         goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
-        Debug.Log($"Organizations for targetNpc: {affiliationsMgr.GetOrganizations(targetNpc.data.fullName).Count}");
         FpsProcOrganization targetOrg = affiliationsMgr.GetOrganizations(targetNpc.data.uuid).RandomItem();
         goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=targetOrg.name});
         UpdateNotepad();
         TogglePlayerControls(true);
+    }
+
+    private void InstantiateNpcs(){
+        var npcsParent = new GameObject("npcs");
+        npcsParent.transform.parent = transform;
+        foreach(int i in Enumerable.Range(0, npcsAmount)){
+            FpsProcNpc npc = Instantiate(pfNpc, new Vector3(), Quaternion.identity, npcsParent.transform);
+            npcsData.Add(npc.data);
+            npcs.Add(npc);
+        }
     }
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){

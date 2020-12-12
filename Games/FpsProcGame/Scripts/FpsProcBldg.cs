@@ -9,9 +9,11 @@ public class FpsProcBldgData {
     public Vector3 origin;
     public Vector3 cellScale = Vector3.one; // area instantiation input.
     public Vector3Int gridSize;
-    public int npcsPerFloor;
     public string name = "";
     public List<List<string>> tilemap; // generation output. (instantiation input).
+    public List<string> orgUuids;
+
+    public int GetNumOfFloors() => gridSize.z;
 
     public Vector3 GetOrigin() => origin - cellScale / 2; // TODO fix this misalignment.
 
@@ -32,8 +34,6 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     
     private FpsProcDatabase db;
-    public List<FpsProcNpcData> npcsData;
-    public List<FpsProcNpc> npcs;
 
     public FpsProcBounds pfBounds;
 
@@ -44,6 +44,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public void Generate(){
         data.tilemap = GenerateTilemap(data);
         data.name = GenerateName(data);
+        FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
+        data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();
     }
     
     ///<summary>
@@ -61,12 +63,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
         transform.position = data.origin;
         IDictionary<char, ProcFpsPrefab> prefabs = FindObjectOfType<ProcFpsConstructor>().prefabs;
 
-        var npcsParent = new GameObject("npcs");
-        npcsParent.transform.parent = transform;
-        npcs = new List<FpsProcNpc>();
-        npcsData = new List<FpsProcNpcData>();
 
-        for(int z = 0; z < data.gridSize.z; z++){ // floors
+        for(int z = 0; z < data.GetNumOfFloors(); z++){ // floors
             GameObject floor = new GameObject(name: $"Floor {z}");
             floor.transform.parent = transform;
 
@@ -88,13 +86,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
                 }
             }
             
-            Bounds floorBounds = data.GetFloorBounds(z);
-            float floorY = (floorBounds.min.y + floorBounds.max.y) / 2;
-            foreach(int i in Enumerable.Range(0, data.npcsPerFloor)){
-                FpsProcNpc npc = Instantiate(pfNpc, floorBounds.RandomPos().WithY(floorY - 0.25f), Quaternion.identity, npcsParent.transform);
-                npcsData.Add(npc.data);
-                npcs.Add(npc);
-            }
+            FpsProcOrganization randomOrg = FindObjectOfType<FpsProcGameMgr>().affiliationsMgr.organizations.RandomItem();
+            randomOrg.areas.Add(bounds);
         }
     }
 

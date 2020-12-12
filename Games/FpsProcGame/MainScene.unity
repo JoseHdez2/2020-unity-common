@@ -5011,8 +5011,8 @@ MonoBehaviour:
   notebook: {fileID: 1048693869}
   pfNpc: {fileID: 7165591943753391322, guid: c77366683e18ba54b91403c3186721f7, type: 3}
   npcs: []
-  targetNpc: {fileID: 0}
-  npcWeAreTalkingWith: {fileID: 0}
+  npcsData: []
+  npcsAmount: 100
 --- !u!4 &232178357
 Transform:
   m_ObjectHideFlags: 0

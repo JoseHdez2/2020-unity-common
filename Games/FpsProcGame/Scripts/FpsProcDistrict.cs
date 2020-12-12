@@ -30,6 +30,7 @@ public class FpsProcDistrict : MonoBehaviour {
                 }
             }
         }
+        FindObjectOfType<FpsProcGameMgr>().RepositionNpcs();
     }
 
     private void GenerateAndInstantiate(FpsProcBldg building){

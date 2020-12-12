@@ -58,8 +58,9 @@ public class FpsProcNpcAffiliationMgr : MonoBehaviour {
         foreach(FpsProcOrganization org in newOrganizations){
             for(int i = 0; i < org.membersPerLevel.Count; i++){
                 for (int j = 0; j < org.membersPerLevel[i]; j++){
+                    List<FpsProcNpc> npcsNotInOrg = npcs.Where(n => !org.members.ContainsKey(n.data.uuid)).ToList();
+                    if(npcsNotInOrg.IsEmpty()){ break; }
                     FpsProcNpc randomNpc = npcs.Where(n => !org.members.ContainsKey(n.data.uuid)).ToList().RandomItem();
-                    Debug.Log("tanooki");
                     org.members[randomNpc.data.uuid] = i;
                 }
             }

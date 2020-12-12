@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class FpsProcBldgOffice : FpsProcBldg {
 
+    // bldgs > npcs > organizations
+    // npcs > organizations > bldgs
     public override string GenerateName(FpsProcBldgData input) => $"{FpsProcDatabase.streetNames.RandomItem()} Building";
 
     public override List<List<string>> GenerateTilemap(FpsProcBldgData input){
