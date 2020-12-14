@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3453521826699677932}
   - component: {fileID: 3453521826699677935}
+  - component: {fileID: -1219370854391345673}
   m_Layer: 0
   m_Name: procFpsBldgOffice
   m_TagString: Untagged
@@ -47,8 +48,21 @@ MonoBehaviour:
     origin: {x: 10, y: 0, z: 10}
     cellScale: {x: 4, y: 2.25, z: 4}
     gridSize: {x: 5, y: 5, z: 4}
-    npcsPerFloor: 2
     name: 
-  npcsData: []
-  npcs: []
+    orgUuids: []
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
+--- !u!114 &-1219370854391345673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453521826699677933}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8a7b200ad9bb64495e93b56f238c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistance: 5
+  refreshRate: 0.5
+  enrollRate: 5

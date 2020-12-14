@@ -11,10 +11,6 @@ public class FpsProcDistrict : MonoBehaviour {
     public SerializableDictionaryBase<char, FpsProcBldg> prefabs;
     [SerializeField] private Vector3Int cellScale;
 
-    public void Start(){
-        GenerateAndInstantiateBuildings();
-    }
-
     public void GenerateAndInstantiateBuildings(){
         string[] rows = tilemap.Split('\n');
         for(int y = 0; y < rows.Length; y++){

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class FpsProcGoal {
-    public enum Type {Interrogate, Contact, Extract, Neutralize, Investigate}
+    public enum Type {Interrogate, Contact, Extract, Kill, Investigate}
     public Type type;
     public GameObject target;
     public string targetName;
@@ -46,6 +46,7 @@ public class FpsProcGameMgr : MonoBehaviour
                 Debug.LogError("Npc has no organization!");
                 fpsProcBounds = affiliationsMgr.organizations.RandomItem().areas.RandomItem();
             } else {
+                Debug.Log(orgs.Count);
                 fpsProcBounds = orgs.RandomItem().areas.RandomItem();
             }
             npc.transform.position = fpsProcBounds.RandomNpcSpawnPos();
@@ -73,7 +74,10 @@ public class FpsProcGameMgr : MonoBehaviour
         relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
         affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
         TogglePlayerControls(false);
+        database.Initialize();
         StartMission();
+        FindObjectsOfType<FpsProcDistrict>().ToList().ForEach(d => d.GenerateAndInstantiateBuildings());
+        TogglePlayerControls(true);
         ToggleConversation(false);
     }
 
@@ -124,7 +128,6 @@ public class FpsProcGameMgr : MonoBehaviour
     string[] intro3 = {"In the future", "life has no value.", "In a certain page, for the right price", "secret agents will kill for you.", "they are called", "THE BLADERUNNERS"};
 
     private void StartMission(){
-        database.Initialize();
         npcs = InstantiateNpcs();
         npcsData = npcs.Select(n => n.data).ToList();
         // relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
@@ -132,12 +135,10 @@ public class FpsProcGameMgr : MonoBehaviour
         affiliationsMgr.organizations = affiliationsMgr.GenerateAffiliations(affiliationsMgr.organizations, npcs);
         string targetUuid = affiliationsMgr.organizations.RandomItem().members.Keys.ToList().RandomItem();
         targetNpc = npcs.FirstOrDefault(n => n.data.uuid == targetUuid);
-        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Neutralize, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
+        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Kill, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
         FpsProcOrganization targetOrg = affiliationsMgr.GetOrganizations(targetNpc.data.uuid).RandomItem();
         goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=targetOrg.name});
         UpdateNotepad();
-        TogglePlayerControls(true);
-        ToggleConversation(false);
     }
 
     private List<FpsProcNpc> InstantiateNpcs(){

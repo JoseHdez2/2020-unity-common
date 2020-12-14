@@ -72,7 +72,6 @@ public abstract class FpsProcBldg : MonoBehaviour {
             bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(1, 0.2f, 1));
             bounds.bldg = this;
             bounds.floorNum = z;
-            
 
             for(int y = 0; y < data.gridSize.y; y++){
                 for(int x = 0; x < data.gridSize.x; x++){
@@ -86,6 +85,9 @@ public abstract class FpsProcBldg : MonoBehaviour {
                 }
             }
             
+            if(z == data.GetNumOfFloors() - 1){
+                break; // don't create a Bounds for the last floors, since they're inaccessible atm.
+            }
             FpsProcOrganization randomOrg = FindObjectOfType<FpsProcGameMgr>().affiliationsMgr.organizations.RandomItem();
             randomOrg.areas.Add(bounds);
         }
