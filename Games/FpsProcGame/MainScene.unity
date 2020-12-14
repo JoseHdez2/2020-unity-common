@@ -20024,6 +20024,14 @@ PrefabInstance:
       propertyPath: mouseSensitivity
       value: 400
       objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350602, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: mouseSensitivity.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350602, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: mouseSensitivity.x
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8680559614998529645, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
       propertyPath: footstepFreq
       value: 0.5
