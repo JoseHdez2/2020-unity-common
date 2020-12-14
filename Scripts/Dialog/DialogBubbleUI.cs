@@ -43,10 +43,10 @@ public class DialogBubbleUI : MonoBehaviour
         charIndex = 0;
         tmpText.text = "";
         if (wipeOnNewText) {
-            imageWipe.ToggleWipeFast(false);
+            imageWipe.ToggleFast(false);
             yield return new WaitUntil(() => imageWipe.IsDone());
         }
-        imageWipe.ToggleWipe(true);
+        imageWipe.Toggle(true);
 
         if (audioSource) { audioSource.SetPitch(config.pitch); }
         if (promptImage) { promptImage.enabled = false; }
@@ -61,7 +61,7 @@ public class DialogBubbleUI : MonoBehaviour
             audioSource.PlaySound(EDialogSound.WindowHide);
             tmpText.text = "";
         }
-        if (imageWipe) { imageWipe.ToggleWipe(show); }
+        if (imageWipe) { imageWipe.Toggle(show); }
     }
 
     public bool IsWipeDone() => imageWipe.IsDone();

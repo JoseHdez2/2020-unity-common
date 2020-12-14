@@ -2,7 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ImageWipe : MonoBehaviour
+public interface IToggleable {
+    void Toggle(bool enable);
+    bool IsDone();
+}
+
+public class ImageWipe : MonoBehaviour, IToggleable
 {
     [SerializeField]
     [Range(0.1f, 3f)]
@@ -31,16 +36,15 @@ public class ImageWipe : MonoBehaviour
     private void Start(){
         if(wipeMode == WipeMode.Empty) {
             image.fillAmount = 0;
-            ToggleWipe(false);
+            Toggle(false);
         }
         else if (wipeMode == WipeMode.Filled) {
             image.fillAmount = 1;
-            ToggleWipe(true);
+            Toggle(true);
         }
     }
 
-    // TODO rename this method. "toggle" shouldn't take a bool, and "wipe" is ambiguous.
-    public void ToggleWipe(bool fillScreen){
+    public void Toggle(bool fillScreen){
         if(image != null){
             image.raycastTarget = true;
         }
@@ -48,7 +52,7 @@ public class ImageWipe : MonoBehaviour
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
     }
 
-    public void ToggleWipeFast(bool fillScreen){
+    public void ToggleFast(bool fillScreen){
         image.raycastTarget = true;
         isWipingFast = true;
         wipeMode = fillScreen ? WipeMode.WipingToFilled : WipeMode.WipingToEmpty;
@@ -90,8 +94,8 @@ public class ImageWipe : MonoBehaviour
     }
 
     [ContextMenu("Block")]
-    private void Block() { ToggleWipe(true); }
+    private void Block() { Toggle(true); }
     [ContextMenu("Clear")]
-    private void Clear() { ToggleWipe(false); }
+    private void Clear() { Toggle(false); }
 
 }

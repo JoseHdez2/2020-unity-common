@@ -23,7 +23,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
         textPlayerHP = FindObjectOfType<ReDungHealthText>().GetComponent<TMP_Text>();
         dialogManager = FindObjectOfType<DialogueManager>();
         screenWipe = GameObject.FindGameObjectWithTag("ScreenWipe").GetComponent<ImageWipe>();
-        screenWipe.ToggleWipe(false);
+        screenWipe.Toggle(false);
     }
 
     public static void RestoreHealth(){
@@ -76,7 +76,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
         controls.Disable();
         yield return new WaitForSeconds(2f);
         PlaySound(EReDungPlayerSound.TIMEWARP1);
-        screenWipe.ToggleWipe(true);
+        screenWipe.Toggle(true);
         yield return new WaitUntil(() => screenWipe.IsDone());
 
         // dialogManager.WriteOneShot("You fainted!");
@@ -85,7 +85,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
         levelInterpreter.InitLevel();
 
         PlaySound(EReDungPlayerSound.TIMEWARP2);
-        FindObjectOfType<ImageWipe>().ToggleWipe(false);
+        FindObjectOfType<ImageWipe>().Toggle(false);
         yield return new WaitUntil(() => screenWipe.IsDone());
         GetComponentInChildren<Collider>().enabled = true;
         // controls.Enable();

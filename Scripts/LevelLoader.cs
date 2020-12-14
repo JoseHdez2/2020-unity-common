@@ -12,20 +12,21 @@ public class LevelLoader : MonoBehaviour
     public Animator transition;
     public float transitionTime = 1f;
 
-    private ImageWipe screenWipe;
+    private IToggleable screenWipe;
     public List<GameObject> disableDuringLoad;
     InputMaster controls;
 
     private void Awake()
     {
-        screenWipe = GameObject.FindGameObjectWithTag("ScreenWipe").GetComponent<ImageWipe>();
+        screenWipe = GameObject.Find("ScreenWipe").GetComponent<IToggleable>();
+        Debug.Log(screenWipe);
         controls = InputMasterSingleton.Get();
     }
 
     private void Start()
     {
-        if (screenWipe) {
-            screenWipe.ToggleWipe(false);
+        if (screenWipe != null) {
+            screenWipe.Toggle(false);
         }
         disableDuringLoad.ForEach(obj => obj.SetActive(true));
         controls.Enable();
@@ -55,8 +56,8 @@ public class LevelLoader : MonoBehaviour
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             // yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).IsName("Start"));
-        } else if (screenWipe) {
-            screenWipe.ToggleWipe(true);
+        } else if (screenWipe != null) {
+            screenWipe.Toggle(true);
             yield return new WaitUntil(() => screenWipe.IsDone());
         }
         SceneManager.LoadScene(levelIndex);

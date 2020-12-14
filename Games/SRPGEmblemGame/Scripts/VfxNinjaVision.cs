@@ -23,16 +23,16 @@ public class VfxNinjaVision : MonoBehaviour {
         if(obj){
             obj.destinationPos = stageCenter.transform.position;
         }
-        ninjaVisionTop.ToggleWipe(true);
-        ninjaVisionBottom.ToggleWipe(true);
+        ninjaVisionTop.Toggle(true);
+        ninjaVisionBottom.Toggle(true);
     }
 
     public void Deactivate(){
         if(obj){
             obj.destinationPos = leftToRight ? stageRight.transform.position : stageLeft.transform.position;
         }
-        ninjaVisionTop.ToggleWipe(false);
-        ninjaVisionBottom.ToggleWipe(false);
+        ninjaVisionTop.Toggle(false);
+        ninjaVisionBottom.Toggle(false);
     }
     
 }

@@ -10,6 +10,7 @@ public class FpsProcBounds : MonoBehaviour
     public FpsProcBldg bldg;
     BoxCollider boxColl;
     public int floorNum;
+    public List<FpsProcNpc> npcs = new List<FpsProcNpc>();
 
     private void Awake() {
         boxColl = GetComponent<BoxCollider>();
@@ -27,6 +28,11 @@ public class FpsProcBounds : MonoBehaviour
 
     private void OnTriggerExit(Collider other) {
         FindObjectOfType<FpsProcGameMgr>().ExitFloor();
+    }
+
+    public void SetNpcToBounds(FpsProcNpc npc){
+        npc.transform.position = RandomNpcSpawnPos();
+        npcs.Add(npc);
     }
 
     public Vector3 RandomNpcSpawnPos(){

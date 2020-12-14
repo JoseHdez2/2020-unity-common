@@ -13,7 +13,7 @@ public class HarvestGameController : MonoBehaviour
     [SerializeField] private RepeatingTimer timer = new RepeatingTimer(1f);
 
     private void Start() {
-        imageWipe.ToggleWipe(fillScreen: false);
+        imageWipe.Toggle(fillScreen: false);
         UpdateTextClock(date);
     }
 
@@ -29,10 +29,10 @@ public class HarvestGameController : MonoBehaviour
     }
 
     private IEnumerator CrChangeDay(){
-        imageWipe.ToggleWipe(fillScreen: true);
+        imageWipe.Toggle(fillScreen: true);
         yield return new WaitUntil(() => imageWipe.IsDone());
         DateToNextDay();
-        imageWipe.ToggleWipe(fillScreen: false);
+        imageWipe.Toggle(fillScreen: false);
     }
 
     private void DateToNextDay() {

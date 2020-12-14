@@ -54,5 +54,20 @@ namespace ExtensionMethods
 
         /// <summary>Return the correct indefinite article for the string.</summary>
         public static string A_An(this string noun) => Regex.IsMatch(noun, "^([aeio]|un|ul)", RegexOptions.IgnoreCase) ? "an" : "a";
+        
+        // https://stackoverflow.com/a/20166/
+        public static string Ord(this int number)
+        {
+            var str = number.ToString();
+            if ((number % 100) == 11 || (number % 100) == 12 || (number % 100) == 13)
+                return str + "th";
+            switch (number % 10)
+            {
+                case 1: return str + "st";
+                case 2: return str + "nd";
+                case 3: return str + "rd";
+                default: return str + "th";
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 
 [System.Serializable]
-public class VfxLerpInOut : MonoBehaviour {
+public class VfxLerpInOut : MonoBehaviour, IToggleable {
     [SerializeField] LerpMovement obj;
     [SerializeField] GameObject stageIn, stageOut;
 
@@ -30,4 +30,6 @@ public class VfxLerpInOut : MonoBehaviour {
         }
     }
     
+    public bool IsDone() => obj.destinationPos.HasValue;
+
 }

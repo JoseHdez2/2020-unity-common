@@ -7,6 +7,9 @@ public abstract class AbsTimer {
     public float periodInSecs;
     protected float secondsLeft = 0f;
 
+    public float SecsLeft{ get => secondsLeft; }
+    public string ToMMSS() => $"{Math.Floor(SecsLeft / 60)}m{Math.Floor(SecsLeft % 60)}s";
+
     public AbsTimer(float periodInSecs){
         this.periodInSecs = periodInSecs;
         Reset();

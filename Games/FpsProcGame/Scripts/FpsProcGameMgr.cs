@@ -16,6 +16,7 @@ public class FpsProcGoal {
     public bool completed;
     public int depth = 0;
     public string ToStrPro() => $"{(depth > 0 ? new string(' ', depth) + "⮤ " : "")}{(completed ? $"<s>{ToStr()}</s>" : ToStr())}";
+    public string ToStrPro2() => $"{(depth > 0 ? new string(' ', depth) + " " : "")}{(completed ? $"<s>{targetName}</s>" : targetName)}"; // QnD
     public string ToStr() => $"{type} <u>{targetName}</u>.";
 }
 
@@ -23,11 +24,14 @@ public class FpsProcGameMgr : MonoBehaviour
 {
     [Header("UI Stuff")]
     [SerializeField] Button btnGoodbye;
-    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation;
+    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation, textTimer;
+    [SerializeField] AudioSource playerAudioSource, creditsMusic;
+    [SerializeField] AudioClip soundCock, soundShot, soundWrite;
     [SerializeField] ImageWipe bgConversation;
     [SerializeField] ButtonMenu notebookButtons;
-    [SerializeField] VfxLerpInOut notebook;
-    [SerializeField] AnimFade conversationCanvasGroup;
+    [SerializeField] VfxLerpInOut notebook, gun, titleLerp;
+    [SerializeField] AnimFade conversationCanvasGroup, screenWipe, creditsFade;
+    [SerializeField] CanvasGroup screenWipe2, titleCanvasGroup;
 
 
     [Header("Data Stuff")]
@@ -36,20 +40,28 @@ public class FpsProcGameMgr : MonoBehaviour
     
     public List<FpsProcNpcData> npcsData;
     [SerializeField] int npcsAmount;
+    private OneTimeTimer missionTimer;
+    [SerializeField] private int missionSecs;
+    [Range(5,95)]
+    [SerializeField] private int chanceNpcHasClue;
 
-    internal void RepositionNpcs()
-    {
+    public void RepositionNpcs() {
         foreach(FpsProcNpc npc in npcs){
             List<FpsProcOrganization> orgs = affiliationsMgr.GetOrganizations(npc.data.uuid);
             FpsProcBounds fpsProcBounds;
             if(orgs.IsEmpty()) {
                 Debug.LogError("Npc has no organization!");
-                fpsProcBounds = affiliationsMgr.organizations.RandomItem().areas.RandomItem();
+                fpsProcBounds = FindObjectsOfType<FpsProcBounds>().ToList().RandomItem();
             } else {
-                Debug.Log(orgs.Count);
-                fpsProcBounds = orgs.RandomItem().areas.RandomItem();
+                Debug.Log($"# of orgs (should be 1): {orgs.Count}");
+                FpsProcOrganization org2 = orgs.FirstOrDefault(org => !org.areas.IsEmpty());
+                if(org2 != null){
+                    fpsProcBounds = org2.areas.RandomItem();
+                } else {
+                    fpsProcBounds = FindObjectsOfType<FpsProcBounds>().ToList().RandomItem();
+                }
             }
-            npc.transform.position = fpsProcBounds.RandomNpcSpawnPos();
+            fpsProcBounds.SetNpcToBounds(npc);
         }
     }
 
@@ -68,6 +80,7 @@ public class FpsProcGameMgr : MonoBehaviour
 
     void Start()
     {
+        titleLerp.Toggle(true);
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
         database = FindObjectOfType<FpsProcDatabase>();
@@ -76,9 +89,11 @@ public class FpsProcGameMgr : MonoBehaviour
         TogglePlayerControls(false);
         database.Initialize();
         StartMission();
+        missionTimer = new OneTimeTimer(missionSecs);
         FindObjectsOfType<FpsProcDistrict>().ToList().ForEach(d => d.GenerateAndInstantiateBuildings());
         TogglePlayerControls(true);
         ToggleConversation(false);
+        AddToNotepad(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName="Terminate target.", depth=0});
     }
 
     private void Update() {
@@ -88,13 +103,17 @@ public class FpsProcGameMgr : MonoBehaviour
         if(Input.GetButton("Cancel") && !mouseLook.enabled){
             ToggleConversation(false);
         }
+        if(missionTimer.UpdateAndCheck(Time.deltaTime)){
+            GameOver();
+        }
+        textTimer.text = $"Time left: {missionTimer.ToMMSS()}";
     }
 
     public void EndConversation() => ToggleConversation(false);
 
     private void ToggleConversation(bool enable, FpsProcNpc talkingWith = null){
         conversationCanvasGroup.Toggle(enable);
-        bgConversation.ToggleWipe(enable);
+        bgConversation.Toggle(enable);
         notebook.Toggle(enable);
         textAreaMap.enabled = !enable;
         textAreaName.enabled = !enable;
@@ -133,12 +152,8 @@ public class FpsProcGameMgr : MonoBehaviour
         // relationsMgr.relations = relationsMgr.GenerateRelationships(npcs, finalNpc: targetNpc);
         affiliationsMgr.organizations = affiliationsMgr.GenerateOrganizations();
         affiliationsMgr.organizations = affiliationsMgr.GenerateAffiliations(affiliationsMgr.organizations, npcs);
-        string targetUuid = affiliationsMgr.organizations.RandomItem().members.Keys.ToList().RandomItem();
+        string targetUuid = affiliationsMgr.organizations.RandomItem().GetMembers().RandomItem();
         targetNpc = npcs.FirstOrDefault(n => n.data.uuid == targetUuid);
-        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Kill, target=targetNpc.gameObject, targetName=targetNpc.data.fullName});
-        FpsProcOrganization targetOrg = affiliationsMgr.GetOrganizations(targetNpc.data.uuid).RandomItem();
-        goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=targetOrg.name});
-        UpdateNotepad();
     }
 
     private List<FpsProcNpc> InstantiateNpcs(){
@@ -160,17 +175,36 @@ public class FpsProcGameMgr : MonoBehaviour
         ToggleConversation(true, clickedNpc);
     }
 
-    public void InterrogateNpc(FpsProcNpc npc, FpsProcGoal subject){
-        FpsProcRelationship relationship = relationsMgr.GetRelationship(npc.data.fullName, subject.targetName);
-        if(relationship != null){
-            FpsProcNpc targetNpc = npcs.FirstOrDefault(n => n == subject.target);
-            string place = "{targetNpc.data.bldgName}, {targetNpc.data.bldgFloor}";
-            Say($"Oh, I know {subject.targetName}. They're a(n) {relationship.type}. They're in {place}.");
-            goals.Add(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=place});
-            UpdateNotepad();
+    private enum ClueType {Name, Surname, Job, Org, Bldg, Floor};
+    private List<string> dontKnow = new List<string>(){"Sorry, I don't know.", "I don't know about that.", "I don't know what you're talking about, sorry."};
+    public void InterrogateNpc(){
+        System.Random rand = new System.Random((npcWeAreTalkingWith.data.uuid + goals[0].targetName).GetHashCode()); // always same response for same npc + topic.
+        if(rand.Next(0, 100) < chanceNpcHasClue){
+            ClueType clueType = RandomUtils.RandomEnumValue<ClueType>(rand);
+            AddClue(clueType, rand);
         } else {
-            Say("Sorry, I don't know about that.");
+            Say(dontKnow.RandomItem(rand));
         }
+    }
+
+    private List<string> iKnow = new List<string>(){"Oh, I can help you.", "That person?", "I think I know...", "If you mean them..."};
+
+    private void AddClue(ClueType clueType, System.Random rand)
+    {
+        string hint = "";
+        FpsProcOrganization org = affiliationsMgr.GetOrganizations(targetNpc.data.uuid)[0];
+        string rankName = org.GetRankNameForMember(targetNpc.data.uuid);
+        FpsProcBounds bounds = FindObjectsOfType<FpsProcBounds>().First(b => b.npcs.Contains(targetNpc));
+        switch(clueType){
+            case ClueType.Name: hint = $"Their name is {targetNpc.data.fullName.Split(' ')[0]}."; break;
+            case ClueType.Surname: hint = $"Their last name is {targetNpc.data.fullName.Split(' ')[1]}."; break;
+            case ClueType.Job: hint = $"They're {rankName.A_An()} {rankName}."; break;
+            case ClueType.Org: hint = $"They're in the {org.name}."; break;
+            case ClueType.Bldg: hint = $"They're in the {bounds.bldg.data.name}."; break;
+            case ClueType.Floor: hint = $"They're in the {bounds.floorNum.Ord()} floor of a building."; break;
+        };
+        Say($"{iKnow.RandomItem(rand)} {hint}");
+        AddToNotepad(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName=hint, depth=1});
     }
 
     public void AskNpcName(){
@@ -183,7 +217,7 @@ public class FpsProcGameMgr : MonoBehaviour
         if(orgs.IsEmpty()){
             Say($"I am currently unemployed.");
         } else {
-            int rank = affiliationsMgr.GetAffiliationRank(npcWeAreTalkingWith.data.uuid, orgs[0].name);
+            int rank = orgs[0].GetRank(npcWeAreTalkingWith.data.uuid);
             string rankName = orgs[0].GetRankName(rank);
             if(rank == 0){
                 Say($"I'm the {rankName} of the {orgs[0].name}.");
@@ -194,13 +228,63 @@ public class FpsProcGameMgr : MonoBehaviour
         npcWeAreTalkingWith.ToggleJob(true);
     }
 
-    private void UpdateNotepad(){
-        notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro(), interactable=!g.completed, action = new UnityEvent()}).ToList();
+    private void AddToNotepad(FpsProcGoal goal){
+        // UnityEvent unityEvent = new UnityEvent();
+        // unityEvent.AddListener(InterrogateNpc);
+        // notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro(), interactable=!g.completed, action = unityEvent}).ToList();
+        if(goals.Any(g => g.targetName == goal.targetName)) return; // QnD solution to prevent writing the same hint twice.
+        goals.Add(goal);
+        notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro2(), interactable=false, action= new UnityEvent()}).ToList();
         notebookButtons.RefreshButtons();
         // TODO play writing on paper sound.
     }
 
     private void Say(string str){
         textConversation.text = str;
+    }
+
+    public void KillNpc(){
+        StartCoroutine(CrKillNpc());
+    }
+
+    public IEnumerator CrKillNpc(){
+        bool won = targetNpc == npcWeAreTalkingWith;
+        EndGame();
+        gun.Toggle(true); // pull up gun model
+        playerAudioSource.clip = soundCock; // make cocking sound
+        playerAudioSource.Play();
+        // screenWipe.Toggle(true); // fade to black
+        yield return new WaitForSeconds(2f);
+        screenWipe2.alpha = 1f;
+        playerAudioSource.clip = soundShot;
+        playerAudioSource.Play();// gunshot sound
+        yield return new WaitForSeconds(2f); // oblivion
+        if(won){
+            titleCanvasGroup.alpha = 1f; // show the title!
+            creditsMusic.Play();
+        }
+        yield return new WaitForSeconds(3f); // credits start appearing
+        titleLerp.Toggle(false);
+        creditsFade.Toggle(true); // roll credits
+    }
+    private void GameOver()
+    {
+        TogglePlayerControls(false);
+        EndGame();
+        screenWipe.Toggle(true);
+        creditsFade.Toggle(true); // roll credits
+        // slow fade-to-black of shame.
+        // show credits.
+    }
+
+    private void EndGame() {
+        textTimer.text = "";
+        screenWipe2.blocksRaycasts = true;
+        screenWipe2.interactable = true;
+        ToggleConversation(false);
+        TogglePlayerControls(false);
+        notebook.Toggle(false); // drop notepad
+        missionTimer.Reset();
+        FindObjectOfType<SelectionManager>().enabled = false;
     }
 }

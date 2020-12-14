@@ -10,7 +10,7 @@ public class SrpgMenuAttackType : SrpgMenuBase {
     [SerializeField] private Button pfButton;
 
     public void Open(SrpgUnit attackingUnit, SrpgUnit targetedUnit){
-        buttonContainer.ToggleWipe(true);
+        buttonContainer.Toggle(true);
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
         RefreshButtons(attackingUnit, targetedUnit);

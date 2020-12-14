@@ -13,7 +13,7 @@ public class SrpgMenuUnit : SrpgMenuBase
     [SerializeField] private Button cancelButton;
 
     public void Open(SrpgUnit unit){
-        buttonContainer.ToggleWipe(true);
+        buttonContainer.Toggle(true);
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
         HideIrrelevantButtons(unit);

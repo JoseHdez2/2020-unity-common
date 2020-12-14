@@ -8,7 +8,7 @@ public class AnimKeyFrame {
     public float cgAlpha; // Canvas Group alpha.
 }
 
-public class AnimFade : MonoBehaviour{
+public class AnimFade : MonoBehaviour, IToggleable {
     AnimKeyFrame kfPopIn = new AnimKeyFrame();
     AnimKeyFrame kfPopOut = new AnimKeyFrame();
     AnimKeyFrame kfCur = new AnimKeyFrame();
@@ -29,6 +29,7 @@ public class AnimFade : MonoBehaviour{
             if(!IsCgAlphaAnimDone()){
                 kfCur.cgAlpha = Mathf.Lerp(kfCur.cgAlpha, kfTarget.cgAlpha, animationSpeed * Time.deltaTime);
                 canvasGroup.alpha = kfCur.cgAlpha;
+                Debug.Log(canvasGroup.alpha);
                 if(IsCgAlphaAnimDone()){
                     canvasGroup.alpha = kfTarget.cgAlpha;
                 }
@@ -43,4 +44,6 @@ public class AnimFade : MonoBehaviour{
     private bool IsCgAlphaAnimDone(){
         return Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;
     }
+
+    public bool IsDone() => IsCgAlphaAnimDone();
 }

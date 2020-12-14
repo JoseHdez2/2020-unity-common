@@ -35,11 +35,11 @@ public class SrpgCardAttack : MonoBehaviour
 
     public void Open(){
         texts.ForEach(t => t.gameObject.SetActive(true));
-        cardBg.ToggleWipe(true);
+        cardBg.Toggle(true);
     }
 
     public void Close(){
         texts.ForEach(t => t.gameObject.SetActive(false));
-        cardBg.ToggleWipe(false);
+        cardBg.Toggle(false);
     }
 }

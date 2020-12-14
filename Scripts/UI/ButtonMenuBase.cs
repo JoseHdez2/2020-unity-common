@@ -34,7 +34,7 @@ public class ButtonMenuBase : MonoBehaviour
 
     protected void Start(){
         if(buttonContainer){   
-            buttonContainer.ToggleWipe(false);
+            buttonContainer.Toggle(false);
         }
     }
 
@@ -91,7 +91,7 @@ public class ButtonMenuBase : MonoBehaviour
     }
 
     protected IEnumerator CrClose(){
-        buttonContainer.ToggleWipe(false);
+        buttonContainer.Toggle(false);
         yield return new WaitUntil(() => buttonContainer.IsDone());
         gameObject.SetActive(false);
     }

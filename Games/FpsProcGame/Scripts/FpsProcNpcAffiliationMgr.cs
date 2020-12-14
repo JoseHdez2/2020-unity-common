@@ -10,13 +10,17 @@ public class FpsProcOrganization {
     public Type type;
     public string name;
     public int logoIndex;
-    // each member uuid alongside their importance (0 is the most important).
-    public SerializableDictionaryBase<string, int> members = new SerializableDictionaryBase<string, int>(); 
+    // each member uuid alongside their importance (0 is the most important). Doubles as a member list.
+    [SerializeField] private SerializableDictionaryBase<string, int> members = new SerializableDictionaryBase<string, int>(); 
     public List<int> membersPerLevel;
     public List<FpsProcBounds> areas = new List<FpsProcBounds>();
     // public SerializableDictionaryBase<string, string> roleNames;
     public static Type RandomType() => RandomUtils.RandomEnumValue<Type>();
-    public int GetMembersAmount() => membersPerLevel.Count();
+    public List<string> GetMembers() => members.Keys.ToList();
+    public void AddMember(string npcUuid, int rank) => members[npcUuid] = rank;
+    public bool IsMember(string npcUuid) => members.Keys.Contains(npcUuid);
+    public int GetRank(string npcUuid) => members[npcUuid];
+    public string GetRankNameForMember(string npcUuid) => GetRankName(members[npcUuid]);
     public string GetRankName(int rank) => rankNames[type].GetOrClamp(rank);
     public static Dictionary<Type, List<string>> rankNames = new Dictionary<Type, List<string>>()
     {
@@ -64,23 +68,18 @@ public class FpsProcNpcAffiliationMgr : MonoBehaviour {
         foreach(FpsProcOrganization org in newOrganizations){
             for(int i = 0; i < org.membersPerLevel.Count; i++){
                 for (int j = 0; j < org.membersPerLevel[i]; j++){
-                    List<FpsProcNpc> unemployedNpcs = npcs.Where(n => !newOrganizations.Any(o => o.members.ContainsKey(n.data.uuid))).ToList();
+                    List<FpsProcNpc> unemployedNpcs = npcs.Where(n => newOrganizations.None(o => o.IsMember(n.data.uuid))).ToList();
                     if(unemployedNpcs.IsEmpty()){ break; }
-                    FpsProcNpc randomNpc = npcs.Where(n => !org.members.ContainsKey(n.data.uuid)).ToList().RandomItem();
+                    FpsProcNpc randomNpc = npcs.Where(n => !org.IsMember(n.data.uuid)).ToList().RandomItem();
                     // Debug.Log($"{randomNpc.data.uuid} is a {org.GetRankName(i)} from {org.name}.");
-                    org.members[randomNpc.data.uuid] = i;
+                    org.AddMember(randomNpc.data.uuid, i);
                 }
             }
         }
         return newOrganizations;
     }
 
-    /// <summary>Will return rank if it exists, <b>null</b> if it doesn't.</summary>
-    public int GetAffiliationRank(string npcUuid, string orgName){
-        return organizations.FirstOrDefault(o => o.name == orgName).members[npcUuid];
-    }
-
     public List<FpsProcOrganization> GetOrganizations(string npcUuid){
-        return organizations.Where(o => o.members.ContainsKey(npcUuid)).ToList();
+        return organizations.Where(org => org.IsMember(npcUuid)).ToList();
     }
 }
