@@ -68,8 +68,9 @@ public class FpsProcGameMgr : MonoBehaviour
     List<FpsProcNpc> items = new List<FpsProcNpc>();
     List<FpsProcGoal> goals = new List<FpsProcGoal>();
     [NonSerialized] public FpsProcNpc targetNpc, npcWeAreTalkingWith;
-    private MouseLook mouseLook;
-    private PlayerMovement playerController;
+    [NonSerialized] private MouseLook mouseLook;
+    [NonSerialized] private PlayerMovement playerController;
+    [NonSerialized] private FpsProcGameAudioMgr audioMgr;
     [NonSerialized] public FpsProcDatabase database;
     [NonSerialized] public FpsProcNpcRelationMgr relationsMgr;
     [NonSerialized] public FpsProcNpcAffiliationMgr affiliationsMgr;
@@ -83,6 +84,7 @@ public class FpsProcGameMgr : MonoBehaviour
         titleLerp.Toggle(true);
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
+        audioMgr = FindObjectOfType<FpsProcGameAudioMgr>();
         database = FindObjectOfType<FpsProcDatabase>();
         relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
         affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
@@ -90,6 +92,7 @@ public class FpsProcGameMgr : MonoBehaviour
         database.Initialize();
         StartMission();
         missionTimer = new OneTimeTimer(missionSecs);
+        audioMgr.StartClockSound();
         FindObjectsOfType<FpsProcDistrict>().ToList().ForEach(d => d.GenerateAndInstantiateBuildings());
         TogglePlayerControls(true);
         ToggleConversation(false);
@@ -214,18 +217,20 @@ public class FpsProcGameMgr : MonoBehaviour
 
     public void AskNpcJob(){
         List<FpsProcOrganization> orgs = affiliationsMgr.GetOrganizations(npcWeAreTalkingWith.data.uuid);
+        string rankName = "";
         if(orgs.IsEmpty()){
             Say($"I am currently unemployed.");
+            rankName = "Unemployed";
         } else {
             int rank = orgs[0].GetRank(npcWeAreTalkingWith.data.uuid);
-            string rankName = orgs[0].GetRankName(rank);
+            rankName = orgs[0].GetRankName(rank);
             if(rank == 0){
                 Say($"I'm the {rankName} of the {orgs[0].name}.");
             } else {
                 Say($"I'm {rankName.A_An()} {rankName} in the {orgs[0].name}.");
             }
         }
-        npcWeAreTalkingWith.ToggleJob(true);
+        npcWeAreTalkingWith.ToggleJob(true, $"{rankName} {(orgs.IsEmpty() ? "" : $"({orgs[0].name})")}");
     }
 
     private void AddToNotepad(FpsProcGoal goal){

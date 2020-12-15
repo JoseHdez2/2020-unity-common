@@ -24,8 +24,12 @@ public class FpsProcNpc : MonoBehaviour
     public FpsProcNpcData data;
     public Texture2D face;
     public MeshRenderer faceRenderer;
-    [SerializeField] private TMP_Text textName;
+    [SerializeField] private TMP_Text textName, textJob;
 
+    private void Awake() {
+        textName.gameObject.SetActive(false);
+        textJob.gameObject.SetActive(false);
+    }
 
     // Start is called before the first frame update
     void Start(){
@@ -46,7 +50,8 @@ public class FpsProcNpc : MonoBehaviour
         textName.gameObject.SetActive(show);
     }
 
-    public void ToggleJob(bool show){
-        // textName.gameObject.SetActive(show);
+    public void ToggleJob(bool show, string jobName){
+        textJob.text = jobName;
+        textJob.gameObject.SetActive(show);
     }
 }

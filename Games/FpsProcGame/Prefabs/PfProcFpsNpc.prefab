@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4805928755844128582
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.000026226044}
-  m_SizeDelta: {x: 30, y: 10}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 30, y: 4.6022243}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &9094709122337553517
 MeshRenderer:
@@ -125,10 +125,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 27.85
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -4554,6 +4554,7 @@ MonoBehaviour:
   face: {fileID: 0}
   faceRenderer: {fileID: 1600489707374945599}
   textName: {fileID: 2178295964200826509}
+  textJob: {fileID: 3499995578864588890}
 --- !u!114 &2491266976036630420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4586,7 +4587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &667782190353700848
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4603,8 +4604,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.000026226044}
-  m_SizeDelta: {x: 30, y: 10}
+  m_AnchoredPosition: {x: 0, y: -2}
+  m_SizeDelta: {x: 30, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8061443354920888053
 MeshRenderer:
@@ -4676,8 +4677,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283954173
+  m_fontColor: {r: 0.990566, g: 0.95146537, b: 0.34109113, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4694,10 +4695,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
