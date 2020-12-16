@@ -5,8 +5,8 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class FpsProcGoal {
     public enum Type {Interrogate, Contact, Extract, Kill, Investigate}
@@ -23,11 +23,9 @@ public class FpsProcGoal {
 public class FpsProcGameMgr : MonoBehaviour
 {
     [Header("UI Stuff")]
-    [SerializeField] Button btnGoodbye;
-    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation, textTimer;
-    [SerializeField] AudioSource playerAudioSource, creditsMusic;
-    [SerializeField] AudioClip soundCock, soundShot, soundWrite;
     [SerializeField] ImageWipe bgConversation;
+    [SerializeField] GameObject btnName, btnJob, btnInterrogate;
+    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation, textTimer;
     [SerializeField] ButtonMenu notebookButtons;
     [SerializeField] VfxLerpInOut notebook, gun, titleLerp;
     [SerializeField] AnimFade conversationCanvasGroup, screenWipe, creditsFade;
@@ -97,6 +95,7 @@ public class FpsProcGameMgr : MonoBehaviour
         TogglePlayerControls(true);
         ToggleConversation(false);
         AddToNotepad(new FpsProcGoal(){type=FpsProcGoal.Type.Investigate, targetName="Terminate target.", depth=0});
+        AddRandomClue(rand: new System.Random(2069));
     }
 
     private void Update() {
@@ -138,11 +137,13 @@ public class FpsProcGameMgr : MonoBehaviour
     public void EnterFloor(FpsProcBounds floor){
         textAreaName.text = floor.ToStr();
         textAreaMap.text = floor.bldg.data.TilemapToStr(floor.floorNum);
+        audioMgr.SwitchAmbiance(floor.bldg);
     }
     
     public void ExitFloor(){
         textAreaName.text = "";
         textAreaMap.text = "";
+        audioMgr.SwitchAmbiance(null);
     }
 
     string[] intro = {"In the future", "there is no privacy.", "People live in fear", "and secret agents uphold the order.", "they are called", "THE BLADERUNNERS"};
@@ -173,9 +174,12 @@ public class FpsProcGameMgr : MonoBehaviour
 
     public void ClickNpc(FpsProcNpc clickedNpc, string greeting = "Hello."){
         if(npcWeAreTalkingWith == clickedNpc) return;
-        Debug.Log($"You clicked on {clickedNpc.data.uuid}.");
-        textConversation.text = greeting;
+        Say(greeting);
         ToggleConversation(true, clickedNpc);
+        
+        btnName.SetActive(!npcWeAreTalkingWith.KnownName);
+        btnJob.SetActive(!npcWeAreTalkingWith.KnownJob);
+        btnInterrogate.SetActive(true);
     }
 
     private enum ClueType {Name, Surname, Job, Org, Bldg, Floor};
@@ -183,12 +187,15 @@ public class FpsProcGameMgr : MonoBehaviour
     public void InterrogateNpc(){
         System.Random rand = new System.Random((npcWeAreTalkingWith.data.uuid + goals[0].targetName).GetHashCode()); // always same response for same npc + topic.
         if(rand.Next(0, 100) < chanceNpcHasClue){
-            ClueType clueType = RandomUtils.RandomEnumValue<ClueType>(rand);
-            AddClue(clueType, rand);
+            AddRandomClue(rand);
         } else {
             Say(dontKnow.RandomItem(rand));
+            audioMgr.PlayConvoAsk();
         }
+        btnInterrogate.SetActive(false);
     }
+
+    private void AddRandomClue(System.Random rand) => AddClue(clueType: RandomUtils.RandomEnumValue<ClueType>(rand), rand);
 
     private List<string> iKnow = new List<string>(){"Oh, I can help you.", "That person?", "I think I know...", "If you mean them..."};
 
@@ -211,11 +218,15 @@ public class FpsProcGameMgr : MonoBehaviour
     }
 
     public void AskNpcName(){
+        btnName.SetActive(false);
+        audioMgr.PlayConvoAsk();
         Say($"My name is {npcWeAreTalkingWith.data.fullName}.");
         npcWeAreTalkingWith.ToggleName(true);
     }
 
     public void AskNpcJob(){
+        btnJob.SetActive(false);
+        audioMgr.PlayConvoAsk();
         List<FpsProcOrganization> orgs = affiliationsMgr.GetOrganizations(npcWeAreTalkingWith.data.uuid);
         string rankName = "";
         if(orgs.IsEmpty()){
@@ -237,11 +248,14 @@ public class FpsProcGameMgr : MonoBehaviour
         // UnityEvent unityEvent = new UnityEvent();
         // unityEvent.AddListener(InterrogateNpc);
         // notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro(), interactable=!g.completed, action = unityEvent}).ToList();
-        if(goals.Any(g => g.targetName == goal.targetName)) return; // QnD solution to prevent writing the same hint twice.
+        if(goals.Any(g => g.targetName == goal.targetName)) { 
+            audioMgr.PlayConvoAsk();
+            return; // QnD solution to prevent writing the same hint twice.
+        }
         goals.Add(goal);
         notebookButtons.buttonsData = goals.Select(g => new ButtonData(){name=g.ToStrPro2(), interactable=false, action= new UnityEvent()}).ToList();
         notebookButtons.RefreshButtons();
-        // TODO play writing on paper sound.
+        audioMgr.PlayConvoWrite();
     }
 
     private void Say(string str){
@@ -256,17 +270,15 @@ public class FpsProcGameMgr : MonoBehaviour
         bool won = targetNpc == npcWeAreTalkingWith;
         EndGame();
         gun.Toggle(true); // pull up gun model
-        playerAudioSource.clip = soundCock; // make cocking sound
-        playerAudioSource.Play();
+        audioMgr.PlayGunCocking();
         // screenWipe.Toggle(true); // fade to black
         yield return new WaitForSeconds(2f);
         screenWipe2.alpha = 1f;
-        playerAudioSource.clip = soundShot;
-        playerAudioSource.Play();// gunshot sound
+        audioMgr.PlayGunShot();
         yield return new WaitForSeconds(2f); // oblivion
         if(won){
             titleCanvasGroup.alpha = 1f; // show the title!
-            creditsMusic.Play();
+            audioMgr.PlayCreditsMusic();
         }
         yield return new WaitForSeconds(3f); // credits start appearing
         titleLerp.Toggle(false);

@@ -29,7 +29,6 @@ public class AnimFade : MonoBehaviour, IToggleable {
             if(!IsCgAlphaAnimDone()){
                 kfCur.cgAlpha = Mathf.Lerp(kfCur.cgAlpha, kfTarget.cgAlpha, animationSpeed * Time.deltaTime);
                 canvasGroup.alpha = kfCur.cgAlpha;
-                Debug.Log(canvasGroup.alpha);
                 if(IsCgAlphaAnimDone()){
                     canvasGroup.alpha = kfTarget.cgAlpha;
                 }

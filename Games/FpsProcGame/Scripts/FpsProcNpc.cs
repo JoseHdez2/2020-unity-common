@@ -54,4 +54,7 @@ public class FpsProcNpc : MonoBehaviour
         textJob.text = jobName;
         textJob.gameObject.SetActive(show);
     }
+
+    public bool KnownName { get => textName.gameObject.active; }
+    public bool KnownJob { get => textJob.gameObject.active; }
 }
