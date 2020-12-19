@@ -124,8 +124,8 @@ public class FpsProcGameMgr : MonoBehaviour
     }
 
     public void TogglePlayerControls(bool enable){
-        mouseLook.enabled = enable;
-        playerController.enabled = enable;
+        if(mouseLook) mouseLook.enabled = enable;
+        if(playerController) playerController.enabled = enable;
     }
 
     private IEnumerator ShowNotepad(){
