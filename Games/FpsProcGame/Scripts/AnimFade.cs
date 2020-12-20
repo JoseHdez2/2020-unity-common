@@ -41,6 +41,7 @@ public class AnimFade : MonoBehaviour, IToggleable {
     }
 
     private bool IsCgAlphaAnimDone(){
+        Debug.Log(kfCur.cgAlpha - kfTarget.cgAlpha);
         return Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;
     }
 

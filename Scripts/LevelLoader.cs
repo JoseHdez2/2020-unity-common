@@ -53,10 +53,12 @@ public class LevelLoader : MonoBehaviour
         }
         disableDuringLoad.ForEach(obj => obj.SetActive(false));
         if (transition) {
+            Debug.Log($"transition:{transition}");
             transition.SetTrigger("Start");
             yield return new WaitForSeconds(transitionTime);
             // yield return new WaitWhile(() => transition.GetCurrentAnimatorStateInfo(0).IsName("Start"));
         } else if (screenWipe != null) {
+            Debug.Log($"no transition {screenWipe}");
             screenWipe.Toggle(true);
             yield return new WaitUntil(() => screenWipe.IsDone());
         }
