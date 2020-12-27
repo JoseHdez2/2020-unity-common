@@ -10,26 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77b4a06bb34b98a44910dc31e3290f7f, type: 3}
-  m_Name: Dialog01
+  m_Name: Dialog02
   m_EditorClassIdentifier: 
   dialogBubbles:
-  - name: 
-    config: {fileID: 11400000, guid: 016fbf515372e6840ba54cdf544adc4b, type: 2}
-    text: 'August 3
-
-      7:42pm
-
-      District Court 3'
-    spriteIndex: -1
-    pos: 0
+  - name: Boss
+    config: {fileID: 0}
+    text: Hey, are you OK?
+    spriteIndex: 0
+    pos: 2
   - name: Ace
     config: {fileID: 0}
-    text: Aah, I'm so nervous!
-    spriteIndex: -1
-    pos: 0
-  - name: Ace
-    config: {fileID: 0}
-    text: I haven't studied at all for this case!
+    text: I don't think I'm too good...
     spriteIndex: -1
     pos: 0
   sprites: []

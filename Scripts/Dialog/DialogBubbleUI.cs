@@ -20,7 +20,7 @@ public class DialogBubbleUI : MonoBehaviour
     [SerializeField] private TMP_Text tmpText;
     [SerializeField] private ImageWipe imageWipe;
 
-    private DialogConfig config = null;
+    [SerializeField] private DialogConfig bubbleConfig = null;
     private string text = "";
 
     public AudioSourceDialog audioSource;
@@ -35,10 +35,10 @@ public class DialogBubbleUI : MonoBehaviour
     private int charIndex;
     private float secsBeforeNextSentence = float.MaxValue;
 
-    public IEnumerator WriteSentence(string text, DialogConfig config = null) {
+    public IEnumerator WriteSentence(string text, DialogConfig newConfig = null) {
         this.text = text;
         state = State.WRITING;
-        if (config) { this.config = config; }
+        if (newConfig) { bubbleConfig = newConfig; }
         // ShowPanelAndText(true);
         charIndex = 0;
         tmpText.text = "";
@@ -49,11 +49,8 @@ public class DialogBubbleUI : MonoBehaviour
         imageWipe.Toggle(true);
 
         if (audioSource) { 
-            audioSource.SetPitch(config.pitch);
-            if(config && config.soundDict != null){
-                Debug.Log("heyllo");
-                audioSource.soundDict = config.soundDict; 
-            }
+            audioSource.SetPitch(bubbleConfig.pitch);
+            // audioSource.soundDict = bubbleConfig.soundDict;
         }
         if (promptImage) { promptImage.enabled = false; }
 
@@ -73,7 +70,7 @@ public class DialogBubbleUI : MonoBehaviour
     public bool IsWipeDone() => imageWipe.IsDone();
 
     private void Update() {
-        if (config && imageWipe.wipeMode == ImageWipe.WipeMode.Filled) {
+        if (bubbleConfig && imageWipe.wipeMode == ImageWipe.WipeMode.Filled) {
             DrawText();
         }
         switch (state) {
@@ -101,7 +98,7 @@ public class DialogBubbleUI : MonoBehaviour
             || Keyboard.current.enterKey.wasPressedThisFrame;
 
     private void DrawText(){
-        string str = $"<line-height=100%><color={config.textColor.ToRGBA()}>";
+        string str = $"<line-height=100%><color={bubbleConfig.textColor.ToRGBA()}>";
         try {
             str += text.Substring(0, charIndex);
         } catch (Exception e) {
@@ -113,7 +110,7 @@ public class DialogBubbleUI : MonoBehaviour
         str = Regex.Replace(str, "\\*(.+?)?$", Highlight("$1"));
         str = Regex.Replace(str, "~(.+?)?$", m => Wavy(m.Groups[1].ToString()));
         tmpText.text = str;
-        if (config.invisibleCharacters) {
+        if (bubbleConfig.invisibleCharacters) {
             string invisibleText = $"<color=#00000000>" +
                 $"{text.Substring(charIndex)}</color>";
             invisibleText = invisibleText.Replace("*", "").Replace("~", "");
@@ -133,18 +130,18 @@ public class DialogBubbleUI : MonoBehaviour
                 case '.':
                 case '!':
                 case '?':
-                    yield return new WaitForSeconds(config.timePerCharacter * 30);
+                    yield return new WaitForSeconds(bubbleConfig.timePerCharacter * 30);
                     break;
                 case ',':
-                    yield return new WaitForSeconds(config.timePerCharacter * 10);
+                    yield return new WaitForSeconds(bubbleConfig.timePerCharacter * 10);
                     break;
                 default:
-                    yield return new WaitForSeconds(config.timePerCharacter);
+                    yield return new WaitForSeconds(bubbleConfig.timePerCharacter);
                     break;
             }
         }
         if(text[iChar] == '.')
-        yield return new WaitForSeconds(config.timePerCharacter);
+        yield return new WaitForSeconds(bubbleConfig.timePerCharacter);
         PlayCharSound();
         StartCoroutine(UpdateText(iChar += 1));
     }
@@ -155,14 +152,14 @@ public class DialogBubbleUI : MonoBehaviour
         audioSource.PlaySound(EDialogSound.FullStop);
         charIndex = text.Length;
         secsBeforeNextSentence = float.MaxValue;
-        if (config.nextSentenceKey == KeyCode.None) {
-            secsBeforeNextSentence = config.nextSentenceSecs;
+        if (bubbleConfig.nextSentenceKey == KeyCode.None) {
+            secsBeforeNextSentence = bubbleConfig.nextSentenceSecs;
         }
     }
 
     private void PlayCharSound() {
-        float pitch = config.pitch;
-        float pitchVariance = config.pitchVariance;
+        float pitch = bubbleConfig.pitch;
+        float pitchVariance = bubbleConfig.pitchVariance;
         if (pitchVariance != 0) {
             float pitchWithVariance = pitch + UnityEngine.Random.Range(-pitchVariance, pitchVariance);
             audioSource.PlaySoundWithPitch(EDialogSound.Char, pitchWithVariance);
@@ -177,10 +174,10 @@ public class DialogBubbleUI : MonoBehaviour
         if (dialogManager) { dialogManager.WriteNextSentence(); }
     }
 
-    private string Highlight(string str) => str.Color(config.highlightColor);
+    private string Highlight(string str) => str.Color(bubbleConfig.highlightColor);
 
     private string Wavy(string str) =>
-        str.Wavy(config.wavySpeed, config.wavyIntensity, config.wavyLetterOffset);
+        str.Wavy(bubbleConfig.wavySpeed, bubbleConfig.wavyIntensity, bubbleConfig.wavyLetterOffset);
 
     private bool IsDone() => (charIndex >= text.Length);
 }

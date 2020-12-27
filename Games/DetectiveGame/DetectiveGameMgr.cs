@@ -7,7 +7,7 @@ public class DetectiveGameMgr : MonoBehaviour
     [SerializeField] private AnimFade fadeOut; 
     [SerializeField] private DialogueManager dialogueManager;
     // Start is called before the first frame update
-    [SerializeField] private Dialogue dialog1;
+    [SerializeField] private Dialogue dialog1, dialog2;
     void Start()
     {
         fadeOut.Toggle(true);
@@ -15,8 +15,10 @@ public class DetectiveGameMgr : MonoBehaviour
     }
 
     public IEnumerator CrStart(){
-        yield return new WaitForSeconds(0.5f);
         dialogueManager.WriteDialogue(dialog1);
         yield return new WaitUntil(() => dialogueManager.isDone);
+        fadeOut.Toggle(false);
+        yield return new WaitUntil(() => fadeOut.IsDone());
+        dialogueManager.WriteDialogue(dialog2);
     }
 }

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
     public DialogConfig defaultConfig;
-    private DialogConfig nameConfig;
+    public DialogConfig nameConfig;
 
     public DialogBubbleUI dialogBubble;
     public DialogBubbleUI nameBubble;
@@ -24,8 +24,6 @@ public class DialogueManager : MonoBehaviour
     private string curName;
 
     private void Start() {
-        nameConfig = defaultConfig;
-        nameConfig.pitch = 0;
         ShowPanelAndText(false);
         isDone = true;
     }
@@ -68,7 +66,6 @@ public class DialogueManager : MonoBehaviour
     public void WriteSentence() {
         if (DialogHasEnded(dialogue, bubbleIndex)) { StartCoroutine(Stop()); return; }
         DialogBubble dialogBubbleData = dialogue.dialogBubbles[bubbleIndex];
-        Debug.Log($"dialogBubbleData: {dialogBubbleData}");
         DialogConfig sentConfig = defaultConfig.Merge(dialogBubbleData.config);
 
         if(dialogBubbleData.spriteIndex > -1) {

@@ -20,10 +20,11 @@ public abstract class AudioSourceMultiBase<TEnum> : MonoBehaviour
             Debug.Log("Already playing a sound!");
             return;
         }
-        Debug.Log(soundDict);
-        if (soundDict.Keys.Contains(sound))
-        {
-            Debug.Log($"sound:{sound}");
+        if (soundDict == null){
+            Debug.LogError("SoundDict is null!");
+            return;
+        }
+        if (soundDict.Keys.Contains(sound)) {
             audioSource.clip = soundDict[sound];
             audioSource.Play();
         } else {
