@@ -23,4 +23,5 @@ MonoBehaviour:
     text: I don't think I'm too good...
     spriteIndex: -1
     pos: 0
-  sprites: []
+  sprites:
+  - {fileID: 21300000, guid: 515aba3d5e2afe548af9f961b0670af2, type: 3}

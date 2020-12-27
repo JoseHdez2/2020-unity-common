@@ -47,7 +47,7 @@ MonoBehaviour:
   invisibleCharacters: 1
   nextSentenceKey: 0
   nextSentenceSecs: 0.2
-  timePerCharacter: 0.01
+  timePerCharacter: 0.02
   pitch: 0
   pitchVariance: 0
   wavySpeed: 1

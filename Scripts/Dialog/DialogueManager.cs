@@ -69,7 +69,11 @@ public class DialogueManager : MonoBehaviour
         DialogConfig sentConfig = defaultConfig.Merge(dialogBubbleData.config);
 
         if(dialogBubbleData.spriteIndex > -1) {
-            images[(int)dialogBubbleData.pos].sprite = dialogue.sprites[dialogBubbleData.spriteIndex];
+            try {
+                images[(int)dialogBubbleData.pos].sprite = dialogue.sprites[dialogBubbleData.spriteIndex];
+            } catch (ArgumentOutOfRangeException ex) {
+                Debug.LogError($"Invalid sprite index: {dialogBubbleData.spriteIndex}.");
+            }
         }
 
         StartCoroutine(dialogBubble.WriteSentence(dialogBubbleData.text, sentConfig));
