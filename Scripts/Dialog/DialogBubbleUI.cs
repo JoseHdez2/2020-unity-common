@@ -48,7 +48,13 @@ public class DialogBubbleUI : MonoBehaviour
         }
         imageWipe.Toggle(true);
 
-        if (audioSource) { audioSource.SetPitch(config.pitch); }
+        if (audioSource) { 
+            audioSource.SetPitch(config.pitch);
+            if(config && config.soundDict != null){
+                Debug.Log("heyllo");
+                audioSource.soundDict = config.soundDict; 
+            }
+        }
         if (promptImage) { promptImage.enabled = false; }
 
         StartCoroutine(UpdateText(0));

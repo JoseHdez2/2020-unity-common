@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07df30cfb351c2540835605e826a6a57, type: 3}
-  m_Name: DialogConfig
+  m_Name: DiaConfGreen
   m_EditorClassIdentifier: 
   soundDict:
     reorderableList:
@@ -35,17 +35,24 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 00000000
-    _keys: 00000000
+    _keyValues: 0000000001000000020000000300000004000000
+    _keys: 0000000001000000020000000300000004000000
     _values:
+    - {fileID: 8300000, guid: b7c3ca591c2654d489d114c88a20c64f, type: 3}
     - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
-  overrideColors: 0
-  textColor: {r: 1, g: 1, b: 1, a: 1}
+    - {fileID: 8300000, guid: 326cbcfd893c8ee449ae30fdc1b241cf, type: 3}
+    - {fileID: 8300000, guid: 08c5b7ac8bfc43b4a8206d7f405141f4, type: 3}
+    - {fileID: 8300000, guid: 5f9e33b85ff66584d9f3a3484980b8c0, type: 3}
+  overrideColors: 1
+  overrNextSentTiming: 1
+  overrTimePerCharacter: 1
+  overridePitch: 1
+  textColor: {r: 0.395234, g: 1, b: 0.16509432, a: 1}
   highlightColor: {r: 1, g: 0, b: 0, a: 1}
   invisibleCharacters: 1
-  nextSentenceKey: 13
+  nextSentenceKey: 0
   nextSentenceSecs: 2
-  timePerCharacter: 0.01
+  timePerCharacter: 0.25
   pitch: 1
   pitchVariance: 0
   wavySpeed: 1

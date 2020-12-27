@@ -13,6 +13,7 @@ public class AnimFade : MonoBehaviour, IToggleable {
     AnimKeyFrame kfPopOut = new AnimKeyFrame();
     AnimKeyFrame kfCur = new AnimKeyFrame();
     AnimKeyFrame kfTarget = new AnimKeyFrame();
+    private bool done = false;
     public float animationSpeed = 1f;
     // Start is called before the first frame update
     [SerializeField] CanvasGroup canvasGroup;
@@ -21,6 +22,9 @@ public class AnimFade : MonoBehaviour, IToggleable {
         if(canvasGroup){
             kfPopOut.cgAlpha = 0f;
             kfPopIn.cgAlpha = 1f;
+            kfCur.cgAlpha = canvasGroup.alpha;
+        } else {
+            Debug.LogError("No CanvasGroup found!");
         }
     }
 
@@ -38,11 +42,13 @@ public class AnimFade : MonoBehaviour, IToggleable {
 
     public void Toggle(bool show){
         kfTarget = show ? kfPopIn : kfPopOut;
+        done = false;
     }
 
     private bool IsCgAlphaAnimDone(){
-        Debug.Log(kfCur.cgAlpha - kfTarget.cgAlpha);
-        return Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;
+        if(done) return true;
+        done = Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;
+        return done;
     }
 
     public bool IsDone() => IsCgAlphaAnimDone();

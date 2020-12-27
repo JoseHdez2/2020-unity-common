@@ -24,13 +24,16 @@ public class DialogueManager : MonoBehaviour
     private string curName;
 
     private void Start() {
-        nameConfig = new DialogConfig();
+        nameConfig = defaultConfig;
         nameConfig.pitch = 0;
         ShowPanelAndText(false);
+        isDone = true;
     }
 
     private static Coroutine dialogueCoroutine;
+    public bool isDone;
 
+    /// <summary>Write a string without the need to pass a Dialogue ScriptableObject.</summary>
     public void WriteOneShot(string text){
         Dialogue dialog = new Dialogue();
         dialog.dialogBubbles = new List<DialogBubble>() { new DialogBubble() {text = text} };
@@ -38,6 +41,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void WriteDialogue(Dialogue dialogue) {
+        isDone = false;
         this.dialogue = dialogue;
         bubbleIndex = 0;
         curName = null;
@@ -58,21 +62,22 @@ public class DialogueManager : MonoBehaviour
             dialogueCoroutine = null;
             StopAllCoroutines();
         }
+        isDone = true;
     }
 
     public void WriteSentence() {
         if (DialogHasEnded(dialogue, bubbleIndex)) { StartCoroutine(Stop()); return; }
         DialogBubble dialogBubbleData = dialogue.dialogBubbles[bubbleIndex];
-        DialogConfig config = (dialogBubbleData.config) ? 
-            new DialogConfig(defaultConfig, dialogBubbleData.config) : defaultConfig;
+        Debug.Log($"dialogBubbleData: {dialogBubbleData}");
+        DialogConfig sentConfig = defaultConfig.Merge(dialogBubbleData.config);
 
         if(dialogBubbleData.spriteIndex > -1) {
             images[(int)dialogBubbleData.pos].sprite = dialogue.sprites[dialogBubbleData.spriteIndex];
         }
 
-        StartCoroutine(dialogBubble.WriteSentence(dialogBubbleData.text, config));
+        StartCoroutine(dialogBubble.WriteSentence(dialogBubbleData.text, sentConfig));
 
-        if(curName != dialogBubbleData.name) {
+        if(nameBubble != null && curName != dialogBubbleData.name) {
             if (string.IsNullOrEmpty(dialogBubbleData.name)) {
                 nameBubble.ShowPanelAndText(false);
             } else {
