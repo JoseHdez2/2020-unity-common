@@ -6,6 +6,7 @@ public class DetectiveGameMgr : MonoBehaviour
 {
     [SerializeField] private AnimFade fadeOut; 
     [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private DialogBubbleUI nameBubble;
     // Start is called before the first frame update
     
     public TextAsset dialogJson01;
@@ -27,9 +28,32 @@ public class DetectiveGameMgr : MonoBehaviour
     private void ProcessNewLine()
     {
         string line = dialog01[dialogInd];
-        dialogueManager.WriteOneShot(line);
+        if(!line.Contains(":")){
+            return;
+        }
+        string name = line.Split(':')[0];        
+        string dialog = line.Split(':')[1];
+        if(name != null){
+            nameBubble.WriteSentence(name);            
+        }
+        if(dialog != null){
+            dialogueManager.WriteOneShot(dialog);
+        }
         dialogInd++;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public IEnumerator CrStart(){
         dialogueManager.WriteDialogue(dialog1);

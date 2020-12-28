@@ -431,7 +431,7 @@ MonoBehaviour:
   defaultConfig: {fileID: 11400000, guid: 424e8f0d93a7cdf4697ee8e910a7c070, type: 2}
   nameConfig: {fileID: 11400000, guid: 3190311ba4076f147a038082871a1db9, type: 2}
   dialogBubble: {fileID: 1249942538}
-  nameBubble: {fileID: 496524462}
+  nameBubble: {fileID: 0}
   images:
   - {fileID: 364480520}
   imagePositions:
@@ -1361,6 +1361,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeOut: {fileID: 2066884727}
   dialogueManager: {fileID: 235566720}
+  nameBubble: {fileID: 496524462}
+  dialogJson01: {fileID: 4900000, guid: e12443ec913c6704fa01735402560883, type: 3}
   dialog1: {fileID: 11400000, guid: e4a5a7920584ba144b949d322f4ce904, type: 2}
   dialog2: {fileID: 11400000, guid: a3b19da97fe18944d96392191133ce76, type: 2}
 --- !u!4 &1489841313

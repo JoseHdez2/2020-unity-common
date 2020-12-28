@@ -76,13 +76,13 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(dialogBubble.WriteSentence(dialogBubbleData.text, sentConfig));
+        dialogBubble.WriteSentence(dialogBubbleData.text, sentConfig);
 
         if(nameBubble != null && curName != dialogBubbleData.name) {
             if (string.IsNullOrEmpty(dialogBubbleData.name)) {
                 nameBubble.ShowPanelAndText(false);
             } else {
-                StartCoroutine(nameBubble.WriteSentence(dialogBubbleData.name, nameConfig));
+                nameBubble.WriteSentence(dialogBubbleData.name, nameConfig);
             }
         }
         curName = dialogBubbleData.name;

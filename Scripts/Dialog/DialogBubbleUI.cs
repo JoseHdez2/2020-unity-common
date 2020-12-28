@@ -21,7 +21,7 @@ public class DialogBubbleUI : MonoBehaviour
     [SerializeField] private ImageWipe imageWipe;
 
     [SerializeField] private DialogConfig bubbleConfig = null;
-    private string text = "";
+    private string fullText = "";
 
     public AudioSourceDialog audioSource;
     public Image promptImage;
@@ -35,8 +35,11 @@ public class DialogBubbleUI : MonoBehaviour
     private int charIndex;
     private float secsBeforeNextSentence = float.MaxValue;
 
-    public IEnumerator WriteSentence(string text, DialogConfig newConfig = null) {
-        this.text = text;
+    public void WriteSentence(string text, DialogConfig newConfig = null){
+        StartCoroutine(CrWriteSentence(text, newConfig));
+    }
+    private IEnumerator CrWriteSentence(string text, DialogConfig newConfig = null) {
+        fullText = text;
         state = State.WRITING;
         if (newConfig) { bubbleConfig = newConfig; }
         // ShowPanelAndText(true);
@@ -100,7 +103,7 @@ public class DialogBubbleUI : MonoBehaviour
     private void DrawText(){
         string str = $"<line-height=100%><color={bubbleConfig.textColor.ToRGBA()}>";
         try {
-            str += text.Substring(0, charIndex);
+            str += fullText.Substring(0, charIndex);
         } catch (Exception e) {
             Debug.Log($"iChar: {charIndex}");
             throw e;
@@ -112,7 +115,7 @@ public class DialogBubbleUI : MonoBehaviour
         tmpText.text = str;
         if (bubbleConfig.invisibleCharacters) {
             string invisibleText = $"<color=#00000000>" +
-                $"{text.Substring(charIndex)}</color>";
+                $"{fullText.Substring(charIndex)}</color>";
             invisibleText = invisibleText.Replace("*", "").Replace("~", "");
             tmpText.text += invisibleText;
         }
@@ -126,7 +129,7 @@ public class DialogBubbleUI : MonoBehaviour
             yield break;
         }
         if(iChar > 0) {
-            switch (text[iChar - 1]) {
+            switch (fullText[iChar - 1]) {
                 case '.':
                 case '!':
                 case '?':
@@ -140,7 +143,7 @@ public class DialogBubbleUI : MonoBehaviour
                     break;
             }
         }
-        if(text[iChar] == '.')
+        if(fullText[iChar] == '.')
         yield return new WaitForSeconds(bubbleConfig.timePerCharacter);
         PlayCharSound();
         StartCoroutine(UpdateText(iChar += 1));
@@ -150,7 +153,7 @@ public class DialogBubbleUI : MonoBehaviour
         StopAllCoroutines();
         state = State.WAITING;
         audioSource.PlaySound(EDialogSound.FullStop);
-        charIndex = text.Length;
+        charIndex = fullText.Length;
         secsBeforeNextSentence = float.MaxValue;
         if (bubbleConfig.nextSentenceKey == KeyCode.None) {
             secsBeforeNextSentence = bubbleConfig.nextSentenceSecs;
@@ -179,5 +182,5 @@ public class DialogBubbleUI : MonoBehaviour
     private string Wavy(string str) =>
         str.Wavy(bubbleConfig.wavySpeed, bubbleConfig.wavyIntensity, bubbleConfig.wavyLetterOffset);
 
-    private bool IsDone() => (charIndex >= text.Length);
+    private bool IsDone() => (charIndex >= fullText.Length);
 }
