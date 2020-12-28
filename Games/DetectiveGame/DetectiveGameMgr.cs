@@ -7,11 +7,28 @@ public class DetectiveGameMgr : MonoBehaviour
     [SerializeField] private AnimFade fadeOut; 
     [SerializeField] private DialogueManager dialogueManager;
     // Start is called before the first frame update
+    
+    public TextAsset dialogJson01;
+    private string[] dialog01;
+    int dialogInd;
     [SerializeField] private Dialogue dialog1, dialog2;
     void Start()
     {
         fadeOut.Toggle(true);
-        StartCoroutine(CrStart());
+        dialog01 = dialogJson01.text.Split('\n');
+    }
+
+    private void Update() {
+        if(dialogueManager.isDone && dialogInd < dialog01.Length){
+            ProcessNewLine();
+        }
+    }
+
+    private void ProcessNewLine()
+    {
+        string line = dialog01[dialogInd];
+        dialogueManager.WriteOneShot(line);
+        dialogInd++;
     }
 
     public IEnumerator CrStart(){
