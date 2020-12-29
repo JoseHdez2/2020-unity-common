@@ -52,6 +52,8 @@ namespace ExtensionMethods
             return input.Remove(index, subStr.Length).Insert(index, subStr);
         }
 
+        public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrWhiteSpace(str);
+
         /// <summary>Return the correct indefinite article for the string.</summary>
         public static string A_An(this string noun) => Regex.IsMatch(noun, "^([aeio]|un|ul)", RegexOptions.IgnoreCase) ? "an" : "a";
         

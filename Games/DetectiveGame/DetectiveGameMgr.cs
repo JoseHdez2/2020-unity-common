@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
+using ExtensionMethods;
 
 public class DetectiveGameMgr : MonoBehaviour
 {
@@ -27,32 +29,38 @@ public class DetectiveGameMgr : MonoBehaviour
     private void ProcessNewLine()
     {
         string line = dialog01[dialogInd];
-        if(!line.Contains(":")){
-            return;
+        string dialog;
+        line = ProcessCommands(line);
+        if (line.Contains(":")) {
+            string name = line.Split(':')[0];
+            dialog = line.Split(':')[1];
+            if (name != null) {
+                name = name.Trim();
+                nameBubble.WriteSentence(name);
+            }
+        } else {
+            dialog = line;
         }
-        string name = line.Split(':')[0];        
-        string dialog = line.Split(':')[1];
-        if(name != null){
-            nameBubble.WriteSentence(name);            
-        }
-        if(dialog != null){
+        Debug.Log($">{dialog}<");
+        dialog = dialog.Trim();
+        if (!dialog.IsNullOrWhiteSpace()) {
             dialogueManager.WriteOneShot(dialog);
         }
         dialogInd++;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    private static string ProcessCommands(string line)
+    {
+        Regex pattern = new Regex(@"\[.+\]");
+        Match match = pattern.Match(line);
+        if (match != null)
+        {
+            string command = match.Value;
+            Debug.Log(command);
+        }
+        line = pattern.Replace(line, "");
+        return line;
+    }
 
     public IEnumerator CrStart(){
         dialogueManager.WriteDialogue(dialog1);
