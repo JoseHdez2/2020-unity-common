@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using ExtensionMethods;
+using System;
 
 public class DetectiveGameMgr : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class DetectiveGameMgr : MonoBehaviour
     }
 
     private void Update() {
-        if(dialogueManager.isDone && dialogInd < dialog01.Length){
+        if(fadeOut.IsDone() && dialogueManager.isDone && dialogInd < dialog01.Length){
             ProcessNewLine();
         }
     }
@@ -40,8 +41,7 @@ public class DetectiveGameMgr : MonoBehaviour
             }
         } else {
             dialog = line;
-        }
-        Debug.Log($">{dialog}<");
+        }        
         dialog = dialog.Trim();
         if (!dialog.IsNullOrWhiteSpace()) {
             dialogueManager.WriteOneShot(dialog);
@@ -49,7 +49,7 @@ public class DetectiveGameMgr : MonoBehaviour
         dialogInd++;
     }
 
-    private static string ProcessCommands(string line)
+    private string ProcessCommands(string line)
     {
         Regex pattern = new Regex(@"\[.+\]");
         Match match = pattern.Match(line);
@@ -57,9 +57,24 @@ public class DetectiveGameMgr : MonoBehaviour
         {
             string command = match.Value;
             Debug.Log(command);
+            switch(command){
+                case "[fade in]": FadeIn(); break;
+                case "[fade out]": FadeOut(); break;
+                default: break;
+            }
         }
-        line = pattern.Replace(line, "");
+        line = pattern.Replace(line, "");        
         return line;
+    }
+
+    private void FadeIn()
+    {
+        fadeOut.Toggle(false);        
+    }
+
+    private void FadeOut()
+    {
+        fadeOut.Toggle(true);
     }
 
     public IEnumerator CrStart(){
