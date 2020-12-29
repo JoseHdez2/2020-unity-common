@@ -13,8 +13,7 @@ public class DetectiveGameMgr : MonoBehaviour
     private string[] dialog01;
     int dialogInd;
     [SerializeField] private Dialogue dialog1, dialog2;
-    void Start()
-    {
+    void Start(){
         fadeOut.Toggle(true);
         dialog01 = dialogJson01.text.Split('\n');
     }
