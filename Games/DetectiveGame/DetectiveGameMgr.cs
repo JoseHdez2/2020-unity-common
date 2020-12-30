@@ -61,18 +61,27 @@ public class DetectiveGameMgr : MonoBehaviour
         Match match = pattern.Match(line);
         if (match != null)
         {
-            string command = match.Value;
-            Debug.Log(command);
+            string command = match.Value;            
+            if (command.Contains("goto")){
+                string fileDialog = new Regex(@"\[goto\s+([\w-.]+)\]").Match(command).Captures[0].ToString();                
+                Debug.Log(fileDialog);
+                dialogGoto(fileDialog);
+            }
             switch(command){
                 case "[fade in]": FadeIn(); break;
                 case "[fade out]": FadeOut(); break;
                 case "[blink]": Blink(); break;
                 case "[shake]": Shake(); break;
-                default: break;
+                default: Debug.LogError("Command doesn't exist!"); break;
             }
         }
         line = pattern.Replace(line, "");        
         return line;
+    }
+
+    private void dialogGoto()
+    {
+        throw new NotImplementedException();
     }
 
     private void Blink()
