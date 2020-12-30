@@ -48,8 +48,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void ShowPanelAndText(bool show) {
-        dialogBubble.ShowPanelAndText(show);
-        if (nameBubble) { nameBubble.ShowPanelAndText(show); }
+        dialogBubble.Toggle(show);
+        if (nameBubble) { nameBubble.Toggle(show); }
     }
 
     public IEnumerator Stop() {
@@ -80,7 +80,7 @@ public class DialogueManager : MonoBehaviour
 
         if(nameBubble != null && curName != dialogBubbleData.name) {
             if (string.IsNullOrEmpty(dialogBubbleData.name)) {
-                nameBubble.ShowPanelAndText(false);
+                nameBubble.Toggle(false);
             } else {
                 nameBubble.WriteSentence(dialogBubbleData.name, nameConfig);
             }

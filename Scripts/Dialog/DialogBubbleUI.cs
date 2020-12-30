@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class DialogBubbleUI : MonoBehaviour
+public class DialogBubbleUI : MonoBehaviour, IToggleable
 {
     enum State { NONE, WRITING, WAITING }
     private State state = State.NONE;
@@ -38,6 +38,20 @@ public class DialogBubbleUI : MonoBehaviour
     public void WriteSentence(string text, DialogConfig newConfig = null){
         StartCoroutine(CrWriteSentence(text, newConfig));
     }
+    
+    public void Toggle(bool show) {
+        if (show) {
+            audioSource.PlaySound(EDialogSound.WindowShow);
+        } else {
+            audioSource.PlaySound(EDialogSound.WindowHide);
+            // tmpText.text = "";
+        }
+        if (imageWipe) { imageWipe.Toggle(show); }
+    }
+    public bool IsWipeDone() => imageWipe.IsDone();
+    
+    public bool IsDone() => (charIndex >= fullText.Length); // && IsWipeDone()? // TODO.
+
     private IEnumerator CrWriteSentence(string text, DialogConfig newConfig = null) {
         fullText = text;
         state = State.WRITING;
@@ -49,7 +63,7 @@ public class DialogBubbleUI : MonoBehaviour
             imageWipe.ToggleFast(false);
             yield return new WaitUntil(() => imageWipe.IsDone());
         }
-        imageWipe.Toggle(true);
+        Toggle(true);
 
         if (audioSource) { 
             audioSource.SetPitch(bubbleConfig.pitch);
@@ -57,20 +71,8 @@ public class DialogBubbleUI : MonoBehaviour
         }
         if (promptImage) { promptImage.enabled = false; }
 
-        StartCoroutine(UpdateText(0));
+        StartCoroutine(CrUpdateText(0));
     }
-
-    public void ShowPanelAndText(bool show) {
-        if (show) {
-            audioSource.PlaySound(EDialogSound.WindowShow);
-        } else {
-            audioSource.PlaySound(EDialogSound.WindowHide);
-            tmpText.text = "";
-        }
-        if (imageWipe) { imageWipe.Toggle(show); }
-    }
-
-    public bool IsWipeDone() => imageWipe.IsDone();
 
     private void Update() {
         if (bubbleConfig && imageWipe.wipeMode == ImageWipe.WipeMode.Filled) {
@@ -121,7 +123,7 @@ public class DialogBubbleUI : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdateText(int iChar) {
+    private IEnumerator CrUpdateText(int iChar) {
         yield return new WaitUntil(() => imageWipe.IsDone());
         charIndex = iChar;
         if (IsDone()) {
@@ -146,7 +148,7 @@ public class DialogBubbleUI : MonoBehaviour
         if(fullText[iChar] == '.')
         yield return new WaitForSeconds(bubbleConfig.timePerCharacter);
         PlayCharSound();
-        StartCoroutine(UpdateText(iChar += 1));
+        StartCoroutine(CrUpdateText(iChar += 1));
     }
 
     private void ChangeStateToWaiting() {
@@ -182,5 +184,4 @@ public class DialogBubbleUI : MonoBehaviour
     private string Wavy(string str) =>
         str.Wavy(bubbleConfig.wavySpeed, bubbleConfig.wavyIntensity, bubbleConfig.wavyLetterOffset);
 
-    private bool IsDone() => (charIndex >= fullText.Length);
 }

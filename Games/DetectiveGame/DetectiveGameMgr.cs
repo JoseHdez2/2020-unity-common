@@ -7,7 +7,7 @@ using System;
 
 public class DetectiveGameMgr : MonoBehaviour
 {
-    [SerializeField] private AnimFade fadeOut; 
+    [SerializeField] private AnimFade blackScreen; 
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private DialogBubbleUI nameBubble;
     // Start is called before the first frame update
@@ -17,12 +17,12 @@ public class DetectiveGameMgr : MonoBehaviour
     int dialogInd;
     [SerializeField] private Dialogue dialog1, dialog2;
     void Start(){
-        fadeOut.Toggle(true);
+        blackScreen.Toggle(true);
         dialog01 = dialogJson01.text.Split('\n');
     }
 
     private void Update() {
-        if(fadeOut.IsDone() && dialogueManager.isDone && dialogInd < dialog01.Length){
+        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < dialog01.Length){
             ProcessNewLine();
         }
     }
@@ -35,9 +35,13 @@ public class DetectiveGameMgr : MonoBehaviour
         if (line.Contains(":")) {
             string name = line.Split(':')[0];
             dialog = line.Split(':')[1];
-            if (name != null) {
+            if (!name.IsNullOrWhiteSpace()) {
                 name = name.Trim();
-                nameBubble.WriteSentence(name);
+                if(name == "Narrator"){
+                    nameBubble.Toggle(false);
+                } else {
+                    nameBubble.WriteSentence(name);
+                }
             }
         } else {
             dialog = line;
@@ -69,19 +73,19 @@ public class DetectiveGameMgr : MonoBehaviour
 
     private void FadeIn()
     {
-        fadeOut.Toggle(false);        
+        blackScreen.Toggle(false);        
     }
 
     private void FadeOut()
     {
-        fadeOut.Toggle(true);
+        blackScreen.Toggle(true);
     }
 
     public IEnumerator CrStart(){
         dialogueManager.WriteDialogue(dialog1);
         yield return new WaitUntil(() => dialogueManager.isDone);
-        fadeOut.Toggle(false);
-        yield return new WaitUntil(() => fadeOut.IsDone());
+        blackScreen.Toggle(false);
+        yield return new WaitUntil(() => blackScreen.IsDone());
         dialogueManager.WriteDialogue(dialog2);
     }
 }
