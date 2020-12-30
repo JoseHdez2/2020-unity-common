@@ -76,6 +76,7 @@ public class DetectiveGameMgr : MonoBehaviour
     private void Blink()
     {
         whiteScreen.ToggleFor(true, 0.25f);
+        audioSourceDetective.PlaySound(EDetectiveSound.Blink);
     }
 
     private void FadeIn()
