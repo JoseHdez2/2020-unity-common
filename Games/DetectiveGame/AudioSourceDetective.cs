@@ -1,9 +1,6 @@
 using UnityEngine;
 
-public enum EDetectiveSound { Blink, Clue, Pierce };
+public enum EDetectiveSound { Blink, Clue, Shake };
 
 [RequireComponent(typeof(AudioSource))]
-public class AudioSourceDetective : AudioSourceMultiBase<EDetectiveSound> {
-
-
- }
+public class AudioSourceDetective : AudioSourceMultiBase<EDetectiveSound> { }

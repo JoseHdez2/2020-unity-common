@@ -16,6 +16,7 @@ public class DetectiveGameMgr : MonoBehaviour
     public TextAsset dialogJson01;
     private string[] dialog01;
     int dialogInd;
+    public ObjectShake objectShake;
     [SerializeField] private Dialogue dialog1, dialog2;
     void Start(){
         blackScreen.Toggle(true);
@@ -66,6 +67,7 @@ public class DetectiveGameMgr : MonoBehaviour
                 case "[fade in]": FadeIn(); break;
                 case "[fade out]": FadeOut(); break;
                 case "[blink]": Blink(); break;
+                case "[shake]": Shake(); break;
                 default: break;
             }
         }
@@ -84,9 +86,13 @@ public class DetectiveGameMgr : MonoBehaviour
         blackScreen.Toggle(false);        
     }
 
-    private void FadeOut()
-    {
+    private void FadeOut() {
         blackScreen.Toggle(true);
+    }
+
+    private void Shake() {
+        objectShake.Shake();
+        audioSourceDetective.PlaySound(EDetectiveSound.Shake);
     }
 
     public IEnumerator CrStart(){
