@@ -45,6 +45,16 @@ public class AnimFade : MonoBehaviour, IToggleable {
         done = false;
     }
 
+    public void ToggleFor(bool show, float secs){
+        StartCoroutine(CrToggleFor(show, secs));
+    }
+
+    private IEnumerator CrToggleFor(bool show, float secs) {
+        Toggle(show);
+        yield return new WaitForSeconds(secs);
+        Toggle(!show);
+    }
+
     private bool IsCgAlphaAnimDone(){
         if(done) return true;
         done = Math.Abs(kfCur.cgAlpha - kfTarget.cgAlpha) < 0.05;

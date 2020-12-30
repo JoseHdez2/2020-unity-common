@@ -7,7 +7,8 @@ using System;
 
 public class DetectiveGameMgr : MonoBehaviour
 {
-    [SerializeField] private AnimFade blackScreen; 
+    [SerializeField] private AudioSourceDetective audioSourceDetective; 
+    [SerializeField] private AnimFade blackScreen, whiteScreen;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private DialogBubbleUI nameBubble;
     // Start is called before the first frame update
@@ -64,11 +65,17 @@ public class DetectiveGameMgr : MonoBehaviour
             switch(command){
                 case "[fade in]": FadeIn(); break;
                 case "[fade out]": FadeOut(); break;
+                case "[blink]": Blink(); break;
                 default: break;
             }
         }
         line = pattern.Replace(line, "");        
         return line;
+    }
+
+    private void Blink()
+    {
+        whiteScreen.ToggleFor(true, 0.25f);
     }
 
     private void FadeIn()

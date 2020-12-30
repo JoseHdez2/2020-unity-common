@@ -2,7 +2,7 @@ Narrator: <color=green>August 3, 9.47 AM, District Court, Defendant Lobby No. 2<
 [fade in]
 Ace: (Boy am I nervous!)
 Boss: Ace!
-Ace: Oh, h-hiya, Boss.
+Ace: [blink] Oh, h-hiya, Boss.
 Boss: Whew, I'm glad I made it on time. Well, I have to say Ace, I'm impressed! 
 Not everyone takes on a murder trial right off the bat like this. It says a lot about you... and your client as well.
 Ace: Um... thanks. Actually, it's because I owe him a favor.
@@ -22,7 +22,7 @@ Bingo: Dude, I'm so guilty!! Tell them I'm guilty!!! Gimme the death sentence! I
 Ace: What!? What's wrong, Barry?
 Bingo: Oh, it's all over... I... I'm finished. Finished! I can't live in a world without her! I can't! Who... who took her away from me, Ace? Who did this!? 
 Aww, Ace, ya gotta tell me! Who took my baby away!?
-Ace: (Hmm... The person responsible for your girlfriend's death? The newspapers say [blink] it was you...)
+Ace: (Hmm... The person responsible for your girlfriend's death? The newspapers say [sound clue] it was you...)
 [fade out]
 Ace: My name is Ace Detective. Here's the story: My first case is a fairly simple one. A young woman was killed in her apartment. 
 The guy they arrested was the unlucky sap dating her: Barry Bingo... my best friend since grade school. Our school had a saying: "When something smells, it's usually the Bingo." 
