@@ -30,3 +30,4 @@ In the 23 years I've known him, it's usually been true. He has a knack for getti
 He just has terrible luck. But I know better than anyone, that he's a good guy at heart. 
 That and I owe him one. Which is why I took the case... to clear his name. And that's just what I'm going to do!
 Narrator: August 3, 10:00 AM. District Court, Courtroom No. 2
+[goto script02]

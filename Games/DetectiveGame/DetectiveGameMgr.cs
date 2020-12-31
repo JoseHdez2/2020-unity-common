@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Text.RegularExpressions;
 using ExtensionMethods;
 using System;
+using System.Linq;
 
 public class DetectiveGameMgr : MonoBehaviour
 {
@@ -13,25 +14,24 @@ public class DetectiveGameMgr : MonoBehaviour
     [SerializeField] private DialogBubbleUI nameBubble;
     // Start is called before the first frame update
     
-    public TextAsset dialogJson01;
-    private string[] dialog01;
+    public TextAsset[] dialogs;
+    private string[] curDialog;
     int dialogInd;
     public ObjectShake objectShake;
     [SerializeField] private Dialogue dialog1, dialog2;
     void Start(){
         blackScreen.Toggle(true);
-        dialog01 = dialogJson01.text.Split('\n');
+        curDialog = dialogs[0].text.Split('\n');
     }
 
     private void Update() {
-        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < dialog01.Length){
+        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curDialog.Length){
             ProcessNewLine();
         }
     }
 
-    private void ProcessNewLine()
-    {
-        string line = dialog01[dialogInd];
+    private void ProcessNewLine() {
+        string line = curDialog[dialogInd];
         string dialog;
         line = ProcessCommands(line);
         if (line.Contains(":")) {
@@ -55,43 +55,41 @@ public class DetectiveGameMgr : MonoBehaviour
         dialogInd++;
     }
 
-    private string ProcessCommands(string line)
-    {
+    private string ProcessCommands(string line) {
         Regex pattern = new Regex(@"\[.+\]");
         Match match = pattern.Match(line);
-        if (match != null)
-        {
+        if (match != null) {
             string command = match.Value;            
             if (command.Contains("goto")){
-                string fileDialog = new Regex(@"\[goto\s+([\w-.]+)\]").Match(command).Captures[0].ToString();                
+                string fileDialog = new Regex(@"\[goto\s+([\w-.]+)\]").Match(command).Groups[1].Captures[0].ToString();                
                 Debug.Log(fileDialog);
                 dialogGoto(fileDialog);
-            }
-            switch(command){
-                case "[fade in]": FadeIn(); break;
-                case "[fade out]": FadeOut(); break;
-                case "[blink]": Blink(); break;
-                case "[shake]": Shake(); break;
-                default: Debug.LogError("Command doesn't exist!"); break;
+            } else {
+                switch(command){
+                    case "[fade in]": FadeIn(); break;
+                    case "[fade out]": FadeOut(); break;
+                    case "[blink]": Blink(); break;
+                    case "[shake]": Shake(); break;
+                    default: Debug.LogError("Command doesn't exist!"); break;
+                }
             }
         }
         line = pattern.Replace(line, "");        
         return line;
     }
 
-    private void dialogGoto()
-    {
-        throw new NotImplementedException();
+    private void dialogGoto(string filename) {
+        TextAsset dialog = dialogs.ToList().First(d => d.name == filename);
+        curDialog = dialog.text.Split('\n');
+        dialogInd = 0;
     }
 
-    private void Blink()
-    {
+    private void Blink() {
         whiteScreen.ToggleFor(true, 0.25f);
         audioSourceDetective.PlaySound(EDetectiveSound.Blink);
     }
 
-    private void FadeIn()
-    {
+    private void FadeIn() {
         blackScreen.Toggle(false);        
     }
 

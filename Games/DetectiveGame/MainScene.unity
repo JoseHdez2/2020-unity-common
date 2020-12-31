@@ -1599,7 +1599,9 @@ MonoBehaviour:
   whiteScreen: {fileID: 1650325484}
   dialogueManager: {fileID: 235566720}
   nameBubble: {fileID: 496524462}
-  dialogJson01: {fileID: 4900000, guid: e12443ec913c6704fa01735402560883, type: 3}
+  dialogs:
+  - {fileID: 4900000, guid: e12443ec913c6704fa01735402560883, type: 3}
+  - {fileID: 4900000, guid: 509a6f48a20b9ea4a89f7cd3d5a45553, type: 3}
   objectShake: {fileID: 21156274}
   dialog1: {fileID: 11400000, guid: e4a5a7920584ba144b949d322f4ce904, type: 2}
   dialog2: {fileID: 11400000, guid: a3b19da97fe18944d96392191133ce76, type: 2}
