@@ -1,0 +1,34 @@
+{
+    "lines":[
+        {"raw": "August 3, 10:00 AM, District Court, Courtroom No. 2"},
+        {"raw": "Judge: The court is now in session for the trial of Mr. Barry Bingo."},
+        {"raw": "Payne: The prosecution is ready, Your Honor."},
+        {"raw": "Ace: The, um, defense is ready, Your Honor."},
+        {"raw": "Judge: Ahem. Mr. Detective? This is your first trial, is it not?"},
+        {"raw": "Ace: Y-Yes, Your Honor. I'm, um, a little nervous."},
+        {"raw": "Judge: Your conduct during this trial will decide the fate of your client. Murder is a serious charge. For your client's sake, I hope you can control your nerves."},
+        {"raw": "Ace: Thank... thank you, Your Honor."},
+        {"raw": "Judge: ... Mr. Detective, given the circumstances... I think we should have a test to ascertain your readiness."},
+        {"raw": "Ace: Y-Your Honor. (Gulp... Hands shaking... Eyesight... fading...)"},
+        {"raw": "Judge: This test will consist of a few simple questions. Answer them clearly and concisely. Please state the name of the defendant in this case. "},
+        {"options": [
+            {
+                "option": "Phoenix Wright",
+                "lines": [
+                    {"raw": "Phoenix: Um... the defendant... is me, right?"},
+                    {"raw": "Mia: Wright! Have you completely lost your mind? Focus! The defendant is the person on trial! You're his lawyer!"},
+                    {"raw": "Phoenix: Um, er, eh? Oh yeah, right! Eh heh heh."},
+                    {"raw": "Mia: This is no laughing matter! You did pass the bar, didn't you?"},
+                    {"raw": "Judge: Sorry, I couldn't hear your answer. I'll ask once more: [go back]"}
+                ]
+            },
+            {
+                "option": "Barry Bingo",
+                "lines": [
+                    {"raw": "The defendant? Well, that's Barry Bingo, Your Honor."}
+                ]
+            }]
+        },
+        {"raw": "Judge: Correct. Just keep your wits about you and you'll do fine. Next question: This is a murder trial. Tell me, what's the victim's name?"}
+    ]
+}
