@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using ExtensionMethods;
 using System;
 using System.Linq;
+using UnityEngine.UI;
 
 [Serializable]
 public class JsonDialog {
@@ -22,17 +23,17 @@ public class JsonDialogLine {
 public class DetectiveGameMgr : MonoBehaviour
 {
     [SerializeField] private AudioSourceDetective audioSourceDetective; 
-    [SerializeField] private AnimFade blackScreen, whiteScreen;
+    [SerializeField] private AnimFade blackScreen, whiteScreen, charFade;
     [SerializeField] private DialogueManager dialogueManager;
     [SerializeField] private DialogBubbleUI nameBubble;
-    // Start is called before the first frame update
+    [SerializeField] private Image charImage;
     
     public TextAsset[] dialogs;
+    public Texture2D[] charImages;
     private string[] curDialog;
     private JsonDialog curJsonDialog;
     int dialogInd;
     public ObjectShake objectShake;
-    [SerializeField] private Dialogue dialog1, dialog2;
     void Start(){
         blackScreen.Toggle(true);
         curDialog = dialogs[0].text.Split('\n');
@@ -96,13 +97,18 @@ public class DetectiveGameMgr : MonoBehaviour
         if (match.Success) {
             string command = match.Value;            
             if (command.Contains("goto")){
-                string fileDialog = new Regex(@"\[goto\s+([\w-.]+)\]").Match(command).Groups[1].Captures[0].ToString();                
-                Debug.Log(fileDialog);
-                dialogGoto(fileDialog);
+                string filename = new Regex(@"\[\w+\s+([\w-.]+)\]").Match(command).Groups[1].Captures[0].ToString();                
+                Debug.Log(filename);
+                dialogGoto(filename);
+            } else if (command.Contains("show")) {
+                string filename = new Regex(@"\[\w+\s+([\w-.]+)\]").Match(command).Groups[1].Captures[0].ToString();                
+                Debug.Log(filename);
+                StartCoroutine(CrShowChar(filename));
             } else {
                 switch(command){
                     case "[fade in]": FadeIn(); break;
                     case "[fade out]": FadeOut(); break;
+                    case "[hide char]": StartCoroutine(CrHideChar()); break;
                     case "[blink]": Blink(); break;
                     case "[shake]": Shake(); break;
                     default: Debug.LogError($"Command {command} doesn't exist!"); break;
@@ -111,6 +117,22 @@ public class DetectiveGameMgr : MonoBehaviour
         }
         line = pattern.Replace(line, "");        
         return line;
+    }
+
+    private IEnumerator CrShowChar(string filename){
+        charFade.Toggle(false);
+        yield return new WaitUntil(charFade.IsDone);
+
+        Texture2D image = charImages.ToList().First(d => d.name == filename);
+        charImage.sprite = Sprite.Create(image, charImage.sprite.rect, charImage.sprite.pivot);
+        
+        charFade.Toggle(true);
+        yield return new WaitUntil(charFade.IsDone);
+    }
+
+    private IEnumerator CrHideChar(){
+        charFade.Toggle(false);
+        yield return new WaitUntil(charFade.IsDone);
     }
 
     private void dialogGoto(string filename) {
@@ -135,13 +157,5 @@ public class DetectiveGameMgr : MonoBehaviour
     private void Shake() {
         objectShake.Shake();
         audioSourceDetective.PlaySound(EDetectiveSound.Shake);
-    }
-
-    public IEnumerator CrStart(){
-        dialogueManager.WriteDialogue(dialog1);
-        yield return new WaitUntil(() => dialogueManager.isDone);
-        blackScreen.Toggle(false);
-        yield return new WaitUntil(() => blackScreen.IsDone());
-        dialogueManager.WriteDialogue(dialog2);
     }
 }

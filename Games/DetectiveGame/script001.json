@@ -1,9 +1,9 @@
 {
     "lines": [
-        {"raw": "Narrator: <color=green>August 3, 9.47 AM, District Court, Defendant Lobby No. 2</color>"},
+        {"raw": "Narrator:[hide char]<color=green>August 3, 9.47 AM, District Court, Defendant Lobby No. 2</color>"},
         {"raw": "[fade in]"},
         {"raw": "Ace: [shake] (Boy am I nervous!)"},
-        {"raw": "Boss: Ace!"},
+        {"raw": "Boss: [show char-boss] Ace!"},
         {"raw": "Ace: [blink] Oh, h-hiya, Boss."},
         {"raw": "Boss: Whew, I'm glad I made it on time. Well, I have to say Ace, I'm impressed! "},
         {"raw": "Not everyone takes on a murder trial right off the bat like this. It says a lot about you... and your client as well."},
@@ -18,7 +18,7 @@
         {"raw": "???: (Death! Despair! Ohhhh! I'm gonna do it, I'm gonna die!!!)"},
         {"raw": "Boss: It sounds like he wants to die..."},
         {"raw": "Ace: Um, yeah. *sigh* "},
-        {"raw": "Bingo: Ace!!!"},
+        {"raw": "Bingo: [show char-barry] Ace!!!"},
         {"raw": "Ace: Hey. Hey there, Barry."},
         {"raw": "Bingo: Dude, I'm so guilty!! Tell them I'm guilty!!! Gimme the death sentence! I ain't afraid to die!"},
         {"raw": "Ace: What!? What's wrong, Barry?"},

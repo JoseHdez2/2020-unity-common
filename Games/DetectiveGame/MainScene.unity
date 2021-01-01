@@ -636,6 +636,8 @@ GameObject:
   - component: {fileID: 364480521}
   - component: {fileID: 364480520}
   - component: {fileID: 364480522}
+  - component: {fileID: 364480523}
+  - component: {fileID: 364480524}
   m_Layer: 5
   m_Name: ImageChar
   m_TagString: Untagged
@@ -682,7 +684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 515aba3d5e2afe548af9f961b0670af2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 019d3a1dcb5b1d14893533148349fd4a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -720,6 +722,32 @@ MonoBehaviour:
   m_FlexibleWidth: 20
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &364480523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364480518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e8a22467c6609840ab13a5535d8e1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationSpeed: 50
+  canvasGroup: {fileID: 364480524}
+--- !u!225 &364480524
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364480518}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &458700032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,14 +1625,17 @@ MonoBehaviour:
   audioSourceDetective: {fileID: 246649820}
   blackScreen: {fileID: 2066884727}
   whiteScreen: {fileID: 1650325484}
+  charFade: {fileID: 364480523}
   dialogueManager: {fileID: 235566720}
   nameBubble: {fileID: 496524462}
+  charImage: {fileID: 364480520}
   dialogs:
   - {fileID: 4900000, guid: 4480d16c019a86449947908d5ca069a0, type: 3}
   - {fileID: 4900000, guid: 509a6f48a20b9ea4a89f7cd3d5a45553, type: 3}
+  charImages:
+  - {fileID: 2800000, guid: 515aba3d5e2afe548af9f961b0670af2, type: 3}
+  - {fileID: 2800000, guid: 019d3a1dcb5b1d14893533148349fd4a, type: 3}
   objectShake: {fileID: 21156274}
-  dialog1: {fileID: 11400000, guid: e4a5a7920584ba144b949d322f4ce904, type: 2}
-  dialog2: {fileID: 11400000, guid: a3b19da97fe18944d96392191133ce76, type: 2}
 --- !u!4 &1489841313
 Transform:
   m_ObjectHideFlags: 0
