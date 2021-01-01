@@ -13,12 +13,12 @@
         {"raw": "Judge: This test will consist of a few simple questions. Answer them clearly and concisely. Please state the name of the defendant in this case. "},
         {"options": [
             {
-                "option": "Phoenix Wright",
+                "option": "Ace Detective",
                 "lines": [
-                    {"raw": "Phoenix: Um... the defendant... is me, right?"},
-                    {"raw": "Mia: Wright! Have you completely lost your mind? Focus! The defendant is the person on trial! You're his lawyer!"},
-                    {"raw": "Phoenix: Um, er, eh? Oh yeah, right! Eh heh heh."},
-                    {"raw": "Mia: This is no laughing matter! You did pass the bar, didn't you?"},
+                    {"raw": "Ace: Um... the defendant... is me, right?"},
+                    {"raw": "Boss: Detective! Have you completely lost your mind? Focus! The defendant is the person on trial! You're his lawyer!"},
+                    {"raw": "Ace: Um, er, eh? Oh yeah, right! Eh heh heh."},
+                    {"raw": "Boss: This is no laughing matter! You did pass the bar, didn't you?"},
                     {"raw": "Judge: Sorry, I couldn't hear your answer. I'll ask once more: [go back]"}
                 ]
             },
