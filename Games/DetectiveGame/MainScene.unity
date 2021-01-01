@@ -1600,7 +1600,7 @@ MonoBehaviour:
   dialogueManager: {fileID: 235566720}
   nameBubble: {fileID: 496524462}
   dialogs:
-  - {fileID: 4900000, guid: e12443ec913c6704fa01735402560883, type: 3}
+  - {fileID: 4900000, guid: 4480d16c019a86449947908d5ca069a0, type: 3}
   - {fileID: 4900000, guid: 509a6f48a20b9ea4a89f7cd3d5a45553, type: 3}
   objectShake: {fileID: 21156274}
   dialog1: {fileID: 11400000, guid: e4a5a7920584ba144b949d322f4ce904, type: 2}

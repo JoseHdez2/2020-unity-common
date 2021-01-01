@@ -6,6 +6,19 @@ using ExtensionMethods;
 using System;
 using System.Linq;
 
+[Serializable]
+public class JsonDialog {
+    [SerializeField] public JsonDialogLine[] lines;
+    public int Length() => lines.Length;
+}
+
+[Serializable]
+public class JsonDialogLine {
+    [SerializeField] public string raw;
+    [SerializeField] public string actor;
+    [SerializeField] public string dialog;
+}
+
 public class DetectiveGameMgr : MonoBehaviour
 {
     [SerializeField] private AudioSourceDetective audioSourceDetective; 
@@ -16,49 +29,71 @@ public class DetectiveGameMgr : MonoBehaviour
     
     public TextAsset[] dialogs;
     private string[] curDialog;
+    private JsonDialog curJsonDialog;
     int dialogInd;
     public ObjectShake objectShake;
     [SerializeField] private Dialogue dialog1, dialog2;
     void Start(){
         blackScreen.Toggle(true);
         curDialog = dialogs[0].text.Split('\n');
+        curJsonDialog = JsonUtility.FromJson<JsonDialog>(dialogs[0].text);
     }
 
     private void Update() {
-        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curDialog.Length){
+        // if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curDialog.Length){
+        //     ProcessNewLine();
+        // }
+        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curJsonDialog.Length()){
             ProcessNewLine();
         }
     }
 
+    // new
     private void ProcessNewLine() {
-        string line = curDialog[dialogInd];
-        string dialog;
-        line = ProcessCommands(line);
-        if (line.Contains(":")) {
-            string name = line.Split(':')[0];
-            dialog = line.Split(':')[1];
-            if (!name.IsNullOrWhiteSpace()) {
-                name = name.Trim();
-                if(name == "Narrator"){
-                    nameBubble.Toggle(false);
-                } else {
-                    nameBubble.WriteSentence(name);
-                }
-            }
+        JsonDialogLine line = curJsonDialog.lines[dialogInd];
+        if(line.dialog.IsNullOrWhiteSpace()) {
+            line = ParseLine(line.raw);
+        }
+        ProcessLine(line.actor, line.dialog);
+        dialogInd++;
+    }
+
+    // old
+    private void ParseAndProcessNewLine() {
+        JsonDialogLine line = ParseLine(curDialog[dialogInd]);
+        ProcessLine(line.actor, line.dialog);
+        dialogInd++;
+    }
+
+    private JsonDialogLine ParseLine(string rawLine) {
+        JsonDialogLine line = new JsonDialogLine();
+        rawLine = ProcessCommands(rawLine);
+        if (rawLine.Contains(":")) {
+            line.actor = rawLine.Split(':')[0].Trim();
+            line.dialog = rawLine.Split(':')[1].Trim();
         } else {
-            dialog = line;
-        }        
-        dialog = dialog.Trim();
+            line.dialog = rawLine;
+        }
+        return line;
+    }
+
+    private void ProcessLine(string actor, string dialog) {
+        if (!actor.IsNullOrWhiteSpace()) {
+            if(actor == "Narrator"){
+                nameBubble.Toggle(false);
+            } else {
+                nameBubble.WriteSentence(actor);
+            }
+        }
         if (!dialog.IsNullOrWhiteSpace()) {
             dialogueManager.WriteOneShot(dialog);
         }
-        dialogInd++;
     }
 
     private string ProcessCommands(string line) {
         Regex pattern = new Regex(@"\[.+\]");
         Match match = pattern.Match(line);
-        if (match != null) {
+        if (match.Success) {
             string command = match.Value;            
             if (command.Contains("goto")){
                 string fileDialog = new Regex(@"\[goto\s+([\w-.]+)\]").Match(command).Groups[1].Captures[0].ToString();                
@@ -70,7 +105,7 @@ public class DetectiveGameMgr : MonoBehaviour
                     case "[fade out]": FadeOut(); break;
                     case "[blink]": Blink(); break;
                     case "[shake]": Shake(); break;
-                    default: Debug.LogError("Command doesn't exist!"); break;
+                    default: Debug.LogError($"Command {command} doesn't exist!"); break;
                 }
             }
         }
