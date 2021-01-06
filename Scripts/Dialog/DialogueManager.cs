@@ -76,6 +76,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        Debug.Log(sentConfig.name);
         dialogBubble.WriteSentence(dialogBubbleData.text, sentConfig);
 
         if(nameBubble != null && curName != dialogBubbleData.name) {

@@ -67,7 +67,7 @@ public class DialogBubbleUI : MonoBehaviour, IToggleable
 
         if (audioSource) { 
             audioSource.SetPitch(bubbleConfig.pitch);
-            // audioSource.soundDict = bubbleConfig.soundDict;
+            audioSource.soundDict = bubbleConfig.soundDict;
         }
         if (promptImage) { promptImage.enabled = false; }
 

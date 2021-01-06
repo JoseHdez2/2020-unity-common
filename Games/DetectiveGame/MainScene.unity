@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4414b946d172964d988e80b9ee4ce9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultConfig: {fileID: 11400000, guid: 424e8f0d93a7cdf4697ee8e910a7c070, type: 2}
+  defaultConfig: {fileID: 11400000, guid: ab9c7ec4329f0d84593a3989b250a75e, type: 2}
   nameConfig: {fileID: 11400000, guid: 3190311ba4076f147a038082871a1db9, type: 2}
   dialogBubble: {fileID: 1249942538}
   nameBubble: {fileID: 0}

@@ -26,7 +26,7 @@ public class DialogConfig : ScriptableObject
 {
     public SerializableDictionaryBase<EDialogSound, AudioClip> soundDict;
 
-    public bool overrideColors = false, overrNextSentTiming = false, 
+    public bool overrideSounds = false, overrideColors = false, overrNextSentTiming = false, 
         overrTimePerCharacter = false, overridePitch = false;
     
     public Color textColor = Color.white;
@@ -54,6 +54,7 @@ public class DialogConfig : ScriptableObject
     public DialogConfig Merge(DialogConfig _override){
         if(_override == null) { return this; }
         DialogConfig newConf = ScriptableObject.CreateInstance<DialogConfig>();
+        newConf.soundDict = _override.overrideSounds ? _override.soundDict : this.soundDict;
         newConf.invisibleCharacters = _override.overrInvisChars ? _override.invisibleCharacters : this.invisibleCharacters;
 
         newConf.textColor = _override.overrideColors ? _override.textColor : this.textColor;

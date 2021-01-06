@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07df30cfb351c2540835605e826a6a57, type: 3}
+  m_Name: DialogConfig 1
+  m_EditorClassIdentifier: 
+  soundDict:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 0000000001000000020000000300000004000000
+    _keys: 0000000001000000020000000300000004000000
+    _values:
+    - {fileID: 8300000, guid: b7c3ca591c2654d489d114c88a20c64f, type: 3}
+    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+  overrideSounds: 1
+  overrideColors: 1
+  overrNextSentTiming: 1
+  overrTimePerCharacter: 1
+  overridePitch: 1
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 1, g: 0, b: 0, a: 1}
+  invisibleCharacters: 1
+  nextSentenceKey: 13
+  nextSentenceSecs: 2
+  timePerCharacter: 0.02
+  pitch: 1
+  pitchVariance: 0
+  wavySpeed: 1
+  wavyIntensity: 0.2
+  wavyLetterOffset: 0.1
