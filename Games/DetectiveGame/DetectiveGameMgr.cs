@@ -10,6 +10,7 @@ using UnityEngine.UI;
 [Serializable]
 public class JsonDialog {
     [SerializeField] public JsonDialogLine[] lines;
+    public int index;
     public int Length() => lines.Length;
 }
 
@@ -18,6 +19,12 @@ public class JsonDialogLine {
     [SerializeField] public string raw;
     [SerializeField] public string actor;
     [SerializeField] public string dialog;
+    [SerializeField] public JsonDialogOption[] options;
+}
+
+[Serializable]
+public class JsonDialogOption : JsonDialog {
+    [SerializeField] public string option;
 }
 
 public class DetectiveGameMgr : MonoBehaviour
@@ -30,40 +37,36 @@ public class DetectiveGameMgr : MonoBehaviour
     
     public TextAsset[] dialogs;
     public Texture2D[] charImages;
-    private string[] curDialog;
-    private JsonDialog curJsonDialog;
-    int dialogInd;
+    private Stack<JsonDialog> dialogStack = new Stack<JsonDialog>();
     public ObjectShake objectShake;
     void Start(){
         blackScreen.Toggle(true);
-        curDialog = dialogs[0].text.Split('\n');
-        curJsonDialog = JsonUtility.FromJson<JsonDialog>(dialogs[0].text);
+        dialogStack.Push(JsonUtility.FromJson<JsonDialog>(dialogs[0].text));
     }
+
+    private JsonDialog curJsonDialog() => dialogStack.Peek();
 
     private void Update() {
         // if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curDialog.Length){
         //     ProcessNewLine();
         // }
-        if(blackScreen.IsDone() && dialogueManager.isDone && dialogInd < curJsonDialog.Length()){
+        if(blackScreen.IsDone() && dialogueManager.isDone && curJsonDialog().index < curJsonDialog().Length()){
             ProcessNewLine();
         }
     }
 
     // new
     private void ProcessNewLine() {
-        JsonDialogLine line = curJsonDialog.lines[dialogInd];
-        if(line.dialog.IsNullOrWhiteSpace()) {
-            line = ParseLine(line.raw);
+        JsonDialogLine line = curJsonDialog().lines[curJsonDialog().index];
+        if(line.options != null && !line.options.IsEmpty()){
+            Debug.Log("options!");
+        } else { 
+            if(!line.raw.IsNullOrWhiteSpace()) {
+                line = ParseLine(line.raw);
+            }
+            ProcessLine(line.actor, line.dialog);
         }
-        ProcessLine(line.actor, line.dialog);
-        dialogInd++;
-    }
-
-    // old
-    private void ParseAndProcessNewLine() {
-        JsonDialogLine line = ParseLine(curDialog[dialogInd]);
-        ProcessLine(line.actor, line.dialog);
-        dialogInd++;
+        curJsonDialog().index++;
     }
 
     private JsonDialogLine ParseLine(string rawLine) {
@@ -137,8 +140,8 @@ public class DetectiveGameMgr : MonoBehaviour
 
     private void dialogGoto(string filename) {
         TextAsset dialog = dialogs.ToList().First(d => d.name == filename);
-        curDialog = dialog.text.Split('\n');
-        dialogInd = 0;
+        dialogStack.Pop();
+        dialogStack.Push(JsonUtility.FromJson<JsonDialog>(dialog.text));
     }
 
     private void Blink() {

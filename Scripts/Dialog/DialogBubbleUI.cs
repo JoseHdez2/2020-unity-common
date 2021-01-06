@@ -138,6 +138,7 @@ public class DialogBubbleUI : MonoBehaviour, IToggleable
                     yield return new WaitForSeconds(bubbleConfig.timePerCharacter * 30);
                     break;
                 case ',':
+                case '-':
                     yield return new WaitForSeconds(bubbleConfig.timePerCharacter * 10);
                     break;
                 default:

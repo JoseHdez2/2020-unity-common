@@ -1666,8 +1666,8 @@ MonoBehaviour:
   nameBubble: {fileID: 496524462}
   charImage: {fileID: 364480520}
   dialogs:
-  - {fileID: 4900000, guid: 4480d16c019a86449947908d5ca069a0, type: 3}
-  - {fileID: 4900000, guid: 509a6f48a20b9ea4a89f7cd3d5a45553, type: 3}
+  - {fileID: 4900000, guid: 41aca8a75c0694545a718fe3230ce0c7, type: 3}
+  - {fileID: 4900000, guid: 41aca8a75c0694545a718fe3230ce0c7, type: 3}
   charImages:
   - {fileID: 2800000, guid: 515aba3d5e2afe548af9f961b0670af2, type: 3}
   - {fileID: 2800000, guid: 019d3a1dcb5b1d14893533148349fd4a, type: 3}
