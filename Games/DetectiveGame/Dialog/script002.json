@@ -1,6 +1,6 @@
 {
     "lines":[
-        {"raw": "August 3, 10:00 AM, District Court, Courtroom No. 2"},
+        {"actor": "Narrator", "dialog": "August 3, 10:00 AM, District Court, Courtroom No. 2"},
         {"raw": "Judge: The court is now in session for the trial of Mr. Barry Bingo."},
         {"raw": "Payne: The prosecution is ready, Your Honor."},
         {"raw": "Ace: The, um, defense is ready, Your Honor."},
@@ -19,13 +19,13 @@
                     {"raw": "Boss: Detective! Have you completely lost your mind? Focus! The defendant is the person on trial! You're his lawyer!"},
                     {"raw": "Ace: Um, er, eh? Oh yeah, right! Eh heh heh."},
                     {"raw": "Boss: This is no laughing matter! You did pass the bar, didn't you?"},
-                    {"raw": "Judge: Sorry, I couldn't hear your answer. I'll ask once more: [go back]"}
+                    {"actor": "Judge", "dialog": "Sorry, I couldn't hear your answer. I'll ask once more:"}
                 ]
             },
             {
                 "option": "Barry Bingo",
                 "lines": [
-                    {"raw": "The defendant? Well, that's Barry Bingo, Your Honor."}
+                    {"raw": "The defendant? Well, that's Barry Bingo, Your Honor. [continue]"}
                 ]
             }]
         },
