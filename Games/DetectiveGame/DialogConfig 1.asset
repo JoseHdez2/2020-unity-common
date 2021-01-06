@@ -40,7 +40,7 @@ MonoBehaviour:
     _values:
     - {fileID: 8300000, guid: b7c3ca591c2654d489d114c88a20c64f, type: 3}
     - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
-    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+    - {fileID: 8300000, guid: fed7be4fe05692445b69f22bccde05de, type: 3}
     - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
     - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
   overrideSounds: 1
