@@ -112,6 +112,7 @@ public class DialogBubbleUI : MonoBehaviour, IToggleable
         }
         str = Regex.Replace(str, "\\*(.+?)\\*", m => Highlight(m.Groups[1].ToString()));
         str = Regex.Replace(str, "~(.+?)~", m => Wavy(m.Groups[1].ToString()));
+        str = Regex.Replace(str, "&(.+?)&", m => Highlight2(m.Groups[1].ToString()));    
         str = Regex.Replace(str, "\\*(.+?)?$", Highlight("$1"));
         str = Regex.Replace(str, "~(.+?)?$", m => Wavy(m.Groups[1].ToString()));
         tmpText.text = str;
@@ -181,6 +182,7 @@ public class DialogBubbleUI : MonoBehaviour, IToggleable
     }
 
     private string Highlight(string str) => str.Color(bubbleConfig.highlightColor);
+    private string Highlight2(string str) => str.Color(bubbleConfig.highlightColor2);
 
     private string Wavy(string str) =>
         str.Wavy(bubbleConfig.wavySpeed, bubbleConfig.wavyIntensity, bubbleConfig.wavyLetterOffset);

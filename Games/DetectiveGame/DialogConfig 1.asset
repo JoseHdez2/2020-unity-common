@@ -38,11 +38,11 @@ MonoBehaviour:
     _keyValues: 0000000001000000020000000300000004000000
     _keys: 0000000001000000020000000300000004000000
     _values:
-    - {fileID: 8300000, guid: b7c3ca591c2654d489d114c88a20c64f, type: 3}
+    - {fileID: 8300000, guid: 895a32b6c60e94a4e8b22a41fc1aa33c, type: 3}
     - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
     - {fileID: 8300000, guid: fed7be4fe05692445b69f22bccde05de, type: 3}
-    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
-    - {fileID: 8300000, guid: 563ccd50394561e4b9b690f8d2436e6e, type: 3}
+    - {fileID: 0}
+    - {fileID: 8300000, guid: fed7be4fe05692445b69f22bccde05de, type: 3}
   overrideSounds: 1
   overrideColors: 1
   overrNextSentTiming: 1
