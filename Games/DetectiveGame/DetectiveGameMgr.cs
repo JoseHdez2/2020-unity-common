@@ -125,6 +125,7 @@ public class DetectiveGameMgr : MonoBehaviour
                     case "[hide char]": StartCoroutine(CrHideChar()); break;
                     case "[blink]": Blink(); break;
                     case "[shake]": Shake(); break;
+                    case "[continue]": curJsonDialog().index++; ProcessNewLine(); break;
                     default: Debug.LogError($"Command {command} doesn't exist!"); break;
                 }
             }

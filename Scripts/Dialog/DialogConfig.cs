@@ -32,6 +32,8 @@ public class DialogConfig : ScriptableObject
     public Color textColor = Color.white;
     public Color highlightColor = Color.red;
 
+    public Color highlightColor2 = Color.blue;
+
     bool overrInvisChars = false;
     [Tooltip("Set to 'true' to avoid moving words mid-sentence.")]
     public bool invisibleCharacters = true;

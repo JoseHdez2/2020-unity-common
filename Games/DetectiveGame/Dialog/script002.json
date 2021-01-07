@@ -9,7 +9,7 @@
         {"raw": "Judge: Your conduct during this trial will decide the fate of your client. Murder is a serious charge. For your client's sake, I hope you can control your nerves."},
         {"raw": "Ace: Thank... thank you, Your Honor."},
         {"raw": "Judge: ... Mr. Detective, given the circumstances... I think we should have a test to ascertain your readiness."},
-        {"raw": "Ace: Y-Your Honor. (Gulp... Hands shaking... Eyesight... fading...)"},
+        {"raw": "Ace: Y-Your Honor. &(Gulp... Hands shaking... Eyesight... fading...)&"},
         {"raw": "Judge: This test will consist of a few simple questions. Answer them clearly and concisely. Please state the name of the defendant in this case. "},
         {"options": [
             {
