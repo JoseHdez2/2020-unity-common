@@ -29,6 +29,56 @@
                 ]
             }]
         },
-        {"raw": "Judge: Correct. Just keep your wits about you and you'll do fine. Next question: This is a murder trial. Tell me, what's the victim's name?"}
+        {"raw": "Judge: Correct. Just keep your wits about you and you'll do fine. Next question: This is a murder trial. Tell me, what's the victim's name?"},
+        {"raw": "Phoenix: (Whew, I know this one! Glad I read the case report cover to cover so many times. It's... wait... Uh-oh! No... no way! I forgot! I'm drawing a total blank here!)"},
+        {"raw": "Mia: Phoenix! Are you absolutely SURE you're up to this? You don't even know the victim's name!?"},
+        {"raw": "Phoenix: Oh, the victim! O-Of course I know the victim's name! I, um, just forgot. ... Temporarily."},
+        {"raw": "Mia: I think I feel a migraine coming on. Look, the victim's name is listed in the Court Record. Just touch the Court Record button to check it at anytime, okay? Remember to check it often. Do it for me, please. I'm begging you."},
+        {"raw": "Judge: Mr. Wright. Who is the victim in this case? "},
+        {"options": [
+            {
+                "option": "Mia Fey",
+                "lines": [
+                    {"raw": "Phoenix: Um... Mia Fey?"},
+                    {"raw": "Mia: W-W-What!? How can I be the victim!?"},
+                    {"raw": "Phoenix: Oh! Right! Sorry! I, er, it was the first name that popped into my head, and--"},
+                    {"raw": "Mia: The Court Record button! Remember to use it when you are in a pinch."},
+                    {"raw": "Judge: Let me ask that one again:"}
+                ]
+            },
+            {"option": "Cinder Block",
+                "lines": [
+                    {"raw": "Phoenix: Oh, um, wasn't it Ms. Block? Ms. Cinder Block?"},
+                    {"raw": "Judge: The person in question was a victim of murder, not ill-conceived naming, Mr. Wright."},
+                    {"raw": "Mia: Wright? If you forget something, just touch the Court Record button to help you remember. A mistake in court could cost you the case."},
+                    {"raw": "Judge: I ask you again: "}
+                ]
+            },
+            {"option": "Cindy Stone", "lines": [{"raw": "[continue]"}]}
+        ]},
+        {"raw": "Phoenix: Um... the victim's name is Cindy Stone."},
+        {"raw": "Judge: Correct. Now, tell me, what was the cause of death? She died because she was...? "},
+        {"options": [
+            {"option": "Poisoned"},
+            {"option": "Hit with a blunt object"},
+            {"option": "Strangled"}
+        ]},
+        {"raw": "Phoenix: She was struck once, by a blunt object."},
+        {"raw": "Judge: Correct. You've answered all my questions. I see no reason why we shouldn't proceed. You seem much more relaxed, Mr. Wright. Good for you."},
+        {"raw": "Phoenix: Thank you, Your Honor. (Because I don't FEEL relaxed, that's for sure.)"},
+        {"raw": "Judge: Well, then... First, a question for the prosecution. Mr. Payne?"},
+        {"raw": "Payne: Yes, Your Honor?"},
+        {"raw": "Judge: As Mr. Wright just told us, the victim was struck with a blunt object. Would you explain to the court just what that \"object\" was?"},
+        {"raw": "Payne: The murder weapon was this statue of \"The Thinker.\" It was found lying on the floor, next to the victim."},
+        {"raw": "Judge: I see... the court accepts it into evidence."},
+        {"raw": "Statue added to the Court Record."},
+        {"raw": "Mia: Wright... Be sure to pay attention to any evidence added during the trial. That evidence is the only ammunition you have in court. Touch the Court Record button to check the Court Record frequently."},
+        {"raw": "Judge: Mr. Payne, the prosecution may call its first witness."},
+        {"raw": "Payne: The prosecution calls the defendant, Mr. Butz, to the stand."},
+        {"raw": "Phoenix: Um, Chief, what do I do now?"},
+        {"raw": "Mia: Pay attention. You don't want to miss any information that might help your client's case. You'll get your chance to respond to the prosecution later, so be ready! Let's just hope he doesn't say anything... unfortunate."},
+        {"raw": "Phoenix: (Uh oh, Larry gets excited easily... this could be bad.) "},
+        {"raw": "[fade out]"},
+        {"raw": "[goto script003]"}
     ]
 }

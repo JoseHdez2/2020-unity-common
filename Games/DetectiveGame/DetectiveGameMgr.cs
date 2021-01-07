@@ -61,6 +61,9 @@ public class DetectiveGameMgr : MonoBehaviour
                 if(curJsonDialog().index < curJsonDialog().Length()){
                     ProcessNewLine();
                 } else {
+                    Debug.Log(curJsonDialog().index);
+                    Debug.Log(curJsonDialog().Length());
+                    Debug.Log("popping!");
                     dialogStack.Pop();
                 }
         }
@@ -125,6 +128,7 @@ public class DetectiveGameMgr : MonoBehaviour
                     case "[hide char]": StartCoroutine(CrHideChar()); break;
                     case "[blink]": Blink(); break;
                     case "[shake]": Shake(); break;
+                    case "[continue]": Continue(); break;
                     default: Debug.LogError($"Command {command} doesn't exist!"); break;
                 }
             }
@@ -197,5 +201,12 @@ public class DetectiveGameMgr : MonoBehaviour
     private void Shake() {
         objectShake.Shake();
         audioSourceDetective.PlaySound(EDetectiveSound.Shake);
+    }
+
+    private void Continue() {
+        Debug.Log(dialogStack.Count);
+        dialogStack.Pop();
+        Debug.Log(dialogStack.Count);
+        curJsonDialog().index++;
     }
 }

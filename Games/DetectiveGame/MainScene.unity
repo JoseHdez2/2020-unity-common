@@ -1069,8 +1069,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1284,8 +1284,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -430, y: -35}
-  m_SizeDelta: {x: 360, y: 85}
+  m_AnchoredPosition: {x: -430, y: -50}
+  m_SizeDelta: {x: 360, y: 60}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &496524461
 MonoBehaviour:
@@ -1814,8 +1814,7 @@ MonoBehaviour:
   charImage: {fileID: 364480520}
   dialogChoices: {fileID: 23164028}
   dialogs:
-  - {fileID: 4900000, guid: 41aca8a75c0694545a718fe3230ce0c7, type: 3}
-  - {fileID: 4900000, guid: 41aca8a75c0694545a718fe3230ce0c7, type: 3}
+  - {fileID: 4900000, guid: 060ec7f2ec55c0d4aa9bb1b2a33ef6a9, type: 3}
   charImages:
   - {fileID: 2800000, guid: 515aba3d5e2afe548af9f961b0670af2, type: 3}
   - {fileID: 2800000, guid: 019d3a1dcb5b1d14893533148349fd4a, type: 3}

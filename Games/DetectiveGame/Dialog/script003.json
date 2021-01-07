@@ -1,0 +1,29 @@
+{
+    "lines": [
+        {"raw": "[fade in]"},
+        {"raw": "Payne: Mr. Sahwit, you sell newspaper subscriptions, is this correct?"},
+        {"raw": "Sahwit: Oh, oh yes! Newspapers, yes!"},
+        {"raw": "Judge: Mr. Sahwit, you may proceed with your testimony. Please tell the court what you saw on the day of the murder. "},
+        {"cross-examination": {
+            "lines": [{
+                "raw": "I thought he must be in a hurry because he left the door half-open behind him.",
+                "press": [
+                    {"raw": "Phoenix: Half-open... you say?"},
+                    {"raw": "Sahwit: Yes, yes, the door was open halfway. Yes. I watched for a moment, but no one came to close the door. \"That's odd, in a big city like this,\" I thought..."},
+                    {"raw": "Payne: I see. And what happened next? [set asd = 100]"}
+                ]
+            },
+            {
+                "dialog": "I remember the time exactly: It was 1:00 PM.",
+                "present": {
+                    "proof": "Cindy's Autopsy Report",
+                    "lines": [{"raw": "You found the body at 1:00 PM. You're sure?"}, {"raw": "[continue]"}]
+                }
+            }]
+        }},
+        {"raw": "Phoenix: You found the body at 1:00 PM. You're sure?"},
+        {"raw": "Sahwit: Yes. It was 1:00 PM, for certain."},
+        {"raw": "Phoenix: Frankly, I find that hard to believe! Your statement directly contradicts the autopsy report. The autopsy notes the time of death at sometime after 4PM. There was nobody to... er... no \"body\" to find at 1:00 PM! How do you explain this three-hour gap?"},
+        {"raw": "Sahwit: !!! Oh, that! Oh, er... "}
+    ]
+}
