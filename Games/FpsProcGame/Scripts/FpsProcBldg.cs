@@ -30,12 +30,9 @@ public class FpsProcBldgData {
 }
 
 public abstract class FpsProcBldg : MonoBehaviour {
-
     public FpsProcBldgData data;
-    
-    private FpsProcDatabase db;
-
     public FpsProcBounds pfBounds;
+    private FpsProcDatabase db;
 
     private void Awake() {
         db = FindObjectOfType<FpsProcDatabase>();

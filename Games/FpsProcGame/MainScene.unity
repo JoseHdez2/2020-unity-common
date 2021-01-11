@@ -24879,7 +24879,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 719cb3ec7ba3d5b4eaad1cae94f506c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: " o \no o\n o "
+  tilemap: '+-+-+-+
+
+    | |o | |
+
+    +-+-+-+
+
+    |o| |o |
+
+    +-+-+-+
+
+    |
+    |o| |
+
+    +-+-+-+'
   prefabs:
     reorderableList:
       canAdd: 1
@@ -24903,11 +24916,14 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 6f00
-    _keys: 6f00
+    _keyValues: 6f007c002d002b00
+    _keys: 6f007c002d002b00
     _values:
     - {fileID: 3453521826699677935, guid: dff7803a4b406d843b709e2b561e876f, type: 3}
-  cellScale: {x: 30, y: 0, z: 30}
+    - {fileID: 8752598396813935021, guid: 48f88a717e602b1448f40752ff6a53d5, type: 3}
+    - {fileID: 8752598396813935021, guid: 10995c9234e17ee488f01f513cbb3631, type: 3}
+    - {fileID: 8752598396813935021, guid: 70ad4558fc578274086733dc0472fcc8, type: 3}
+  cellScale: {x: 24, y: 0, z: 24}
 --- !u!4 &1910811319
 Transform:
   m_ObjectHideFlags: 0
