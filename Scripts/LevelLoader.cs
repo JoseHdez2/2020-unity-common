@@ -33,16 +33,16 @@ public abstract class AbsLevelLoader<T> : MonoBehaviour
         PauseMenuController.PauseGameStatic(true);
     }
 
-    public void RestartLevel() => LoadLevel(CurScene());
-    public void LoadNextLevel() => LoadLevel(GetScene(NextLevel()));
-    public void LoadPrevLevel() => LoadLevel(GetScene(PrevLevel()));
-    public void LoadNextLevelOrTitle() => LoadLevel(GetScene(NextLevelOrTitle()));
+    public void RestartLevel() => LoadLevel(CurScene().buildIndex);
+    public void LoadNextLevel() => LoadLevel(GetSceneBuildIndex(NextLevel()));
+    public void LoadPrevLevel() => LoadLevel(GetSceneBuildIndex(PrevLevel()));
+    public void LoadNextLevelOrTitle() => LoadLevel(GetSceneBuildIndex(NextLevelOrTitle()));
 
-    public void LoadLevel(Scene scene){
-        StartCoroutine(CrLoadLevel(scene));
+    public void LoadLevel(int buildIndex){
+        StartCoroutine(CrLoadLevel(buildIndex));
     }
 
-    IEnumerator CrLoadLevel(Scene scene) {
+    IEnumerator CrLoadLevel(int buildIndex) {
         if(controls != null){
             controls.Disable();
         }
@@ -55,11 +55,9 @@ public abstract class AbsLevelLoader<T> : MonoBehaviour
             screenWipe.Toggle(true);
             yield return new WaitUntil(() => screenWipe.IsDone());
         }
-        Debug.Log(scene.buildIndex);
-        Debug.Log(scene.name);
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(buildIndex);
     }
-    protected abstract Scene GetScene(T index);
+    protected abstract int GetSceneBuildIndex(T index);
     protected Scene CurScene() => SceneManager.GetActiveScene();
     protected abstract T NextLevel();
     protected abstract T PrevLevel();
@@ -69,8 +67,12 @@ public abstract class AbsLevelLoader<T> : MonoBehaviour
 }
 
 public class LevelLoader : AbsLevelLoader<int> {
-    protected override Scene GetScene(int index) => SceneManager.GetSceneByBuildIndex(index); 
-    protected int CurLevelIndex() => SceneManager.GetActiveScene().buildIndex;
+    protected override int GetSceneBuildIndex(int buildIndex) => buildIndex;
+
+    protected int CurLevelIndex(){
+        Debug.Log($"CurLevelIndex: {SceneManager.GetActiveScene().buildIndex}");
+        return SceneManager.GetActiveScene().buildIndex;
+    }
     protected override int NextLevel() => CurLevelIndex() + 1;
     protected override int PrevLevel() => CurLevelIndex() - 1;
     protected override int NextLevelOrTitle() => LevelExists(NextLevel()) ? NextLevel() : 0;

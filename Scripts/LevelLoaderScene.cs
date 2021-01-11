@@ -11,7 +11,7 @@ public class LevelLoaderScene : AbsLevelLoader<SceneReference>
 {
     public SceneReference nextLevel, prevLevel;
     // LevelLoaderScene
-    protected override Scene GetScene(SceneReference sceneRef) => SceneManager.GetSceneByPath(sceneRef.ScenePath); 
+    protected override int GetSceneBuildIndex(SceneReference sceneRef) => SceneManager.GetSceneByPath(sceneRef.ScenePath).buildIndex; 
     protected override SceneReference NextLevel() => nextLevel;
     protected override SceneReference PrevLevel() => prevLevel;
     protected override SceneReference NextLevelOrTitle() => nextLevel; // TODO
