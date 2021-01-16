@@ -4,6 +4,9 @@ using UnityEngine;
 using ExtensionMethods;
 using System.Linq;
 
+/// <summary>
+/// A 3d prefab along with rotation angles.
+/// </summary>
 [Serializable]
 public class ProcFpsPrefab {
     [SerializeField] public GameObject prefab;
@@ -11,8 +14,10 @@ public class ProcFpsPrefab {
 }
 
 /// <summary>
-/// Takes 3d "tilemaps" and instantiates them, translating each character to a prefab.
+/// For taking 3d "tilemaps" and instantiating them, translating each character to a prefab.
 /// </summary>
-public class ProcFpsConstructor : MonoBehaviour {
+[Serializable]
+[CreateAssetMenu(fileName = "PrefabDict_", menuName = "ScriptableObjects/CharToPrefabDict", order = 1)]
+public class CharToPrefabDict : ScriptableObject {
     public SerializableDictionaryBase<char, ProcFpsPrefab> prefabs;
 }

@@ -9,22 +9,24 @@ public class SelectionManager : MonoBehaviour
     public Transform crosshair;
     private Transform curSelectionTransform;
     private Selectable curSelection;
+    public float maxDistance = 10f;
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(crosshair.position);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit))
-        {
-            var transform = hit.transform;
-            if (transform != curSelectionTransform){
+        if (Physics.Raycast(ray, out hit)) {
+            var candidateTransform = hit.transform;
+            if (candidateTransform != curSelectionTransform){
                 if (curSelection) { curSelection.Deselect(); }
-                curSelectionTransform = null;
-                Selectable selection = transform.GetComponent<Selectable>();
-                if(selection){
-                    selection.Select();
-                    curSelection = selection;
-                    curSelectionTransform = transform;
-                }
+                // if (Vector3.Distance(transform.position, candidateTransform.position) < maxDistance){ // TODO
+                    curSelectionTransform = null;
+                    Selectable selection = candidateTransform.GetComponent<Selectable>();
+                    if(selection){
+                        selection.Select();
+                        curSelection = selection;
+                        curSelectionTransform = candidateTransform;
+                    }
+                // }
             }
         }
 

@@ -9,19 +9,16 @@ public class RotateTowardsTarget : MonoBehaviour
     public string targetTag;
     // The target marker.
     public Transform target;
+    public bool lockRotX, lockRotY, lockRotZ;
 
-    private void Start()
-    {
+    private void Start() {
         FindTargetIfMissing();
     }
 
-    void FindTargetIfMissing()
-    {
-        if (target == null && !string.IsNullOrEmpty(targetTag))
-        {
+    void FindTargetIfMissing() {
+        if (target == null && !string.IsNullOrEmpty(targetTag)) {
             GameObject obj = GameObject.FindGameObjectWithTag(targetTag);
-            if (obj != null)
-            {
+            if (obj != null) {
                 target = obj.transform;
             }
         }
@@ -30,14 +27,12 @@ public class RotateTowardsTarget : MonoBehaviour
     // Angular speed in radians per sec.
     public float turnSpeed = 1.0f;
 
-    void Update()
-    {
+    void Update() {
         FindTargetIfMissing();
         RotTowardsTarget();
     }
 
-    void RotTowardsTarget()
-    {
+    void RotTowardsTarget() {
         // Determine which direction to rotate towards
         Vector3 targetDirection = target.position - transform.position;
 
@@ -50,7 +45,13 @@ public class RotateTowardsTarget : MonoBehaviour
         // Draw a ray pointing at our target in
         Debug.DrawRay(transform.position, newDirection, Color.red);
 
+        Vector3 newDirectionWithLocks = new Vector3(
+            lockRotX ? transform.forward.x : newDirection.x,
+            lockRotX ? transform.forward.y : newDirection.y,
+            lockRotX ? transform.forward.z : newDirection.z
+        );
+
         // Calculate a rotation a step closer to the target and applies rotation to this object
-        transform.rotation = Quaternion.LookRotation(newDirection);
+        transform.rotation = Quaternion.LookRotation(newDirectionWithLocks);
     }
 }

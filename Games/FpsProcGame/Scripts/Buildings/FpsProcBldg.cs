@@ -21,8 +21,8 @@ public class FpsProcBldgData {
     public Vector3 GetFloorSize() => new Vector3(gridSize.x, 1, gridSize.y).ScaleWith(cellScale);
     public Vector3 GetCenter() => GetOrigin() + GetSize() / 2;
     public Vector3 GetFloorCenter(int floorNum) => GetOrigin() + Vector3.up * cellScale.y * (floorNum + 0.5f) + GetFloorSize() / 2;
-    public Bounds GetBounds() =>  new Bounds(GetCenter(), GetSize());
-    public Bounds GetFloorBounds(int floorNum) =>  new Bounds(GetFloorCenter(floorNum), GetFloorSize());
+    public Bounds GetBounds() => new Bounds(GetCenter(), GetSize());
+    public Bounds GetFloorBounds(int floorNum) => new Bounds(GetFloorCenter(floorNum), GetFloorSize());
 
     public string TilemapToStr() => string.Join("\n\n", Enumerable.Reverse(tilemap).Select((f,i) => $"F{tilemap.Count - i}:\n{string.Join("\n", f)}"));
     public string TilemapToStr(int floorNum) => string.Join("\n\n", Enumerable.Reverse(tilemap)
@@ -32,6 +32,7 @@ public class FpsProcBldgData {
 public abstract class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     public FpsProcBounds pfBounds;
+    public CharToPrefabDict prefabDict;
     private FpsProcDatabase db;
 
     private void Awake() {
@@ -39,10 +40,14 @@ public abstract class FpsProcBldg : MonoBehaviour {
     }
 
     public void Generate(){
+        db = FindObjectOfType<FpsProcDatabase>();
+        db.Initialize();
         data.tilemap = GenerateTilemap(data);
         data.name = GenerateName(data);
         FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
-        data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();
+        if(gameMgr){
+            data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();
+        }
     }
     
     ///<summary>
@@ -55,18 +60,17 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public abstract List<List<string>> GenerateTilemap(FpsProcBldgData input);
     public abstract string GenerateName(FpsProcBldgData input);
     
-    public void Instantiate(FpsProcNpc pfNpc){
+    public void InstantiateBuilding(FpsProcNpc pfNpc){
         name = data.name;
         transform.position = data.origin;
-        IDictionary<char, ProcFpsPrefab> prefabs = FindObjectOfType<ProcFpsConstructor>().prefabs;
-
+        IDictionary<char, ProcFpsPrefab> prefabs = prefabDict.prefabs;
 
         for(int z = 0; z < data.GetNumOfFloors(); z++){ // floors
             GameObject floor = new GameObject(name: $"Floor {z}");
             floor.transform.parent = transform;
 
             FpsProcBounds bounds = Instantiate(pfBounds, data.GetFloorCenter(z), Quaternion.identity, floor.transform);
-            bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(1, 0.2f, 1));
+            bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(0.95f, 0.2f, 0.95f));
             bounds.bldg = this;
             bounds.floorNum = z;
 
@@ -85,8 +89,11 @@ public abstract class FpsProcBldg : MonoBehaviour {
             if(z == data.GetNumOfFloors() - 1){
                 break; // don't create a Bounds for the last floors, since they're inaccessible atm.
             }
-            FpsProcOrganization randomOrg = FindObjectOfType<FpsProcGameMgr>().affiliationsMgr.organizations.RandomItem();
-            randomOrg.areas.Add(bounds);
+            FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
+            if(gameMgr){
+                FpsProcOrganization randomOrg = gameMgr.affiliationsMgr.organizations.RandomItem();
+                randomOrg.areas.Add(bounds);
+            }
         }
     }
 

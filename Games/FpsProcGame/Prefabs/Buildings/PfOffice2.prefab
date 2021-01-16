@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3453521826699677935}
   - component: {fileID: -1219370854391345673}
   m_Layer: 0
-  m_Name: procFpsBldgOffice
+  m_Name: PfOffice2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
     name: 
     orgUuids: []
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
-  prefabDict: {fileID: 11400000, guid: ecd107d6e5bd46f4297bd3903e3016fc, type: 2}
+  prefabDict: {fileID: 11400000, guid: bcbf0a84e169c6b47af787fd1ce40129, type: 2}
 --- !u!114 &-1219370854391345673
 MonoBehaviour:
   m_ObjectHideFlags: 0

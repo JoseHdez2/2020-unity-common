@@ -10,6 +10,14 @@ public class FpsProcDistrict : MonoBehaviour {
     public string tilemap;
     public SerializableDictionaryBase<char, FpsProcBldg> prefabs;
     [SerializeField] private Vector3Int cellScale;
+    public bool autoInstantiate;
+    [SerializeField] private FpsProcNpc pfNpc;
+
+    private void Start() {
+        if(autoInstantiate){
+            GenerateAndInstantiateBuildings();
+        }
+    }
 
     public void GenerateAndInstantiateBuildings(){
         string[] rows = tilemap.Split('\n');
@@ -32,7 +40,10 @@ public class FpsProcDistrict : MonoBehaviour {
     private void GenerateAndInstantiate(FpsProcBldg building){
         building.Generate();
         Debug.Log($"something: {building.data.TilemapToStr()}");
-        building.Instantiate(FindObjectOfType<FpsProcGameMgr>().pfNpc);
+        if(pfNpc == null){
+            pfNpc = FindObjectOfType<FpsProcGameMgr>().pfNpc;
+        }
+        building.InstantiateBuilding(pfNpc);
     }
 
 }

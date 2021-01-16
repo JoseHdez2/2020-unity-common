@@ -108,5 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57b1fd7d8e0945418827f09e1638a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uuid: 
   bldg: {fileID: 0}
   floorNum: 0
+  npcs: []

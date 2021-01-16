@@ -4569,6 +4569,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTag: Player
   target: {fileID: 0}
+  lockRotX: 1
+  lockRotY: 1
+  lockRotZ: 0
   turnSpeed: 1
 --- !u!1 &9107475465142874332
 GameObject:

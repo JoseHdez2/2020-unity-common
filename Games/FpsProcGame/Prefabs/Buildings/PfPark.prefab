@@ -2170,12 +2170,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    origin: {x: 0, y: 0, z: 0}
-    cellScale: {x: 2, y: 2, z: 2}
-    gridSize: {x: 0, y: 0, z: 0}
+    origin: {x: 10, y: 0, z: 10}
+    cellScale: {x: 4, y: 2.25, z: 4}
+    gridSize: {x: 6, y: 6, z: 1}
     name: 
     orgUuids: []
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
+  prefabDict: {fileID: 11400000, guid: 33fc7a8f6703afe4ea1d84323355a290, type: 2}
+  bldgNameSuffix: Park
 --- !u!1 &1659196329512226359
 GameObject:
   m_ObjectHideFlags: 0

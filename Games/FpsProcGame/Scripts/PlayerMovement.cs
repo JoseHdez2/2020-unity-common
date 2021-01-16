@@ -21,11 +21,23 @@ public class PlayerMovement : MonoBehaviour
     Vector3 move, velocity;
     bool isGrounded;
     [SerializeField] private bool enableGravity = true;
-    private bool isDashing;
+    private bool isDashing, debugFly;
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.V) && Debug.isDebugBuild) {
+            debugFly = !debugFly;
+        }
+        if(debugFly){
+
+        } else {
+            PlayerMovementUpdate();
+        }
+
+    }
+
+    public void PlayerMovementUpdate(){
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if(isGrounded && velocity.y < 0)
