@@ -23,7 +23,7 @@ public class FpsProcGameAudioMgr : MonoBehaviour {
         clockSound.Stop();
     }
     public void SwitchAmbiance(FpsProcBldg bldg){
-        ambianceSound.Stop(); // ambianceSound.FadeOut(0.5f);
+        ambianceSound.Pause(); // ambianceSound.FadeOut(0.5f);
         // audioMixer.TransitionToSnapshots();
         AudioClip sound;
         if(bldg is FpsProcBldgOffice){
@@ -32,6 +32,6 @@ public class FpsProcGameAudioMgr : MonoBehaviour {
             sound = ambiances[AmbianceType.Outdoors];
         }
         ambianceSound.clip = sound;
-        ambianceSound.PlayDelayed(1);
+        ambianceSound.Play();
     }
 }

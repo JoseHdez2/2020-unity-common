@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8afb5277c47fece47a243c652655d512, type: 3}
+  m_Name: PfDict_Office2Top
+  m_EditorClassIdentifier: 
+  prefabs:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 5f00440064255f2562256725542557255a255d25
+    _keys: 5f00440064255f2562256725542557255a255d25
+    _values:
+    - prefab: {fileID: 1579477099226215691, guid: ca175df7e2e4f194395dfef6d5b0ec14, type: 3}
+      eulerAngles: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 81b5a635d4feed64587812bbb3fa4998, type: 3}
+      eulerAngles: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 6052be8ea0579b849bd7175bcca0a20d, type: 3}
+      eulerAngles: {x: 0, y: 90, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 6052be8ea0579b849bd7175bcca0a20d, type: 3}
+      eulerAngles: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 6052be8ea0579b849bd7175bcca0a20d, type: 3}
+      eulerAngles: {x: 0, y: 180, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 6052be8ea0579b849bd7175bcca0a20d, type: 3}
+      eulerAngles: {x: 0, y: 270, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 580b19eda7ce47943813d6046e86122e, type: 3}
+      eulerAngles: {x: 0, y: 0, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 580b19eda7ce47943813d6046e86122e, type: 3}
+      eulerAngles: {x: 0, y: 90, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 580b19eda7ce47943813d6046e86122e, type: 3}
+      eulerAngles: {x: 0, y: 270, z: 0}
+    - prefab: {fileID: 1579477099226215691, guid: 580b19eda7ce47943813d6046e86122e, type: 3}
+      eulerAngles: {x: 0, y: 180, z: 0}

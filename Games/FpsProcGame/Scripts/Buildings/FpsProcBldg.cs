@@ -27,12 +27,14 @@ public class FpsProcBldgData {
     public string TilemapToStr() => string.Join("\n\n", Enumerable.Reverse(tilemap).Select((f,i) => $"F{tilemap.Count - i}:\n{string.Join("\n", f)}"));
     public string TilemapToStr(int floorNum) => string.Join("\n\n", Enumerable.Reverse(tilemap)
         .Select((f, i) => $"<color={((tilemap.Count - 1 - i) == floorNum ? "yellow" : "white")}>{string.Join("\n", f)}</color>"));
+
+    public string TilemapToStr2(int floorNum) => $"N\n\n{string.Join("\n", tilemap[floorNum])}\n\nS";
 }
 
 public abstract class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     public FpsProcBounds pfBounds;
-    public CharToPrefabDict prefabDict;
+    public List<CharToPrefabDict> prefabDicts;
     private FpsProcDatabase db;
 
     private void Awake() {
@@ -63,7 +65,9 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public void InstantiateBuilding(FpsProcNpc pfNpc){
         name = data.name;
         transform.position = data.origin;
-        IDictionary<char, ProcFpsPrefab> prefabs = prefabDict.prefabs;
+        IDictionary<char, ProcFpsPrefab> prefabs = prefabDicts
+            .Select(d => (IDictionary<char, ProcFpsPrefab>)d.prefabs)
+            .Aggregate((a,b) => a.Merge(b));
 
         for(int z = 0; z < data.GetNumOfFloors(); z++){ // floors
             GameObject floor = new GameObject(name: $"Floor {z}");
@@ -106,6 +110,15 @@ public abstract class FpsProcBldg : MonoBehaviour {
     protected List<string> FillSquare(List<string> grid, BoundsInt bounds, char c){
         return grid.Select((row, i) => i.IsBetweenMaxExclusive(bounds.yMin, bounds.yMax) ? row.ReplaceAt(bounds.xMin, new string(c, bounds.size.x)) : row)
             .ToList();
+    }
+    protected List<string> Replace(List<string> grid, Dictionary<char, char> dict){
+        foreach(char c in dict.Keys){
+            grid = grid.Select((row, i) => row.Replace(c, dict[c])).ToList();
+        }
+        return grid;
+    }
+    protected List<string> Replace(List<string> grid, char oldChar, char newChar){
+        return grid.Select((row, i) => row.Replace(oldChar, newChar)).ToList();
     }
 
     protected List<string> DrawSquare(List<string> grid, BoundsInt bounds, char c){

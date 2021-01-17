@@ -25,7 +25,7 @@ public class FpsProcGameMgr : MonoBehaviour
     [Header("UI Stuff")]
     [SerializeField] ImageWipe bgConversation;
     [SerializeField] GameObject btnName, btnJob, btnInterrogate;
-    [SerializeField] TMP_Text textAreaName, textAreaMap, textConversation, textTimer;
+    [SerializeField] TMP_Text textAreaName, textAreaMap, textAreaMap2, textConversation, textTimer;
     [SerializeField] ButtonMenu notebookButtons;
     [SerializeField] VfxLerpInOut notebook, gun, titleLerp;
     [SerializeField] AnimFade conversationCanvasGroup, screenWipe, creditsFade;
@@ -108,6 +108,9 @@ public class FpsProcGameMgr : MonoBehaviour
         if(missionTimer.UpdateAndCheck(Time.deltaTime)){
             GameOver();
         }
+        float rot = playerController.gameObject.transform.rotation.eulerAngles.y;
+        // textAreaMap2.text = rot.ToString(); // debugging
+        textAreaMap2.gameObject.transform.localRotation = Quaternion.Euler(0, 0, rot);
         textTimer.text = $"Time left: {missionTimer.ToMMSS()}";
     }
 
@@ -137,12 +140,14 @@ public class FpsProcGameMgr : MonoBehaviour
     public void EnterFloor(FpsProcBounds floor){
         textAreaName.text = floor.ToStr();
         textAreaMap.text = floor.bldg.data.TilemapToStr(floor.floorNum);
+        textAreaMap2.text = floor.bldg.data.TilemapToStr2(floor.floorNum);
         audioMgr.SwitchAmbiance(floor.bldg);
     }
     
     public void ExitFloor(){
         textAreaName.text = "";
         textAreaMap.text = "";
+        textAreaMap2.text = "";
         audioMgr.SwitchAmbiance(null);
     }
 

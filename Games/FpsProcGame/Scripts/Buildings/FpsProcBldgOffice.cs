@@ -14,7 +14,6 @@ public class FpsProcBldgOffice : FpsProcBldg {
         BoundsInt floorBounds = new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y};
         BoundsInt floorBoundsInner = new BoundsInt(){xMin=1, xMax=gridSize.x-1, yMin=1, yMax=gridSize.y-1};
         List<List<string>> grid = CreateCube(gridSize, '.');
-        grid[grid.Count-1] = FillSquare(grid[grid.Count-1], new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y}, '_'); // top floor
 
         // grid = grid.Select(floor => FillSquare(floor, new Vector2Int(0,0), new Vector2Int(2,2), '+')).ToList(); // cubicles
         grid = grid.Select(floor => FillSquare(floor, floorBounds.TopWall(), '┬')) // outer walls
@@ -25,20 +24,22 @@ public class FpsProcBldgOffice : FpsProcBldg {
                     .Select(floor => SetTile(floor, new Vector2Int(floorBounds.max.x-1, floorBounds.min.y), '┐'))
                     .Select(floor => SetTile(floor, new Vector2Int(floorBounds.min.x, floorBounds.max.y-1), '└'))
                     .Select(floor => SetTile(floor, (Vector2Int)floorBounds.max - Vector2Int.one, '┘'))
-                    // .Select(floor => SetTile(floor, new Vector2Int(), 'x'))
                     .ToList(); // outer walls
-        for(int z = 0; z < gridSize.z; z++){
+                    
+        int last = grid.Count - 1;
+        grid[last] = Replace(grid[last], new Dictionary<char, char>(){
+            {'.', '_'}, {'┌', '╔'}, {'┐', '╗'}, {'└', '╚'}, {'┘', '╝'}, {'┬', '╤'}, {'├', '╟'}, {'┤', '╢'}, {'┴', '╧'}});
+        for(int z = gridSize.z-1; z > 0; z--){
             List<Vector2Int> emptyTilesThisFloor = GetTilesWithChar(floor: grid[z], c: '.');
-            if(z+1 >= gridSize.z) { // if last floor...
-                continue;
+            emptyTilesThisFloor.AddRange(GetTilesWithChar(floor: grid[z], c: '_'));
+            List<Vector2Int> emptyTilesLowerFloor = GetTilesWithChar(floor: grid[z-1], c: '.');
+            List<Vector2Int> candidates = emptyTilesThisFloor.Where(c => emptyTilesLowerFloor.Contains(c)).ToList();
+            if(!candidates.IsEmpty()){
+                Vector2Int randPos = candidates.RandomItem();
+                grid[z] = SetTile(grid[z], randPos, z == gridSize.z-1 ? 'D' : 'd');
+                grid[z-1] = SetTile(grid[z-1], randPos, 'u');
             } else {
-                List<Vector2Int> emptyTilesUpperFloor = GetTilesWithChar(floor: grid[z+1], c: '.');
-                List<Vector2Int> candidates = emptyTilesThisFloor.Where(c => emptyTilesUpperFloor.Contains(c)).ToList();
-                if(!candidates.IsEmpty()){
-                    Vector2Int randPos = candidates.RandomItem();
-                    grid[z] = SetTile(grid[z], randPos, 'u');
-                    grid[z+1] = SetTile(grid[z], randPos, 'd');
-                }
+                Debug.LogError("No candidates for stairs!");
             }
         }
         grid[0] = SetTile(grid[0], pos: GetTilesWithChar(floor: grid[0], c: '┴').RandomItem(), c: '_'); // entrance

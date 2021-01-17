@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RotaryHeart.Lib.SerializableDictionary;
 
 namespace ExtensionMethods
 {
@@ -43,5 +44,10 @@ namespace ExtensionMethods
 
         /// <summary>Get element by index, or by the closest valid index.</summary>
         public static T GetOrClamp<T>(this IList<T> list, int i) => list[i.Clamp(0, list.Count-1)];
+
+        // https://stackoverflow.com/a/4903800
+        public static IDictionary<T, U> Merge<T, U>(this IDictionary<T,U> d1, IDictionary<T,U> d2){
+            return d1.Concat(d2.Where(kvp => !d1.ContainsKey(kvp.Key))).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        }
     }
 }

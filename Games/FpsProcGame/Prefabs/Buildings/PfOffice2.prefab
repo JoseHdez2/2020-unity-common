@@ -51,7 +51,9 @@ MonoBehaviour:
     name: 
     orgUuids: []
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
-  prefabDict: {fileID: 11400000, guid: bcbf0a84e169c6b47af787fd1ce40129, type: 2}
+  prefabDicts:
+  - {fileID: 11400000, guid: bcbf0a84e169c6b47af787fd1ce40129, type: 2}
+  - {fileID: 11400000, guid: 9e05ddd6a19d01d44b0458620d2eaf68, type: 2}
 --- !u!114 &-1219370854391345673
 MonoBehaviour:
   m_ObjectHideFlags: 0
