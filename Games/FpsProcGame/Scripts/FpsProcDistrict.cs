@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ExtensionMethods;
@@ -34,7 +35,17 @@ public class FpsProcDistrict : MonoBehaviour {
                 }
             }
         }
+        UpdateStreetNames();
         FindObjectOfType<FpsProcGameMgr>().RepositionNpcs();
+    }
+
+    private void UpdateStreetNames()
+    {
+        List<FpsProcBldgData> bldgs = GetComponentsInChildren<FpsProcBldg>()
+            .Where( bldg => bldg is FpsProcBldgStreet)
+            .Select( bldg => bldg.data ).ToList(); // iterate through all prefabs, get the ones that are streets.
+        
+        // throw new NotImplementedException();
     }
 
     private void GenerateAndInstantiate(FpsProcBldg building){

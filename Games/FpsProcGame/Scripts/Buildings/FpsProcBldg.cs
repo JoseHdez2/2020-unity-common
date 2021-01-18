@@ -35,7 +35,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     public FpsProcBounds pfBounds;
     public List<CharToPrefabDict> prefabDicts;
-    private FpsProcDatabase db;
+    public IBldgGenerator tilemapGenerator;
+    private FpsProcDatabase db; // names and images
 
     private void Awake() {
         db = FindObjectOfType<FpsProcDatabase>();

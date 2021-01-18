@@ -16,6 +16,16 @@ Controls: WASD and Mouse. N to show notepad.
 
 ## Changelog
 
+### v1.6
+- 
+- Ability to restart game when it ends.
+- Ability to restart game mid-game.
+
+### v1.5
+- Merged polys to dramatically increase performance.
+- In-game recommendation to download standalone.
+- Fix clipping in stairs models.
+
 ### v1.4
 - Version now shown in title screen.
 - Added compass to UI.

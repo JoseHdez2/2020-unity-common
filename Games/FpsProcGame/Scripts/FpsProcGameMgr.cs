@@ -307,6 +307,7 @@ public class FpsProcGameMgr : MonoBehaviour
         TogglePlayerControls(false);
         notebook.Toggle(false); // drop notepad
         missionTimer.Reset();
+        Destroy(textTimer.gameObject);
         FindObjectOfType<SelectionManager>().enabled = false;
     }
 }
