@@ -70,34 +70,38 @@ public abstract class FpsProcBldg : MonoBehaviour {
             .Aggregate((a,b) => a.Merge(b));
 
         for(int z = 0; z < data.GetNumOfFloors(); z++){ // floors
-            GameObject floor = new GameObject(name: $"Floor {z}");
-            floor.transform.parent = transform;
+            InstantiateFloor(z, prefabs);
+        }
+    }
+    
+    public void InstantiateFloor(int z, IDictionary<char, ProcFpsPrefab> prefabs){
+        GameObject floor = new GameObject(name: $"Floor {z}");
+        floor.transform.parent = transform;
 
-            FpsProcBounds bounds = Instantiate(pfBounds, data.GetFloorCenter(z), Quaternion.identity, floor.transform);
-            bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(0.95f, 0.2f, 0.95f));
-            bounds.bldg = this;
-            bounds.floorNum = z;
-
-            for(int y = 0; y < data.gridSize.y; y++){
-                for(int x = 0; x < data.gridSize.x; x++){
-                    ProcFpsPrefab pf;
-                    prefabs.TryGetValue(data.tilemap[z][y][x], out pf);
-                    if(pf == null){
-                        Debug.LogError($"No prefab for character '{data.tilemap[z][y][x]}'.");
-                    } else {
-                        Instantiate(pf.prefab, data.origin + new Vector3(y, z, x).ScaleWith(data.cellScale), Quaternion.Euler(pf.eulerAngles), floor.transform);
-                    }
+        for (int y = 0; y < data.gridSize.y; y++){
+            for (int x = 0; x < data.gridSize.x; x++){
+                ProcFpsPrefab pf;
+                prefabs.TryGetValue(data.tilemap[z][y][x], out pf);
+                if (pf == null){
+                    Debug.LogError($"No prefab for character '{data.tilemap[z][y][x]}'.");
+                } else {
+                    Instantiate(pf.prefab, data.origin + new Vector3(y, z, x).ScaleWith(data.cellScale), Quaternion.Euler(pf.eulerAngles), floor.transform);
                 }
             }
-            
-            if(z == data.GetNumOfFloors() - 1){
-                break; // don't create a Bounds for the last floors, since they're inaccessible atm.
-            }
-            FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
-            if(gameMgr){
-                FpsProcOrganization randomOrg = gameMgr.affiliationsMgr.organizations.RandomItem();
-                randomOrg.areas.Add(bounds);
-            }
+        }
+        InstantiateBoundsForFloor(z, floor);
+    }
+
+    private void InstantiateBoundsForFloor(int z, GameObject floor){
+        FpsProcBounds bounds = Instantiate(pfBounds, data.GetFloorCenter(z), Quaternion.identity, floor.transform);
+        bounds.transform.localScale = data.GetFloorSize().ScaleWith(new Vector3(0.95f, 0.2f, 0.95f));
+        bounds.bldg = this;
+        bounds.floorNum = z;
+
+        FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
+        if (gameMgr){
+            FpsProcOrganization randomOrg = gameMgr.affiliationsMgr.organizations.RandomItem();
+            randomOrg.areas.Add(bounds);
         }
     }
 

@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistance: 5
-  refreshRate: 0.5
+  refreshRate: 0.25
   enrollRate: 5

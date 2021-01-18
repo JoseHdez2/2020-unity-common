@@ -45,11 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: '+-+-+-+
 
-    |p|o |p|
+    |p|o|p|
 
     +-+-+-+
 
-    |o|p|o |
+    |o|p|o|
 
     +-+-+-+
 
