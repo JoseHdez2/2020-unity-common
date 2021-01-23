@@ -22,17 +22,17 @@ public class CraftingSystem
 
     public CraftingRecipe FindRecipe(CraftingRecipeList recipeList, int index1, int index2)
     {
-        ItemType item1 = PlayerInventory.playerInventory[index1];
-        ItemType item2 = PlayerInventory.playerInventory[index2];
+        RpgCrawlerItemType item1 = PlayerInventory.playerInventory[index1];
+        RpgCrawlerItemType item2 = PlayerInventory.playerInventory[index2];
         return FindRecipe(recipeList, item1, item2);
     }
 
-    public CraftingRecipe FindRecipe(CraftingRecipeList recipeList, ItemType item1, ItemType item2)
+    public CraftingRecipe FindRecipe(CraftingRecipeList recipeList, RpgCrawlerItemType item1, RpgCrawlerItemType item2)
     {
         return recipeList.recipes.First(r => asd(r, item1, item2));
     }
 
-    private bool asd(CraftingRecipe r, ItemType item1, ItemType item2)
+    private bool asd(CraftingRecipe r, RpgCrawlerItemType item1, RpgCrawlerItemType item2)
     {
         return (r.input1 == item1 && r.input2 == item2) || (r.input1 == item2 && r.input2 == item1);
     }

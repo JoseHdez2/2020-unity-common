@@ -5,7 +5,7 @@ using System.Linq;
 using ExtensionMethods;
 using UnityEngine;
 
-public interface IBldgGenerator {
+public interface ITilemapGenerator3d {
 
     ///<summary>
     /// Generate the random tilemap, for later instantiation.
@@ -19,7 +19,7 @@ public interface IBldgGenerator {
 
 }
 
-public abstract class AbsBldgGenerator : MonoBehaviour, IBldgGenerator
+public abstract class AbsBldgGenerator : MonoBehaviour, ITilemapGenerator3d
 {
     public abstract string GenerateName(FpsProcBldgData input);
     public abstract List<List<string>> GenerateTilemap(FpsProcBldgData input);

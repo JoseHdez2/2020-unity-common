@@ -4,15 +4,15 @@ using System.Linq;
 using System;
 
 [RequireComponent(typeof(AudioSource))]
-public class ItemPickup<EItemType> : Expirable
-    where EItemType : struct, IConvertible, IComparable, IFormattable
+public class ItemPickup<EArpgItemType> : Expirable
+    where EArpgItemType : struct, IConvertible, IComparable, IFormattable
 {
-    public EItemType itemType;
+    public EArpgItemType itemType;
     public int qty = 1;
 
-    public void PickUpByPlayer(EItemType itemType, int qty)
+    public void PickUpByPlayer(EArpgItemType itemType, int qty)
     {
-        FindObjectOfType<Inventory<EItemType>>().AddItem(itemType, qty);
+        FindObjectOfType<Inventory<EArpgItemType>>().AddItem(itemType, qty);
         Expire();
     }
 

@@ -10,10 +10,10 @@ using UnityEngine;
 [System.Serializable]
 public class CraftingRecipe
 {
-    [SerializeField] public ItemType input1;
-    [SerializeField] public ItemType input2;
+    [SerializeField] public RpgCrawlerItemType input1;
+    [SerializeField] public RpgCrawlerItemType input2;
 
-    [SerializeField] public ItemType output;
+    [SerializeField] public RpgCrawlerItemType output;
     public int price;
 };
 

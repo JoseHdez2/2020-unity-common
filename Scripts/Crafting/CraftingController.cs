@@ -28,11 +28,11 @@ public class CraftingController : MonoBehaviour
         buttonMenu = FindObjectOfType<ButtonMenu>();
 
         //just for testing
-        PlayerInventory.playerInventory.Add(ItemType.COPPER_ORE);
-        PlayerInventory.playerInventory.Add(ItemType.OAK_WOOD);
-        PlayerInventory.playerInventory.Add(ItemType.APPLE);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.COPPER_ORE);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.OAK_WOOD);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.APPLE);
 
-        result = craftingSystem.FindRecipe(craftingRecipeList, ItemType.COPPER_ORE, ItemType.OAK_WOOD);
+        result = craftingSystem.FindRecipe(craftingRecipeList, RpgCrawlerItemType.COPPER_ORE, RpgCrawlerItemType.OAK_WOOD);
         UpdateButtonMenus(false);        
     }
 

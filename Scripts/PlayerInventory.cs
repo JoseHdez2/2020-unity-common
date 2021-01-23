@@ -26,7 +26,7 @@ public class FiniteList<T> : List<T> {
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] public static FiniteList<ItemType> playerInventory = new FiniteList<ItemType>(10);
+    [SerializeField] public static FiniteList<RpgCrawlerItemType> playerInventory = new FiniteList<RpgCrawlerItemType>(10);
     public static int money;
 
     public static void DiscardItem(int index){

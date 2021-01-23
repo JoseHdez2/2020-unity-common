@@ -5,13 +5,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public abstract class Inventory<EItemType> : MonoBehaviour
-    where EItemType : struct, IConvertible, IComparable, IFormattable
+public abstract class Inventory<EArpgItemType> : MonoBehaviour
+    where EArpgItemType : struct, IConvertible, IComparable, IFormattable
 {
     [SerializeField]
-    SerializableDictionaryBase<EItemType, int> items;
+    SerializableDictionaryBase<EArpgItemType, int> items;
 
-    public void AddItem(EItemType itemType, int qty)
+    public void AddItem(EArpgItemType itemType, int qty)
     {
         if (!items.ContainsKey(itemType))
         {
@@ -24,5 +24,5 @@ public abstract class Inventory<EItemType> : MonoBehaviour
         items[itemType] = items[itemType].ClampToPositive();
     }
 
-    public bool HasAny(EItemType itemType) => items.ContainsKey(itemType) && items[itemType] > 0;
+    public bool HasAny(EArpgItemType itemType) => items.ContainsKey(itemType) && items[itemType] > 0;
 }

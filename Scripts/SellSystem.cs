@@ -28,9 +28,9 @@ public class SellSystem : MonoBehaviour
         Debug.Log("Selling menu started!");
 
         //just for testing
-        PlayerInventory.playerInventory.Add(ItemType.COPPER_ORE);
-        PlayerInventory.playerInventory.Add(ItemType.OAK_WOOD);
-        PlayerInventory.playerInventory.Add(ItemType.APPLE);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.COPPER_ORE);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.OAK_WOOD);
+        PlayerInventory.playerInventory.Add(RpgCrawlerItemType.APPLE);
 
         playerMoney.text = $"Money: {PlayerInventory.money.ToString()}$";
         

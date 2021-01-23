@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public enum ItemType
+public enum RpgCrawlerItemType
 {
     NONE, COPPER_ORE, IRON_ORE, TITANIUM_ORE, OAK_WOOD, BIRCH_WOOD, ASH_WOOD, COPPER_SHOVEL,
     COPPER_PICKAXE, COPPER_AXE, IRON_SHOVEL, IRON_PICKAXE, IRON_AXE, TITANIUM_SHOVEL,
@@ -24,14 +24,14 @@ public class ItemEntry{
     [SerializeField] public string floorsItAppearsInStr;
     [NonSerialized] public List<int> floorsItAppearsIn;
     [SerializeField] public string toolRequiredStr;
-    [NonSerialized] public List<ItemType> toolRequired;
+    [NonSerialized] public List<RpgCrawlerItemType> toolRequired;
 };
 
 [Serializable]
 [CreateAssetMenu(fileName = "item_db", menuName = "ScriptableObjects/ItemDatabase", order = 1)]
 public class ItemDatabase : ScriptableObject
 {
-    public SerializableDictionaryBase<ItemType, ItemEntry> list;
+    public SerializableDictionaryBase<RpgCrawlerItemType, ItemEntry> list;
 
     public void Initialize()
     {
@@ -40,19 +40,19 @@ public class ItemDatabase : ScriptableObject
             .ForEach(p => p.Value.toolRequired = parseToolList(p.Value.toolRequiredStr));
     }
 
-    private static List<ItemType> parseToolList(string str)
+    private static List<RpgCrawlerItemType> parseToolList(string str)
         => StringUtils.ParseList(str, ParseTool);
 
-    private static ItemType ParseTool(string s)
+    private static RpgCrawlerItemType ParseTool(string s)
     {
-        var list = new List<ItemType>();
-        foreach (ItemType itemType in Enum.GetValues(typeof(ItemType))) {
+        var list = new List<RpgCrawlerItemType>();
+        foreach (RpgCrawlerItemType itemType in Enum.GetValues(typeof(RpgCrawlerItemType))) {
             list.Add(itemType);
         }
         return list.Find(it => it.ToString() == s);
     }
 
-    public ItemType GenerateItem(DungeonCrawlerTile resourceType, int levelDepth)
+    public RpgCrawlerItemType GenerateItem(DungeonCrawlerTile resourceType, int levelDepth)
         => list.ToList()
             .Where(p => p.Value.type == resourceType && p.Value.floorsItAppearsIn.Contains(levelDepth))
             .ToList().RandomItem().Key;
