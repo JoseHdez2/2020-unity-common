@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ExtensionMethods;
 using UnityEngine;
 
 public class ArpgWeaponThrust : LerpMovement {
-    [SerializeField] private ArpgPlayerBehavior behavior;
-    [SerializeField] private Collider2D wpnColl;
-    [SerializeField] private List<KeyCode> keyCodes;
+    [SerializeField] ArpgPlayerBehavior behavior;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip thrustSound;
+    [SerializeField] Collider2D wpnColl;
+    [SerializeField] List<KeyCode> keyCodes;
     public bool canAttack = true;
 
     public static Dictionary<EDirection, Vector3> dirsToVects =
@@ -32,6 +35,7 @@ public class ArpgWeaponThrust : LerpMovement {
         canAttack = false;
         behavior.canMove = false;
         wpnColl.enabled = true;
+        audioSource.Play(thrustSound);
         destinationPos = behavior.transform.position + dirsToVects[behavior.GetFacingDirection()];
         yield return new WaitUntil(() => IsDone());
         wpnColl.enabled = false;
