@@ -54,6 +54,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -78,8 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 2933434408436881713, guid: d48defd533b952d4c9a04978346a724d,
-    type: 3}
+  m_Sprite: {fileID: 2933434408436881713, guid: d48defd533b952d4c9a04978346a724d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -120,10 +120,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1693812435879276318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f006fb9d3207dfc4699df2f5105915cc, type: 3}
+  m_Script: {fileID: 11500000, guid: d6ed1e4263389d845bc2d418a56bbc78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 15
+  decelerationCoef: 0.1
+  negligibleVelocityCutoff: 0.1
+  runSpeed: 10
 --- !u!61 &1693812435879276293
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -181,17 +183,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e74b57f3a469554792b7e83edb080c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popOutSize: {x: 0.01, y: 0.01, z: 0.01}
+  popOutAlpha: 0
+  popOutRotationConfig: {x: 0, y: 0, z: 0}
+  animationSpeed: 1
   soundDamage: {fileID: 8300000, guid: 591c7ec5471313541a4027e99980c0ce, type: 3}
   soundHeal: {fileID: 0}
   soundDie: {fileID: 0}
   deathExplosionPrefab: {fileID: 0}
-  pfDamagePopup: {fileID: 6675735497571091687, guid: 5a9c9c775054f7943a25fd140a4624ba,
-    type: 3}
+  pfDamagePopup: {fileID: 6675735497571091687, guid: 5a9c9c775054f7943a25fd140a4624ba, type: 3}
   team: 0
   maxHealth: 3
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  hitSprite: {fileID: 0}
+  deathSprite: {fileID: 0}
+  audioSource: {fileID: 0}
   iFramePeriod: 2
   healthText: {fileID: 0}
 --- !u!82 &6727243034295856394
@@ -308,8 +316,7 @@ MonoBehaviour:
   selectedBulletType: 0
   ammoTypePrefabs:
   - bulletType: 0
-    bulletPrefab: {fileID: 3433455388752602321, guid: d1b5c23c979aaba41af143bd54dac1e9,
-      type: 3}
+    bulletPrefab: {fileID: 3433455388752602321, guid: d1b5c23c979aaba41af143bd54dac1e9, type: 3}
     shotSound: {fileID: 8300000, guid: 9d62156241ee81749a5b2c942a8a50cc, type: 3}
 --- !u!1 &9106816410465197468
 GameObject:

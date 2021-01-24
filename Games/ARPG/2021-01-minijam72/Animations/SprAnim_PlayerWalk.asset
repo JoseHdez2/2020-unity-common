@@ -39,16 +39,16 @@ MonoBehaviour:
     _keys: 01000000020000000300000004000000
     _values:
     - sprites:
-      - {fileID: 4348901010811603416, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
-      - {fileID: 3489246791243668459, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
+      - {fileID: 3828097098652598497, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+      - {fileID: -7473295678306484749, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
     - sprites:
-      - {fileID: 5021727707903234649, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
-      - {fileID: -4785542848447389471, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
+      - {fileID: -3858516648347591635, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+      - {fileID: 7687737308435167676, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
     - sprites:
-      - {fileID: -2716116594518154221, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
-      - {fileID: -5041538325020674347, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
+      - {fileID: -3713644978163591898, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+      - {fileID: -8017181039172647320, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
     - sprites:
-      - {fileID: -2716116594518154221, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
-      - {fileID: -5041538325020674347, guid: 897780436a83a5c4792c1eac249ed984, type: 3}
+      - {fileID: -3713644978163591898, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+      - {fileID: -8017181039172647320, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   flipDir: 4
   frameDuration: 0.25

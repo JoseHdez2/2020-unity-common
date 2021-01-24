@@ -55,8 +55,9 @@ public class PlayerDamageable : EntityDamageable
         
     }
 
-    public void UpdateHealthText()
-    {
-        healthText.text = $"Health: {health}";
+    public void UpdateHealthText() {
+        if(healthText){
+            healthText.text = $"Health: {health}";
+        }
     }
 }

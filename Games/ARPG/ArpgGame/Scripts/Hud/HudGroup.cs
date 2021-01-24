@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 public class HudGroup : MonoBehaviour
 {
@@ -24,9 +25,9 @@ public class HudGroup : MonoBehaviour
         }
     }
 
-    void ShowAllButtons(bool show)
-    {
+    void ShowAllButtons(bool show) {
         buttons.ForEach(btn => {
+            btn.GetComponentsInChildren<TMP_Text>().ToList().ForEach(t => t.enabled = show);
             btn.hudBtnPanel.enabled = show;
             btn.hudBtnText.enabled = show;
         });
