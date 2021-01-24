@@ -51,13 +51,11 @@ public class AbstractMovement : MonoBehaviour {
     private MyDictionary<EMovementType, Vector2> curMovements = new MyDictionary<EMovementType, Vector2>();
 
     private Rigidbody2D rb2d;
-    public virtual void Awake()
-    {
+    public virtual void Awake(){
         rb2d = GetComponent<Rigidbody2D>();
     }
 
-    public void RemoveMovement(EMovementType movementKey)
-    {
+    public void RemoveMovement(EMovementType movementKey){
         curMovements.Remove(movementKey);
     }
 

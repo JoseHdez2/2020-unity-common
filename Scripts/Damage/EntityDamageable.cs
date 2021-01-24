@@ -14,30 +14,19 @@ public enum EDamageableEffect {
 public class EntityDamageable : SpritePopInOut
 {
     [Header("EntityDamageable")]
-    [Tooltip("Optional sound to be played on damage.")]
     public AudioClip soundDamage;
-    [Tooltip("Optional sound to be played on heal.")]
-    public AudioClip soundHeal;
-    [Tooltip("Optional sound to be played on death.")]
-    public AudioClip soundDie;
-    [Tooltip("Optional explosion to be played on death.")]
-    public GameObject deathExplosionPrefab;
-    [Tooltip("Optional prefab for showing damage amounts.")]
-    public DamagePopup pfDamagePopup;
+    public AudioClip soundHeal, soundDie;
+    [SerializeField] DamagePopup pfDamagePopup;
+    [SerializeField] GameObject spawnOnDeath;
     public ETeam team; // TODO move up into children.
-
-    // bool isAlive;
     protected int health;
     public int maxHealth;
 
-    public Color colorDamage = Color.red;
-    public Color colorHeal = Color.green;
-    public Color colorExpandHealth = Color.yellow;
+    public Color colorDamage = Color.red, colorHeal = Color.green, colorExpandHealth = Color.yellow;
 
     [Header("EntityDamageable Sprites")]
     protected Sprite idleSprite;
-    public Sprite hitSprite;
-    public Sprite deathSprite;
+    public Sprite hitSprite, deathSprite;
 
     private Dictionary<EDamageableEffect, Color> currentEffects = new Dictionary<EDamageableEffect, Color>();
 
@@ -126,7 +115,7 @@ public class EntityDamageable : SpritePopInOut
 
     public virtual void Die(){
         if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
-        if (deathExplosionPrefab) { Instantiate(deathExplosionPrefab, gameObject.transform.position, gameObject.transform.rotation); }
+        if (spawnOnDeath) { Instantiate(spawnOnDeath, gameObject.transform.position, gameObject.transform.rotation); }
         Destroy(GetComponent<BoxCollider2D>()); // TODO what if EntityDamageable has another collider type?
         StartCoroutine(CrDie());
     }
@@ -141,6 +130,10 @@ public class EntityDamageable : SpritePopInOut
             yield return new WaitForSeconds(0.1f);
         }
         GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(sr => sr.enabled = false);
+        GetComponentsInChildren<Collider2D>().ToList().ForEach(sr => sr.enabled = false);
+        if(spawnOnDeath){
+
+        }
         Destroy(this.gameObject, 2);
     }
 

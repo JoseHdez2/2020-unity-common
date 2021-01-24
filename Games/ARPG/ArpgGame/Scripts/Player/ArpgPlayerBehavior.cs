@@ -11,6 +11,7 @@ public enum EDirection
 public class ArpgPlayerBehavior : AbstractMovement
 {
     public float runSpeed = 10f;
+    public bool canMove = true;
     private bool isMoving;
     private EDirection dirFacing; // does not affect movement, only shooting and sprite anim.
 
@@ -29,7 +30,7 @@ public class ArpgPlayerBehavior : AbstractMovement
         float y = Input.GetAxis("Vertical") * runSpeed;
 
         isMoving = (x != 0 || y != 0);
-        if (isMoving) {
+        if (canMove && isMoving) {
             SetMovement(EMovementType.PLAYER, new Vector2(x, y));
             dirFacing = calculateFacingDirection(x, y);
         } else {

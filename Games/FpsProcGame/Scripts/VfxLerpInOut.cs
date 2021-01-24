@@ -30,6 +30,6 @@ public class VfxLerpInOut : MonoBehaviour, IToggleable {
         }
     }
     
-    public bool IsDone() => obj.destinationPos.HasValue;
+    public bool IsDone() => obj.IsDone();
 
 }

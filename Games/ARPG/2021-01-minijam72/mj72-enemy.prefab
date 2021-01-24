@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 5216726989814796717}
   - component: {fileID: 4652639882913242905}
   - component: {fileID: 4942167834137161139}
+  - component: {fileID: 1268736865}
+  - component: {fileID: 110813548886486939}
   m_Layer: 0
-  m_Name: enemyDarkHero 1
+  m_Name: mj72-enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6, y: 0.6}
   m_EdgeRadius: 0
 --- !u!114 &3933615335818447563
 MonoBehaviour:
@@ -266,18 +268,18 @@ MonoBehaviour:
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}
   animationSpeed: 1
-  soundDamage: {fileID: 0}
+  soundDamage: {fileID: 8300000, guid: 591c7ec5471313541a4027e99980c0ce, type: 3}
   soundHeal: {fileID: 0}
-  soundDie: {fileID: 0}
-  deathExplosionPrefab: {fileID: 0}
-  pfDamagePopup: {fileID: 0}
-  team: 0
-  maxHealth: 0
+  soundDie: {fileID: 8300000, guid: 9ac187453db1c60479cbcd4c60d15162, type: 3}
+  pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
+  spawnOnDeath: {fileID: 2194758799594066144, guid: 374391f7cb630e24ab6b564b4424b2af, type: 3}
+  team: 1
+  maxHealth: 3
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  hitSprite: {fileID: 0}
-  deathSprite: {fileID: 0}
+  hitSprite: {fileID: -8305357808034309105, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+  deathSprite: {fileID: -8305357808034309105, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   audioSource: {fileID: 0}
 --- !u!114 &5216726989814796717
 MonoBehaviour:
@@ -291,9 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b33cf76eec04c04b93ab5f523eefa1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabEffectExpire: {fileID: 0}
+  prefabEffectExpire: {fileID: 2194758799594066144, guid: 374391f7cb630e24ab6b564b4424b2af, type: 3}
   soundExpire: {fileID: 0}
-  team: 0
+  team: 1
   damagerType: 0
   damage: 1
   speed: 1
@@ -310,7 +312,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistance: 1
-  movementTarget: {fileID: 0}
   speed: 2
   debugTargetPos: 0
 --- !u!114 &4942167834137161139
@@ -325,3 +326,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0ecfe21dc9c8240be16bcab0f3d3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1268736865
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194758799594066144}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4
+--- !u!114 &110813548886486939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194758799594066144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17399e66c93578a48861dc9ff0b61f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2194758799594066148}
+  frameDuration: 0.25

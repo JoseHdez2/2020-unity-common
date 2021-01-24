@@ -41,7 +41,7 @@ public abstract class DunCraMovement : Movable {
     {
         playerInventory = GetComponentInChildren<ReDungInventory>();
 
-        movementTarget = Instantiate(moveTargetPrefab, transform.position, Quaternion.identity).transform;
+        MovementTarget = Instantiate(moveTargetPrefab, transform.position, Quaternion.identity).transform;
         rotationTarget = Instantiate(rotateTargetPrefab, transform.position + transform.forward, Quaternion.identity).transform;
         levelInterpreter = FindObjectOfType<AbsDunCraLevelInterpreter>();
 
@@ -54,7 +54,7 @@ public abstract class DunCraMovement : Movable {
     {
         doorColliders = null;
         wallColliders = null;
-        movementTarget.position = transform.position;
+        MovementTarget.position = transform.position;
         transform.rotation = saveRotationAcrossLevels ? playerRotation : Quaternion.Euler(0, 0, 0);
         rotationTarget.position = transform.position + transform.forward;
     }
@@ -84,9 +84,9 @@ public abstract class DunCraMovement : Movable {
             }
         }
         if (isMoving) {
-            movementTarget.position = newPos;
+            MovementTarget.position = newPos;
             yield return new WaitUntil(HasArrived);
-            movementTarget.SnapToGrid(); // TODO messy, instead find root of problem.
+            MovementTarget.SnapToGrid(); // TODO messy, instead find root of problem.
             transform.SnapToGrid();
             rotationTarget.position = transform.position + transform.forward;
             PlaySound(EReDungPlayerSound.STEP);

@@ -7,14 +7,16 @@ public class Movable : Pausable
     [Tooltip("Minimum distance to target before the movement is considered finished.")]
     public float minDistance = 0f;
     [Tooltip("Transform that this entity will always move towards, if far away from it.")]
-    public Transform movementTarget;
+    private Transform movementTarget;
     [Tooltip("In units per seconds.")]
     public float speed = 1;
 
     public bool debugTargetPos;
 
+    public Transform MovementTarget { get => movementTarget; set => movementTarget = value; }
+
     public bool HasArrived(){
-        return Vector3.Distance(transform.position, movementTarget.position) < minDistance;
+        return Vector3.Distance(transform.position, MovementTarget.position) < minDistance;
     }
 
     protected virtual void MoveToPos(Vector3 newPos)
@@ -32,10 +34,10 @@ public class Movable : Pausable
     protected override void FixedUpdate2()
     {
         if (debugTargetPos){
-            DebugDraw.DrawPos(movementTarget.position, Color.red);
+            DebugDraw.DrawPos(MovementTarget.position, Color.red);
         }
         if (HasArrived()) return;
-        if (transform.position != movementTarget.position)
+        if (transform.position != MovementTarget.position)
         {
             MoveToPos(CalculateNewPosition());
         }
@@ -44,7 +46,7 @@ public class Movable : Pausable
     private Vector3 CalculateNewPosition()
     {
         float distance = speed * Time.deltaTime;
-        Vector3 newPosDir = (movementTarget.position - transform.position).normalized;
+        Vector3 newPosDir = (MovementTarget.position - transform.position).normalized;
         Vector3 newPos = transform.position + newPosDir * distance;
         return newPos;
     }

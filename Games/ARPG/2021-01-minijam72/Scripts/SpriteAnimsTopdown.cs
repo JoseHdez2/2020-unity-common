@@ -13,5 +13,5 @@ public class SpriteAnimation {
 public class SpriteAnimsTopdown : ScriptableObject {
     public SerializableDictionaryBase<EDirection, SpriteAnimation> spritesDict;
     public EDirection flipDir = EDirection.LEFT;
-    public float frameDuration = 0.5f;
+    public float frameDuration = 0.25f;
 }

@@ -93,7 +93,7 @@ public class DungeonCrawlerPlayer : DunCraMovement
 
     private void DeathAnimation() {
         PlaySound(EReDungPlayerSound.DIE);
-        movementTarget.position = transform.position - Vector3.up * 0.5f;
+        MovementTarget.position = transform.position - Vector3.up * 0.5f;
         rotationTarget.position = transform.position + Vector3.up;
     }
 
