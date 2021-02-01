@@ -20,7 +20,7 @@ public class HudButton : MonoBehaviour
 {
     public KeyCode keyCode;
 
-    public TMP_Text hudBtnText;
+    public TMP_Text hudBtnText, hudBtnTextAction;
     public Image hudBtnPanel;
 
     private Color colorBtnUp;

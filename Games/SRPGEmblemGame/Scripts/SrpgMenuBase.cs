@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public abstract class SrpgMenuBase : ButtonMenuBase {
-    protected SrpgUnit selectedUnit;
+    protected SRPGUnit selectedUnit;
     
     protected SrpgAudioSource audioSource;
     protected SrpgController srpgController;

@@ -12,7 +12,7 @@ public class SrpgMenuUnit : SrpgMenuBase
     [SerializeField] private Button waitButton;
     [SerializeField] private Button cancelButton;
 
-    public void Open(SrpgUnit unit){
+    public void Open(SRPGUnit unit){
         buttonContainer.Toggle(true);
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
@@ -23,17 +23,17 @@ public class SrpgMenuUnit : SrpgMenuBase
     }
 
     // All buttons reactivate by default. Deactivate the relevant ones.
-    private void HideIrrelevantButtons(SrpgUnit unit){
+    private void HideIrrelevantButtons(SRPGUnit unit){
         if(!unit.CanAttackSomeTarget()){
             attackButton.gameObject.SetActive(false);
         }
         if(!unit.HasItem()){
             itemButton.gameObject.SetActive(false);
         }
-        if(unit.state != SrpgUnit.State.Idle){
+        if(unit.state != SRPGUnit.State.Idle){
             moveButton.gameObject.SetActive(false);
         }
-        if(unit.state == SrpgUnit.State.Spent){
+        if(unit.state == SRPGUnit.State.Spent){
             waitButton.gameObject.SetActive(false);
         }
         if(!srpgController.settings.showStatusButton){
@@ -71,13 +71,13 @@ public class SrpgMenuUnit : SrpgMenuBase
             Debug.LogWarning("UnitMenu has no selectedUnit! (Maybe the menu should have been disabled.)");
             return;
         }
-        if(selectedUnit.state == SrpgUnit.State.Moved){
+        if(selectedUnit.state == SRPGUnit.State.Moved){
             selectedUnit.ToIdle();
             Close();
-        } else if(selectedUnit.state == SrpgUnit.State.SelectingMove) {
+        } else if(selectedUnit.state == SRPGUnit.State.SelectingMove) {
             selectedUnit.ToIdle();
             Close();
-        } else if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget) {
+        } else if(selectedUnit.state == SRPGUnit.State.SelectingAttackTarget) {
             selectedUnit.ToSelectingMove();
             Close();
         } else {

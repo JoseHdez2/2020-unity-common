@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using ExtensionMethods;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class MovementFollowTarget: AbstractMovement
 {
     public Transform target;
+    public string targetTag;
     public float minDistance = 0.1f;
     // public float t = 0.2f;
     public float speed = 1f;
@@ -19,6 +23,15 @@ public class MovementFollowTarget: AbstractMovement
 
     void Update()
     {
+        if(!target && !targetTag.IsEmpty()){
+            target = GameObject.FindGameObjectWithTag(targetTag).transform;
+        }
+        if(target){
+            Follow(target);
+        }
+    }
+
+    private void Follow(Transform target) {
         Vector3 pos = gameObject.transform.position;
         if (Vector2.Distance(pos, target.position) > minDistance)
         {
@@ -43,6 +56,7 @@ public enum EMovementType
 }
 
 // FIXME maybe delete this?
+[RequireComponent(typeof(Rigidbody2D))]
 public class AbstractMovement : MonoBehaviour {
 
     [Range(0, 1)]

@@ -9,7 +9,7 @@ using ExtensionMethods;
 
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(LerpMovement))]
-public class SrpgUnit : EntityDamageable {
+public class SRPGUnit : EntityDamageable {
     [Header("SrpgUnit")]
 
     public SrpgUnitData data;
@@ -134,7 +134,7 @@ public class SrpgUnit : EntityDamageable {
         StartCoroutine(CrAttack(attack.target, attack));
     }
 
-    public IEnumerator CrAttack(SrpgUnit targetedUnit, SrpgAttack attack, bool canCounter= true){
+    public IEnumerator CrAttack(SRPGUnit targetedUnit, SrpgAttack attack, bool canCounter= true){
         srpgController.ToggleFieldCursorFalse();
         yield return new WaitForSeconds(0.3f); // hack so that the Attack sound is played. Otherwise the "menu close" sound overrides.
         srpgAudioSource.PlaySound(ESrpgSound.Attack);

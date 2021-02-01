@@ -7,8 +7,19 @@ using UnityEngine;
 /// </summary>
 public class SpawnOnVisible : MonoBehaviour {
     [SerializeField] GameObject objToSpawn;
+    public enum EMode { NORMAL, BOSS };
+    public EMode mode;
+    private GameObject spawnedObj;
 
     void OnBecameVisible() {
-        Instantiate(objToSpawn, transform.position, Quaternion.identity);
+        spawnedObj = Instantiate(objToSpawn, transform.position, Quaternion.identity);
+    }
+
+    void OnBecameInvisible() {
+        if(mode == EMode.BOSS){
+            if(!spawnedObj){ // If instance of boss was destroyed (boss was defeated)
+                Destroy(this); // Don't spawn anymore.
+            }
+        }
     }
 }

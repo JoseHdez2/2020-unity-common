@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(SpriteRenderer))]
 public class SrpgTile : SpritePopInOut
 {
-    public SrpgUnit parentUnit;
+    public SRPGUnit parentUnit;
     // public SrpgUnit? unitWithin;
     public Highlight highlightType;
     public Content content;

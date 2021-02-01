@@ -9,7 +9,7 @@ public class SrpgMenuAttackType : SrpgMenuBase {
     
     [SerializeField] private Button pfButton;
 
-    public void Open(SrpgUnit attackingUnit, SrpgUnit targetedUnit){
+    public void Open(SRPGUnit attackingUnit, SRPGUnit targetedUnit){
         buttonContainer.Toggle(true);
         srpgController.ToggleFieldCursorFalse();
         gameObject.SetActive(true);
@@ -19,13 +19,13 @@ public class SrpgMenuAttackType : SrpgMenuBase {
         selectedUnit = attackingUnit;
     }
     
-    public void RefreshButtons(SrpgUnit attackingUnit, SrpgUnit targetedUnit){
+    public void RefreshButtons(SRPGUnit attackingUnit, SRPGUnit targetedUnit){
         DestroyButtons();
         attackingUnit.items.ToList().ForEach(item => TryAddButton(attacker: attackingUnit, target: targetedUnit, weapon: item));
         AddCancelButton();
     }
 
-    public void TryAddButton(SrpgUnit attacker, SrpgUnit target, SrpgItem weapon) {
+    public void TryAddButton(SRPGUnit attacker, SRPGUnit target, SrpgItem weapon) {
         SrpgAttack attack = new SrpgAttack(attacker: attacker, attackerPos: attacker.transform.position, weapon: weapon, weaponType: srpgController.database.itemTypes[weapon.typeId], target: target);
 
         if(!attack.IsValid()){
@@ -59,7 +59,7 @@ public class SrpgMenuAttackType : SrpgMenuBase {
             return;
         }
         switch (selectedUnit.state) {
-            case SrpgUnit.State.SelectingAttackType:
+            case SRPGUnit.State.SelectingAttackType:
                 selectedUnit.ToSelectingAttackTarget(); Close(); break;
             default:
                 audioSource.PlaySound(ESrpgSound.Buzzer); break;

@@ -34,7 +34,7 @@ public class SrpgUnitCard : MonoBehaviour
         // TODO if overlapping cursor, move out of the way.
     }
 
-    public void SetUnit(SrpgUnit unit){
+    public void SetUnit(SRPGUnit unit){
         unitNameText.text = unit.name;
         unitTypeText.text = unit.typeId;
         unitHpText.text = $"HP: {unit.hp} / {unit.maxHp}";

@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Minijam72Key : MonoBehaviour
+public enum EMinijam72KeyType { SILVER, GOLD, CORPSE }
+
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(Rigidbody2D))]
+public class Minijam72Key : MovementFollowTarget
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public EMinijam72KeyType keyType;
+    AudioSource audioSource;
+    void Start() {
+        audioSource = GetComponent<AudioSource>();
+    }
+    private void OnTriggerEnter2D(Collider2D collision){
+        ArpgPlayerBehavior player = collision.gameObject.GetComponent<ArpgPlayerBehavior>();
+        if(player){
+            target = player.transform;
+            if(audioSource){
+                audioSource.Play();
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

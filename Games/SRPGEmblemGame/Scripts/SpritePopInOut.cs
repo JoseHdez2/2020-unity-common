@@ -12,6 +12,8 @@ public class SpriteKeyframe {
 // A sprite that pops in when enabled, and pops out when destroyed/disabled.
 [RequireComponent(typeof(SpriteRenderer))]
 public class SpritePopInOut : MonoBehaviour {
+    [Tooltip("Optional collider to disable when animating and popping out.")]
+    [SerializeField] Collider2D coll;
     private SpriteRenderer spriteRenderer;
 
     private Vector3 popInSize;
@@ -57,23 +59,30 @@ public class SpritePopInOut : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if(!IsSizeAnimationFinished()){
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation() {
+        if (spriteRenderer == null) {
+            return;
+        }
+        if (!IsSizeAnimationFinished()) {
             Vector3 scale = Vector3.Lerp(spriteRenderer.size, targetSize, animationSpeed * Time.deltaTime);
             spriteRenderer.size = new Vector3(Norm(scale.x), Norm(scale.y), Norm(scale.z)); // TODO maybe overkill
-            if(IsSizeAnimationFinished()){
+            if (IsSizeAnimationFinished()) {
                 spriteRenderer.size = targetSize;
             }
         }
-        if(!IsAlphaAnimationFinished()){
+        if (!IsAlphaAnimationFinished()) {
             float alpha = Mathf.Lerp(spriteRenderer.color.a, targetAlpha, animationSpeed * Time.deltaTime);
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
-            if(IsAlphaAnimationFinished()){
+            if (IsAlphaAnimationFinished()) {
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, targetAlpha);
             }
         }
-        if(!IsRotationAnimationFinished()){
+        if (!IsRotationAnimationFinished()) {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, animationSpeed * Time.deltaTime);
-            if(IsRotationAnimationFinished()){
+            if (IsRotationAnimationFinished()) {
                 transform.rotation = targetRotation;
             }
         }
@@ -104,14 +113,15 @@ public class SpritePopInOut : MonoBehaviour {
         targetAlpha = popInAlpha;
         targetRotation = popInRotation;
         yield return new WaitUntil(() => IsAnimationFinished());
-        GetComponent<Collider2D>().enabled = true;
+        if(coll != null){
+            coll.enabled = true;
+        }
         yield return null;
     }
 
     private enum PopOutMode { Hide, Disable, Destroy };
 
     private IEnumerator CrPopOut(PopOutMode mode){
-        Collider2D coll = GetComponent<Collider2D>();
         if(coll != null){
             coll.enabled = false;
         }
@@ -142,6 +152,9 @@ public class SpritePopInOut : MonoBehaviour {
     }
 
     public bool IsAnimationFinished(){
+        if(spriteRenderer == null){
+            return false;
+        }
         return IsSizeAnimationFinished() && IsAlphaAnimationFinished() && IsRotationAnimationFinished();
     }
 }

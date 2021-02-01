@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 110813548886486939}
   - component: {fileID: 6868225948173235195}
   m_Layer: 0
-  m_Name: mj72-enemy
+  m_Name: mj72-ally
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -7027233952605476919, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+  m_Sprite: {fileID: -4226746497408152260, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -274,14 +274,14 @@ MonoBehaviour:
   soundHeal: {fileID: 0}
   soundDie: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
-  spawnOnDeath: {fileID: 2194758799594066144, guid: 374391f7cb630e24ab6b564b4424b2af, type: 3}
-  team: 1
+  spawnOnDeath: {fileID: 7044867003952153599, guid: a55f1055d7e89d74280ac3f38a8e2ecc, type: 3}
+  team: 0
   maxHealth: 3
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  hitSprite: {fileID: -8305357808034309105, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
-  deathSprite: {fileID: -8305357808034309105, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+  hitSprite: {fileID: 492699297843270739, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
+  deathSprite: {fileID: 492699297843270739, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   audioSource: {fileID: 0}
 --- !u!114 &5216726989814796717
 MonoBehaviour:
@@ -295,11 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b33cf76eec04c04b93ab5f523eefa1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabEffectExpire: {fileID: 2194758799594066144, guid: 374391f7cb630e24ab6b564b4424b2af, type: 3}
+  prefabEffectExpire: {fileID: 0}
   soundExpire: {fileID: 0}
-  team: 1
+  team: 0
   damagerType: 0
-  damage: 1
+  damage: 2
   speed: 1
 --- !u!114 &4652639882913242905
 MonoBehaviour:

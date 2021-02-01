@@ -11,14 +11,14 @@ public class SrpgItem {
 }
 
 public class SrpgAttack {
-    public SrpgUnit attacker;
+    public SRPGUnit attacker;
     public Vector2 attackerPos; // Note: we don't get it from "attacker" because it may represent a future pos.
-    public SrpgUnit target;
+    public SRPGUnit target;
     public SrpgItem weapon;
     public SrpgItemType weaponType;
     public int expectedDamage;
 
-    public SrpgAttack(SrpgUnit attacker, Vector2 attackerPos, SrpgUnit target, SrpgItem weapon, SrpgItemType weaponType){
+    public SrpgAttack(SRPGUnit attacker, Vector2 attackerPos, SRPGUnit target, SrpgItem weapon, SrpgItemType weaponType){
         this.attacker = attacker;
         this.attackerPos = attackerPos;
         this.target = target;

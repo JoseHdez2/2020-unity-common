@@ -57,7 +57,9 @@ public class ArpgGamePlayerInventory : MonoBehaviour
 
     public void Start()
     {
-        UpdateInventoryText();
+        if(textInventory){   
+            UpdateInventoryText(textInventory);
+        }
     }
 
     public TMP_Text textInventory;
@@ -78,11 +80,9 @@ public class ArpgGamePlayerInventory : MonoBehaviour
             && playerInventory.items[itemType] > 0;
     }
 
-    private void UpdateInventoryText()
-    {
+    private void UpdateInventoryText(TMP_Text textInventory) {
         textInventory.text = "";
-        foreach(KeyValuePair<EArpgGameItemType, int> entry in playerInventory.items)
-        {
+        foreach(KeyValuePair<EArpgGameItemType, int> entry in playerInventory.items) {
             textInventory.text += $"{entry.Key}: {entry.Value}\n";
         }
     }

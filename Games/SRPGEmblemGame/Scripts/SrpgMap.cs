@@ -23,7 +23,7 @@ public class SrpgMap : MonoBehaviour
 
     public SerializableDictionaryBase<string, Tile> tiles;
     public SerializableDictionaryBase<string, Sprite> sprites;
-    public SrpgUnit pfSrpgUnit;
+    public SRPGUnit pfSrpgUnit;
 
     // Start is called before the first frame update
     public void Build() {
@@ -50,7 +50,7 @@ public class SrpgMap : MonoBehaviour
     {
         tilemap.ClearAllTiles();
         tilemapSolid.ClearAllTiles();
-        FindObjectsOfType<SrpgUnit>().ToList().ForEach(u => Destroy(u.gameObject));
+        FindObjectsOfType<SRPGUnit>().ToList().ForEach(u => Destroy(u.gameObject));
         int y = map.Count() - 1 - (int)Math.Floor(map.Count() / 2f); // for centering;
         foreach (string row in map){
             int x = -1 - (int)Math.Floor(row.Length / 2f); // for centering
@@ -67,7 +67,7 @@ public class SrpgMap : MonoBehaviour
                         tilemap.SetTile(new Vector3Int(x, y, 0), tile);
                     }
                 } else if (units.TryGetValue(name, out unitData)) {
-                    SrpgUnit newUnit = Instantiate(pfSrpgUnit, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
+                    SRPGUnit newUnit = Instantiate(pfSrpgUnit, new Vector3(x + 0.5f, y + 0.5f), Quaternion.identity);
                     newUnit.SetData(unitData);
                 } // else check if it's a GLOBAL tile / unit.
             }

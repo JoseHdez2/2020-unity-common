@@ -17,8 +17,8 @@ public class SrpgFieldCursor : LerpMovement
     private SpritePopInOut spritePopInOut;
     // "Pointers"
     public BoxCollider2D levelBoundsColl;
-    public SrpgUnit selectedUnit;
-    [SerializeField] private SrpgUnit hoveringUnit;
+    public SRPGUnit selectedUnit;
+    [SerializeField] private SRPGUnit hoveringUnit;
     [SerializeField] private SrpgTile hoveringTile;
     [Header("Settings")]
     [Range(0,0.5f)]
@@ -69,7 +69,7 @@ public class SrpgFieldCursor : LerpMovement
             base.Update();
             return;
         }
-        if(selectedUnit && selectedUnit.state == SrpgUnit.State.Moving){ // TODO remove this
+        if(selectedUnit && selectedUnit.state == SRPGUnit.State.Moving){ // TODO remove this
             return;
         }
         if(curCursorCooldown > 0){
@@ -99,7 +99,7 @@ public class SrpgFieldCursor : LerpMovement
                     selectedUnit.Move(transform.position);
                     break;
                 case SrpgTile.Highlight.Attack:
-                    if(selectedUnit.state == SrpgUnit.State.SelectingAttackTarget && hoveringUnit && selectedUnit.CanAttack(hoveringUnit)){ // TODO recheck whether these checks are ok.
+                    if(selectedUnit.state == SRPGUnit.State.SelectingAttackTarget && hoveringUnit && selectedUnit.CanAttack(hoveringUnit)){ // TODO recheck whether these checks are ok.
                         attackTypeMenu.Open(selectedUnit, hoveringUnit);
                         // selectedUnit.Attack(hoveringUnit);
                     } else {
@@ -109,7 +109,7 @@ public class SrpgFieldCursor : LerpMovement
                 default:
                     audioSource.PlaySound(ESrpgSound.Buzzer); break;
             }
-        } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SrpgUnit.State.Spent) {
+        } else if (!selectedUnit && hoveringUnit && hoveringUnit.state != SRPGUnit.State.Spent) {
             SelectUnit(hoveringUnit);
         } else {
             audioSource.PlaySound(ESrpgSound.Buzzer);
@@ -121,12 +121,12 @@ public class SrpgFieldCursor : LerpMovement
         if(selectedUnit){
             switch (selectedUnit.state)
             {
-                case SrpgUnit.State.SelectingMove:
+                case SRPGUnit.State.SelectingMove:
                     selectedUnit.ToIdle();
                     selectedUnit = null;    
                     audioSource.PlaySound(ESrpgSound.Cancel);
                     break;
-                case SrpgUnit.State.SelectingAttackTarget:
+                case SRPGUnit.State.SelectingAttackTarget:
                     unitMenu.Open(selectedUnit);
                     audioSource.PlaySound(ESrpgSound.Cancel);
                     break;
@@ -142,11 +142,11 @@ public class SrpgFieldCursor : LerpMovement
         unitMenu.Open(selectedUnit);
     }
 
-    public void SelectUnit(SrpgUnit unitToSelect){
+    public void SelectUnit(SRPGUnit unitToSelect){
         destinationPos = unitToSelect.transform.position;
         audioSource.PlaySound(ESrpgSound.SelectUnit);
         selectedUnit = unitToSelect;
-        if(selectedUnit.state == SrpgUnit.State.Idle){
+        if(selectedUnit.state == SRPGUnit.State.Idle){
             selectedUnit.ToSelectingMove();
         }
     }
@@ -179,17 +179,17 @@ public class SrpgFieldCursor : LerpMovement
     // TODO maybe delete this.
     private void SetHoverFromCurPos(){
         var newHoveringTile = FindObjectsOfType<SrpgTile>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
-        var newHoveringUnit = FindObjectsOfType<SrpgUnit>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
+        var newHoveringUnit = FindObjectsOfType<SRPGUnit>().FirstOrDefault(o => cursorColl.bounds.Contains(o.transform.position));
         SetHover(newHoveringTile, newHoveringUnit);
     }
 
     private void SetHover(Collider2D other){
         var newHoveringTile = other?.gameObject.GetComponent<SrpgTile>();
-        var newHoveringUnit = other?.gameObject.GetComponent<SrpgUnit>();
+        var newHoveringUnit = other?.gameObject.GetComponent<SRPGUnit>();
         SetHover(newHoveringTile, newHoveringUnit);
     }
 
-    private void SetHover(SrpgTile newHoveringTile, SrpgUnit newHoveringUnit){
+    private void SetHover(SrpgTile newHoveringTile, SRPGUnit newHoveringUnit){
         if(newHoveringTile){
             hoveringTile = newHoveringTile;
         } else if (newHoveringUnit){
@@ -204,7 +204,7 @@ public class SrpgFieldCursor : LerpMovement
         UpdateUnitCard(false, hoveringUnit);
     }
 
-    private void UpdateUnitCard(bool show, SrpgUnit hoveringUnit){
+    private void UpdateUnitCard(bool show, SRPGUnit hoveringUnit){
         if(show && hoveringUnit){
             unitCard.Open();
             

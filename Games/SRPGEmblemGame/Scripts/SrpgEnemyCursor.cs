@@ -10,7 +10,7 @@ public class SrpgEnemyCursor : LerpMovement {
     private SrpgAudioSource audioSource;
     private SrpgController srpgController;
     public string teamId;
-    public SrpgUnit selectedUnit;
+    public SRPGUnit selectedUnit;
     private SpritePopInOut spritePopInOut;
 
     private void Awake() {
@@ -29,7 +29,7 @@ public class SrpgEnemyCursor : LerpMovement {
 
     private IEnumerator CrTurn(){
         yield return new WaitForSeconds(1f);
-        List<SrpgUnit> units = FindObjectsOfType<SrpgUnit>().ToList().Where(u => u.state == SrpgUnit.State.Idle).ToList();
+        List<SRPGUnit> units = FindObjectsOfType<SRPGUnit>().ToList().Where(u => u.state == SRPGUnit.State.Idle).ToList();
         while(units.Count > 0) {
             selectedUnit = units[0];
             units.RemoveAt(0);
@@ -38,7 +38,7 @@ public class SrpgEnemyCursor : LerpMovement {
         }
     }
 
-    private IEnumerator CrUnitTurn(SrpgUnit unit){
+    private IEnumerator CrUnitTurn(SRPGUnit unit){
         yield return StartCoroutine(CrMoveAiCursor(unit.transform.position));
         SrpgAttack bestAttack = unit.MaxDamageAttack();
         audioSource.PlaySound(ESrpgSound.UnitPrompt);
@@ -53,7 +53,7 @@ public class SrpgEnemyCursor : LerpMovement {
                 Vector2 pos = bestAttack.attackerPos;
                 yield return StartCoroutine(CrMoveAiCursor(pos, simulateConfirm: true));
                 unit.Move(pos);
-                yield return new WaitUntil(() => selectedUnit.state != SrpgUnit.State.Moving);
+                yield return new WaitUntil(() => selectedUnit.state != SRPGUnit.State.Moving);
             }
             audioSource.PlaySound(ESrpgSound.UnitPrompt);
             unit.ToSelectingAttackTarget();
@@ -62,7 +62,7 @@ public class SrpgEnemyCursor : LerpMovement {
             Log("Will attack!");
             unit.Attack(bestAttack);
         }
-        yield return new WaitUntil(() => selectedUnit.state == SrpgUnit.State.Spent);
+        yield return new WaitUntil(() => selectedUnit.state == SRPGUnit.State.Spent);
         selectedUnit = null;
         yield break;
     }

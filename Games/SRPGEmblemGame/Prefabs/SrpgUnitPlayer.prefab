@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d902af6de4cdbd4eaa15ef53cbe5f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coll: {fileID: 6636618724010235898}
   popOutSize: {x: 0, y: 0, z: 0}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}
@@ -150,8 +151,8 @@ MonoBehaviour:
   soundDamage: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
   soundHeal: {fileID: 0}
   soundDie: {fileID: 8300000, guid: 8f2541cdd3a74b14282c5cbd399b66cb, type: 3}
-  deathExplosionPrefab: {fileID: 0}
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
+  spawnOnDeath: {fileID: 0}
   team: 0
   maxHealth: 0
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
@@ -160,15 +161,17 @@ MonoBehaviour:
   hitSprite: {fileID: 3631335260180935340, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
   deathSprite: {fileID: -9124612587588269511, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
   audioSource: {fileID: 0}
-  id: mick
-  name: Michael
-  typeId: Medic
-  teamId: good guys
-  maxHp: 10
-  hp: 10
-  attack: 5
-  defense: 0
-  moveRange: 4
+  data:
+    id: 
+    name: 
+    typeId: 
+    teamId: 
+    maxHp: 10
+    hp: 10
+    attack: 1
+    defense: 1
+    moveRange: 3
+    items: []
   items:
   - id: sword-11234
     typeId: sword-2
@@ -181,7 +184,7 @@ MonoBehaviour:
   attackSprite: {fileID: 7752409098073067923, guid: 64f10349c19b918439e23a032f990d3d, type: 3}
   tilemapCollider2D: {fileID: 0}
   srpgController: {fileID: 0}
-  collider: {fileID: 0}
+  collider2d: {fileID: 0}
   lerpMovement: {fileID: 0}
   state: 0
   hasAttackedThisTurn: 0

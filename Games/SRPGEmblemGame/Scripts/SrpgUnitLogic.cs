@@ -8,21 +8,21 @@ using UnityEngine.Tilemaps;
 public static class SrpgUnitLogic {
 
     // Get the positions that this unit can currently move to.
-    public static List<Vector2> GetMovePositions(this SrpgUnit unit){
+    public static List<Vector2> GetMovePositions(this SRPGUnit unit){
         List<Vector2> movePositions = new List<Vector2>();
         List<BoxCollider2D> unitColls = unit.srpgController.GetUnitColliders();
         return GetPositions(range: unit.GetMoveRange(), origins: unit.GetCurPos(), predicate: (pos) => unit.IsOccupiableTile(pos, unitColls));
     }
 
-    public static List<int> GetMoveRange(this SrpgUnit unit){
+    public static List<int> GetMoveRange(this SRPGUnit unit){
         return Enumerable.Range(0, unit.moveRange + 1).ToList();
     }
     
-    public static List<Vector2> GetCurPos(this SrpgUnit unit){
+    public static List<Vector2> GetCurPos(this SRPGUnit unit){
         return new List<Vector2>(){unit.transform.position};
     }
 
-    private static bool IsOccupiableTile(this SrpgUnit unit, Vector3 pos, List<BoxCollider2D> unitColls) {
+    private static bool IsOccupiableTile(this SRPGUnit unit, Vector3 pos, List<BoxCollider2D> unitColls) {
         switch(GetTileType(unit, pos, unitColls)){
             case SrpgTile.Content.HasMe:
             case SrpgTile.Content.Empty:
@@ -32,11 +32,11 @@ public static class SrpgUnitLogic {
         }
     }
 
-    public static List<Vector2> GetPossibleTargets(this SrpgUnit unit){
+    public static List<Vector2> GetPossibleTargets(this SRPGUnit unit){
         return unit.GetPossibleTargets(origins: unit.GetCurPos(), excludeFrom: false, unit.GetAttackRange(), includeEmpty: false);
     }
 
-    public static List<Vector2> GetPossibleTargets(this SrpgUnit unit, List<Vector2> origins, bool excludeFrom = false, List<int> range = null, bool includeEmpty = false){
+    public static List<Vector2> GetPossibleTargets(this SRPGUnit unit, List<Vector2> origins, bool excludeFrom = false, List<int> range = null, bool includeEmpty = false){
         List<Vector2> attackPositions = new List<Vector2>();
         List<BoxCollider2D> unitColls = unit.srpgController.GetUnitColliders();
         if(range == null){
@@ -67,7 +67,7 @@ public static class SrpgUnitLogic {
         return positions.FindAll(predicate);
     }
 
-    public static List<int> GetAttackRange(this SrpgUnit unit){
+    public static List<int> GetAttackRange(this SRPGUnit unit){
         return unit.items.Select(item => unit.srpgController.database.itemTypes[item.typeId])
             .Select(type => type.range.GetRange(0, type.range.Count()))
             .Aggregate((a,b) => {a.AddRange(b); a.Sort(); return a;})
@@ -79,29 +79,29 @@ public static class SrpgUnitLogic {
         // X X  XXX
     }
     
-    public static List<Vector2> ValidAttackPositions(this SrpgUnit unit, SrpgAttack attack, List<Vector2> movePositions){
+    public static List<Vector2> ValidAttackPositions(this SRPGUnit unit, SrpgAttack attack, List<Vector2> movePositions){
         Vector2 targetPos = attack.target.transform.position;
         SrpgItemType weaponType = unit.srpgController.database.itemTypes[attack.weapon.typeId];
         return movePositions.Where(pos => weaponType.range.Contains((pos.ManhattanDistanceInt(targetPos)))).ToList();
     }
 
-    public static bool CanAttackSomeTarget(this SrpgUnit unit){
+    public static bool CanAttackSomeTarget(this SRPGUnit unit){
         return !unit.hasAttackedThisTurn && unit.GetPossibleTargets().Count() > 0;
     }
 
-    public static bool CanAttack(this SrpgUnit unit, SrpgUnit targetUnit){
+    public static bool CanAttack(this SRPGUnit unit, SRPGUnit targetUnit){
         return !unit.hasAttackedThisTurn && unit.GetPossibleTargets().Contains(targetUnit.transform.position);
     }
 
-    public static bool CanAttackWithFirstWeapon(this SrpgUnit unit, SrpgUnit targetUnit){
+    public static bool CanAttackWithFirstWeapon(this SRPGUnit unit, SRPGUnit targetUnit){
         return !unit.hasAttackedThisTurn && unit.GetPossibleTargets(origins: unit.GetCurPos(), range: unit.GetType(unit.items[0]).range).Contains(targetUnit.transform.position);
     }
 
-    public static SrpgItemType GetType(this SrpgUnit unit, SrpgItem item){
+    public static SrpgItemType GetType(this SRPGUnit unit, SrpgItem item){
         return unit.srpgController.database.itemTypes[item.typeId];
     }
 
-    private static SrpgTile.Content GetTileType(this SrpgUnit unit, Vector3 pos, List<BoxCollider2D> unitColls){
+    private static SrpgTile.Content GetTileType(this SRPGUnit unit, Vector3 pos, List<BoxCollider2D> unitColls){
         if(unit.tilemapCollider2D.OverlapPoint(pos)){
             return SrpgTile.Content.Solid;
         }
@@ -112,7 +112,7 @@ public static class SrpgUnitLogic {
         if(otherColl == null){
             return SrpgTile.Content.Empty;
         }
-        SrpgUnit otherUnit = otherColl.GetComponent<SrpgUnit>();
+        SRPGUnit otherUnit = otherColl.GetComponent<SRPGUnit>();
         if(otherUnit.teamId == unit.teamId){
             return SrpgTile.Content.HasFriend;
         } else {
@@ -120,7 +120,7 @@ public static class SrpgUnitLogic {
         }
     }
 
-    private static bool IsEnemyTile(this SrpgUnit unit, Vector3 pos, List<BoxCollider2D> unitColls, bool includeEmpty) {
+    private static bool IsEnemyTile(this SRPGUnit unit, Vector3 pos, List<BoxCollider2D> unitColls, bool includeEmpty) {
         switch(GetTileType(unit, pos, unitColls)){
             case SrpgTile.Content.HasEnemy:
                 return true;

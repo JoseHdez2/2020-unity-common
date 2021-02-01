@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraZeldaLike : MonoBehaviour
 {
     private BoxCollider2D boundary;
+    [SerializeField] LerpMovement cam;
     public void Awake()
     {
         boundary = GetComponentInChildren<BoxCollider2D>();
@@ -24,16 +25,15 @@ public class CameraZeldaLike : MonoBehaviour
             } else {
                 exitDir = playerOffset.y < 0 ? EDirection.DOWN : EDirection.UP;
             }
-
+            // TODO use ArpgWeaponThrust dirsToVects
             float newX = boundaryPos.x, newY = boundaryPos.y;
-            Debug.Log(exitDir);
-            if (exitDir == EDirection.LEFT || exitDir == EDirection.RIGHT)
-            {
+            if (exitDir == EDirection.LEFT || exitDir == EDirection.RIGHT) {
                 newX += boundary.bounds.size.x * (exitDir == EDirection.LEFT ? -1 : 1);
             } else {
                 newY += boundary.bounds.size.y * (exitDir == EDirection.DOWN ? -1 : 1);
             }
             boundary.gameObject.transform.position = new Vector2(newX, newY);
+            cam.destinationPos = new Vector3(newX, newY, cam.transform.position.z);
         }
     }
 }

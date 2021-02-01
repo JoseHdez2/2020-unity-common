@@ -15,8 +15,8 @@ public class SrpgController : MonoBehaviour {
     
     public Color colorGood, colorBad;
 
-    protected ILookup<string, SrpgUnit> unitsByTeam;
-    protected ILookup<Vector3, SrpgUnit> unitsByPosition; // TODO
+    protected ILookup<string, SRPGUnit> unitsByTeam;
+    protected ILookup<Vector3, SRPGUnit> unitsByPosition; // TODO
     private List<BoxCollider2D> unitColls;
 
     public ActiveSemaphor semaphor = new ActiveSemaphor(); // TODO
@@ -60,7 +60,7 @@ public class SrpgController : MonoBehaviour {
 
     private void StartTurn(string teamId){
         UpdateTeams();
-        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+        SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
         units.ToList().ForEach(unit => InitializeUnit(unit, teamId));
         teamText.text = $"{teamId}'s Turn";
         Debug.LogFormat($"<color=green>{teamId}'s Turn.</color>");
@@ -99,7 +99,7 @@ public class SrpgController : MonoBehaviour {
     }
 
     public void UpdateTeams(){
-        SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+        SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
         UpdateUnitColliders(units);
         unitsByTeam = units.ToLookup(unit => unit.teamId);
         unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
@@ -110,14 +110,14 @@ public class SrpgController : MonoBehaviour {
         if(HasGameEnded()){
             EndGame();
         } else {
-            int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SrpgUnit.State.Spent);
+            int unitsNotSpent = unitsByTeam[curTeam].Count(unit => unit.state != SRPGUnit.State.Spent);
             if(unitsNotSpent > 0){
                 Debug.LogFormat($"<color=gray>{unitsNotSpent} unit(s) remain.</color>");
                 ToggleFieldCursor(true); // TODO show cursor after a unit is spent. is this the best place?
                 return;
             } else {
                 ChangeTurn();
-                SrpgUnit[] units = FindObjectsOfType<SrpgUnit>();
+                SRPGUnit[] units = FindObjectsOfType<SRPGUnit>();
                 unitsByPosition = units.ToLookup(unit => unit.gameObject.transform.position);
             }
         }
@@ -135,7 +135,7 @@ public class SrpgController : MonoBehaviour {
         Debug.Log("Game has ended!");
     }
 
-    private void InitializeUnit(SrpgUnit unit, string teamId){
+    private void InitializeUnit(SRPGUnit unit, string teamId){
         if(unit.teamId == teamId){
             unit.ToIdle();
             unit.hasAttackedThisTurn = false;
@@ -144,7 +144,7 @@ public class SrpgController : MonoBehaviour {
         }
     }
 
-    private void UpdateUnitColliders(SrpgUnit[] units){
+    private void UpdateUnitColliders(SRPGUnit[] units){
         unitColls = units.Where(u => u.IsAlive()).Select(unit => unit.GetComponent<BoxCollider2D>()).ToList();
     }
 

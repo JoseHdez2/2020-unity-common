@@ -20,9 +20,8 @@ GameObject:
   - component: {fileID: 4942167834137161139}
   - component: {fileID: 1268736865}
   - component: {fileID: 110813548886486939}
-  - component: {fileID: 6868225948173235195}
   m_Layer: 0
-  m_Name: mj72-enemy
+  m_Name: mj72-enemyBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +36,7 @@ Transform:
   m_GameObject: {fileID: 2194758799594066144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.1765485, y: 2.23, z: 0.46354228}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -272,11 +271,11 @@ MonoBehaviour:
   animationSpeed: 1
   soundDamage: {fileID: 8300000, guid: 591c7ec5471313541a4027e99980c0ce, type: 3}
   soundHeal: {fileID: 0}
-  soundDie: {fileID: 8300000, guid: 97499593ace0fb740869f232906c1c6c, type: 3}
+  soundDie: {fileID: 8300000, guid: 9ac187453db1c60479cbcd4c60d15162, type: 3}
   pfDamagePopup: {fileID: 2226897071158646573, guid: 95f00815386f7a04cb9b60d6c2692913, type: 3}
-  spawnOnDeath: {fileID: 2194758799594066144, guid: 374391f7cb630e24ab6b564b4424b2af, type: 3}
+  spawnOnDeath: {fileID: 7044867003952153599, guid: c41c9feff4b30ec438d3a9f8f08d1676, type: 3}
   team: 1
-  maxHealth: 3
+  maxHealth: 20
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
   colorHeal: {r: 0, g: 1, b: 0, a: 1}
   colorExpandHealth: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -299,7 +298,7 @@ MonoBehaviour:
   soundExpire: {fileID: 0}
   team: 1
   damagerType: 0
-  damage: 1
+  damage: 2
   speed: 1
 --- !u!114 &4652639882913242905
 MonoBehaviour:
@@ -314,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDistance: 1
-  speed: 2
+  speed: 1
   debugTargetPos: 0
 --- !u!114 &4942167834137161139
 MonoBehaviour:
@@ -357,16 +356,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2194758799594066148}
-  frameDuration: 0.25
---- !u!114 &6868225948173235195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2194758799594066144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d181ecb8d9a3e2b46b3da199818cedeb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  frameDuration: 0.5

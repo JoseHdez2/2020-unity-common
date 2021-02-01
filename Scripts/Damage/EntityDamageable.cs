@@ -116,7 +116,7 @@ public class EntityDamageable : SpritePopInOut
     public virtual void Die(){
         if (soundDie != null) { audioSource.clip = soundDie; audioSource.Play(); }
         if (spawnOnDeath) { Instantiate(spawnOnDeath, gameObject.transform.position, gameObject.transform.rotation); }
-        Destroy(GetComponent<BoxCollider2D>()); // TODO what if EntityDamageable has another collider type?
+        GetComponents<Collider2D>().ToList().ForEach(coll => Destroy(coll));
         StartCoroutine(CrDie());
     }
 
