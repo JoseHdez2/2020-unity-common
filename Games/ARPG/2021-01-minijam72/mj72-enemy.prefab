@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 6868225948173235195}
   m_Layer: 0
   m_Name: mj72-enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d538e9a3c37653541a3ca4ddeb949bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coll: {fileID: 0}
   popOutSize: {x: 0.01, y: 0.01, z: 0.01}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}

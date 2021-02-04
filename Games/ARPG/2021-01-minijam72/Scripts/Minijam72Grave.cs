@@ -19,12 +19,10 @@ public class Minijam72Grave : SpritePopInOut {
     private void OnTriggerEnter2D(Collider2D collision){
         ArpgPlayerBehavior player = collision.gameObject.GetComponent<ArpgPlayerBehavior>();
         if(player){
-            Minijam72Key key = FindObjectsOfType<Minijam72Key>().ToList()
+            key = FindObjectsOfType<Minijam72Key>().ToList()
                 .FirstOrDefault(k => k.target != null && k.keyType == keyType);
             buryAction.canDo = key != null;
-            UnityEvent unityEvent = new UnityEvent();
-            unityEvent.AddListener(() => Bury());
-            buryAction.action = unityEvent;
+            buryAction.SetAction(Bury);
         }
     }
 
@@ -40,7 +38,7 @@ public class Minijam72Grave : SpritePopInOut {
             Destroy(key.gameObject);
             audioSource.Play();
             Instantiate(spawnOnBury, transform.position, Quaternion.identity);
-            SelfDestroy();
+            // SelfDestroy();
         }
     }
 }

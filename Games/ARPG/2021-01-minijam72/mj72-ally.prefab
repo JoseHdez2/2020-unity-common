@@ -15,12 +15,9 @@ GameObject:
   - component: {fileID: -8175591608533624711}
   - component: {fileID: 8176271991502786759}
   - component: {fileID: 3933615335818447563}
-  - component: {fileID: 5216726989814796717}
   - component: {fileID: 4652639882913242905}
-  - component: {fileID: 4942167834137161139}
-  - component: {fileID: 1268736865}
   - component: {fileID: 110813548886486939}
-  - component: {fileID: 6868225948173235195}
+  - component: {fileID: 930352761212206403}
   m_Layer: 0
   m_Name: mj72-ally
   m_TagString: Untagged
@@ -38,7 +35,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.1765485, y: 2.23, z: 0.46354228}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1009674149123127699}
+  - {fileID: 7624621507963648210}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -81,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_Sprite: {fileID: -4226746497408152260, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -109,8 +108,8 @@ MonoBehaviour:
   negligibleVelocityCutoff: 0.1
   target: {fileID: 0}
   targetTag: Player
-  minDistance: 0.1
-  speed: 1
+  minDistance: 2
+  speed: 5
 --- !u!50 &2194758799594066146
 Rigidbody2D:
   serializedVersion: 4
@@ -266,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d538e9a3c37653541a3ca4ddeb949bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coll: {fileID: 0}
   popOutSize: {x: 0.01, y: 0.01, z: 0.01}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}
@@ -283,24 +283,6 @@ MonoBehaviour:
   hitSprite: {fileID: 492699297843270739, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   deathSprite: {fileID: 492699297843270739, guid: 0be68406ca7f2c645afd50669497297a, type: 3}
   audioSource: {fileID: 0}
---- !u!114 &5216726989814796717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2194758799594066144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b33cf76eec04c04b93ab5f523eefa1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabEffectExpire: {fileID: 0}
-  soundExpire: {fileID: 0}
-  team: 0
-  damagerType: 0
-  damage: 2
-  speed: 1
 --- !u!114 &4652639882913242905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,34 +298,6 @@ MonoBehaviour:
   minDistance: 1
   speed: 2
   debugTargetPos: 0
---- !u!114 &4942167834137161139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2194758799594066144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b0ecfe21dc9c8240be16bcab0f3d3cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!58 &1268736865
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2194758799594066144}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
 --- !u!114 &110813548886486939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,7 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2194758799594066148}
   frameDuration: 0.25
---- !u!114 &6868225948173235195
+--- !u!114 &930352761212206403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,6 +321,150 @@ MonoBehaviour:
   m_GameObject: {fileID: 2194758799594066144}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d181ecb8d9a3e2b46b3da199818cedeb, type: 3}
+  m_Script: {fileID: 11500000, guid: 86b27a0969ba2d447990befdb78410ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followPlayerSpeed: 5
+  followEnemySpeed: 10
+--- !u!1 &2737133320562669039
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1009674149123127699}
+  - component: {fileID: 5781845445281625631}
+  - component: {fileID: 3731726966535964271}
+  m_Layer: 0
+  m_Name: visionRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1009674149123127699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2737133320562669039}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2194758799594066147}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5781845445281625631
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2737133320562669039}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5
+--- !u!114 &3731726966535964271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2737133320562669039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d14868139105b334c9a6e7ac2f5168c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collTag: Enemy
+  triggerAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 930352761212206403}
+        m_TargetAssemblyTypeName: Minijam72Ally, Assembly-CSharp
+        m_MethodName: AttackTarget
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Collider2D, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &5056273885244626914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7624621507963648210}
+  - component: {fileID: 6764239963663851630}
+  - component: {fileID: 4961445095926012532}
+  m_Layer: 0
+  m_Name: damager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7624621507963648210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056273885244626914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2194758799594066147}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6764239963663851630
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056273885244626914}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6
+--- !u!114 &4961445095926012532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5056273885244626914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4568c3cc6c1fb274baf464e041afddae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  damage: 2
+  pushSpeed: 100
+  expireEvent:
+    m_PersistentCalls:
+      m_Calls: []

@@ -93,7 +93,9 @@ public class EntityDamageable : SpritePopInOut
         if (health <= 0) { 
             Die(); 
         } else {
-            // if (movement) { movement.SetMovement(EMovementType.BULLET_PUSH, damage.pushVector * damage.pushSpeed); } // TODO reduce pushSpeed with eg. armor
+            Rigidbody2D rb2d = GetComponent<Rigidbody2D>();
+            rb2d.velocity += damage.pushVector * damage.pushSpeed;
+            // if (movement != null) { movement.SetMovement(EMovementType.BULLET_PUSH, damage.pushVector * damage.pushSpeed); } // TODO reduce pushSpeed with eg. armor
             if (soundDamage) { audioSource.clip = soundDamage; audioSource.Play(); }
             StartCoroutine(Blink(colorDamage));
             if(objectShake){

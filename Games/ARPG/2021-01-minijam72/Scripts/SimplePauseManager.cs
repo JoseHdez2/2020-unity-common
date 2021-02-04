@@ -13,6 +13,7 @@ public class SimplePauseManager : ToggleWithKey
         base.ToggleObject();
         music.Toggle();
         isPaused = !isPaused;
+        Debug.Log($"Set to {(isPaused ? "paused" : "unpaused")}!");
         Time.timeScale = isPaused ? 0 : 1;
     }
 }

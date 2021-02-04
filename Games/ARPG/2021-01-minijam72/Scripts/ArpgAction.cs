@@ -12,11 +12,11 @@ public class ArpgAction : MonoBehaviour {
     [SerializeField] public UnityEvent action;
 
     public void SetAction(UnityAction unityAction){
-        // FIXME untested.
         UnityEvent unityEvent = new UnityEvent();
         unityEvent.AddListener(unityAction);
         action = unityEvent;
     }
+    
     private void Start() {
         hudBtns = FindObjectsOfType<HudButton>().ToList()
                     .Where(hudBtn => keys.Contains(hudBtn.keyCode)).ToList();
@@ -29,7 +29,6 @@ public class ArpgAction : MonoBehaviour {
             hudBtns.ForEach(hudBtn => hudBtn.hudBtnTextAction.text = actionName);
         }
         if(canDo && keys.Any(k => Input.GetKeyDown(k))){
-            Debug.Log(actionName);
             action.Invoke(); // do the action
             // log the action
         }

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public enum AttributeCycle { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z }
+public enum AttributeCycle { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z, SCALE_X, SCALE_Y }
 
 [Serializable]
 public class AnimationCycle {
