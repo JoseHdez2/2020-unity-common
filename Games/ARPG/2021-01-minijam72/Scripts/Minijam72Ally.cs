@@ -7,10 +7,9 @@ public class Minijam72Ally : MonoBehaviour {
         movementFollowTarget = GetComponent<MovementFollowTarget>();
     }
 
-    public void AttackTarget(Collider2D collision){
-        Debug.Log(collision.gameObject.name);
-        movementFollowTarget.speed = 10f;
-        movementFollowTarget.target = collision.gameObject.transform;
+    public void AttackTarget(Collider2D coll){
+        movementFollowTarget.speed = followEnemySpeed;
+        movementFollowTarget.target = coll.gameObject.transform;
     }
 
 }

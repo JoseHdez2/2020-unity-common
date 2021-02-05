@@ -19,8 +19,7 @@ public class EntityDamageable : SpritePopInOut
     [SerializeField] DamagePopup pfDamagePopup;
     [SerializeField] GameObject spawnOnDeath;
     public ETeam team; // TODO move up into children.
-    protected int health;
-    public int maxHealth;
+    public int health, maxHealth;
 
     public Color colorDamage = Color.red, colorHeal = Color.green, colorExpandHealth = Color.yellow;
 
@@ -72,7 +71,7 @@ public class EntityDamageable : SpritePopInOut
     private void CreatePopup(int qty, Color color)
     {
         DamagePopup dp = Instantiate(pfDamagePopup, transform.position, Quaternion.identity);
-        dp.transform.SetParent(transform);
+        dp.transform.SetParent(transform.parent);
         dp.SetPopupText(qty.ToString());
         dp.SetPopupColor(color);
     }

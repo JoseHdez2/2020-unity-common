@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4652639882913242905}
   - component: {fileID: 110813548886486939}
   - component: {fileID: 930352761212206403}
+  - component: {fileID: -4457513476795748037}
   m_Layer: 0
   m_Name: mj72-ally
   m_TagString: Untagged
@@ -109,7 +110,7 @@ MonoBehaviour:
   target: {fileID: 0}
   targetTag: Player
   minDistance: 2
-  speed: 5
+  speed: 10
 --- !u!50 &2194758799594066146
 Rigidbody2D:
   serializedVersion: 4
@@ -234,7 +235,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2194758799594066144}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -251,7 +252,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.6}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!114 &3933615335818447563
 MonoBehaviour:
@@ -324,8 +325,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b27a0969ba2d447990befdb78410ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followPlayerSpeed: 5
-  followEnemySpeed: 10
+  followPlayerSpeed: 10
+  followEnemySpeed: 20
+--- !u!58 &-4457513476795748037
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194758799594066144}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.3
 --- !u!1 &2737133320562669039
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,10 +410,10 @@ MonoBehaviour:
       - m_Target: {fileID: 930352761212206403}
         m_TargetAssemblyTypeName: Minijam72Ally, Assembly-CSharp
         m_MethodName: AttackTarget
-        m_Mode: 2
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Collider2D, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -444,7 +461,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

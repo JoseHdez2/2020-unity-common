@@ -127,7 +127,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.4
 --- !u!82 &-710728637414956950
 AudioSource:
   m_ObjectHideFlags: 0
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5defc65a5c9f82b4f8179ce137207aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coll: {fileID: 0}
   popOutSize: {x: 0.01, y: 0.01, z: 0.01}
   popOutAlpha: 0
   popOutRotationConfig: {x: 0, y: 0, z: 0}

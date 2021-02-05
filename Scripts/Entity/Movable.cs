@@ -16,16 +16,15 @@ public class Movable : Pausable
     public Transform MovementTarget { get => movementTarget; set => movementTarget = value; }
 
     public bool HasArrived(){
+        if(MovementTarget == null){ return true; }
         return Vector3.Distance(transform.position, MovementTarget.position) < minDistance;
     }
 
-    protected virtual void MoveToPos(Vector3 newPos)
-    {
+    protected virtual void MoveToPos(Vector3 newPos){
         transform.position = newPos;
     }
 
-    protected override void OnPause(bool isPaused)
-    {
+    protected override void OnPause(bool isPaused){
         return;
     }
 
@@ -37,14 +36,12 @@ public class Movable : Pausable
             DebugDraw.DrawPos(MovementTarget.position, Color.red);
         }
         if (HasArrived()) return;
-        if (transform.position != MovementTarget.position)
-        {
+        if (transform.position != MovementTarget.position){
             MoveToPos(CalculateNewPosition());
         }
     }
 
-    private Vector3 CalculateNewPosition()
-    {
+    private Vector3 CalculateNewPosition(){
         float distance = speed * Time.deltaTime;
         Vector3 newPosDir = (MovementTarget.position - transform.position).normalized;
         Vector3 newPos = transform.position + newPosDir * distance;
