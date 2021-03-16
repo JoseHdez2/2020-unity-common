@@ -35,7 +35,7 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     public FpsProcBounds pfBounds;
     public List<CharToPrefabDict> prefabDicts;
-    public ITilemapGenerator3d tilemapGenerator;
+    public AbsBldgGenerator tilemapGenerator;
     private FpsProcDatabase db; // names and images
 
     private void Awake() {
@@ -45,8 +45,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public void Generate(){
         db = FindObjectOfType<FpsProcDatabase>();
         db.Initialize();
-        data.tilemap = GenerateTilemap(data);
-        data.name = GenerateName(data);
+        data.tilemap = tilemapGenerator.GenerateTilemap(data);
+        data.name = tilemapGenerator.GenerateName(data);
         FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
         if(gameMgr){
             data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();

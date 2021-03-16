@@ -2178,6 +2178,7 @@ MonoBehaviour:
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
   prefabDicts:
   - {fileID: 11400000, guid: 33fc7a8f6703afe4ea1d84323355a290, type: 2}
+  tilemapGenerator: {fileID: -3374221319248184707, guid: 2264264e63e2f6b4ba57d425caf5d8c4, type: 3}
   bldgNameSuffix: Park
 --- !u!1 &1659196329512226359
 GameObject:

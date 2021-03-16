@@ -53,6 +53,7 @@ MonoBehaviour:
   pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
   prefabDicts:
   - {fileID: 11400000, guid: 33fc7a8f6703afe4ea1d84323355a290, type: 2}
+  tilemapGenerator: {fileID: 8532288180568420502, guid: b1c142428d3d3774ba62d84b80fb2ad4, type: 3}
 --- !u!114 &-1219370854391345673
 MonoBehaviour:
   m_ObjectHideFlags: 0
