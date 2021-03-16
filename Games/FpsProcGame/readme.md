@@ -17,9 +17,9 @@ Controls: WASD and Mouse. N to show notepad.
 ## Changelog
 
 ### v1.6
-- 
-- Ability to restart game when it ends.
-- Ability to restart game mid-game.
+- Bigger title logo.
+- Virtual mouse cursor dramatically improves web version UX.
+- Ability to restart game.
 
 ### v1.5
 - Merged polys to dramatically increase performance.

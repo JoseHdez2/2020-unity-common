@@ -54,6 +54,7 @@ MonoBehaviour:
   prefabDicts:
   - {fileID: 11400000, guid: bcbf0a84e169c6b47af787fd1ce40129, type: 2}
   - {fileID: 11400000, guid: 9e05ddd6a19d01d44b0458620d2eaf68, type: 2}
+  tilemapGenerator: {fileID: 8532288180568420502, guid: b1c142428d3d3774ba62d84b80fb2ad4, type: 3}
 --- !u!114 &-1219370854391345673
 MonoBehaviour:
   m_ObjectHideFlags: 0

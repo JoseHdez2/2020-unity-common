@@ -109,7 +109,6 @@ public class FpsProcGameMgr : MonoBehaviour
             GameOver();
         }
         float rot = playerController.gameObject.transform.rotation.eulerAngles.y;
-        // textAreaMap2.text = rot.ToString(); // debugging
         textAreaMap2.gameObject.transform.localRotation = Quaternion.Euler(0, 0, rot);
         textTimer.text = $"Time left: {missionTimer.ToMMSS()}";
     }
@@ -152,8 +151,8 @@ public class FpsProcGameMgr : MonoBehaviour
     }
 
     string[] intro = {"In the future", "there is no privacy.", "People live in fear", "and secret agents uphold the order.", "they are called", "THE BLADERUNNERS"};
-    string[] intro2 = {"In the future", "corporations have taken over.", "A.I. reigns supreme", "and secret agents do its bidding.", "they are called", "THE BLADERUNNERS"};
-    string[] intro3 = {"In the future", "life has no value.", "In a certain page, for the right price", "secret agents will kill for you.", "they are called", "THE BLADERUNNERS"};
+    string[] intro2 = {"In the future", "corporations have taken over.", "A.I. reigns supreme", "and secret agents will execute.", "they are called", "THE BLADERUNNERS"};
+    string[] intro3 = {"In the future", "life has no value.", "In certain parts of the net, lives are sold", "and secret agents will kill for the right price.", "they are called", "THE BLADERUNNERS"};
 
     private void StartMission(){
         npcs = InstantiateNpcs();

@@ -40,11 +40,15 @@ public class BldgGenOffice : AbsBldgGenerator {
                 Debug.LogError("No candidates for stairs!");
             }
         }
+        Debug.Log(TilemapToStr(grid, 0));
+        Debug.Log(gridSize);
         grid[0] = grid[0].SetTile(pos: GetTilesWithChar(floor: grid[0], c: '┴').RandomItem(), c: '_'); // entrance
 
         return grid;
     }
 
+    public string TilemapToStr(List<List<string>> tilemap, int floorNum) => string.Join("\n\n", Enumerable.Reverse(tilemap)
+        .Select((f, i) => $"<color={((tilemap.Count - 1 - i) == floorNum ? "yellow" : "white")}>{string.Join("\n", f)}</color>"));
 
     protected List<Vector2Int> GetTilesWithChar(List<string> floor, char c) =>
         floor.SelectMany((row, y) => row.Select((tile, x) => new Tile(){x=x, y=y, c=tile}))

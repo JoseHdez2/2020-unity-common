@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public enum AttributeCycle { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z }
+public enum AttributeCycle { POS_X, POS_Y, SCALE, ROT_Y, ROT_Z, SCALE_X, SCALE_Y, SCALE_Z }
 
 [Serializable]
 public class AnimationCycle {
@@ -47,9 +47,12 @@ public class AnimateTransform : MonoBehaviour {
         switch (anim.attr) {
             case AttributeCycle.POS_X: transform.position += new Vector3(delta, 0, 0); break;
             case AttributeCycle.POS_Y: transform.position += new Vector3(0, delta, 0); break;
-            case AttributeCycle.SCALE: transform.localScale += new Vector3(0, delta, 0); break;
+            case AttributeCycle.SCALE: transform.localScale += new Vector3(delta, delta, 0); break;
             case AttributeCycle.ROT_Y: transform.RotateAround(transform.position, transform.up, delta); break;
             case AttributeCycle.ROT_Z: transform.RotateAround(transform.position, transform.forward, delta); break;
+            case AttributeCycle.SCALE_X: transform.localScale += new Vector3(delta, 0, 0); break;
+            case AttributeCycle.SCALE_Y: transform.localScale += new Vector3(0, delta, 0); break;
+            case AttributeCycle.SCALE_Z: transform.localScale += new Vector3(0, 0, delta); break;
         }
     }
 }
