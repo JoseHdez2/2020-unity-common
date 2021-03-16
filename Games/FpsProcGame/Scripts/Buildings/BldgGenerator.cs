@@ -25,11 +25,12 @@ public abstract class AbsBldgGenerator : MonoBehaviour, IBldgGenerator
     public abstract List<List<string>> GenerateTilemap(FpsProcBldgData input);
 }
 
+[System.Serializable]
 public class BldgGenerator : AbsBldgGenerator
 {
     public string bldgNameSuffix;
 
-    public List<List<string>> tilemap;
+    [SerializeField] public List<List<string>> tilemap;
 
     public override string GenerateName(FpsProcBldgData input) => $"{FpsProcDatabase.streetNames.RandomItem()} {bldgNameSuffix}";
 
