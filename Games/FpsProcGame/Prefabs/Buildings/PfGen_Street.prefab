@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b45a3e5261b580419e672e6e79ca259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bldgNameSuffix: 
+  bldgNameSuffix: Street

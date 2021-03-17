@@ -27049,6 +27049,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProcFpsDistrictSmall
       objectReference: {fileID: 0}
+    - target: {fileID: 3759766855904621490, guid: e231ecef213d179498d6a2f28ce7c389, type: 3}
+      propertyPath: prefabs._values.Array.data[4]
+      value: 
+      objectReference: {fileID: 8924028096971471282, guid: 9b66d7d79dfafef4988b85ded555cb91, type: 3}
     - target: {fileID: 3759766855904621491, guid: e231ecef213d179498d6a2f28ce7c389, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

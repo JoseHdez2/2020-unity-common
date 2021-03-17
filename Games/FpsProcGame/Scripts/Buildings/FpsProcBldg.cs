@@ -31,7 +31,7 @@ public class FpsProcBldgData {
     public string TilemapToStr2(int floorNum) => $"N\n\n{string.Join("\n", tilemap[floorNum])}\n\nS";
 }
 
-public abstract class FpsProcBldg : MonoBehaviour {
+public class FpsProcBldg : MonoBehaviour {
     public FpsProcBldgData data;
     public FpsProcBounds pfBounds;
     public List<CharToPrefabDict> prefabDicts;
@@ -45,8 +45,8 @@ public abstract class FpsProcBldg : MonoBehaviour {
     public void Generate(){
         db = FindObjectOfType<FpsProcDatabase>();
         db.Initialize();
-        data.tilemap = tilemapGenerator.GenerateTilemap(data);
-        data.name = tilemapGenerator.GenerateName(data);
+        data.tilemap = GenerateTilemap(data);
+        data.name = GenerateName(data);
         FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
         if(gameMgr){
             data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();
@@ -60,8 +60,9 @@ public abstract class FpsProcBldg : MonoBehaviour {
     /// └ 	┴ 	┬ 	├ 	─ 	┼ 	╞ 	╟ 	╚ 	╔ 	╩ 	╦ 	╠ 	═ 	╬ 	╧
     /// ╨ 	╤ 	╥ 	╙ 	╘ 	╒ 	╓ 	╫ 	╪ 	┘ 	┌ 	
     ///</summary>
-    public abstract List<List<string>> GenerateTilemap(FpsProcBldgData input);
-    public abstract string GenerateName(FpsProcBldgData input);
+    public List<List<string>> GenerateTilemap(FpsProcBldgData input) => tilemapGenerator.GenerateTilemap(input);
+    
+    public string GenerateName(FpsProcBldgData input) => tilemapGenerator.GenerateName(input);
     
     public void InstantiateBuilding(FpsProcNpc pfNpc){
         name = data.name;

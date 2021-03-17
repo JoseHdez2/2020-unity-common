@@ -17,9 +17,8 @@ Controls: WASD and Mouse. N to show notepad.
 ## Changelog
 
 ### v1.6
-- Bigger title logo.
-- Virtual mouse cursor dramatically improves web version UX.
-- Ability to restart game.
+- Bigger and better animated title logo.
+- Visual overhaul by mapping textures from cc0textures.com.
 
 ### v1.5
 - Merged polys to dramatically increase performance.

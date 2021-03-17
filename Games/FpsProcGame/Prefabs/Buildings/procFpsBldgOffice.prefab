@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3453521826699677932}
-  - component: {fileID: 3453521826699677935}
   - component: {fileID: -1219370854391345673}
+  - component: {fileID: -3419958150002751071}
   m_Layer: 0
   m_Name: procFpsBldgOffice
   m_TagString: Untagged
@@ -32,28 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3453521826699677935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453521826699677933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b3d443e8283b74196ca6020cb65656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-    origin: {x: 10, y: 0, z: 10}
-    cellScale: {x: 4, y: 2.25, z: 4}
-    gridSize: {x: 6, y: 6, z: 4}
-    name: 
-    orgUuids: []
-  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
-  prefabDicts:
-  - {fileID: 11400000, guid: 33fc7a8f6703afe4ea1d84323355a290, type: 2}
-  tilemapGenerator: {fileID: 8532288180568420502, guid: b1c142428d3d3774ba62d84b80fb2ad4, type: 3}
 --- !u!114 &-1219370854391345673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,3 +47,25 @@ MonoBehaviour:
   minDistance: 5
   refreshRate: 0.5
   enrollRate: 5
+--- !u!114 &-3419958150002751071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453521826699677933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56dc02f3bf3a7c438aa093277617bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    origin: {x: 10, y: 0, z: 10}
+    cellScale: {x: 4, y: 2.25, z: 4}
+    gridSize: {x: 6, y: 6, z: 1}
+    name: 
+    orgUuids: []
+  pfBounds: {fileID: -3709536454493470309, guid: d730c1da89cc5f24aa7e41b1aba5de15, type: 3}
+  prefabDicts:
+  - {fileID: 11400000, guid: 33fc7a8f6703afe4ea1d84323355a290, type: 2}
+  tilemapGenerator: {fileID: 8532288180568420502, guid: b1c142428d3d3774ba62d84b80fb2ad4, type: 3}
