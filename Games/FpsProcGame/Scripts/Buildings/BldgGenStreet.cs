@@ -6,6 +6,8 @@ public class BldgGenStreet : AbsBldgGenerator {
     public string bldgNameSuffix;
     public override string GenerateName(FpsProcBldgData input) => $"{FpsProcDatabase.streetNames.RandomItem()} {bldgNameSuffix}";
 
+    public FpsProcBldgData.Type type;
+    public override FpsProcBldgData.Type GenerateType(FpsProcBldgData input) => type;
     public override List<List<string>> GenerateTilemap(FpsProcBldgData input)
     {
         Vector3Int gridSize = input.gridSize;

@@ -6,6 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public class FpsProcBldgData {
     
+    public enum Type { OFFICE, STREET }
+
+    public Type type;
+
     public Vector3 origin;
     public Vector3 cellScale = Vector3.one; // area instantiation input.
     public Vector3Int gridSize;
@@ -47,6 +51,7 @@ public class FpsProcBldg : MonoBehaviour {
         db.Initialize();
         data.tilemap = GenerateTilemap(data);
         data.name = GenerateName(data);
+        data.type = GenerateType(data);
         FpsProcGameMgr gameMgr = FindObjectOfType<FpsProcGameMgr>();
         if(gameMgr){
             data.orgUuids = Enumerable.Range(0, data.gridSize.z).Select(i => gameMgr.affiliationsMgr.organizations.RandomItem().name).ToList();
@@ -63,6 +68,8 @@ public class FpsProcBldg : MonoBehaviour {
     public List<List<string>> GenerateTilemap(FpsProcBldgData input) => tilemapGenerator.GenerateTilemap(input);
     
     public string GenerateName(FpsProcBldgData input) => tilemapGenerator.GenerateName(input);
+
+    public FpsProcBldgData.Type GenerateType(FpsProcBldgData input) => tilemapGenerator.GenerateType(input);
     
     public void InstantiateBuilding(FpsProcNpc pfNpc){
         name = data.name;

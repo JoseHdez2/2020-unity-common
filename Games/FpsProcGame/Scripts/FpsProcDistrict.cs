@@ -42,7 +42,7 @@ public class FpsProcDistrict : MonoBehaviour {
     private void UpdateStreetNames()
     {
         List<FpsProcBldgData> bldgs = GetComponentsInChildren<FpsProcBldg>()
-            // .Where( bldg => bldg is FpsProcBldgStreet)
+            .Where( bldg => bldg.data.type == FpsProcBldgData.Type.STREET)
             .Select( bldg => bldg.data ).ToList(); // iterate through all prefabs, get the ones that are streets.
         
         // throw new NotImplementedException();

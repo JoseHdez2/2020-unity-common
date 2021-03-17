@@ -7,6 +7,8 @@ using UnityEngine;
 public class BldgGenOffice : AbsBldgGenerator {
     public override string GenerateName(FpsProcBldgData input) => $"{FpsProcDatabase.streetNames.RandomItem()} Building";
 
+    public FpsProcBldgData.Type type;
+    public override FpsProcBldgData.Type GenerateType(FpsProcBldgData input) => type;
     public override List<List<string>> GenerateTilemap(FpsProcBldgData input){
         Vector3Int gridSize = input.gridSize;
         BoundsInt floorBounds = new BoundsInt(){xMax=gridSize.x, yMax=gridSize.y};
