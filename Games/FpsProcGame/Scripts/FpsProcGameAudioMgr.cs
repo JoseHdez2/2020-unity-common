@@ -26,7 +26,7 @@ public class FpsProcGameAudioMgr : MonoBehaviour {
         ambianceSound.Pause(); // ambianceSound.FadeOut(0.5f);
         // audioMixer.TransitionToSnapshots();
         AudioClip sound;
-        if(bldg is FpsProcBldgOffice){
+        if(bldg.data.type == FpsProcBldgData.Type.OFFICE){
             sound = ambiances[AmbianceType.Office];
         } else {
             sound = ambiances[AmbianceType.Outdoors];
