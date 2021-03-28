@@ -6291,7 +6291,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &320806704
 MonoBehaviour:
@@ -20382,6 +20382,58 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 320806703}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: maxDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorNeutral.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorNeutral.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorNeutral.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorSelected.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorSelected.g
+      value: 0.41259146
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorSelected.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorFar.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorFar.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorFar.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorNeutral.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorSelected.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652403305620468, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: colorFar.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1068536261237063013, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
