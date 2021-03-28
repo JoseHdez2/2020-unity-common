@@ -19,6 +19,7 @@ Controls: WASD and Mouse. N to show notepad.
 ### v1.6
 - Bigger and better animated title logo.
 - Visual overhaul by mapping textures from cc0textures.com.
+- Virtual cursor greatly improves web experience.
 
 ### v1.5
 - Merged polys to dramatically increase performance.
