@@ -14,12 +14,12 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogMode: 1
+  m_FogDensity: 0.3
   m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_LinearFogEnd: 10
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -20474,6 +20474,22 @@ PrefabInstance:
       propertyPath: mouseSensitivity.x
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350605, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350605, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.49803925
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350605, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.49803925
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848927244400350605, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.49803925
+      objectReference: {fileID: 0}
     - target: {fileID: 4541421792255277938, guid: 8fed02486b5845241b3eeedc5fa9de8b, type: 3}
       propertyPath: m_Name
       value: audioSourceSound
@@ -25490,6 +25506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bldgNameSuffix: 
+  type: 0
 --- !u!4 &2009648327
 Transform:
   m_ObjectHideFlags: 0
@@ -27094,10 +27111,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProcFpsDistrictSmall
       objectReference: {fileID: 0}
-    - target: {fileID: 3759766855904621490, guid: e231ecef213d179498d6a2f28ce7c389, type: 3}
-      propertyPath: prefabs._values.Array.data[4]
-      value: 
-      objectReference: {fileID: 8924028096971471282, guid: 9b66d7d79dfafef4988b85ded555cb91, type: 3}
     - target: {fileID: 3759766855904621491, guid: e231ecef213d179498d6a2f28ce7c389, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
