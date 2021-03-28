@@ -6,7 +6,7 @@ public class MouseLook : MonoBehaviour
 {
     public Vector2 mouseSensitivity = new Vector2(100f, 100f);
 
-    public Transform playerBody;
+    public Transform cameraTransform, playerBody;
 
     float xRotation = 0f;
 
@@ -15,7 +15,7 @@ public class MouseLook : MonoBehaviour
     }
 
     void OnDisable(){
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class MouseLook : MonoBehaviour
         xRotation -= mouse.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
         playerBody.Rotate(Vector3.up * mouse.x);
     }

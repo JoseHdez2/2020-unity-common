@@ -7,11 +7,12 @@ public class SimplePauseManager : ToggleWithKey
 {
     [SerializeField] AudioSource music;
     private bool isPaused = false;
+    [Header("We must toggle MouseLook to free the cursor.")]
+    public string dummy;
 
-    new public void ToggleObject()
+    override public void ToggleMoreStuff()
     {
-        base.ToggleObject();
-        music.Toggle();
+        if(music) { music.Toggle(); }
         isPaused = !isPaused;
         Debug.Log($"Set to {(isPaused ? "paused" : "unpaused")}!");
         Time.timeScale = isPaused ? 0 : 1;

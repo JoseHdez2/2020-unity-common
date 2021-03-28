@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -13,14 +14,18 @@ public class SelectionManager : MonoBehaviour
     public float maxDistance = 10f;
     private Image crosshairRenderer;
     public Color colorNeutral, colorSelected, colorFar;
+    public bool debugTexts = false;
+    public TMP_Text textSelectionTransform, textSelection;
 
     private void Start() {
         crosshairRenderer = crosshair.GetComponent<Image>();
         Debug.Log(crosshairRenderer);
     }
-
     void Update()
     {
+        if(debugTexts && textSelectionTransform) { textSelectionTransform.text = curSelectionTransform?.name ?? "..."; }
+        if(debugTexts && textSelection) { textSelection.text = curSelection?.name ?? "..."; }
+
         var ray = Camera.main.ScreenPointToRay(crosshair.position);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)) {

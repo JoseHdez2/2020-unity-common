@@ -18,26 +18,28 @@ public class Selectable : MonoBehaviour
     virtual protected void Awake()
     {
         myRenderer = this.GetComponent<Renderer>();
-        myMaterial = myRenderer.material;
+        if(myRenderer) {
+            myMaterial = myRenderer.material;
+        }
 
     }
 
     internal void Select()
     {
-        if(myRenderer) myRenderer.material = materialSelected;
+        if(myRenderer) { myRenderer.material = materialSelected; }
         selected = true;
     }
 
     internal void Deselect()
     {
-        if(myRenderer) myRenderer.material = myMaterial;
+        if(myRenderer) { myRenderer.material = myMaterial; }
         selected = false;
     }
 
     public void OnClick()
     {
         if(selected){
-            if(myRenderer) myRenderer.material = materialClicked;  
+            if(myRenderer) { myRenderer.material = materialClicked; }
             if(action != null){
                 action.Invoke();
             }

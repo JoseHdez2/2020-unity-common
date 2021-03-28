@@ -69,6 +69,7 @@ public class FpsProcGameMgr : MonoBehaviour
     [NonSerialized] private MouseLook mouseLook;
     [NonSerialized] private PlayerMovement playerController;
     [NonSerialized] private FpsProcGameAudioMgr audioMgr;
+    [NonSerialized] private FpsProcGameMapMgr mapMgr;
     [NonSerialized] public FpsProcDatabase database;
     [NonSerialized] public FpsProcNpcRelationMgr relationsMgr;
     [NonSerialized] public FpsProcNpcAffiliationMgr affiliationsMgr;
@@ -83,6 +84,7 @@ public class FpsProcGameMgr : MonoBehaviour
         mouseLook = FindObjectOfType<MouseLook>();
         playerController = FindObjectOfType<PlayerMovement>();
         audioMgr = FindObjectOfType<FpsProcGameAudioMgr>();
+        mapMgr = FindObjectOfType<FpsProcGameMapMgr>();
         database = FindObjectOfType<FpsProcDatabase>();
         relationsMgr = FindObjectOfType<FpsProcNpcRelationMgr>();
         affiliationsMgr = FindObjectOfType<FpsProcNpcAffiliationMgr>();
@@ -137,6 +139,7 @@ public class FpsProcGameMgr : MonoBehaviour
     }    
 
     public void EnterFloor(FpsProcBounds floor){
+
         textAreaName.text = floor.ToStr();
         textAreaMap.text = floor.bldg.data.TilemapToStr(floor.floorNum);
         textAreaMap2.text = floor.bldg.data.TilemapToStr2(floor.floorNum);
@@ -147,7 +150,6 @@ public class FpsProcGameMgr : MonoBehaviour
         textAreaName.text = "";
         textAreaMap.text = "";
         textAreaMap2.text = "";
-        audioMgr.SwitchAmbiance(null);
     }
 
     string[] intro = {"In the future", "there is no privacy.", "People live in fear", "and secret agents uphold the order.", "they are called", "THE BLADERUNNERS"};

@@ -19,7 +19,9 @@ Controls: WASD and Mouse. N to show notepad.
 ### v1.6
 - Bigger and better animated title logo.
 - Visual overhaul by mapping textures from cc0textures.com.
-- Virtual cursor greatly improves web experience.
+- Cursor fixes greatly improve Firefox experience.
+- Pause menu.
+- Can no longer talk to NPCs from far away.
 
 ### v1.5
 - Merged polys to dramatically increase performance.

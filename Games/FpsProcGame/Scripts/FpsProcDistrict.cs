@@ -50,7 +50,6 @@ public class FpsProcDistrict : MonoBehaviour {
 
     private void GenerateAndInstantiate(FpsProcBldg building){
         building.Generate();
-        Debug.Log($"something: {building.data.TilemapToStr()}");
         if(pfNpc == null){
             pfNpc = FindObjectOfType<FpsProcGameMgr>().pfNpc;
         }

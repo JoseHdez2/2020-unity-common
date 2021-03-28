@@ -42,8 +42,6 @@ public class BldgGenOffice : AbsBldgGenerator {
                 Debug.LogError("No candidates for stairs!");
             }
         }
-        Debug.Log(TilemapToStr(grid, 0));
-        Debug.Log(gridSize);
         grid[0] = grid[0].SetTile(pos: GetTilesWithChar(floor: grid[0], c: '┴').RandomItem(), c: '_'); // entrance
 
         return grid;
