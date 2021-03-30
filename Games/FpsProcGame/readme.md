@@ -22,6 +22,7 @@ Controls: WASD and Mouse. N to show notepad.
 - Cursor fixes greatly improve Firefox experience.
 - Pause menu.
 - Can no longer talk to NPCs from far away.
+- Fog.
 
 ### v1.5
 - Merged polys to dramatically increase performance.
